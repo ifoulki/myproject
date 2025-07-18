@@ -1,0 +1,67 @@
+{% load static %}
+
+<footer>
+    {% if id %}
+
+    <div class="footer">
+        <div class="new_contact">
+            <a class="dropdown-item" href="">
+                <p class="label" style="color: white;"> موقع تيفيناغ، سيظهر لك محتوى يناسب أكثر اهتماماتك،
+                <br>كلما قدمت معلومات أكثر عنك :</p>
+                <input class="add_btn" type="button" value="أنقر لإضافة معلومات أخرى عنك">
+                <figure class="flex-100">
+                    <img style="max-width:200px;" src="{% static 'tifinar/assets/social_network.webp' %}" />
+                </figure>
+            </a>
+        </div>
+
+        <div class="footer_menu">
+            <a class='label' href="/"><h4>الرئيسية</h4></a>
+            <a class="dynamic-link" data-title="مقالات"><h4>مقالات</h4></a>
+            <a class="dynamic-link" data-title="تعلم الأمازيغية"><h4>تعلم الأمازيغية</h4></a>
+            <a class="dynamic-link" data-title="فيديوهات"><h4>فيديوهات</h4></a>
+            <a class="dynamic-link" data-title="مكتبة تيفيناغ"><h4>مكتبة تيفيناغ</h4></a>
+            <a class="dynamic-link" data-title="اختبارات"><h4>اختبارات</h4></a>
+            <a class="dynamic-link" data-title="game"><h4>اللعب</h4></a>
+            <a class="dynamic-link" data-title="اتصل بنا"><h4>اتصل بنا</h4></a>
+        </div>
+    </div>
+{% endif %}
+
+<div class="copy">
+    <p>جميع الحقوق محفوظة : &copy;{% now "Y" %}</p>
+</div>    
+</footer>
+
+<div class="return-up">
+    <img src="{% static 'tifinar/assets/return-up.webp' %}" title="الرجوع لأعلى الصفحة">
+</div>
+
+
+<script>
+    const returnUp = document.querySelector(".return-up");
+
+    if (returnUp) {
+        window.onscroll = function () {
+            if (window.scrollY >= 300) {
+                returnUp.style.display = 'block';
+            } else {
+                returnUp.style.display = 'none';
+            }
+        };
+
+        returnUp.addEventListener("click", function () {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    }
+
+    const script = document.createElement('script');
+    script.src = "https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js";
+    document.body.appendChild(script);
+</script>
+
+</body>
+</html>

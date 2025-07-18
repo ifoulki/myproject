@@ -1,0 +1,218 @@
+{% load static %}
+{% load customtags %}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'tifinar/css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'tifinar/css/style-mobile.css' %}">
+
+    <link rel="icon" href="{% static 'tifinar/assets/siteicon.ico' %}">
+    
+    <meta name="author" content="{{ author|default:'موقع تيفيناغ' }}">
+
+    <meta name="description" content="{{ Mydescription|default:'مجلة تيفيناغ هي مجلة متخصصة في نشر مواضيع ثقافية وتعليمية متنوعة' }}">
+    
+    {% with link|default:"" as link %}
+        {{ link }}
+    {% endwith %}
+
+    
+    <meta property="og:image" content="{{ link }} ">
+    <meta property="og:title" content="{{ title|default:'مجلة تيفيناغ' }}">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ current_url }}">    
+    <meta property="og:description" content="{{ Mydescription|default:'مجلة تيفيناغ هي مجلة متخصصة في نشر مواضيع ثقافية وتعليمية متنوعة' }}">
+
+    <title>{{ title|default:'مجلة تيفيناغ' }}</title>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3215265540164165"
+     crossorigin="anonymous"></script>
+
+    <script defer>
+        function convertSpacesToUnderscores(url) {
+            return url.replace(/\s+/g, '_');
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('.dynamic-link').forEach(link => {
+                let originalText = link.getAttribute('data-title');
+                let urlText = convertSpacesToUnderscores(originalText);
+                link.href = "/" + urlText;
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="logo-mobile">
+        <a href="/">
+            <img src="{% static 'tifinar/assets/tifinar.webp' %}" alt="الصفحة الرئيسية" title="الصفحة الرئيسية" width="80%">
+        </a>
+    </div>
+    <nav class="navbar nav Topmenu navbar-expand-lg navbar-light" dir="rtl">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        {% if not user.is_authenticated %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="authDropdown" role="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-user-circle me-2"></i> دخول/إنشاء حساب
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-left">
+                                    <li>
+                                        <a class="dropdown-item" href="">
+                                            <i class="fas fa-sign-in-alt me-2"></i> تسجيل الدخول
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="">
+                                            <i class="fas fa-user-plus me-2"></i> إنشاء حساب
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        {% else %}
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="authDropdown" role="button" data-bs-toggle="dropdown">
+                                    {% if user.profile.path %}
+                                        <img src="{{ user.profile.first_image }}" alt="لوحة التحكم" class="img-profile rounded-circle" width="30" height="30">
+                                    {% else %}
+                                        <i class="fas fa-user-circle me-2"></i> لوحة التحكم
+                                    {% endif %}
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-left">
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'user_profile' user.id %}">
+                                            {% if user.profile.path %}
+                                                <img src="{{ user.profile.first_image }}" alt="لوحة التحكم" class="img-profile rounded-circle" width="30" height="30">
+                                                {{ user.first_name }} {{ user.last_name }}
+                                            {% else %}
+                                                <i class="fas fa-user me-2"></i> {{ user.first_name }} {{ user.last_name }}
+                                            {% endif %}
+                                        </a>
+                                    </li>
+                    
+                                    {% if user.is_staff %}
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'dashboard' %}">
+                                            <i class="fas fa-user-clock me-2"></i> تفاصيل الزيارة
+                                        </a>
+                                    </li>
+                                    {% endif %}
+                    
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'edit_profile' user.id %}">
+                                            <i class="fas fa-edit me-2"></i> تعديل المعلومات الشخصية
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="">
+                                            <i class="fas fa-sign-out-alt me-2"></i> تسجيل الخروج
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        {% endif %}
+                    
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fas fa-home me-2"></i> الصفحة الرئيسية
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/مقالات">
+                            <i class="fas fa-newspaper me-2"></i> مقالات
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link dynamic-link" data-title="فيديوهات">
+                            <i class="fas fa-video me-2"></i> فيديوهات
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link dynamic-link" data-title="مكتبة تيفيناغ">
+                            <i class="fas fa-book-open me-2"></i> مكتبة تيفيناغ
+                        </a>
+                    </li>
+
+                    {% if new_messages_count %}
+                        <li class="nav-item position-relative">
+                            <a href="{% url 'msgs:index' %}" class="nav-link">
+                                {% if new_messages_count > 0 %}
+                                    <i class="fas fa-envelope"></i> لديك رسالة جديدة
+                                    <span class="badge bg-danger position-absolute custom-badge">
+                                        {{ new_messages_count }}
+                                        <span class="visually-hidden">رسائل جديدة</span>
+                                    </span>
+                                {% else %}
+                                    <i class="fas fa-envelope"></i> قراءة الرسائل
+                                {% endif %}
+                            </a>
+                        </li>
+                    {% endif %}
+
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-ellipsis-h me-2"></i> المزيد
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>                                
+                                <a class="dropdown-item dynamic-link" data-title="قواميس بصرية">
+                            <i class="fas fa-images"></i> قواميس بصرية
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/اختبارات">
+                                    <i class="fas fa-pen-alt me-2"></i> اختبارات
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" href="/game">
+                                    <i class="fas fa-gamepad"></i> اللعب
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item dynamic-link" data-title="اتصل بنا">
+                                    <i class="fas fa-envelope me-2"></i> اتصل بنا
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="header">
+            <div class="logo">
+                <a href="/">
+                    <img src="{% static 'tifinar/assets/tifinar.webp' %}" alt="الصفحة الرئيسية" title="الصفحة الرئيسية">
+                </a>
+            </div>
+
+            <div class="pub-and-menu">
+                <div class="pub">
+                    <a target="_blank" href="https://hostinger.ae?REFERRALCODE=1HAMID718">
+                        <img src="{% static 'tifinar/assets/hostinger.webp' %}">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
