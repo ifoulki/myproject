@@ -1,14 +1,187 @@
+{% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ articles.title}}</title>
-</head>
-<body>
-    <h1>{{ articles.title }}</h1>
-    <h5>{{ articles.author }}</h5>
-    {{ articles.mysubject|safe }}
-</body>
-</html>
+{% include "tifinar/header.html" %}
+
+<section>
+    <article>
+        <h1>{{ obj.title|safe }}</h1>
+
+        {# عرض الصورة إذا لم يكن المحتوى فيديو #}
+        {% if folder != 'videos' %}
+            {% if obj.myimage %}
+                <img src="{% static 'tifinar/images/' %}{{ folder }}/{{ obj.myimage }}" 
+                     alt="{{ obj.title }}" class="article-image">
+            {% endif %}
+        {% endif %}
+
+        <div class="Author">
+            {{ obj.author|safe }}
+        </div>
+        
+        <div class="date">
+            {{ obj.updated_at }}
+        </div>
+
+        {% with direction=obj.dir subject=obj.mysubject %}
+
+            {# عرض محتوى الفيديو لو كان الفيديو هو المحتوى #}
+            {% if folder == 'videos' %}
+                {% if "youtube.com" in subject or "youtu.be" in subject %}
+                    <div {% if direction %}dir="{{ direction }}"{% endif %} style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                        <iframe 
+                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
+                            src="{{ subject }}" 
+                            title="YouTube video player" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                            allowfullscreen
+                        ></iframe>
+                    </div>
+                {% elif subject|slice:"-4:" == ".mp4" %}
+                    <div {% if direction %}dir="{{ direction }}"{% endif %} style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+                        <video controls style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                            <source src="/media/videos_mp4/{{ subject }}" type="video/mp4">
+                            متصفحك لا يدعم تشغيل الفيديو.
+                        </video>
+                    </div>
+                {% else %}
+                    {# عرض نص الموضوع أو شيء آخر لو لم يكن فيديو YouTube أو mp4 #}
+                    <div {% if direction %}dir="{{ direction }}"{% endif %}>
+                        {{ subject|safe }}
+                    </div>
+                {% endif %}
+            {% else %}
+                {# لو المحتوى ليس فيديو، عرض النص العادي #}
+                <div {% if direction %}dir="{{ direction }}"{% endif %}>
+                    {{ subject|safe }}
+                </div>
+            {% endif %}
+        
+        {% endwith %}
+        
+        {# عرض إضافات أخرى حسب نوع المحتوى #}
+        <div {% if obj.dir %} dir="{{ obj.dir }}" {% endif %}>
+            {% if folder == 'articles' %}
+                {{ obj.mysubject | safe }}
+                {% if autres_list %}
+                    <img src="{% static 'tifinar/images/articles/' %}{{ autres_list.0 }}" alt="{{ obj.title }}">
+                {% endif %}
+            {% elif folder == 'books' %}
+                {{ obj.mysubject | safe }}<br>
+                {% if obj.dir == 'rtl' %}
+                    رابط تحميل كتاب :
+                {% else %}
+                    📖 Download the book:
+                {% endif %}
+            {% endif %}
+        </div>
+                <script>
+                    function convertSpacesToUnderscores(url) {
+                        return url.replace(/\s+/g, '_');
+                    }
+        
+                    let originalText = "{{ obj.autre }}";
+                    let urlText = convertSpacesToUnderscores(originalText);
+        
+                    document.addEventListener("DOMContentLoaded", function() {
+                        document.getElementById("dynamic-link").href = "{% static 'ebookZone/' %}" + urlText;
+                    });
+                </script>
+        
+                <hr>
+                    
+        </div>
+  
+        <div class="reaction-container">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+
+            <h2 class="reaction-feedback" id="reaction-feedback">
+                {% if reaction_type == 'love' %}
+                    شكرا <b>{{ user.get_full_name|default:user.username }}</b> على تفاعلك ❤️
+                {% elif reaction_type == 'like' %}
+                    شكرا <b>{{ user.get_full_name|default:user.username }}</b> على تفاعلك 👍
+                {% elif reaction_type == 'sad' %}
+                    هذا محزن! 😢
+                {% elif reaction_type == 'angry' %}
+                    أغضبك هذا 😤
+                {% elif reaction_type == 'funny' %}
+                    هذا مضحك! 😂
+                {% elif reaction_type == 'dislike' %}
+                    لم يعجبك هذا! 👎🏻
+                {% else %}
+                    تفاعل مع المنشور هنا 👇
+                {% endif %}
+            </h2>
+        
+            <div class="reaction-btn-container">
+                                
+                <form action="{% url 'tifinar:store_reaction' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="page_title" value="{{ obj.title }}">
+        
+                    <button class="reaction-btn btn-love {% if reactions.love %}selected{% endif %}" type="submit" name="reaction_type" value="love">
+                        ❤️ <span class="reaction-count">{{ reactions.love|default:"" }}</span>
+                    </button>
+        
+                    <button class="reaction-btn btn-like {% if reactions.like %}selected{% endif %}" type="submit" name="reaction_type" value="like">
+                        👍🏻 <span class="reaction-count">{{ reactions.like|default:"" }}</span>
+                    </button>
+        
+                    <button class="reaction-btn btn-dislike {% if reactions.dislike %}selected{% endif %}" type="submit" name="reaction_type" value="dislike">
+                        👎🏻 <span class="reaction-count">{{ reactions.dislike|default:"" }}</span>
+                    </button>
+        
+                    <button class="reaction-btn btn-sad {% if reactions.sad %}selected{% endif %}" type="submit" name="reaction_type" value="sad">
+                        😢 <span class="reaction-count">{{ reactions.sad|default:"" }}</span>
+                    </button>
+        
+                    <button class="reaction-btn btn-funny {% if reactions.funny %}selected{% endif %}" type="submit" name="reaction_type" value="funny">
+                        😂 <span class="reaction-count">{{ reactions.funny|default:"" }}</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <hr>
+        
+        {% include "tifinar/comments/article_comments.html" %}
+    </article>
+    {% include "tifinar/sidebar.html" %}
+</section>
+        
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const content = document.querySelector('article');
+    const urlRegex = /(https?:\/\/[^\s]+)/g;
+    const walker = document.createTreeWalker(content, NodeFilter.SHOW_TEXT, null, false);
+
+    let node;
+    while ((node = walker.nextNode())) {
+        let text = node.nodeValue;
+        if (urlRegex.test(text)) {
+            let replacedText = text.replace(urlRegex, url => {
+                try {
+                    const urlObj = new URL(url);
+                    const base = urlObj.origin.replace('www.', '');
+                    const path = urlObj.pathname.slice(1, 4);
+                    return `<a href="${url}" target="_blank">${base}/${path}...</a>`;
+                } catch {
+                    return url;
+                }
+            });
+
+            const span = document.createElement('span');
+            span.innerHTML = replacedText;
+            node.parentNode.replaceChild(span, node);
+        }
+    }
+});
+</script>
+
+{% include "tifinar/footer.html" %}

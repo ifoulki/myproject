@@ -1,0 +1,77 @@
+{% load static %}
+
+<h2>أضف تعليقك</h2>
+<form class="form" method="POST">
+    {% csrf_token %}
+    {{ form.page_title }}
+    
+    {% if user.is_authenticated %}
+        {{ form.author_name.as_hidden }}
+        {{ form.author_email.as_hidden }}
+        <p>
+            {% if user.path %}
+                {% with user.path.split|first as first_image %}
+                    <img src="{{ first_image }}" alt="{{ user.get_full_name }}" class="img-profile rounded-circle" width="30" height="30">
+                {% endwith %}
+            {% else %}
+                <i class="fas fa-user-circle me-2"></i> 
+            {% endif %}
+            <strong>{{ user.get_full_name }}</strong>
+        </p>
+    {% else %}
+        <div>
+            <label for="author_name"><i class="fas fa-user"></i> اسمك:</label>
+            {{ form.author_name }}
+        </div>
+
+        <div class="mb-3">
+            <label for="author_email"><i class="fas fa-envelope"></i> بريدك الإلكتروني:</label>
+            {{ form.author_email }}
+            <div class="form-text text-muted">
+                <i class="fas fa-info-circle"></i> لن يتم نشر بريدك الإلكتروني أو مشاركته مع أي طرف ثالث.
+            </div>
+        </div>
+    {% endif %}
+
+    <div>
+        <label for="cmt_subject"><i class="fas fa-comment"></i> التعليق:</label>
+        <div class="textarea-container">
+            {{ form.cmt_subject }}
+        </div>
+
+        <!-- باقي الأيقونات كما هي -->
+        ...
+    </div>
+    
+    <button type="submit"><i class="fas fa-paper-plane"></i> إرسال التعليق</button>
+</form>
+
+<hr>
+<h2><b>التعليقات:</b></h2>
+{% if not comments %}
+    <p>لا توجد تعليقات بعد.</p>
+{% else %}
+    <ul>
+        {% for comment in comments %}
+            <li class='comments'>
+                {% if comment.user and comment.user.path %}
+                    {% with comment.user.path.split|first as first_image %}
+                        <img src="{{ first_image }}" alt="{{ comment.author_name }}" class="img-profile rounded-circle" width="30" height="30">
+                    {% endwith %}
+                {% else %}
+                    <i class="fas fa-user-circle me-2"></i>
+                {% endif %}
+
+                <b class='cmt_author'>{{ comment.author_name }}</b>
+                <div>
+                    <span class='date'>
+                        <i class="fas fa-clock"></i> 
+                        {{ comment.time_text }}
+                    </span>
+                    <p>{{ comment.cmt_subject }}</p>
+                </div>
+            </li>
+            <hr>
+        {% endfor %}
+    </ul>
+{% endif %}

@@ -5,7 +5,8 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
-
+from django.contrib.auth import get_user_model
+from django.utils import timezone
 
 class AdminArticles(models.Model):
     adm_art_id = models.IntegerField(primary_key=True)
@@ -30,6 +31,7 @@ class articles(models.Model):
     slug = models.CharField(unique=True, max_length=255, blank=True, null=True)
     mysubject = models.TextField(db_column='Mysubject', unique=True, blank=True, null=True)  # Field name made lowercase.
     mydescription = models.TextField(db_column='Mydescription', blank=True, null=True)  # Field name made lowercase.    keywords = models.TextField(blank=True, null=True)
+    keywords = models.TextField(db_column='keywords', blank=True, null=True)
     dir = models.CharField(max_length=3)
     author = models.CharField(db_column='Author', max_length=255, blank=True, null=True)  # Field name made lowercase.
     myimage = models.CharField(db_column='Myimage', max_length=255, blank=True, null=True)  # Field name made lowercase.
@@ -166,6 +168,7 @@ class CartItems(models.Model):
         db_table = 'cart_items'
         unique_together = (('user_id', 'product_id'),)
 
+User = get_user_model()
 
 class Comments(models.Model):
     cmt_id = models.AutoField(primary_key=True)
@@ -173,13 +176,37 @@ class Comments(models.Model):
     author_name = models.CharField(max_length=255, blank=True, null=True)
     cmt_subject = models.TextField(blank=True, null=True)
     author_email = models.CharField(max_length=255, blank=True, null=True)
-    visibility_status = models.CharField(max_length=12)
-    created_at = models.DateTimeField()
-    updated_at = models.DateTimeField()
+    visibility_status = models.CharField(max_length=12, default='visible')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
 
     class Meta:
-        managed = False
-        db_table = 'comments'
+        ordering = ['-created_at']
+        verbose_name = 'Comment'
+        verbose_name_plural = 'Comments'
+
+    @property
+    def time_text(self):
+        now = timezone.now()
+        diff = now - self.created_at
+        
+        if diff.days > 365:
+            years = diff.days // 365
+            return f"منذ {years} سنة" if years > 1 else "منذ سنة واحدة"
+        elif diff.days > 30:
+            months = diff.days // 30
+            return f"منذ {months} شهر" if months > 1 else "منذ شهر واحد"
+        elif diff.days > 0:
+            return f"منذ {diff.days} يوم" if diff.days > 1 else "منذ يوم واحد"
+        elif diff.seconds > 3600:
+            hours = diff.seconds // 3600
+            return f"منذ {hours} ساعة" if hours > 1 else "منذ ساعة واحدة"
+        elif diff.seconds > 60:
+            minutes = diff.seconds // 60
+            return f"منذ {minutes} دقيقة" if minutes > 1 else "منذ دقيقة واحدة"
+        else:
+            return "الآن"
 
 
 class Contacts(models.Model):
@@ -569,7 +596,7 @@ class Users(models.Model):
         db_table = 'users'
 
 
-class UsersLikes(models.Model):
+class ArticleReaction(models.Model):
     id = models.BigAutoField(primary_key=True)
     ip_or_name = models.CharField(max_length=255)
     page_title = models.CharField(max_length=255)

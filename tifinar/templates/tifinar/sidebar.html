@@ -1,0 +1,44 @@
+{% load static %}
+
+<div class="aside">
+    <div class="aside-ads">
+        <a target="_blank" href="https://hostinger.ae?REFERRALCODE=1HAMID718">
+            <img src="{% static 'assets/pub1.webp' %}">
+            <img src="{% static 'tifinar/asset/pub.webp' %}">
+        </a>
+    </div>
+
+    {% if next_article %}
+        <div class="aside-bar">
+            <a class="dynamic-link" href="/{{ next_article.slug }}">
+                <div class="aside-content">
+                    <figure class="flex-100">
+                        <img src="{% static 'tifinar/images/' %}{{ table_name }}/{{ next_article.Myimage }}" 
+                             alt="{{ next_article.title }}">
+                    </figure>
+                </div>
+
+                <div class="aside-title">
+                    {{ next_article.title }}
+                </div>
+            </a>
+        </div>
+    {% endif %}
+
+    {% for article in related_articles %}
+        <div class="aside-bar">
+            <a class="Top-menu-btn dynamic-link" href="/{{ article.slug }}">
+                <div class="aside-content">
+                    <figure class="flex-100">
+                        <img src="{% static 'tifinar/images/' %}{{ table_name }}/{{ article.Myimage }}" 
+                             alt="{{ article.title }}">
+                    </figure>
+                </div>
+
+                <div class="aside-title">
+                    {{ article.title }}
+                </div>
+            </a>
+        </div>
+    {% endfor %}
+</div>

@@ -45,7 +45,7 @@
         {% for article in articles %}
             <div class="listes-contenu" dir="{{ dir }}">
                 <div class="image-caption">
-                    <a class="dynamic-link" data-title="{{ slug }}">
+                    <a href="/{{ article.slug  }}">
                         {% if article.images %}
                             <img src="{% static 'tifinar/images/' %}{{ table_name }}/{{ article.images.0 }}" 
                                  alt="{{ article.title }}" class="article-image">
@@ -54,7 +54,7 @@
                 </div>
 
                 <div class="listes-contenu-art">
-                    <a class="dynamic-link" data-title="{{ slug }}">
+                    <a href="/{{ article.slug }}">
                         <div class="listes-title-contenu">
                             <h2>{{ article.title }}</h2>
                             <p style="color:black; text-align:justify">
@@ -74,6 +74,7 @@
     {% else %}
         <p style="text-align:center; color: gray;">لا توجد مقالات متاحة</p>
     {% endif %}
+    
 </section>
 
 {% include "tifinar/footer.html" %}
