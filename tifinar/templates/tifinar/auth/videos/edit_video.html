@@ -1,0 +1,353 @@
+{% load static %}
+{% load tz %}
+{% load customtags %}
+{% now "Y" as current_year %}
+{% include "tifinar/adm_header.html" %}
+{% load custom_filters %}
+
+<section class="content">
+    <article class="content">
+        <h1>
+            <i class="fas fa-edit"></i> تعديل فيديو: <br> {{ article.title }}
+        </h1>
+
+        <form method="POST" action="/articles/edit/{{ article.art_id }}/" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div>
+                {% with images=article.myimage|split:"," %}
+                    {% for image in images %}
+                    <img src="{% static 'tifinar/images/videos/' %}{{ image }}" class="image-preview old-image" id="oldImage{{ forloop.counter }}">
+                    {% endfor %}
+                {% endwith %}
+                <img id="imagePreview1" class="image-preview" alt="معاينة الصورة" style="display: none;">
+                <br>
+                <label class="label">
+                    <i class="fas fa-upload"></i> تعديل الصورة:
+                </label>
+                <input class="form-control" type="file" id="formFile1" name="myimage" multiple>
+                {% if form.myimage.errors %}
+                    <small class="text-danger">{{ form.myimage.errors }}</small>
+                {% endif %}
+            </div>
+
+            <hr>
+
+            <div class="form-group">
+                <label class="label" for="title"><i class="fas fa-heading"></i> عنوان المقال:</label>
+                <input
+                    type="text"
+                    maxlength="50"
+                    id="title"
+                    name="title"
+                    placeholder="عنوان المنشور ..."
+                    class="title form-control"
+                    value="{{ article.title }}"
+                >
+                {% if form.title.errors %}
+                    <small class="text-danger">{{ form.title.errors }}</small>
+                {% endif %}
+            </div>
+
+            <hr>
+
+            <div class="form-group">
+                <label class="label" for="author"><i class="fas fa-user"></i> اسم الكاتب:</label>
+                <input
+                    type="text"
+                    id="author"
+                    name="author"
+                    placeholder="اسم الكاتب ..."
+                    maxlength="50"
+                    class="author form-control"
+                    value="{{ article.author }}"
+                >
+                {% if form.author.errors %}
+                    <small class="text-danger">{{ form.author.errors }}</small>
+                {% endif %}
+            </div>
+
+            <hr>
+
+            <div class="form-group">
+                <label class="label" for="mysubject"><i class="fas fa-file-alt"></i> نص المقال:</label>
+                <textarea
+                    id="mysubject"
+                    name="mysubject"
+                    minlength="100"
+                    class="mysubject"
+                    placeholder="اكتب نص المقال هنا..."
+                >{{ article.mysubject }}</textarea>
+                {% if form.mysubject.errors %}
+                    <small class="text-danger">{{ form.mysubject.errors }}</small>
+                {% endif %}
+            </div>
+
+            <hr>
+            
+            <div>
+                        <img id="imagePreview2" src="{% static 'tifinar/images/videos' %}/{{ obj.autre }}"  class="image-preview2" alt="معاينة الصورة">
+                    <img id="imagePreview2" class="image-preview2" alt="معاينة الصورة" style="display: none;">
+                <label class="label">
+                    <i class="fas fa-upload"></i> تحميل صورة أخرى تظهر أسفل المقال:
+                </label>
+                <input class="form-control" type="file" id="formFile2" name="autre" multiple>
+                {% if form.autre.errors %}
+                    <small class="text-danger">{{ form.autre.errors }}</small>
+                {% endif %}
+            </div>
+
+            <hr>
+            <div class="mb-3">
+                <label for="educational_level" class="form-label">
+                    <i class="fas fa-graduation-cap"></i> هل يجب أن يكون للقارئ مستوى دراسي محدد لقراءة هذا المقال؟
+                </label>
+                
+                <select id="educational_level" name="educational_level" class="form-select">
+                    <option value="Unknown" {% if form.educational_level.value == 'Unknown' or article.educational_level == 'Unknown' %}selected{% endif %}>لا، المقال مناسب للجميع</option>
+                    <optgroup label="الإبتدائي :">
+                        <option value="1st Year of Primary School" {% if form.educational_level.value == '1st Year of Primary School' or article.educational_level == '1st Year of Primary School' %}selected{% endif %}>السنة الأولى ابتدائي</option>
+                        <option value="2nd Year of Primary School" {% if form.educational_level.value == '2nd Year of Primary School' or article.educational_level == '2nd Year of Primary School' %}selected{% endif %}>السنة الثانية ابتدائي</option>
+                        <option value="3rd Year of Primary School" {% if form.educational_level.value == '3rd Year of Primary School' or article.educational_level == '3rd Year of Primary School' %}selected{% endif %}>السنة الثالثة ابتدائي</option>
+                        <option value="4th Year of Primary School" {% if form.educational_level.value == '4th Year of Primary School' or article.educational_level == '4th Year of Primary School' %}selected{% endif %}>السنة الرابعة ابتدائي</option>
+                        <option value="5th Year of Primary School" {% if form.educational_level.value == '5th Year of Primary School' or article.educational_level == '5th Year of Primary School' %}selected{% endif %}>السنة الخامسة ابتدائي</option>
+                        <option value="6th Year of Primary School" {% if form.educational_level.value == '6th Year of Primary School' or article.educational_level == '6th Year of Primary School' %}selected{% endif %}>السنة السادسة ابتدائي</option>
+                    </optgroup>
+                    <optgroup label="الثانوي الإعدادي :">
+                        <option value="1st Year of Middle School" {% if form.educational_level.value == '1st Year of Middle School' or article.educational_level == '1st Year of Middle School' %}selected{% endif %}>السنة الأولى إعدادي</option>
+                        <option value="2nd Year of Middle School" {% if form.educational_level.value == '2nd Year of Middle School' or article.educational_level == '2nd Year of Middle School' %}selected{% endif %}>السنة الثانية إعدادي</option>
+                        <option value="3rd Year of Middle School" {% if form.educational_level.value == '3rd Year of Middle School' or article.educational_level == '3rd Year of Middle School' %}selected{% endif %}>السنة الثالثة إعدادي</option>
+                    </optgroup>
+                    <optgroup label="الثانوي الثأهيلي :">
+                        <option value="Common Core" {% if form.educational_level.value == 'Common Core' or article.educational_level == 'Common Core' %}selected{% endif %}>المشترك العلمي</option>
+                        <option value="1st Year of Baccalaureate" {% if form.educational_level.value == '1st Year of Baccalaureate' or article.educational_level == '1st Year of Baccalaureate' %}selected{% endif %}>السنة الأولى من البكالوريا (تخصص علوم تجريبية)</option>
+                        <option value="2nd Year of Baccalaureate" {% if form.educational_level.value == '2nd Year of Baccalaureate' or article.educational_level == '2nd Year of Baccalaureate' %}selected{% endif %}>السنة الثانية من البكالوريا (تخصص علوم فيزيائية)</option>
+                    </optgroup>
+                    <optgroup label="التعليم العالي">
+                        <option value="Post-Baccalaureate" {% if form.educational_level.value == 'Post-Baccalaureate' or article.educational_level == 'Post-Baccalaureate' %}selected{% endif %}>الدراسة بعد البكالوريا</option>
+                    </optgroup>
+                </select>
+                {% if form.educational_level.errors %}
+                    <small class="text-danger">{{ form.educational_level.errors }}</small>
+                {% endif %}
+            </div>
+            <hr>
+
+            <div class="form-group">
+                <label class="label" for="the_type">
+                    <i class="fas fa-tag"></i> نوع المنشور:
+                </label>
+                <select class="form-control form-select" id="the_type" name="the_type">
+                    <option value="" disabled {% if video.the_type == '' %}selected{% endif %}>اختر صنف الفيديو...</option>
+            
+                    <optgroup label="اللغات:">
+                        <option value="الأمازيغية" {% if video.the_type == 'الأمازيغية' %}selected{% endif %}>تعلم الأمازيغية</option>
+                        <option value="العربية" {% if video.the_type == 'العربية' %}selected{% endif %}>تعلم العربية</option>
+                        <option value="الفرنسية" {% if video.the_type == 'الفرنسية' %}selected{% endif %}>تعلم الفرنسية</option>
+                        <option value="الإنجليزية" {% if video.the_type == 'الإنجليزية' %}selected{% endif %}>تعلم الإنجليزية</option>
+                    </optgroup>
+            
+                    <optgroup label="العلوم:">
+                        <option value="علوم Apprendre les maths" {% if video.the_type == 'علوم Apprendre les maths' %}selected{% endif %}>تعلم الرياضيات</option>
+                        <option value="الفزياء" {% if video.the_type == 'الفزياء' %}selected{% endif %}>الفزياء</option>
+                        <option value="الكمياء" {% if video.the_type == 'الكمياء' %}selected{% endif %}>الكمياء</option>
+                        <option value="علوم الحياة والأرض SVT" {% if video.the_type == 'علوم الحياة والأرض SVT' %}selected{% endif %}>علوم الحياة والأرض</option>
+                    </optgroup>
+            
+                    <optgroup label="مواضيع أخرى:">
+                        <option value="صحة وحياة" {% if video.the_type == 'صحة وحياة' %}selected{% endif %}>صحة وحياة</option>
+                        <option value="Computer Science علوم الحاسوب" {% if video.the_type == 'Computer Science علوم الحاسوب' %}selected{% endif %}>علوم الحاسوب</option>
+                        <option value="القانون وحقوق الإنسان" {% if video.the_type == 'القانون وحقوق الإنسان' %}selected{% endif %}>القانون وحقوق الإنسان</option>
+                        <option value="الثقافة العامة" {% if video.the_type == 'الثقافة العامة' %}selected{% endif %}>الثقافة العامة</option>
+                        <option value="تربية وتعليم" {% if video.the_type == 'تربية وتعليم' %}selected{% endif %}>تربية وتعليم</option>
+                        <option value="أصناف أخرى" {% if video.the_type == 'أصناف أخرى' %}selected{% endif %}>أصناف أخرى</option>
+                    </optgroup>
+        
+                
+                </select>
+            </div>
+            
+            <hr>
+
+            <div class="form-group">
+                <label class="label" for="mydescription"><i class="fas fa-info-circle"></i> وصف المنشور:</label>
+                <textarea
+                    maxlength="255"
+                    id="mydescription"
+                    name="mydescription"
+                    class="description"
+                    placeholder="أكتب وصفاً لمنشورك..."
+                >{{ article.mydescription }}</textarea>
+                {% if form.mydescription.errors %}
+                    <small class="text-danger">{{ form.mydescription.errors }}</small>
+                {% endif %}
+            </div>
+
+            <hr>
+
+            <div class="form-group">
+                <label class="label" for="Keyword"><i class="fas fa-key"></i> الكلمات المفتاحية:</label>
+                <textarea
+                    maxlength="255"
+                    id="keywords"
+                    name="keywords"
+                    class="keywords"
+                    placeholder="الكلمات المفتاحية..."
+                >{{ article.keywords }}</textarea>
+                {% if form.keywords.errors %}
+                    <small class="text-danger">{{ form.keywords.errors }}</small>
+                {% endif %}
+            </div>
+
+            <hr>
+
+            <div class="form-group">
+                <button type="submit" class="btn add_btn form-control"><i class="fas fa-save"></i> تحديث المقال</button>
+            </div>
+        </form>
+
+    </article>
+</section>
+
+<script>
+    document.getElementById('formFile1').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('imagePreview1');
+            
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = '';
+            preview.style.display = 'none';
+        }
+    });
+
+    document.getElementById('formFile2').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('imagePreview2');
+            
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = '';
+            preview.style.display = 'none';
+        }
+    });
+</script>
+
+<footer>
+    <div class="footer">
+        
+        <div class="footer_menu">
+            <a class='label' href="/"><h4>الرئيسية</h4></a>
+            <a class='label' href="/مقالات"><h4>مقالات</h4></a>
+            <a class='label' href="/تعلم الأمازيغية"><h4>تعلم الأمازيغية</h4></a>
+            <a class='label' href="/فيديوهات"><h4>فيديوهات</h4></a>
+            <a class='label' href="/مكتبة تيفيناغ"><h4>مكتبة تيفيناغ</h4></a>
+            <a class='label' href="/اختبارات"><h4>اختبارات</h4></a>
+            <a class='label' href="/اتصل بنا"><h4>اتصل بنا</h4></a>
+        </div>
+    </div>
+    <div class="copy">
+        <p>جميع الحقوق محفوظة : &copy; {{ current_year }}</p>
+    </div>
+</footer>
+
+<div class="return-up">
+    <img src="{% static 'tifinar/assets/return-up.webp' %}" title="الرجوع لأعلى الصفحة">
+</div>
+<script>
+    document.getElementById('formFile1').addEventListener('change', function(event) {
+        const files = event.target.files;
+        const preview = document.getElementById('imagePreview1');
+        
+        // إخفاء جميع الصور القديمة
+        const oldImages = document.querySelectorAll('.old-image');
+        oldImages.forEach(img => {
+            img.style.display = 'none';
+        });
+        
+        if (files && files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            reader.readAsDataURL(files[0]);
+        } else {
+            preview.src = '';
+            preview.style.display = 'none';
+            // إظهار الصور القديمة إذا لم يتم اختيار صورة جديدة
+            oldImages.forEach(img => {
+                img.style.display = 'block';
+            });
+        }
+    });
+
+    document.getElementById('formFile2').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('imagePreview2');
+            
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = '';
+            preview.style.display = 'none';
+        }
+    });
+</script>
+<script>
+    const returnUp = document.querySelector(".return-up");
+
+    if (returnUp) {
+        window.onscroll = function () {
+            if (window.scrollY >= 300) {
+                returnUp.style.display = 'block';
+            } else {
+                returnUp.style.display = 'none';
+            }
+        };
+
+        returnUp.addEventListener("click", function () {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    }
+
+    document.getElementById('autreInput').addEventListener('input', function() {
+            var inputText = this.value;
+            var previewDiv = document.getElementById('autrePreview');
+    
+            var linkRegex = /(https?:\/\/[^\s]+)/g;
+    
+            var formattedText = inputText.replace(linkRegex, function(url) {
+                var urlObj = new URL(url);
+                var shortenedUrl = `${urlObj.protocol}//.${urlObj.hostname}/...`;
+    
+                return `<a href="${url}" target="_blank" rel="noopener noreferrer">${shortenedUrl}</a>`;
+            });
+    
+            previewDiv.innerHTML = formattedText;
+        });
+</script>
+<script src="{% static 'bootstrap-5.3.7-dist/js/bootstrap.bundle.min.js' %}"></script>
+
+</body>
+</html>

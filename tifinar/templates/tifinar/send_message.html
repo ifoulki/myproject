@@ -1,0 +1,75 @@
+{% include "tifinar/header.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+<section class="content">
+    <article>
+        <h1><i class="fas fa-pencil-alt"></i> كتابة رسالة:</h1>
+        <hr>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}" role="alert">
+                    {% if message.tags == 'success' %}
+                        <i class="fas fa-check-circle"></i>
+                    {% else %}
+                        <i class="fas fa-exclamation-circle"></i>
+                    {% endif %}
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if form.errors %}
+            <div class="alert alert-danger" role="alert">
+                <i class="fas fa-exclamation-circle"></i>
+                <ul>
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li><i class="fas fa-times-circle"></i> {{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+
+        <form method="post" action="">
+            {% csrf_token %}
+
+            {% if not user.is_authenticated %}
+                <label class="label"><i class="fas fa-user"></i> الإسم الكامل:</label><br>
+                <input type="text" name="author" placeholder="الإسم الكامل ..." minlength="3" class="input" value="{{ request.POST.author }}">
+                <hr>
+
+                <label class="label"><i class="fas fa-envelope"></i> البريد الإلكتروني:</label><br>
+                <input type="email" name="email" placeholder="البريد الإلكتروني ..." minlength="7" class="input" value="{{ request.POST.email }}">
+                <hr>
+            {% else %}
+                <input type="hidden" name="author_id" value="{{ user.id }}">
+                <input type="hidden" name="author" value="{{ user.first_name }} {{ user.last_name }}">
+                <input type="hidden" name="email" value="{{ user.email }}">
+                <input type="hidden" name="author_img" value="{{ user.profile.image.url }}">
+            {% endif %}
+
+            <input type="hidden" name="recipient_id" value="{{ recipient_id }}">
+
+            {% if recipient_id == 14 or user.id == 1 or user.id == 14 %}
+                <label class="label"><i class="fas fa-sticky-note"></i> موضوع الرسالة:</label><br>
+                <input type="text" name="title" placeholder="موضوع الرسالة ..." class="input" value="{{ request.POST.title }}">
+                <hr>
+            {% else %}
+                <input type="hidden" name="title" value="standard">
+            {% endif %}
+
+            <label class="label"><i class="fas fa-comment-dots"></i> نص الرسالة:</label><br>
+            <textarea name="mysubjecy" placeholder="أكتب رسالتك هنا ..." class="mysubjecy">{{ request.POST.mysubjecy }}</textarea>
+
+            <button type="submit">
+                <i class="fas fa-paper-plane"></i>
+                إرسال الرسالة
+            </button>
+        </form>
+    </article>
+</section>
+
+{% include "tifinar/footer.html" %}

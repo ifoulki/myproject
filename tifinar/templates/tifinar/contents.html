@@ -1,6 +1,6 @@
-{% load static %}
 
 {% include "tifinar/header.html" %}
+{% load static %}
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=newsmode" />  
 
@@ -74,6 +74,56 @@
     {% else %}
         <p style="text-align:center; color: gray;">لا توجد مقالات متاحة</p>
     {% endif %}
+
+    
+    <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+      
+          {# زر الصفحة السابقة #}
+          {% if page_obj.has_previous %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.previous_page_number }}&search={{ request.GET.search|urlencode }}&the_type={{ request.GET.the_type|urlencode }}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span class="visually-hidden">الصفحة السابقة</span>
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <span class="page-link" aria-hidden="true">&laquo;</span>
+            </li>
+          {% endif %}
+      
+          {# عرض أرقام الصفحات مع تحديد الصفحة الحالية #}
+          {% for num in paginator.page_range %}
+            {% if num == page_obj.number %}
+              <li class="page-item active" aria-current="page">
+                <span class="page-link">{{ num }}</span>
+              </li>
+            {% elif num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ num }}&search={{ request.GET.search|urlencode }}&the_type={{ request.GET.the_type|urlencode }}">{{ num }}</a>
+              </li>
+            {% endif %}
+          {% endfor %}
+      
+          {# زر الصفحة التالية #}
+          {% if page_obj.has_next %}
+            <li class="page-item">
+              <a class="page-link" href="?page={{ page_obj.next_page_number }}&search={{ request.GET.search|urlencode }}&the_type={{ request.GET.the_type|urlencode }}" aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span class="visually-hidden">الصفحة التالية</span>
+              </a>
+            </li>
+          {% else %}
+            <li class="page-item disabled">
+              <span class="page-link" aria-hidden="true">&raquo;</span>
+            </li>
+          {% endif %}
+        </ul>
+      </nav>
+      
+    
+</div>
     
 </section>
 

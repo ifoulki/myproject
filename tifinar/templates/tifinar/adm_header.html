@@ -1,0 +1,162 @@
+{% load static %}
+{% load customtags %}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'bootstrap-5.3.7-dist/css/bootstrap.min.css' %}">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="{% static 'icons-1.13.1/font/bootstrap-icons.css' %}">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+
+
+    <link rel="stylesheet" href="{% static 'tifinar/css/style-mobile.css' %}">
+    <link rel="stylesheet" href="{% static 'tifinar/css/main.css' %}">
+
+    <link rel="icon" href="{% static 'tifinar/assets/siteicon.ico' %}">
+    
+    <meta name="author" content="{{ author|default:'موقع تيفيناغ' }}">
+
+    <meta name="description" content="{{description|default:'مجلة تيفيناغ هي مجلة متخصصة في نشر مواضيع ثقافية وتعليمية متنوعة' }}">
+
+    {% with image|default:'' as final_image %}
+        <meta property="og:image" content="{% if final_image %}{{ final_image }}{% else %}{% static 'tifinar/assets/education2.webp' %}{% endif %}">
+    {% endwith %}  
+    <meta property="og:title" content="{{ title|default:'مجلة تيفيناغ' }}">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ current_url }}">    
+    <meta property="og:description" content="{{ description|default:'مجلة تيفيناغ هي مجلة متخصصة في نشر مواضيع ثقافية وتعليمية متنوعة' }}">
+
+    <title>{{ title|default:'مجلة تيفيناغ' }}</title>
+
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3215265540164165"
+     crossorigin="anonymous"></script>
+
+    <script defer>
+        function convertSpacesToUnderscores(url) {
+            return url.replace(/\s+/g, '_');
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('.dynamic-link').forEach(link => {
+                let originalText = link.getAttribute('data-title');
+                let urlText = convertSpacesToUnderscores(originalText);
+                link.href = "/" + urlText;
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="logo-mobile">
+        <a href="/">
+            <img src="{% static 'tifinar/assets/tifinar.webp' %}" alt="الصفحة الرئيسية" title="الصفحة الرئيسية" width="80%">
+        </a>
+    </div>
+
+    <nav class="navbar nav Topmenu navbar-expand-lg navbar-light" dir="rtl">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle profile" href="#" id="authDropdown" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-user me-2"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-left">
+                            <li><a class="dropdown-item" href=""><i class="fas fa-user me-2"></i> الصفحة الشخصية</a></li>
+                            <li><a class="dropdown-item" href=""><i class="fas fa-edit me-2"></i> تعديل المعلومات الشخصية</a></li>
+                            <li><a class="dropdown-item" href=""><i class="fas fa-user-clock me-2"></i>تفاصيل الزيارة</a></li>
+                            <li><a class="dropdown-item" href=""><i class="fas fa-sign-out-alt me-2"></i> تسجيل الخروج</a></li>
+                        </ul>
+                    </li>
+    
+                    <li class="nav-item">
+                        <a href="/" class="nav-link"><i class="fas fa-home"></i> الصفحة الرئيسية </a>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            إضافة محتوى
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href=""><i class="fas fa-newspaper me-2"></i> إضافة مقال</a></li>
+                            <li><a class="dropdown-item" href=""><i class="fas fa-book me-2"></i> إضافة كتاب</a></li>
+                            <li><a class="dropdown-item" href=""><i class="fas fa-video me-2"></i> إضافة فيديو</a></li>
+                            <li><a class="dropdown-item" href=""><i class="fas fa-chalkboard-teacher me-2"></i> إضافة درس</a></li>
+                            <li><a class="dropdown-item" href=""><i class="fas fa-file-alt me-2"></i> إضافة اختبار</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            مراجعة المنشورات
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href=""><i class="fas fa-newspaper me-2"></i> مراجعة المقالات</a></li>
+                            <li><a class="dropdown-item" href=""><i class="fas fa-book me-2"></i> مراجعة الكتب</a></li>
+                            <li><a class="dropdown-item" href=""><i class="fas fa-video me-2"></i> مراجعة الفيديوهات</a></li>
+                            <li><a class="dropdown-item" href=""><i class="fas fa-chalkboard-teacher me-2"></i> مراجعة الدروس</a></li>
+                            <li><a class="dropdown-item" href=""><i class="fas fa-file-alt me-2"></i> مراجعة الاختبارات</a></li>
+                        </ul>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href=""><i class="fas fa-user-friends me-2"></i> لائحة الأصدقاء</a>
+                    </li>
+    
+                    <li class="nav-item position-relative">
+                        <a href="" class="nav-link">
+                            <i class="fas fa-envelope"></i> لديك رسالة جديدة
+                            <span class="badge bg-danger position-absolute custom-badge">
+                                3
+                                <span class="visually-hidden">رسائل جديدة</span>
+                            </span>
+                        </a>
+                    </li>
+    
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                            <i class="fas fa-users me-2"></i>البحث عن أصدقاء
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href=""><i class="fas fa-user-friends me-2"></i>الأصدقاء المشتركين في الموقع</a></li>
+                            <li><a class="dropdown-item" href=""><i class="fas fa-address-book me-2"></i>موسوعة المعارف الشخصية</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <script>
+        document.querySelector('.menu-icon').addEventListener('click', function() {
+            const TopMenu = document.querySelector('.Topmenu');
+            TopMenu.classList.toggle('fhidden');
+        });
+    </script>
+
+    <header>
+        <div class="header">
+            <div class="logo">
+                <a href="/">
+                    <img src="{% static 'tifinar/assets/tifinar.webp'  %}" alt="الصفحة الرئيسية" title="الصفحة الرئيسية">
+                </a>   
+            </div>
+            <div class="pub-and-menu">
+                <div class="pub">
+                    <img src="{% static 'tifinar/assets/hostinger.webp' %}">
+                </div>
+            </div>
+        </div>
+    </header>

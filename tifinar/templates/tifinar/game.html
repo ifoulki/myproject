@@ -1,0 +1,70 @@
+
+{% include "tifinar/header.html" %}
+{% load static %}
+
+<div class="content">
+        <div class="container game-container">
+            <h2 class="mb-4">لعبة حجرة ورقة مقص</h2>
+
+            <script>
+                const basePath = "{% static 'tifinar/assets/games/RPS' %}";
+
+                function playGame(userChoice) {
+                    const choices = ["hajara", "wara9a", "scissors"];
+                    const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+
+                    let resultMessage = "";
+                    if (userChoice === computerChoice) {
+                        resultMessage = "تعادل!";
+                    } else if (
+                        (userChoice === "scissors" && computerChoice === "wara9a") ||
+                        (userChoice === "hajara" && computerChoice === "scissors") ||
+                        (userChoice === "wara9a" && computerChoice === "hajara")
+                    ) {
+                        resultMessage = "أحسنت، لقد ربحت!";
+                    } else {
+                        resultMessage = "لقد خسرت!";
+                    }
+
+                    const alertClass = resultMessage === "أحسنت، لقد ربحت!" 
+                        ? "alert-success" 
+                        : (resultMessage === "تعادل!" ? "alert-warning" : "alert-danger");
+
+                    document.getElementById("result").innerHTML = `
+                        <div><strong>اختيار الحاسوب:</strong> 
+                            <img src="${basePath}/${computerChoice}.png" width='100' class="animate">
+                        </div>
+                        
+                        <div><strong>اختيارك:</strong> 
+                            <img src="${basePath}/me_${userChoice}.png" width='100' class="animate">
+                        </div>
+                        <div class="alert mt-3 ${alertClass}">
+                            ${resultMessage}
+                        </div>
+                    `;
+                }
+
+                function resetGame() {
+                    document.getElementById("result").innerHTML = "";
+                }
+            </script>
+
+            <div id="result" class="mt-3"></div>
+            <p> ماذا ستلعب؟ ورقة، حجرة أم مقص؟ </p>
+
+            <div class="d-flex justify-content-center gap-3 choice">
+                <label>
+                    <img src="{% static 'tifinar/assets/games/RPS/me_wara9a.png' %}" width='100' class="animate" onclick="playGame('wara9a')">
+                </label>
+                <label>
+                    <img src="{% static 'tifinar/assets/games/RPS/me_hajara.png' %}" width='100' class="animate" onclick="playGame('hajara')">
+                </label>
+                <label>
+                    <img src="{% static 'tifinar/assets/games/RPS/me_scissors.png' %}" width='100' class="animate" onclick="playGame('scissors')">
+                </label>
+            </div>
+        </div>
+
+    </div>
+
+{% include "tifinar/footer.html" %}

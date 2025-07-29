@@ -7,15 +7,16 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils import timezone
+from django.utils.text import slugify
 
 class AdminArticles(models.Model):
     adm_art_id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=255, blank=True, null=True)
     mysubject = models.TextField(db_column='Mysubject', blank=True, null=True)  # Field name made lowercase.        
-    myimage = models.CharField(db_column='Myimage', max_length=255, blank=True, null=True)  # Field name made lowercase.
+    myimage = models.CharField(db_column='myimage', max_length=255, blank=True, null=True)  # Field name made lowercase.
     author = models.CharField(db_column='Author', max_length=255)  # Field name made lowercase.
     mydescription = models.CharField(db_column='Mydescription', max_length=255)  # Field name made lowercase.       
-    keyword = models.CharField(db_column='Keyword', max_length=255)  # Field name made lowercase.
+    keywords = models.TextField(blank=True, null=True)
     the_type = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
@@ -23,18 +24,21 @@ class AdminArticles(models.Model):
     class Meta:
         managed = False
         db_table = 'admin_articles'
+    @property
+    def get_title(self):
+        return self.title
 
 
 class articles(models.Model):
     art_id = models.AutoField(db_column='Art_id', primary_key=True)  # Field name made lowercase.
     title = models.CharField(unique=True, max_length=255, blank=True, null=True)
-    slug = models.CharField(unique=True, max_length=255, blank=True, null=True)
+    slug = models.SlugField( max_length=255, blank=True, null=True, allow_unicode=True, unique=True )
     mysubject = models.TextField(db_column='Mysubject', unique=True, blank=True, null=True)  # Field name made lowercase.
     mydescription = models.TextField(db_column='Mydescription', blank=True, null=True)  # Field name made lowercase.    keywords = models.TextField(blank=True, null=True)
     keywords = models.TextField(db_column='keywords', blank=True, null=True)
     dir = models.CharField(max_length=3)
     author = models.CharField(db_column='Author', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    myimage = models.CharField(db_column='Myimage', max_length=255, blank=True, null=True)  # Field name made lowercase.
+    myimage = models.CharField(db_column='myimage', max_length=255, blank=True, null=True)  # Field name made lowercase.
     autre = models.CharField(max_length=255, blank=True, null=True)
     the_type = models.CharField(max_length=255, blank=True, null=True)
     visibility_status = models.CharField(max_length=12)
@@ -48,6 +52,9 @@ class articles(models.Model):
     class Meta:
         managed = False
         db_table = 'articles'
+    @property
+    def get_title(self):
+        return self.title
 
 
 class AuthGroup(models.Model):
@@ -119,13 +126,14 @@ class AuthUserUserPermissions(models.Model):
         unique_together = (('user', 'permission'),)
 
 
-class Books(models.Model):
+class books(models.Model):
     books_id = models.AutoField(primary_key=True)
-    myimage = models.TextField(db_column='Myimage', unique=True, blank=True, null=True)  # Field name made lowercase.
+    myimage = models.TextField(db_column='myimage', unique=True, blank=True, null=True)  # Field name made lowercase.
     title = models.TextField(unique=True, blank=True, null=True)
-    slug = models.CharField(unique=True, max_length=255, blank=True, null=True)
+    slug = models.SlugField( max_length=255, blank=True, null=True, allow_unicode=True, unique=True )
     mysubject = models.TextField(db_column='Mysubject', unique=True, blank=True, null=True)  # Field name made lowercase.
     mydescription = models.TextField(db_column='Mydescription', blank=True, null=True)  # Field name made lowercase.    keywords = models.TextField(blank=True, null=True)
+    keywords = models.TextField(blank=True, null=True)
     author = models.TextField(db_column='Author', blank=True, null=True)  # Field name made lowercase.
     autre = models.CharField(max_length=255, blank=True, null=True)
     the_type = models.CharField(max_length=255, blank=True, null=True)
@@ -142,6 +150,9 @@ class Books(models.Model):
     class Meta:
         managed = False
         db_table = 'books'
+    @property
+    def get_title(self):
+        return self.title
 
 
 class Cache(models.Model):
@@ -170,7 +181,7 @@ class CartItems(models.Model):
 
 User = get_user_model()
 
-class Comments(models.Model):
+class comments(models.Model):
     cmt_id = models.AutoField(primary_key=True)
     page_title = models.CharField(max_length=255, blank=True, null=True)
     author_name = models.CharField(max_length=255, blank=True, null=True)
@@ -179,12 +190,12 @@ class Comments(models.Model):
     visibility_status = models.CharField(max_length=12, default='visible')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-
+    normalized_title = models.CharField(max_length=500, default='temp_default_value')
+   
     class Meta:
-        ordering = ['-created_at']
+        db_table = 'comments'
         verbose_name = 'Comment'
-        verbose_name_plural = 'Comments'
+        verbose_name_plural = 'comments'
 
     @property
     def time_text(self):
@@ -247,12 +258,13 @@ class Contacts(models.Model):
         db_table = 'contacts'
 
 
-class Cours(models.Model):
+class cours(models.Model):
     cours_id = models.SmallAutoField(primary_key=True)
     title = models.TextField(unique=True, blank=True, null=True)
-    slug = models.CharField(unique=True, max_length=255, blank=True, null=True)
-    myimage = models.TextField(db_column='Myimage', unique=True, blank=True, null=True)  # Field name made lowercase.
+    slug = models.SlugField( max_length=255, blank=True, null=True, allow_unicode=True, unique=True )
+    myimage = models.TextField(db_column='myimage', unique=True, blank=True, null=True)  # Field name made lowercase.
     mydescription = models.TextField(db_column='Mydescription', blank=True, null=True)  # Field name made lowercase.    keywords = models.TextField(blank=True, null=True)
+    keywords = models.TextField(blank=True, null=True)
     author = models.TextField(db_column='Author', blank=True, null=True)  # Field name made lowercase.
     myfile = models.TextField(db_column='Myfile')  # Field name made lowercase.
     images = models.TextField(blank=True, null=True)
@@ -272,6 +284,9 @@ class Cours(models.Model):
     class Meta:
         managed = False
         db_table = 'cours'
+    @property
+    def get_title(self):
+        return self.title
 
 
 class DjangoAdminLog(models.Model):
@@ -348,12 +363,12 @@ class Examitems(models.Model):
         db_table = 'examitems'
 
 
-class Exams(models.Model):
+class exams(models.Model):
     exam_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255, blank=True, null=True)
-    slug = models.CharField(unique=True, max_length=255, blank=True, null=True)
+    slug = models.SlugField( max_length=255, blank=True, null=True, allow_unicode=True, unique=True )
     mydescription = models.CharField(db_column='Mydescription', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    myimage = models.CharField(db_column='Myimage', max_length=255, blank=True, null=True)  # Field name made lowercase.
+    myimage = models.CharField(db_column='myimage', max_length=255, blank=True, null=True)  # Field name made lowercase.
     keywords = models.TextField(blank=True, null=True)
     the_type = models.CharField(max_length=255, blank=True, null=True)
     author = models.CharField(db_column='Author', max_length=255, blank=True, null=True)  # Field name made lowercase.
@@ -408,12 +423,12 @@ class Laws(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
     article_id = models.AutoField(primary_key=True)
     mysubject = models.TextField(db_column='Mysubject', blank=True, null=True)  # Field name made lowercase.        
-    myimage = models.CharField(db_column='Myimage', max_length=255, blank=True, null=True)  # Field name made lowercase.
+    myimage = models.CharField(db_column='myimage', max_length=255, blank=True, null=True)  # Field name made lowercase.
     author = models.CharField(db_column='Author', max_length=255, blank=True, null=True)  # Field name made lowercase.
     mydescription = models.TextField(db_column='Mydescription', blank=True, null=True)  # Field name made lowercase.    autre = models.CharField(max_length=255, blank=True, null=True)
     the_type = models.CharField(max_length=255, blank=True, null=True)
     article = models.TextField(blank=True, null=True)
-    keyword = models.CharField(db_column='Keyword', max_length=255, blank=True, null=True)  # Field name made lowercase.
+    keywords = models.TextField(blank=True, null=True)
     min_age = models.IntegerField()
     max_age = models.IntegerField()
     created_at = models.DateTimeField()
@@ -434,6 +449,16 @@ class Migrations(models.Model):
 
 
 class Msgs(models.Model):
+    STATUS_CHOICES = [
+        ('read', 'Read'),
+        ('unread', 'Unread'),
+        ('important', 'Important'),
+    ]
+
+    DIR_CHOICES = [
+        ('ltr', 'ltr'),
+        ('rtl', 'rtl'),
+    ]
     msg_id = models.AutoField(primary_key=True)
     mysubject = models.TextField(db_column='Mysubject', blank=True, null=True)  # Field name made lowercase.        
     email = models.TextField(db_column='Email', blank=True, null=True)  # Field name made lowercase.
@@ -444,8 +469,20 @@ class Msgs(models.Model):
     recipient = models.CharField(max_length=255, blank=True, null=True)
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
-    status = models.CharField(max_length=9)
-    dir = models.CharField(max_length=3)
+    status = models.CharField(
+            max_length=9,
+            choices=STATUS_CHOICES,
+            default='unread',
+            blank=False,
+            null=False,
+        )
+    dir = models.CharField(
+            max_length=3,
+            choices=DIR_CHOICES,
+            default='ltr',
+            blank=False,
+            null=False,
+        )
 
     class Meta:
         managed = False
@@ -610,12 +647,13 @@ class ArticleReaction(models.Model):
         db_table = 'users_likes'
 
 
-class Videos(models.Model):
+class videos(models.Model):
     vd_id = models.AutoField(db_column='VD_id', primary_key=True)  # Field name made lowercase.
     title = models.TextField(blank=True, null=True)
-    slug = models.CharField(max_length=255, blank=True, null=True)
+    slug = models.SlugField( max_length=255, blank=True, null=True, allow_unicode=True, unique=True )
     mysubject = models.TextField(db_column='Mysubject', blank=True, null=True)  # Field name made lowercase.        
-    myimage = models.TextField(db_column='Myimage', blank=True, null=True)  # Field name made lowercase.
+    myimage = models.TextField(db_column='myimage', blank=True, null=True)  # Field name made lowercase.
+    keywords = models.TextField(blank=True, null=True)
     mydescription = models.TextField(db_column='Mydescription', blank=True, null=True)  # Field name made lowercase.    keywords = models.TextField(blank=True, null=True)
     author = models.TextField(db_column='Author', blank=True, null=True)  # Field name made lowercase.
     autre = models.TextField(blank=True, null=True)
@@ -633,6 +671,9 @@ class Videos(models.Model):
         managed = False
         db_table = 'videos'
         db_table_comment = 'الفيديوهات'
+    @property
+    def get_title(self):
+        return self.title
 
 
 class Visitors(models.Model):

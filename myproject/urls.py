@@ -17,9 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-app_name = "tifinar"
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include('tifinar.urls')),
+    path('', include('tifinar.urls')),  # للمحتوى الرئيسي (سيحتفظ بكل مساراتك الحالية)
+    path('api/comments/', include('tifinar.comment_urls')),  # مسار منفصل للتعليقات
 ]
+

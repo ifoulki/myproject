@@ -1,0 +1,148 @@
+
+{% include "tifinar/header.html" %}
+{% load static %}
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=newsmode" />  
+
+<div class="content-grid content">
+    <h1 class="window-h1">مكتبة تيفيناغ </h1>
+
+    <div class="filter mt-4 p-4 border rounded shadow-sm bg-light">
+        <form method="GET" action="{{ request.path }}" class="d-flex align-items-center mb-3">
+            <div style='flex-wrap:nowrap' class="input-group border rounded flex-grow-1">
+                <input type="text" class="form-control search-input border-0" name="search" placeholder="ابحث عن كتاب ..." value="{{ request.GET.search }}">
+                <button type="submit" class="btn btn-outline-primary search-btn">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </form>
+
+        <form method="GET" action="{{ request.path }}" class="d-flex flex-column flex-md-row align-items-md-center">
+            <div class="input-group border rounded flex-grow-1 d-flex">
+
+                <select class="form-control form-select" name="the_type">
+                    <optgroup label="الأدب">
+                        <option value='قصص و روايات' {% if request.GET.the_type == 'قصص و روايات' %}selected{% endif %}>قصص و روايات</option>
+                        <option value='قصائد شعرية' {% if request.GET.the_type == 'قصائد شعرية' %}selected{% endif %}>قصائد شعرية</option>
+                        <option value='مجلات' {% if request.GET.the_type == 'مجلات' %}selected{% endif %}>مجلات</option>
+                        <option value='لقواميس اللغوية - Dictionaries' {% if request.GET.the_type == 'لقواميس اللغوية - Dictionaries' %}selected{% endif %}>لقواميس اللغوية - Dictionaries</option>
+                        <option value="" disabled {% if not request.GET.the_type %}selected{% endif %}>اختر صنف معين ...</option>
+                        <option value="أديان" {% if request.GET.the_type == "أديان" %}selected{% endif %}>التربية الإسلامية</option>
+                        <option value='فلسفة' {% if request.GET.the_type == 'فلسفة' %}selected{% endif %}>فلسفة</option>
+                    </optgroup>
+
+                    <optgroup label="اللغات">
+                        <option value="الأمازيغية" {% if request.GET.the_type == 'الأمازيغية' %}selected{% endif %}>تعلم الأمازيغية</option>
+                        <option value="العربية" {% if request.GET.the_type == 'العربية' %}selected{% endif %}>تعلم العربية</option>
+                        <option value="الفرنسية" {% if request.GET.the_type == 'الفرنسية' %}selected{% endif %}>تعلم الفرنسية</option>
+                        <option value="الإنجليزية" {% if request.GET.the_type == 'الإنجليزية' %}selected{% endif %}>تعلم الإنجليزية</option>
+                    </optgroup>
+
+                    <optgroup label="العلوم">
+                        <option value="رياضيات" {% if request.GET.the_type == 'رياضيات' %}selected{% endif %}> رياضيات</option>
+                        
+                        
+                        <option value="الفزياء" {% if request.GET.the_type == 'الفزياء' %}selected{% endif %}>فزياء</option>
+                        
+                        @if ($userAge >=10 or $birthDate == null)
+                            <option value="الكيمياء" {% if request.GET.the_type == 'الكيمياء' %}selected{% endif %}>كيمياء</option>
+                        @endif
+                        
+                        <option value="علوم الحياة والأرض" {% if request.GET.the_type == 'علوم الحياة والأرض' %}selected{% endif %}>علوم الحياة والأرض</option>
+                    </optgroup>
+
+                    <optgroup label="مواضيع أخرى">
+                        <option value="صحة وحياة" {% if request.GET.the_type == 'صحة وحياة' %}selected{% endif %}>صحة وحياة</option>
+                        <option value="علوم الكمبيوتر" {% if request.GET.the_type == 'علوم الكمبيوتر' %}selected{% endif %}>علوم الحاسوب</option>
+
+                        @if ($userAge >=12)
+                            <option value="حقوق الإنسان" {% if request.GET.the_type == 'حقوق الإنسان' %}selected{% endif %}>القانون وحقوق الإنسان</option>
+                        @endif
+
+                        <option value="الثقافة العامة" {% if request.GET.the_type == 'الثقافة العامة' %}selected{% endif %}>الثقافة العامة</option>
+                        <option value="أصناف أخرى" {% if request.GET.the_type == 'أصناف أخرى' %}selected{% endif %}>أصناف أخرى</option>
+                    </optgroup>
+                </select>
+                <button type="submit" class="btn btn-outline-success search-btn flex-shrink-0" style="width: 50px;">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    {% if articles %}
+   
+        {% for article in articles %}
+            <a target="_blank" href="/{{ article.slug  }}" >
+            <div class="book" dir="{{ article.dir  }}">
+                    <figure>
+                        {% if article.images %}
+                            <img src="{% static 'tifinar/images/' %}{{ table_name }}/{{ article.images.0 }}" 
+                                 alt="{{ article.title }}" class="article-image"
+                            >
+                            <i class="fas fa-play"></i>
+                            <figcaption class="book-title">{{ article.title }}</figcaption>
+                        {% endif %}
+                    </figure>
+                </div>
+            </a>
+        {% endfor %}
+    {% else %}
+        <p style="text-align:center; color: gray;">ليس هناك كتب متاحة حاليا</p>
+    {% endif %}
+        
+            
+            
+            <nav aria-label="Page navigation example" class="pagination-wrapper">
+
+                <ul class="pagination justify-content-center">
+            
+                {# زر الصفحة السابقة #}
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}&search={{ request.GET.search|urlencode }}&the_type={{ request.GET.the_type|urlencode }}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="visually-hidden">الصفحة السابقة</span>
+                    </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                    <span class="page-link" aria-hidden="true">&laquo;</span>
+                    </li>
+                {% endif %}
+            
+                {# عرض أرقام الصفحات مع تحديد الصفحة الحالية #}
+                {% for num in paginator.page_range %}
+                    {% if num == page_obj.number %}
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                    {% elif num >= page_obj.number|add:'-2' and num <= page_obj.number|add:'2' %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ num }}&search={{ request.GET.search|urlencode }}&the_type={{ request.GET.the_type|urlencode }}">{{ num }}</a>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+            
+                {# زر الصفحة التالية #}
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}&search={{ request.GET.search|urlencode }}&the_type={{ request.GET.the_type|urlencode }}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="visually-hidden">الصفحة التالية</span>
+                    </a>
+                    </li>
+                {% else %}
+                    <li class="page-item disabled">
+                    <span class="page-link" aria-hidden="true">&raquo;</span>
+                    </li>
+                {% endif %}
+                </ul>
+            </nav>
+            
+            
+        </div>
+    </div>
+</div>
+
+{% include "tifinar/footer.html" %}

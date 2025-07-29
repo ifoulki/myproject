@@ -3,23 +3,22 @@
 <div class="aside">
     <div class="aside-ads">
         <a target="_blank" href="https://hostinger.ae?REFERRALCODE=1HAMID718">
-            <img src="{% static 'assets/pub1.webp' %}">
-            <img src="{% static 'tifinar/asset/pub.webp' %}">
+            <img src="{% static 'tifinar/assets/pub1.webp' %}">
         </a>
     </div>
 
-    {% if next_article %}
+    {% if next_obj %}
         <div class="aside-bar">
-            <a class="dynamic-link" href="/{{ next_article.slug }}">
+            <a class="dynamic-link" href="/{{ next_obj.slug }}">
                 <div class="aside-content">
                     <figure class="flex-100">
-                        <img src="{% static 'tifinar/images/' %}{{ table_name }}/{{ next_article.Myimage }}" 
-                             alt="{{ next_article.title }}">
+                        <img src="{% static 'tifinar/images/' %}{{ folder }}/{{ next_obj.myimage }}" 
+                             alt="{{ next_obj.title }}">
                     </figure>
                 </div>
 
                 <div class="aside-title">
-                    {{ next_article.title }}
+                    {{ next_obj.title }}
                 </div>
             </a>
         </div>
@@ -30,7 +29,7 @@
             <a class="Top-menu-btn dynamic-link" href="/{{ article.slug }}">
                 <div class="aside-content">
                     <figure class="flex-100">
-                        <img src="{% static 'tifinar/images/' %}{{ table_name }}/{{ article.Myimage }}" 
+                        <img src="{% static 'tifinar/images/' %}{{ folder }}/{{ article.myimage }}" 
                              alt="{{ article.title }}">
                     </figure>
                 </div>

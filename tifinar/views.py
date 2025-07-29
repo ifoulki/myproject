@@ -1,57 +1,407 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.db import models
-from .models import articles, Books, Exams, Videos, Cours
+from .models import articles, books, exams, videos, cours, comments
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q, Case, When, IntegerField
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
 from .forms import CommentForm
-from .models import Comments
 from django.contrib import messages
 from .models import ArticleReaction
-from django.http import Http404
+from django.http import FileResponse, Http404, JsonResponse
+from django.utils.safestring import mark_safe
+import os
+from django.conf import settings
+from urllib.parse import unquote
+from django.utils import timezone
+import logging
+from django.views.decorators.csrf import csrf_exempt
+logger = logging.getLogger(__name__)
 
-# تعريف قائمة الموديلات مع أسماء أعمدة المفتاح الأساسي
-models = [
-    {'model': articles, 'id_column': 'art_id'},
-    {'model': Books, 'id_column': 'books_id'},
-    {'model': Exams, 'id_column': 'exam_id'},
-    {'model': Videos, 'id_column': 'vd_id'},
-    {'model': Cours, 'id_column': 'cours_id'},
-]
+from .forms import ArticleForm, BookForm, ExamForm, CoursForm, VideoForm
+from django.shortcuts import render, redirect
+from django.core.exceptions import ValidationError
+from django.utils.html import escape
+from django.utils.text import slugify
+
+import re
+import string
+from .forms import MsgForm
+
+from .forms import ArticleForm
+
+
+from django.shortcuts import get_object_or_404, redirect, render
+from django.contrib import messages
+CONTENT_TYPES = {
+    'articles': {
+        'model': articles,
+        'id_field': 'art_id',
+        'subject_field': 'mysubject',
+        'template': 'edit_article.html',
+        'redirect_name': 'show_article',
+        'types': ['الأمازيغية', 'تربية وتعليم', 'الثقافة العامة', 'علوم', 'القانون وحقوق الإنسان'],
+        'form_class': ArticleForm,
+    },
+    'books': {
+        'model': books,
+        'id_field': 'book_id',
+        'subject_field': 'mysubject',
+        'template': 'edit_book.html',
+        'redirect_name': 'show_book',
+        'form_class': BookForm,
+        'types': ['أدب', 'علوم', 'تاريخ', 'فلسفة']
+    },
+    'exams': {
+        'model': exams,
+        'id_field': 'exam_id',
+        'subject_field': 'mysubject',
+        'template': 'edit_exam.html',
+        'redirect_name': 'show_exam',
+        'form_class': ExamForm,
+        'types': ['أدب', 'علوم', 'تاريخ', 'فلسفة']
+    },
+    'cours': {
+        'model': cours,
+        'id_field': 'cours_id',
+        'subject_field': 'mysubject',
+        'template': 'edit_cours.html',
+        'redirect_name': 'show_cours',
+        'form_class': CoursForm,
+        'types': ['أدب', 'علوم', 'تاريخ', 'فلسفة']
+    },
+    'videos': {
+        'model': videos,
+        'id_field': 'vd_id',
+        'template': 'edit_video.html',
+        'form_class': VideoForm,
+        'redirect_name': 'show_video',
+        'types': ['أدب', 'علوم', 'تاريخ', 'فلسفة']
+    },
+}
+
+
+def edit_content(request, content_type, slug):
+    config = CONTENT_TYPES.get(content_type)
+    if not config:
+        return HttpResponseNotFound("نوع المحتوى غير موجود")
+
+    ModelClass = config['model']
+    content = get_object_or_404(ModelClass, slug=slug)
+
+    if request.method == 'POST':
+        form = config['form_class'](request.POST, request.FILES, instance=content)
+        
+        if form.is_valid():
+            content = form.save(commit=False)
+            
+            # معالجة الحقول المخصصة
+            for field_name, folder_name in {
+                'myimage': 'image',
+                'autre': 'autre',
+                'main_image': 'image',
+                'secondary_image': 'autre'
+            }.items():
+                if hasattr(content, field_name) and field_name in request.FILES:
+                    field_value = getattr(content, field_name, '')
+                    new_files = request.FILES.getlist(field_name)
+                    processed_value = handle_uploaded_images(new_files, field_value, content.slug, folder_name)
+                    setattr(content, field_name, processed_value)
+            
+            content.save()
+            
+            if hasattr(form, 'save_m2m'):
+                form.save_m2m()
+            
+            messages.success(request, 'تم تحديث المحتوى بنجاح')
+            # التوجيه إلى صفحة العرض مباشرة باستخدام slug فقط
+            return redirect('tifinar:show_content', slug=content.slug)  
+    else:
+        form = config['form_class'](instance=content)
+    
+    context = {
+        'article': content,
+        'form': form,
+        'content_types': config['types']
+    }
+    
+    return render(request, f'tifinar/auth/{content_type}/{config["template"]}', context)
+
+def handle_uploaded_images(new_images, existing_images, slug, image_type):
+    print(f"\nمعالجة الصور (نوع: {image_type})")
+    print(f"الصور الحالية: {existing_images}")
+    print(f"الصور الجديدة: {[img.name for img in new_images]}")
+    
+    image_names = []
+    if existing_images and isinstance(existing_images, str):
+        image_names = existing_images.split(',')
+    
+    for i, image in enumerate(new_images, start=1):
+        ext = os.path.splitext(image.name)[1]
+        new_name = f"{slug}_{image_type}_{i}{ext}"
+        save_path = os.path.join(settings.MEDIA_ROOT, 'uploads', new_name)
+        
+        print(f"حفظ الصورة: {save_path}")
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+        
+        with open(save_path, 'wb+') as destination:
+            for chunk in image.chunks():
+                destination.write(chunk)
+        
+        image_names.append(new_name)
+    
+    result = ','.join(image_names)
+    print(f"النتيجة النهائية: {result}")
+    return result
+
+
+def send_message(request):
+    if request.method == 'POST':
+
+        form = MsgForm(request.POST)
+        if form.is_valid():
+            msg = form.save(commit=False)
+
+            # القيم الافتراضية في حالة لم تُرسل
+            if not msg.author_id:
+                msg.author_id = '0'
+            if not msg.recipient:
+                msg.recipient = '1'
+            if not msg.author_img:
+                msg.author_img = ''
+            
+            msg.save()
+
+            messages.success(request, 'تم إرسال رسالتك بنجاح!')
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+        else:
+            messages.error(request, 'حدث خطأ أثناء إرسال الرسالة. تأكد من صحة البيانات.')
+
+    else:
+        form = MsgForm()
+
+    return render(request, 'tifinar/send_message.html', {'form': form})
+
+def rps_game(request):
+    return render(request, 'tifinar/game.html')
+
+# دالة المساعدة لتنظيف النصوص
+def normalize_text(text):
+    if not text:
+        return ""
+    text = re.sub(r'[^\w\sء-ي]', '', text)  # إزالة علامات الترقيم
+    text = text.strip().lower()
+    return text
+
 
 def showContent(request, slug):
     found_obj = None
-    next_obj = None
+    model_cls = None
+    id_col = None
     folder = None
 
     for m in models:
-        model_cls = m['model']
-        id_col = m['id_column']
-
         try:
-            found_obj = model_cls.objects.get(slug=slug)
+            found_obj = m['model'].objects.get(slug=slug)
+            model_cls = m['model']
+            id_col = m['id_column']
             folder = found_obj._meta.db_table
-            next_obj = model_cls.objects.filter(**{f"{id_col}__gt": getattr(found_obj, id_col)}).order_by(id_col).first()
             break
-        except model_cls.DoesNotExist:
+        except m['model'].DoesNotExist:
             continue
 
     if not found_obj:
         raise Http404("المحتوى غير موجود")
 
-    # هنا نتحقق من أن found_obj ليس None قبل التفكيك
-    autres_list = found_obj.autre.split(',') if (found_obj and found_obj.autre) else []
+    current_id = getattr(found_obj, id_col)
+    next_obj = None
+    if current_id is not None:
+        next_obj = (
+            model_cls.objects.filter(**{f"{id_col}__gt": current_id})
+            .order_by(id_col)
+            .first() or
+            model_cls.objects.filter(**{f"{id_col}__lt": current_id})
+            .order_by(f'-{id_col}')
+            .first()
+        )
+
+    base_query = model_cls.objects.exclude(slug=slug)
+    
+    if request.user.is_authenticated:
+        user = request.user
+        user_education = getattr(user, 'educational_level', None)
+        user_gender = getattr(user, 'gender', None)
+        
+        user_age = None
+        if hasattr(user, 'Date_de_naissance') and user.Date_de_naissance:
+            birth_date = user.Date_de_naissance
+            today = timezone.now().date()
+            user_age = today.year - birth_date.year - (
+                (today.month, today.day) < (birth_date.month, birth_date.day))
+        
+        education_query = Q()
+        if user_education:
+            education_query = (
+                Q(educational_level=user_education) | 
+                Q(educational_level='unknown') |
+                Q(educational_level__isnull=True)
+            )
+
+        if user_gender:
+            education_query &= (
+                Q(gender=user_gender) | 
+                Q(gender='all') |
+                Q(gender__isnull=True)
+            )
+
+        if user_age:
+            education_query &= (
+                Q(min_age__lte=user_age) & 
+                Q(max_age__gte=user_age) |
+                Q(min_age__isnull=True) |
+                Q(max_age__isnull=True)
+            )
+
+        related_articles = base_query.filter(education_query) if education_query else base_query.none()
+    else:
+        related_articles = base_query.filter(
+            Q(the_type__in=[
+                'أصناف أخرى',
+                'الثقافة العامة',
+                'without_board',
+                'عام',
+                'متنوع'
+            ]) | Q(the_type__isnull=True)
+        )
+
+    related_articles = list(
+        related_articles.distinct()
+        .order_by('?')
+        .only('slug', 'title', 'myimage', 'the_type')[:6]
+    )
+
+    if not related_articles:
+        # بناء استعلام آمن مع التحقق من وجود القيم
+        query = Q()
+        if found_obj.title:
+            query |= Q(title__icontains=found_obj.title)
+        if found_obj.the_type:
+            query |= Q(the_type__icontains=found_obj.the_type)
+        if found_obj.keywords:
+            query |= Q(keywords__icontains=found_obj.keywords)
+        
+        if query:
+            similar_query = base_query.filter(query).distinct()
+            related_articles = list(similar_query)
+
+    normalized_title = normalize_text(found_obj.title) if found_obj.title else ""
+    all_comments = comments.objects.filter(visibility_status='public')
+    comments_list = [
+        comment for comment in all_comments
+        if normalize_text(comment.page_title) == normalized_title
+    ]
 
     context = {
+        'current_url': request.build_absolute_uri(),
+        'title': found_obj.title,
+        'image': found_obj.myimage,
+        'description': found_obj.mydescription,
+        'author': found_obj.author,
         'obj': found_obj,
         'folder': folder,
         'next_obj': next_obj,
+        'related_articles': related_articles or [],
+        'comments': comments_list,
         'url': request.build_absolute_uri(),
-        'autres_list': autres_list,
+        'autres_list': found_obj.autre.split(',') if found_obj.autre else [],
     }
 
     return render(request, 'tifinar/showContent.html', context)
+
+
+
+@csrf_exempt
+def store_comment(request):
+    if request.method != 'POST':
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+
+    try:
+        # استخراج عنوان الصفحة من URL
+        referer = request.META.get('HTTP_REFERER', '')
+        if referer:
+            # تحليل المسار من الرابط
+            path_parts = unquote(referer).split('/')
+            # أخذ الجزء قبل الأخير من المسار (آخر جزء قبل /)
+            page_title = path_parts[-2] if path_parts[-1] == '' else path_parts[-1]
+            
+            # تنظيف العنوان من الشرطات والأحرف الخاصة
+            page_title = page_title.replace('-', ' ').replace('_', ' ')
+            page_title = ' '.join(word.capitalize() for word in page_title.split())
+        else:
+            page_title = request.POST.get('page_title', 'صفحة بدون عنوان').strip()
+
+        # معالجة بيانات المستخدم
+        if request.user.is_authenticated:
+            author_name = f"{request.user.first_name} {request.user.last_name}".strip()
+            author_email = request.user.email
+        else:
+            author_name = request.POST.get('author_name', '').strip()
+            author_email = request.POST.get('author_email', '').strip()
+
+        cmt_subject = request.POST.get('cmt_subject', '').strip()
+
+        # التحقق من الحقول المطلوبة
+        if not cmt_subject:
+            raise ValidationError("نص التعليق مطلوب")
+        if not author_name:
+            raise ValidationError("اسم المؤلف مطلوب")
+
+        # إنشاء التعليق الجديد
+        comment_data = {
+            'page_title': escape(page_title),
+            'author_name': escape(author_name),
+            'author_email': escape(author_email),
+            'cmt_subject': escape(cmt_subject),
+            'visibility_status': 'under_review'
+        }
+
+        new_comment = Comments(**comment_data)
+
+        if request.user.is_authenticated and hasattr(comments, 'user'):
+            new_comment.user = request.user
+
+        new_comment.full_clean()
+        new_comment.save()
+
+        logger.info(f"تم إضافة تعليق جديد ID: {new_comment.cmt_id} للصفحة: {page_title}")
+
+        messages.success(request, "تم إضافة تعليقك بنجاح! سيظهر بعد المراجعة")
+        return redirect(request.META.get('HTTP_REFERER', '/') + '#comments')
+
+    except ValidationError as e:
+        logger.warning(f"تحقق من صحة فاشل: {e}")
+        messages.error(request, str(e))
+    except Exception as e:
+        logger.error(f"خطأ في إضافة تعليق: {str(e)}", exc_info=True)
+        messages.error(request, "حدث خطأ تقني أثناء حفظ التعليق")
+
+    return redirect(request.META.get('HTTP_REFERER', '/') + '#comment-form')
+
+
+def serve_pdf(request, filename):
+    file_path = os.path.join(settings.BASE_DIR, 'tifinar', 'static', 'tifinar', 'ebookZone', filename)
+    if os.path.exists(file_path):
+        return FileResponse(open(file_path, 'rb'), content_type='application/pdf')
+    else:
+        raise Http404("PDF not found")
+
+# تعريف قائمة الموديلات مع أسماء أعمدة المفتاح الأساسي
+models = [
+    {'model': articles, 'id_column': 'art_id'},
+    {'model': books, 'id_column': 'books_id'},
+    {'model': exams, 'id_column': 'exam_id'},
+    {'model': videos, 'id_column': 'vd_id'},
+    {'model': cours, 'id_column': 'cours_id'},
+]
 
 
 def store_reaction(request):
@@ -78,44 +428,110 @@ def store_reaction(request):
     
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
-def comment_view(request, title):
-    comments = Comments.objects.filter(
+def comment_view(request, title=None):
+    # الحصول على عنوان الصفحة الحالية إذا لم يتم توفيره
+    if not title:
+        referer = request.META.get('HTTP_REFERER', '')
+        if referer:
+            try:
+                # استخراج الجزء الأخير من URL
+                path_parts = unquote(referer).split('/')
+                title = path_parts[-2] if path_parts[-1] == '' else path_parts[-1]
+                # تنظيف العنوان من الرموز الخاصة
+                title = title.replace('-', ' ').replace('_', ' ').strip()
+            except Exception as e:
+                logger.warning(f"Failed to extract title from URL: {str(e)}")
+                title = "صفحة بدون عنوان"
+    
+    # جلب التعليقات العامة فقط للصفحة الحالية
+    public_comments = comments.objects.filter(
         page_title=title,
-        visibility_status='visible'
-    ).order_by('-created_at')
+        visibility_status='public'
+    ).order_by('cmt_id')
     
     if request.method == 'POST':
         form = CommentForm(request.POST)
         if form.is_valid():
-            comment = form.save(commit=False)
-            if request.user.is_authenticated:
-                comment.user = request.user
-                comment.author_name = f"{request.user.first_name} {request.user.last_name}"
-                comment.author_email = request.user.email
-            comment.visibility_status = 'visible'
-            comment.save()
-            return redirect(request.path)
-    else:
-        initial_data = {'page_title': title}
-        if request.user.is_authenticated:
-            initial_data.update({
-                'author_name': f"{request.user.first_name} {request.user.last_name}",
-                'author_email': request.user.email
-            })
-        form = CommentForm(initial=initial_data)
+            try:
+                comment = form.save(commit=False)
+                
+                # تعبئة بيانات المستخدم المسجل
+                if request.user.is_authenticated:
+                    comment.user = request.user
+                    comment.author_name = f"{request.user.first_name} {request.user.last_name}".strip()
+                    comment.author_email = request.user.email
+                
+                # ضمان تطابق عنوان الصفحة
+                comment.page_title = title
+                comment.visibility_status = 'under_review'
+                
+                comment.full_clean()
+                comment.save()
+                
+                messages.success(request, 'تم إرسال تعليقك بنجاح وسيظهر بعد المراجعة')
+                return redirect(f"{request.path}#comments-section")
+            
+            except ValidationError as e:
+                logger.warning(f"Validation error in comment: {str(e)}")
+                messages.error(request, f"خطأ في البيانات: {str(e)}")
+            except Exception as e:
+                logger.error(f"Error saving comment: {str(e)}", exc_info=True)
+                messages.error(request, 'حدث خطأ غير متوقع أثناء حفظ التعليق')
+        else:
+            messages.error(request, 'يوجد خطأ في البيانات المدخلة')
     
-    return render(request, 'tifinar/comments/article_comments.html', {
+    # إعداد النموذج
+    initial_data = {'page_title': title}
+    
+    if request.user.is_authenticated:
+        initial_data.update({
+            'author_name': f"{request.user.first_name} {request.user.last_name}".strip(),
+            'author_email': request.user.email
+        })
+    
+    form = CommentForm(initial=initial_data)
+    
+    context = {
         'form': form,
-        'comments': comments,
+        'comments': public_comments,
         'title': title,
-        'user': request.user
-    })
+        'user': request.user,
+        'obj': getattr(request, 'obj', None)  # إضافة كائن الصفحة إذا كان متاحاً
+    }
+    
+    return render(request, 'tifinar/comments/article_comments.html', context)
 
-def contents(request):
+def contents(request, content_type):
+
     search = request.GET.get("search", "").strip()
     the_type = request.GET.get("the_type", "").strip()
 
-    queryset = articles.objects.all()
+    # استخراج اسم الصفحة من الرابط لاختيار الجدول المناسب
+    path = request.path.strip('/')
+    if path == "فيديوهات":
+        model = videos
+        title = "فيديوهات"
+        description = "مجلة تيفيناغ الثقافية تضم سلسلات كثيرة ومتنوعة لفيديوهات ثقافية، تربوية وتعليمية ... إلخ، يمكتكم متابعتها والاستفادة منها مجانا"
+    elif path == "قواميس_بصرية":
+        model = cours
+        title = "قواميس بصرية"
+        description = "موقع تيفيناغ يقدم لكم مجموعة من القواميس البصرية لأجل مساعدة الراغبين في إغناء رصيدهم اللغوي، بطريقة سهلة ومبسطة بالصوت والصورة"
+    elif path == "مقالات":
+        model = articles
+        title = "مقالات"
+        description = "مجلة تيفيناغ تقترح عليكم مجموعة من المقالات في مختلف المجالات العلمية والثقافية والتربوية، ويمكن للزوار أيضا إغناء الموقع بمشاركاتهم في النشر عبر مشاركة مواضيغهم معنا"
+    elif path == "اختبارات":
+        model = exams
+        title = "اختبارات"
+        description = "موقع مجلة تيفيناغ يعد منصة رائعة للراغبين في الإستعداد الجيد للإمتحانات، حيث يمكن من خلاله للزوار اجتياز اختبارات تجريبية online  وتظهر لهم النتيجة مباشرة بعد نهاية الاختبار، وذلك يساعدهم على تتبع مستواهم أثناء الاستعداد للإمتحانات"
+    elif path == "مكتبة_تيفيناغ":
+        model = books
+        title = "مكتبة تيفيناغ"
+        description='في مكتبة تيفيناغ يمكن تحميل كتب متنوعة مجانا، بما فيها الكتب المدرسية ونماذج امتحانات وفروض لتدريب التلاميذ وإعدادهم للاختبارات المدرسية'
+    else:
+        return showContent(request, slug)
+
+    queryset = model.objects.all()
 
     if the_type:
         queryset = queryset.filter(the_type__icontains=the_type)
@@ -146,21 +562,46 @@ def contents(request):
     for article in queryset:
         if article.myimage:
             images = article.myimage.split(',')
-            article.images = list(reversed(images))
+            article.images = list(reversed(images))            
         else:
             article.images = []
 
     types_list = ['الأمازيغية', 'تربية وتعليم', 'الثقافة العامة', 'علوم', 'القانون وحقوق الإنسان']
+        # ------------------------------
+    # إضافة Pagination هنا:
+    page = request.GET.get('page', 1)  # رقم الصفحة من الرابط
+
+    if model == videos or model == books:
+        paginator = Paginator(queryset, 11)  # 10 عناصر في الصفحة الواحدة
+    else :
+        paginator = Paginator(queryset, 5)  # 10 عناصر في الصفحة الواحدة
+
+    try:
+        articles_page = paginator.page(page)
+    except PageNotAnInteger:
+        # إذا كان رقم الصفحة غير صحيح، أرجع الصفحة الأولى
+        articles_page = paginator.page(1)
+    except EmptyPage:
+        # إذا كانت الصفحة أكبر من عدد الصفحات، أرجع آخر صفحة
+        articles_page = paginator.page(paginator.num_pages)
+
+    current_url = request.build_absolute_uri()
 
     context = {
-        'objects': {
-        'articles': article},
-        "title": "المقالات",
-        "slug": "ما_معنى_تيفيناغ",
-        "dir": "rtl",
-        "articles": queryset,
+        'current_url' : current_url,
+        'description': description,
+        "objects": {'articles': articles_page},
+        "title": title,
+        "dir": queryset[0].dir if queryset.exists() and hasattr(queryset[0], 'dir') else "ltr",
+        "articles": articles_page,
         "types_list": types_list,
-        "table_name" : queryset.model._meta.db_table
+        "table_name" : queryset.model._meta.db_table,
+        "paginator": paginator,  # إرسال paginator للتمكن من الوصول للمعلومات بالتمبلت
+        "page_obj": articles_page,
     }
-
-    return render(request, "tifinar/contents.html", context)
+    if model == videos:
+        return render(request, "tifinar/videos.html", context)
+    elif model == books:
+        return render(request, "tifinar/books.html", context)
+    else:
+        return render(request, "tifinar/contents.html", context)

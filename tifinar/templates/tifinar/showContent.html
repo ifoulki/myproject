@@ -1,6 +1,6 @@
+{% include "tifinar/header.html" %}
 {% load static %}
 
-{% include "tifinar/header.html" %}
 
 <section>
     <article>
@@ -70,6 +70,7 @@
                 {{ obj.mysubject | safe }}<br>
                 {% if obj.dir == 'rtl' %}
                     رابط تحميل كتاب :
+                        <a target="_blank" href="/files/{{obj.autre}}">{{obj.title}}</a>                    
                 {% else %}
                     📖 Download the book:
                 {% endif %}
@@ -99,7 +100,7 @@
                         {{ message }}
                     </div>
                 {% endfor %}
-            {% endif %}
+            {% endif %} 
 
             <h2 class="reaction-feedback" id="reaction-feedback">
                 {% if reaction_type == 'love' %}
@@ -151,6 +152,7 @@
         <hr>
         
         {% include "tifinar/comments/article_comments.html" %}
+
     </article>
     {% include "tifinar/sidebar.html" %}
 </section>

@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'tifinar',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
 
 MIDDLEWARE = [
@@ -82,7 +84,7 @@ DATABASES = {
         'HOST': '127.0.0.1',
         'USER': 'root',
         'PASSWORD': '',
-        'PORT': 3307
+        'PORT': 3306
     }
 }
 
@@ -130,3 +132,24 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# settings.py
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'DEBUG',  # يعرض كل الرسائل (DEBUG, INFO, WARNING, ERROR)
+    },
+}
+
+# إضافة مؤقتة لفحص اتصال قاعدة البيانات
+DATABASES['default']['TEST'] = {'NAME': DATABASES['default']['NAME']}
+print(f"!Django يتصل بقاعدة بيانات: {DATABASES['default']['NAME']} على مضيف: {DATABASES['default']['HOST']}:{DATABASES['default']['PORT']}")
+
+print(f"!اتصال قاعدة البيانات: {DATABASES['default']['NAME']} على {DATABASES['default']['HOST']}:{DATABASES['default']['PORT']}")
