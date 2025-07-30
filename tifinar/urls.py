@@ -5,7 +5,13 @@ from .views import serve_pdf, send_message
 app_name = "tifinar"
 
 urlpatterns = [
-    # المسارات الأساسية
+
+    path('videos_edit/', views.index_edit, name='index_video'),
+    path('books_edit/', views.index_edit, name='index_book'),
+    path('articles_edit/', views.index_edit, name='index_article'),
+    path('cours_edit/', views.index_edit, name='index_cours'),
+    path('exams_edit/', views.index_edit, name='index_exam'),
+    
     path('store-reaction/', views.store_reaction, name='store_reaction'),
     path('send_message/', send_message, name='send_message'),
     path('game/', views.rps_game, name='game'),

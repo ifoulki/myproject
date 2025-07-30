@@ -231,50 +231,6 @@
         }
     });
 
-</script>
-
-<footer>
-    <div class="footer">
-        
-        <div class="footer_menu">
-            <a class='label' href="/"><h4>الرئيسية</h4></a>
-            <a class='label' href="/مقالات"><h4>مقالات</h4></a>
-            <a class='label' href="/تعلم الأمازيغية"><h4>تعلم الأمازيغية</h4></a>
-            <a class='label' href="/فيديوهات"><h4>فيديوهات</h4></a>
-            <a class='label' href="/مكتبة تيفيناغ"><h4>مكتبة تيفيناغ</h4></a>
-            <a class='label' href="/اختبارات"><h4>اختبارات</h4></a>
-            <a class='label' href="/اتصل بنا"><h4>اتصل بنا</h4></a>
-        </div>
-    </div>
-    <div class="copy">
-        <p>جميع الحقوق محفوظة : &copy; {{ current_year }}</p>
-    </div>
-</footer>
-
-<div class="return-up">
-    <img src="{% static 'tifinar/assets/return-up.webp' %}" title="الرجوع لأعلى الصفحة">
-</div>
-
-<script>
-    const returnUp = document.querySelector(".return-up");
-
-    if (returnUp) {
-        window.onscroll = function () {
-            if (window.scrollY >= 300) {
-                returnUp.style.display = 'block';
-            } else {
-                returnUp.style.display = 'none';
-            }
-        };
-
-        returnUp.addEventListener("click", function () {
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-        });
-    }
-
     document.getElementById('autreInput').addEventListener('input', function() {
             var inputText = this.value;
             var previewDiv = document.getElementById('autrePreview');
@@ -291,7 +247,6 @@
             previewDiv.innerHTML = formattedText;
         });
 </script>
-<script src="{% static 'bootstrap-5.3.7-dist/js/bootstrap.bundle.min.js' %}"></script>
 
-</body>
-</html>
+    {% include "tifinar/adm_footer.html" %}
+
