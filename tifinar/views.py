@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.http import HttpResponse
+from django.http import HttpResponseNotFound
 from django.db import models
 from .models import articles, books, exams, videos, cours, comments
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -22,9 +22,7 @@ from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
 from django.utils.html import escape
 from django.utils.text import slugify
-
 import re
-import string
 from .forms import MsgForm
 
 from .forms import ArticleForm
@@ -32,6 +30,7 @@ from .forms import ArticleForm
 
 from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib import messages
+
 CONTENT_TYPES = {
     'articles': {
         'model': articles,
@@ -92,29 +91,48 @@ def edit_content(request, content_type, slug):
         form = config['form_class'](request.POST, request.FILES, instance=content)
         
         if form.is_valid():
+            # حفظ جميع الحقول ماعدا حقول الصور
             content = form.save(commit=False)
             
-            # معالجة الحقول المخصصة
-            for field_name, folder_name in {
-                'myimage': 'image',
-                'autre': 'autre',
-                'main_image': 'image',
-                'secondary_image': 'autre'
-            }.items():
-                if hasattr(content, field_name) and field_name in request.FILES:
-                    field_value = getattr(content, field_name, '')
-                    new_files = request.FILES.getlist(field_name)
-                    processed_value = handle_uploaded_images(new_files, field_value, content.slug, folder_name)
-                    setattr(content, field_name, processed_value)
+            # قائمة حقول الصور التي نريد حمايتها
+            image_fields = ['myimage', 'autre']
             
-            content.save()
+            # حفظ القيم الأصلية للصور
+            original_images = {field: getattr(content, field, '') for field in image_fields}
+            
+            # تحديث حقول الصور فقط إذا تم رفع ملفات جديدة
+            for field in image_fields:
+                if field in request.FILES and request.FILES[field]:
+                    new_files = request.FILES.getlist(field)
+                    processed_value = handle_uploaded_images(new_files, original_images[field], content.slug, field.split('_')[-1])
+                    setattr(content, field, processed_value)
+                else:
+                    # إعادة القيمة الأصلية إذا لم يتم رفع ملف
+                    setattr(content, field, original_images[field])
+            
+            # الحصول على قائمة الحقول القابلة للتحديث (استثناء PK و M2M)
+            update_fields = [
+                f.name for f in content._meta.get_fields()
+                if f.concrete and 
+                not f.primary_key and 
+                not f.many_to_many and 
+                not f.one_to_many and
+                f.name not in image_fields
+            ]
+            
+            # حفظ التغييرات مع استثناء حقول الصور من التحديث التلقائي
+            content.save(update_fields=update_fields)
+            
+            # تحديث حقول الصور يدوياً إذا لزم الأمر
+            for field in image_fields:
+                if not (field in request.FILES and request.FILES[field]):
+                    ModelClass.objects.filter(pk=content.pk).update(**{field: original_images[field]})
             
             if hasattr(form, 'save_m2m'):
                 form.save_m2m()
             
             messages.success(request, 'تم تحديث المحتوى بنجاح')
-            # التوجيه إلى صفحة العرض مباشرة باستخدام slug فقط
-            return redirect('tifinar:show_content', slug=content.slug)  
+            return redirect('tifinar:show_content', slug=content.slug)
     else:
         form = config['form_class'](instance=content)
     
@@ -127,10 +145,6 @@ def edit_content(request, content_type, slug):
     return render(request, f'tifinar/auth/{content_type}/{config["template"]}', context)
 
 def handle_uploaded_images(new_images, existing_images, slug, image_type):
-    print(f"\nمعالجة الصور (نوع: {image_type})")
-    print(f"الصور الحالية: {existing_images}")
-    print(f"الصور الجديدة: {[img.name for img in new_images]}")
-    
     image_names = []
     if existing_images and isinstance(existing_images, str):
         image_names = existing_images.split(',')
@@ -140,7 +154,6 @@ def handle_uploaded_images(new_images, existing_images, slug, image_type):
         new_name = f"{slug}_{image_type}_{i}{ext}"
         save_path = os.path.join(settings.MEDIA_ROOT, 'uploads', new_name)
         
-        print(f"حفظ الصورة: {save_path}")
         os.makedirs(os.path.dirname(save_path), exist_ok=True)
         
         with open(save_path, 'wb+') as destination:
@@ -149,10 +162,8 @@ def handle_uploaded_images(new_images, existing_images, slug, image_type):
         
         image_names.append(new_name)
     
-    result = ','.join(image_names)
-    print(f"النتيجة النهائية: {result}")
-    return result
-
+    return ','.join(image_names)
+            
 
 def send_message(request):
     if request.method == 'POST':
@@ -293,12 +304,24 @@ def showContent(request, slug):
             similar_query = base_query.filter(query).distinct()
             related_articles = list(similar_query)
 
-    normalized_title = normalize_text(found_obj.title) if found_obj.title else ""
     all_comments = comments.objects.filter(visibility_status='public')
-    comments_list = [
-        comment for comment in all_comments
-        if normalize_text(comment.page_title) == normalized_title
-    ]
+    
+    if found_obj.title:
+        try:
+            # الطريقة الآمنة بدون normalized_title
+            all_comments = comments.objects.filter(
+                visibility_status='public'
+            ).only('page_title', 'cmt_subject', 'author_name')  # تحديد الحقول المطلوبة فقط
+            
+            target_title = found_obj.title.lower().strip()
+            comments_list = [
+                comment for comment in all_comments
+                if comment.page_title and 
+                comment.page_title.lower().strip() == target_title
+            ]
+        except Exception as e:
+            logger.error(f"Error fetching comments: {str(e)}")
+            comments_list = []
 
     context = {
         'current_url': request.build_absolute_uri(),

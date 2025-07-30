@@ -1,0 +1,473 @@
+{% load static %}
+
+{% if success_message %}
+    <div class="alert alert-success mb-4">
+        {{ success_message }}
+    </div>
+{% endif %}
+
+<h2>أضف تعليقك</h2>
+<form class="form" action="{% url 'tifinar_comments:store_comment' %}" method="POST" id="comment-form" >
+    {% csrf_token %}
+
+
+    <input type="hidden" name="page_title" value="{{ obj.name|default:obj.get_title|default:request.path|default:'عنوان افتراضي' }}">
+    <input type="hidden" name="page_title" value="{{ title }}">
+
+    {% if user.is_authenticated %}
+        <input type="hidden" name="author_name" value="{{ user.first_name }} {{ user.last_name }}">
+        <input type="hidden" name="author_email" value="{{ user.email }}">
+        <p>
+            {% if user.profile.image %}
+                <img src="{{ user.profile.image.url }}" alt="{{ user.first_name }} {{ user.last_name }}" 
+                     class="img-profile rounded-circle" width="30" height="30">
+            {% else %}
+                <i class="fas fa-user-circle me-2"></i> 
+            {% endif %}
+            <strong>{{ user.first_name }} {{ user.last_name }}</strong>
+        </p>
+    {% else %}
+        <div>
+            <label for="author_name"><i class="fas fa-user"></i> اسمك:</label>
+            <input type="text" id="author_name" name="author_name" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="author_email"><i class="fas fa-envelope"></i> بريدك الإلكتروني:</label>
+            <input type="email" id="author_email" name="author_email" class="form-control" required>
+            <div class="form-text text-muted">
+                <i class="fas fa-info-circle"></i> لن يتم نشر بريدك الإلكتروني أو مشاركته مع أي طرف ثالث.
+            </div>
+        </div>
+    {% endif %}
+
+    <div>
+        <label for="cmt_subject"><i class="fas fa-comment"></i> التعليق:</label>
+        <div class="textarea-container">
+            <textarea id="cmt_subject" name="cmt_subject" rows="4" required></textarea>
+        </div>
+
+        <div class="icon-toggle-container">
+            <div id="iconToggleFaces" class="icon-toggle">😊</div>
+            <div id="iconToggleHearts" class="icon-toggle">❤️</div>
+            <div id="iconToggleLike" class="icon-toggle">👍</div>
+            <div id="iconToggleAnimals" class="icon-toggle">🐶</div>
+            <div id="iconToggleWeather" class="icon-toggle">🌦️</div>
+            <div id="iconToggleHome" class="icon-toggle">🏠</div>
+            <div id="iconToggleClock" class="icon-toggle">⏲️</div>
+            <div id="iconToggleSport" class="icon-toggle">⚽</div>
+            <div id="iconToggleFlag" class="icon-toggle">🚦</div>
+            <div id="iconTogglePoeple" class="icon-toggle">👩‍🦰</div>
+        </div>
+
+        <div id="iconContainerFaces" class="icon-container">
+            <span class="icon" onclick="addIcon('😊')">😊</span>
+            <span class="icon" onclick="addIcon('😂')">😂</span>
+            <span class="icon" onclick="addIcon('😍')">😍</span>
+            <span class="icon" onclick="addIcon('😎')">😎</span>
+            <span class="icon" onclick="addIcon('😢')">😢</span>
+            <span class="icon" onclick="addIcon('😡')">😡</span>
+            <span class="icon" onclick="addIcon('😴')">😴</span>
+            <span class="icon" onclick="addIcon('🤔')">🤔</span>
+            <span class="icon" onclick="addIcon('😱')">😱</span>
+            <span class="icon" onclick="addIcon('🤗')">🤗</span>
+            <span class="icon" onclick="addIcon('🥳')">🥳</span>
+            <span class="icon" onclick="addIcon('😜')">😜</span>
+            <span class="icon" onclick="addIcon('😇')">😇</span>
+            <span class="icon" onclick="addIcon('🤩')">🤩</span>
+            <span class="icon" onclick="addIcon('🥺')">🥺</span>
+            <span class="icon" onclick="addIcon('😕')">😕</span>
+            <span class="icon" onclick="addIcon('🤐')">🤐</span>
+            <span class="icon" onclick="addIcon('😌')">😌</span>
+            <span class="icon" onclick="addIcon('😤')">😤</span>
+            <span class="icon" onclick="addIcon('🙃')">🙃</span>
+        </div>
+        
+        <div id="iconContainerHearts" class="icon-container">
+            <span class="icon" onclick="addIcon('❤️')">❤️</span>
+            <span class="icon" onclick="addIcon('💖')">💖</span>
+            <span class="icon" onclick="addIcon('💙')">💙</span>
+            <span class="icon" onclick="addIcon('💚')">💚</span>
+            <span class="icon" onclick="addIcon('💛')">💛</span>
+            <span class="icon" onclick="addIcon('💜')">💜</span>
+            <span class="icon" onclick="addIcon('🖤')">🖤</span>
+            <span class="icon" onclick="addIcon('🤍')">🤍</span>
+            <span class="icon" onclick="addIcon('💔')">💔</span>
+            <span class="icon" onclick="addIcon('💓')">💓</span>
+            <span class="icon" onclick="addIcon('💗')">💗</span>
+            <span class="icon" onclick="addIcon('💘')">💘</span>
+            <span class="icon" onclick="addIcon('💕')">💕</span>
+            <span class="icon" onclick="addIcon('💞')">💞</span>
+            <span class="icon" onclick="addIcon('💝')">💝</span>
+        </div>
+
+        <div id="iconContainerLike" class="icon-container">
+            <span class="icon" onclick="addIcon('👍')">👍</span>
+            <span class="icon" onclick="addIcon('👎')">👎</span>
+            <span class="icon" onclick="addIcon('👏')">👏</span>
+            <span class="icon" onclick="addIcon('🤲')">🤲</span>
+            <span class="icon" onclick="addIcon('✋')">✋</span>
+            <span class="icon" onclick="addIcon('👌')">👌</span>
+            <span class="icon" onclick="addIcon('✌️')">✌️</span>
+            <span class="icon" onclick="addIcon('🤚')">🤚</span>
+            <span class="icon" onclick="addIcon('👋')">👋</span>
+            <span class="icon" onclick="addIcon('🙏')">🙏</span>
+            <span class="icon" onclick="addIcon('🖐️')">🖐️</span>
+            <span class="icon" onclick="addIcon('🤙')">🤙</span>
+            <span class="icon" onclick="addIcon('👊')">👊</span>
+            <span class="icon" onclick="addIcon('🖖')">🖖</span>
+            <span class="icon" onclick="addIcon('💪')">💪</span>
+            <span class="icon" onclick="addIcon('👐')">👐</span>
+            <span class="icon" onclick="addIcon('👈')">👈</span>
+            <span class="icon" onclick="addIcon('👉')">👉</span>
+            <span class="icon" onclick="addIcon('☝️')">☝️</span>
+            <span class="icon" onclick="addIcon('✋🏻')">✋🏻</span>
+
+        </div>
+
+        <div id="iconContainerAnimals" class="icon-container">
+            <span class="icon" onclick="addIcon('🐶')">🐶</span>
+            <span class="icon" onclick="addIcon('🐱')">🐱</span>
+            <span class="icon" onclick="addIcon('🐭')">🐭</span>
+            <span class="icon" onclick="addIcon('🐹')">🐹</span>
+            <span class="icon" onclick="addIcon('🐰')">🐰</span>
+            <span class="icon" onclick="addIcon('🦊')">🦊</span>
+            <span class="icon" onclick="addIcon('🐻')">🐻</span>
+            <span class="icon" onclick="addIcon('🐼')">🐼</span>
+            <span class="icon" onclick="addIcon('🐨')">🐨</span>
+            <span class="icon" onclick="addIcon('🐯')">🐯</span>
+            <span class="icon" onclick="addIcon('🦁')">🦁</span>
+            <span class="icon" onclick="addIcon('🐮')">🐮</span>
+            <span class="icon" onclick="addIcon('🐷')">🐷</span>
+            <span class="icon" onclick="addIcon('🐸')">🐸</span>
+            <span class="icon" onclick="addIcon('🐵')">🐵</span>
+            <span class="icon" onclick="addIcon('🐔')">🐔</span>
+            <span class="icon" onclick="addIcon('🐧')">🐧</span>
+            <span class="icon" onclick="addIcon('🐦')">🐦</span>
+            <span class="icon" onclick="addIcon('🐤')">🐤</span>
+            <span class="icon" onclick="addIcon('🐣')">🐣</span>
+            <span class="icon" onclick="addIcon('🦉')">🦉</span>
+            <span class="icon" onclick="addIcon('🦇')">🦇</span>
+            <span class="icon" onclick="addIcon('🐺')">🐺</span>
+            <span class="icon" onclick="addIcon('🐗')">🐗</span>
+            <span class="icon" onclick="addIcon('🐴')">🐴</span>
+            <span class="icon" onclick="addIcon('🦄')">🦄</span>
+            <span class="icon" onclick="addIcon('🐝')">🐝</span>
+            <span class="icon" onclick="addIcon('🐛')">🐛</span>
+            <span class="icon" onclick="addIcon('🦋')">🦋</span>
+            <span class="icon" onclick="addIcon('🐌')">🐌</span>
+            <span class="icon" onclick="addIcon('🐞')">🐞</span>
+            <span class="icon" onclick="addIcon('🐢')">🐢</span>
+            <span class="icon" onclick="addIcon('🐍')">🐍</span>
+            <span class="icon" onclick="addIcon('🦎')">🦎</span>
+            <span class="icon" onclick="addIcon('🦖')">🦖</span>
+            <span class="icon" onclick="addIcon('🦑')">🦑</span>
+            <span class="icon" onclick="addIcon('🐙')">🐙</span>
+            <span class="icon" onclick="addIcon('🐠')">🐠</span>
+            <span class="icon" onclick="addIcon('🐬')">🐬</span>
+            <span class="icon" onclick="addIcon('🐳')">🐳</span>
+        </div>
+
+        <div id="iconContainerWeather" class="icon-container">
+                        <span class="icon" onclick="addIcon('🌞')">🌞</span>
+            <span class="icon" onclick="addIcon('🌥️')">🌥️</span>
+            <span class="icon" onclick="addIcon('🌦️')">🌦️</span>
+            <span class="icon" onclick="addIcon('🌧️')">🌧️</span>
+            <span class="icon" onclick="addIcon('⛈️')">⛈️</span>
+            <span class="icon" onclick="addIcon('🌩️')">🌩️</span>
+            <span class="icon" onclick="addIcon('🌨️')">🌨️</span>
+            <span class="icon" onclick="addIcon('❄️')">❄️</span>
+            <span class="icon" onclick="addIcon('🌪️')">🌪️</span>
+            <span class="icon" onclick="addIcon('🌫️')">🌫️</span>
+            <span class="icon" onclick="addIcon('🌬️')">🌬️</span>
+            <span class="icon" onclick="addIcon('🌤️')">🌤️</span>
+            <span class="icon" onclick="addIcon('🌈')">🌈</span>
+            <span class="icon" onclick="addIcon('🌙')">🌙</span>
+            <span class="icon" onclick="addIcon('⭐')">⭐</span>
+            <span class="icon" onclick="addIcon('🌚')">🌚</span>
+            <span class="icon" onclick="addIcon('🌛')">🌛</span>
+            <span class="icon" onclick="addIcon('💨')">💨</span>
+            <span class="icon" onclick="addIcon('🌦')">🌦</span>
+            <span class="icon" onclick="addIcon('🌥')">🌥</span>
+
+        </div>
+
+        <div id="iconContainerHome" class="icon-container">
+            <span class="icon" onclick="addIcon('🏠')">🏠</span>
+            <span class="icon" onclick="addIcon('🏡')">🏡</span>
+            <span class="icon" onclick="addIcon('🏢')">🏢</span>
+            <span class="icon" onclick="addIcon('🏠')">🏠</span>
+            <span class="icon" onclick="addIcon('🏰')">🏰</span>
+            <span class="icon" onclick="addIcon('🏘️')">🏘️</span>
+            <span class="icon" onclick="addIcon('🏚️')">🏚️</span>
+            <span class="icon" onclick="addIcon('🏛️')">🏛️</span>
+            <span class="icon" onclick="addIcon('🏗️')">🏗️</span>
+            <span class="icon" onclick="addIcon('🏤')">🏤</span>
+            <span class="icon" onclick="addIcon('🏥')">🏥</span>
+            <span class="icon" onclick="addIcon('🏦')">🏦</span>
+            <span class="icon" onclick="addIcon('🏨')">🏨</span>
+            <span class="icon" onclick="addIcon('🏩')">🏩</span>
+            <span class="icon" onclick="addIcon('🏫')">🏫</span>
+            <span class="icon" onclick="addIcon('🏬')">🏬</span>
+            <span class="icon" onclick="addIcon('🏣')">🏣</span>
+            <span class="icon" onclick="addIcon('⛪')">⛪</span>
+            <span class="icon" onclick="addIcon('🏯')">🏯</span>
+            <span class="icon" onclick="addIcon('🗽')">🗽</span>
+            <span class="icon" onclick="addIcon('🛋️')">🛋️</span>
+            <span class="icon" onclick="addIcon('🛏️')">🛏️</span>
+            <span class="icon" onclick="addIcon('🚪')">🚪</span>
+            <span class="icon" onclick="addIcon('🖼️')">🖼️</span>
+            <span class="icon" onclick="addIcon('🚿')">🚿</span>
+            <span class="icon" onclick="addIcon('🚽')">🚽</span>
+            <span class="icon" onclick="addIcon('🛁')">🛁</span>
+            <span class="icon" onclick="addIcon('🍽️')">🍽️</span>
+            <span class="icon" onclick="addIcon('🍴')">🍴</span>
+            <span class="icon" onclick="addIcon('🧴')">🧴</span>
+            <span class="icon" onclick="addIcon('🧹')">🧹</span>
+            <span class="icon" onclick="addIcon('🧺')">🧺</span>
+            <span class="icon" onclick="addIcon('🧻')">🧻</span>
+            <span class="icon" onclick="addIcon('🪑')">🪑</span>
+            <span class="icon" onclick="addIcon('🛒')">🛒</span>
+        </div>
+
+        <div id="iconContainerClock" class="icon-container2">
+            <span class="icon" onclick="addIcon('🕛')">🕛</span>
+            <span class="icon" onclick="addIcon('🕧')">🕧</span>
+            <span class="icon" onclick="addIcon('🕐')">🕐</span>
+            <span class="icon" onclick="addIcon('🕜')">🕜</span>
+            <span class="icon" onclick="addIcon('🕑')">🕑</span>
+            <span class="icon" onclick="addIcon('🕝')">🕝</span>
+            <span class="icon" onclick="addIcon('🕒')">🕒</span>
+            <span class="icon" onclick="addIcon('🕞')">🕞</span>
+            <span class="icon" onclick="addIcon('🕓')">🕓</span>
+            <span class="icon" onclick="addIcon('🕟')">🕟</span>
+            <span class="icon" onclick="addIcon('🕔')">🕔</span>
+            <span class="icon" onclick="addIcon('🕠')">🕠</span>
+            <span class="icon" onclick="addIcon('🕕')">🕕</span>
+            <span class="icon" onclick="addIcon('🕡')">🕡</span>
+            <span class="icon" onclick="addIcon('🕖')">🕖</span>
+            <span class="icon" onclick="addIcon('🕢')">🕢</span>
+            <span class="icon" onclick="addIcon('🕗')">🕗</span>
+            <span class="icon" onclick="addIcon('🕣')">🕣</span>
+            <span class="icon" onclick="addIcon('🕘')">🕘</span>
+            <span class="icon" onclick="addIcon('🕤')">🕤</span>
+            <span class="icon" onclick="addIcon('🕙')">🕙</span>
+            <span class="icon" onclick="addIcon('🕥')">🕥</span>
+            <span class="icon" onclick="addIcon('🕚')">🕚</span>
+            <span class="icon" onclick="addIcon('🕦')">🕦</span>
+            <span class="icon" onclick="addIcon('⏰')">⏰</span>
+            <span class="icon" onclick="addIcon('⏱️')">⏱️</span>
+            <span class="icon" onclick="addIcon('⏲️')">⏲️</span>
+            <span class="icon" onclick="addIcon('🕰️')">🕰️</span>
+            <span class="icon" onclick="addIcon('🕛')">🕛</span>
+            <span class="icon" onclick="addIcon('⌚')">⌚</span>
+            <span class="icon" onclick="addIcon('⏳')">⏳</span>
+            <span class="icon" onclick="addIcon('⌛')">⌛</span>
+            <span class="icon" onclick="addIcon('📆')">📆</span>
+            <span class="icon" onclick="addIcon('📈')">📈</span>
+            <span class="icon" onclick="addIcon('📉')">📉</span>
+            <span class="icon" onclick="addIcon('📅')">📅</span>
+        </div>
+
+        <div id="iconContainerSport" class="icon-container2">
+            <span class="icon" onclick="addIcon('⚽')">⚽</span>
+            <span class="icon" onclick="addIcon('🏀')">🏀</span>
+            <span class="icon" onclick="addIcon('🏈')">🏈</span>
+            <span class="icon" onclick="addIcon('⚾')">⚾</span>
+            <span class="icon" onclick="addIcon('🥎')">🥎</span>
+            <span class="icon" onclick="addIcon('🎾')">🎾</span>
+            <span class="icon" onclick="addIcon('🏐')">🏐</span>
+            <span class="icon" onclick="addIcon('🏉')">🏉</span>
+            <span class="icon" onclick="addIcon('🥏')">🥏</span>
+            <span class="icon" onclick="addIcon('🎱')">🎱</span>
+            <span class="icon" onclick="addIcon('🏓')">🏓</span>
+            <span class="icon" onclick="addIcon('🏸')">🏸</span>
+            <span class="icon" onclick="addIcon('🥊')">🥊</span>
+            <span class="icon" onclick="addIcon('🥋')">🥋</span>
+            <span class="icon" onclick="addIcon('🥅')">🥅</span>
+            <span class="icon" onclick="addIcon('⛳')">⛳</span>
+            <span class="icon" onclick="addIcon('⛸️')">⛸️</span>
+            <span class="icon" onclick="addIcon('🎣')">🎣</span>
+            <span class="icon" onclick="addIcon('🥌')">🥌</span>
+            <span class="icon" onclick="addIcon('🛹')">🛹</span>
+            <span class="icon" onclick="addIcon('🛷')">🛷</span>
+            <span class="icon" onclick="addIcon('⛷️')">⛷️</span>
+            <span class="icon" onclick="addIcon('🏂')">🏂</span>
+            <span class="icon" onclick="addIcon('🏋️‍♂️')">🏋️‍♂️</span>
+            <span class="icon" onclick="addIcon('🤼‍♀️')">🤼‍♀️</span>
+            <span class="icon" onclick="addIcon('🤸‍♂️')">🤸‍♂️</span>
+            <span class="icon" onclick="addIcon('🤾')">🤾</span>
+            <span class="icon" onclick="addIcon('🏇')">🏇</span>
+            <span class="icon" onclick="addIcon('🏌️‍♂️')">🏌️‍♂️</span>
+            <span class="icon" onclick="addIcon('🏄‍♀️')">🏄‍♀️</span>
+            <span class="icon" onclick="addIcon('🚣‍♂️')">🚣‍♂️</span>
+            <span class="icon" onclick="addIcon('🏊‍♀️')">🏊‍♀️</span>
+            <span class="icon" onclick="addIcon('🤽‍♂️')">🤽‍♂️</span>
+            <span class="icon" onclick="addIcon('🚴‍♀️')">🚴‍♀️</span>
+            <span class="icon" onclick="addIcon('🚵‍♂️')">🚵‍♂️</span>
+            <span class="icon" onclick="addIcon('🤹‍♀️')">🤹‍♀️</span>
+            <span class="icon" onclick="addIcon('🧘‍♂️')">🧘‍♂️</span>
+            <span class="icon" onclick="addIcon('🏅')">🏅</span>
+            <span class="icon" onclick="addIcon('🎖️')">🎖️</span>
+            <span class="icon" onclick="addIcon('🥇')">🥇</span>
+            <span class="icon" onclick="addIcon('🥈')">🥈</span>
+            <span class="icon" onclick="addIcon('🥉')">🥉</span>
+            <span class="icon" onclick="addIcon('🏆')">🏆</span>
+        </div>
+        
+        <div id="iconContainerFlag" class="icon-container2">
+            <span class="icon" onclick="addIcon('🛑')">🛑</span>
+            <span class="icon" onclick="addIcon('🚦')">🚦</span>
+            <span class="icon" onclick="addIcon('🚥')">🚥</span>
+            <span class="icon" onclick="addIcon('🚸')">🚸</span>
+            <span class="icon" onclick="addIcon('⚠️')">⚠️</span>
+            <span class="icon" onclick="addIcon('🚧')">🚧</span>
+            <span class="icon" onclick="addIcon('⛔')">⛔</span>
+            <span class="icon" onclick="addIcon('🛤️')">🛤️</span>
+            <span class="icon" onclick="addIcon('🚶‍♂️')">🚶‍♂️</span>
+            <span class="icon" onclick="addIcon('🚶‍♀️')">🚶‍♀️</span>
+            <span class="icon" onclick="addIcon('🚨')">🚨</span>
+            <span class="icon" onclick="addIcon('🏁')">🏁</span>
+            <span class="icon" onclick="addIcon('🚘')">🚘</span>
+            <span class="icon" onclick="addIcon('🚖')">🚖</span>
+            <span class="icon" onclick="addIcon('🚙')">🚙</span>
+            <span class="icon" onclick="addIcon('🚗')">🚗</span>
+            <span class="icon" onclick="addIcon('🚕')">🚕</span>
+            <span class="icon" onclick="addIcon('🚛')">🚛</span>
+            <span class="icon" onclick="addIcon('🚐')">🚐</span>
+            <span class="icon" onclick="addIcon('🚎')">🚎</span>
+            <span class="icon" onclick="addIcon('🚍')">🚍</span>
+            <span class="icon" onclick="addIcon('🚎')">🚎</span>
+            <span class="icon" onclick="addIcon('🚢')">🚢</span>
+            <span class="icon" onclick="addIcon('⛵')">⛵</span>
+            <span class="icon" onclick="addIcon('🛳️')">🛳️</span>
+            <span class="icon" onclick="addIcon('🚁')">🚁</span>
+            <span class="icon" onclick="addIcon('🛩️')">🛩️</span>
+            <span class="icon" onclick="addIcon('🚤')">🚤</span>
+            <span class="icon" onclick="addIcon('🛶')">🛶</span>
+            <span class="icon" onclick="addIcon('🚇')">🚇</span>
+            <span class="icon" onclick="addIcon('🚉')">🚉</span>
+            <span class="icon" onclick="addIcon('🚅')">🚅</span>
+            <span class="icon" onclick="addIcon('🚂')">🚂</span>
+            <span class="icon" onclick="addIcon('🚆')">🚆</span>
+        </div>
+
+        <div id="iconContainerPoeple" class="icon-container2">
+            <span class="icon" onclick="addIcon('👩‍⚖️')">👩‍⚖️</span>
+            <span class="icon" onclick="addIcon('👨‍⚖️')">👨‍⚖️</span>
+            <span class="icon" onclick="addIcon('👩‍🎓')">👩‍🎓</span>
+            <span class="icon" onclick="addIcon('👨‍🎓')">👨‍🎓</span>
+            <span class="icon" onclick="addIcon('👩‍⚕️')">👩‍⚕️</span>
+            <span class="icon" onclick="addIcon('👨‍⚕️')">👨‍⚕️</span>
+            <span class="icon" onclick="addIcon('👩‍🏫')">👩‍🏫</span>
+            <span class="icon" onclick="addIcon('👨‍🏫')">👨‍🏫</span>
+            <span class="icon" onclick="addIcon('👩‍🔬')">👩‍🔬</span>
+            <span class="icon" onclick="addIcon('👨‍🔬')">👨‍🔬</span>
+            <span class="icon" onclick="addIcon('👩‍💻')">👩‍💻</span>
+            <span class="icon" onclick="addIcon('👩‍🎤')">👩‍🎤</span>
+            <span class="icon" onclick="addIcon('👨‍🎤')">👨‍🎤</span>
+            <span class="icon" onclick="addIcon('👩‍🚀')">👩‍🚀</span>
+            <span class="icon" onclick="addIcon('👩‍✈️')">👩‍✈️</span>
+            <span class="icon" onclick="addIcon('👨‍✈️')">👨‍✈️</span>
+            <span class="icon" onclick="addIcon('🧑‍🍳')">🧑‍🍳</span>
+            <span class="icon" onclick="addIcon('👩‍🍳')">👩‍🍳</span>
+            <span class="icon" onclick="addIcon('🧑‍🎨')">🧑‍🎨</span>
+            <span class="icon" onclick="addIcon('👩‍🎨')">👩‍🎨</span>
+            <span class="icon" onclick="addIcon('🧑‍🦱')">🧑‍🦱</span>
+            <span class="icon" onclick="addIcon('👩‍🦱')">👩‍🦱</span>
+            <span class="icon" onclick="addIcon('👨‍🦱')">👨‍🦱</span>
+            <span class="icon" onclick="addIcon('👩‍🦳')">👩‍🦳</span>
+            <span class="icon" onclick="addIcon('👨‍🦳')">👨‍🦳</span>
+            <span class="icon" onclick="addIcon('🧑‍🦰')">🧑‍🦰</span>
+            <span class="icon" onclick="addIcon('👩‍🦰')">👩‍🦰</span>
+            <span class="icon" onclick="addIcon('👨‍🦰')">👨‍🦰</span>
+            <span class="icon" onclick="addIcon('🧑‍🦲')">🧑‍🦲</span>
+            <span class="icon" onclick="addIcon('👩‍🦲')">👩‍🦲</span>
+            <span class="icon" onclick="addIcon('🧑‍🦳')">🧑‍🦳</span>
+        </div>
+    </div>
+    
+    <button type="submit"><i class="fas fa-paper-plane"></i> إرسال التعليق</button>
+</form>
+
+<script>
+    function showContainer(container) {
+        container.style.display = 'flex';
+    }
+
+    function hideContainer(container) {
+        container.style.display = 'none';
+    }
+
+    function addIcon(icon) {
+        const textarea = document.getElementById('cmt_subject');
+        textarea.value += icon;
+    }
+
+    const iconMappings = [
+        { toggleId: 'iconToggleFaces', containerId: 'iconContainerFaces' },
+        { toggleId: 'iconToggleHearts', containerId: 'iconContainerHearts' },
+        { toggleId: 'iconToggleLike', containerId: 'iconContainerLike' },
+        { toggleId: 'iconToggleAnimals', containerId: 'iconContainerAnimals' },
+        { toggleId: 'iconToggleWeather', containerId: 'iconContainerWeather' },
+        { toggleId: 'iconToggleHome', containerId: 'iconContainerHome' },
+        { toggleId: 'iconToggleClock', containerId: 'iconContainerClock' },
+        { toggleId: 'iconToggleSport', containerId: 'iconContainerSport' },
+        { toggleId: 'iconToggleFlag', containerId: 'iconContainerFlag' },
+        { toggleId: 'iconTogglePoeple', containerId: 'iconContainerPoeple' }
+    ];
+
+    iconMappings.forEach(({ toggleId, containerId }) => {
+        const toggle = document.getElementById(toggleId);
+        const container = document.getElementById(containerId);
+
+        toggle.addEventListener('mouseenter', () => showContainer(container));
+        container.addEventListener('mouseenter', () => showContainer(container));
+
+        toggle.addEventListener('mouseleave', (e) => {
+            if (!container.contains(e.relatedTarget)) {
+                hideContainer(container);
+            }
+        });
+
+        container.addEventListener('mouseleave', (e) => {
+            if (!toggle.contains(e.relatedTarget)) {
+                hideContainer(container);
+            }
+        });
+    });
+</script>
+
+
+<!-- استبدال جزء التعليقات بالكود التالي -->
+<div id="comments-section">
+    <hr>
+    <h2><b>التعليقات:</b></h2>
+    {% if not comments %}
+        <p>لا توجد تعليقات بعد. كن أول من يعلق!</p>
+    {% else %}
+        <ul class="comments-list">
+            {% for comment in comments %}
+                <li class="comment-item">
+                    <div class="comment-header">
+                        {% if comment.user.profile.image %}
+                            <img src="{{ comment.user.profile.image.url }}" 
+                                 class="comment-avatar">
+                        {% else %}
+                            <i class="fas fa-user-circle comment-icon"></i>
+                        {% endif %}
+                        <span class="comment-author">{{ comment.author_name }}</span>
+                        <span class="comment-date">
+                            <i class="fas fa-clock"></i>
+                            {{ comment.created_at|date:"Y-m-d H:i" }}
+                        </span>
+                    </div>
+                    <div class="comment-body">
+                        {{ comment.cmt_subject|linebreaks }}
+                    </div>
+                </li>
+                {% if not forloop.last %}<hr>{% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+</div>
