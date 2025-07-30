@@ -1,6 +1,23 @@
 from django import template
 
+import re
+
 register = template.Library()
+
+@register.filter(name='youtube_url_check')
+def youtube_url_check(url):
+    """
+    Check if a URL is a YouTube URL
+    """
+    if not url:
+        return False
+        
+    youtube_regex = (
+        r'(https?://)?(www\.)?'
+        '(youtube|youtu|youtube-nocookie)\.(com|be)/'
+        '(watch\?v=|embed/|v/|.+\?v=)?([^&=%\?]{11})')
+    
+    return re.match(youtube_regex, url) is not None
 
 @register.filter
 def split(value, key=','):

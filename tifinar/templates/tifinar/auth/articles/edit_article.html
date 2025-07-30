@@ -12,7 +12,6 @@
         <form method="POST" action="{% url 'tifinar:edit_article' article.slug %}" enctype="multipart/form-data" id="editForm">
             {% csrf_token %}
             
-            <!-- حقل الصورة الرئيسية -->
             <div>
                 {% with images=article.myimage|split:"," %}
                     {% for image in images %}
@@ -187,79 +186,75 @@
 </section>
 
 <script>
-// دالة معالجة تغيير الصورة
-function handleImageChange(input, previewId) {
-    const preview = document.getElementById(previewId);
-    const oldImages = document.querySelectorAll('.old-image');
-    
-    if (input.files && input.files[0]) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            preview.src = e.target.result;
-            preview.style.display = 'block';
+    function handleImageChange(input, previewId) {
+        const preview = document.getElementById(previewId);
+        const oldImages = document.querySelectorAll('.old-image');
+        
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                if (previewId === 'imagePreview1') {
+                    oldImages.forEach(img => img.style.display = 'none');
+                }
+            }
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            preview.style.display = 'none';
             if (previewId === 'imagePreview1') {
-                oldImages.forEach(img => img.style.display = 'none');
+                oldImages.forEach(img => img.style.display = 'block');
             }
         }
-        reader.readAsDataURL(input.files[0]);
-    } else {
-        preview.style.display = 'none';
-        if (previewId === 'imagePreview1') {
-            oldImages.forEach(img => img.style.display = 'block');
-        }
     }
-}
 
-// منع إرسال حقول الصور إذا كانت فارغة
-document.getElementById('editForm').addEventListener('submit', function(e) {
-    const fileInput1 = document.getElementById('formFile1');
-    const fileInput2 = document.getElementById('formFile2');
-    
-    if (fileInput1.files.length === 0) {
-        fileInput1.disabled = true;
-    }
-    if (fileInput2.files.length === 0) {
-        fileInput2.disabled = true;
-    }
-});
-
-// معالجة الصورة الثانية
-document.getElementById('formFile2').addEventListener('change', function(event) {
-    const file = event.target.files[0];
-    const preview = document.getElementById('imagePreview2_new');
+    document.getElementById('editForm').addEventListener('submit', function(e) {
+        const fileInput1 = document.getElementById('formFile1');
+        const fileInput2 = document.getElementById('formFile2');
         
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            preview.src = e.target.result;
-            preview.style.display = 'block';
-            document.getElementById('imagePreview2').style.display = 'none';
+        if (fileInput1.files.length === 0) {
+            fileInput1.disabled = true;
         }
-        reader.readAsDataURL(file);
-    } else {
-        preview.style.display = 'none';
-        document.getElementById('imagePreview2').style.display = 'block';
-    }
-});
-
-// إظهار/إخفاء زر العودة للأعلى
-const returnUp = document.querySelector(".return-up");
-if (returnUp) {
-    window.onscroll = function() {
-        if (window.scrollY >= 300) {
-            returnUp.style.display = 'block';
-        } else {
-            returnUp.style.display = 'none';
+        if (fileInput2.files.length === 0) {
+            fileInput2.disabled = true;
         }
-    };
-
-    returnUp.addEventListener("click", function() {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
     });
-}
+
+    document.getElementById('formFile2').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        const preview = document.getElementById('imagePreview2_new');
+            
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+                document.getElementById('imagePreview2').style.display = 'none';
+            }
+            reader.readAsDataURL(file);
+        } else {
+            preview.style.display = 'none';
+            document.getElementById('imagePreview2').style.display = 'block';
+        }
+    });
+
+    const returnUp = document.querySelector(".return-up");
+    if (returnUp) {
+        window.onscroll = function() {
+            if (window.scrollY >= 300) {
+                returnUp.style.display = 'block';
+            } else {
+                returnUp.style.display = 'none';
+            }
+        };
+
+        returnUp.addEventListener("click", function() {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    }
 </script>
 
 <footer>

@@ -1,18 +1,21 @@
 {% load static %}
 {% include "tifinar/adm_header.html" %}
+{% load tz %}
+{% load customtags %}
+{% now "Y" as current_year %}
+{% load custom_filters %}
 
 <section class="content">
     <article class="content">
-        <h1>
-            <i class="fas fa-edit"></i> تعديل مقال: <br> {{ article.title }}
-        </h1>
+        <h1><i class="fas fa-edit"></i> تعديل : {{article.title}}</h1>
 
-        <form method="POST" action="/articles/edit/{{ article.art_id }}/" enctype="multipart/form-data">
+        <form method="POST" action="{% url 'tifinar:edit_exam' article.slug %}" enctype="multipart/form-data" id="editForm">
+
             {% csrf_token %}
             
             <div>
                 {% if article.myimage %}
-                {% with images=article.Myimage.split %}
+                {% with images=article.myimage.split %}
                     {% for image in images reversed %}
                     <img src="{% static 'images/articles/' %}{{ image }}" class="image-preview">
                     {% endfor %}
@@ -29,15 +32,70 @@
             </div>
 
             <hr>
+                <div class="form">
+                    <label class="label">
+                        <i class="fas fa-language"></i> بأي لغة ستطرح السؤال؟
+                    </label>
+                    <select class="form-control form-select {% if form.dir.errors %}is-invalid{% endif %}" name="dir">
+                        <option value="" disabled selected>اختر اللغة </option>
+                        <option value="rtl" {% if form.dir.value == 'rtl' or article.dir == 'rtl' %}selected{% endif %}>العربية</option>
+                        <option value="ltr" {% if form.dir.value == 'ltr' or article.dir == 'ltr' %}selected{% endif %}>Français</option>
+                        <option value="ltr" {% if form.dir.value == 'ltr' or article.dir == 'ltr' %}selected{% endif %}>English</option>
+                    </select>
+                    {% if form.dir.errors %}
+                        <div class="invalid-feedback">
+                            {{ form.dir.errors }}
+                        </div>
+                    {% endif %}
+                    @error('dir')
+                    <div class="error-feedback">
+                        <i class="fas fa-exclamation-circle"></i> {{ $message }}
+                    </div>
+                    @enderror
+                </div>
+            <hr>
+                      <div class="form-group">
+                <label class="label" for="the_type">
+                    <i class="fas fa-tag"></i>  
+                    موضوع الاختبار :
+                </label>
+                <select class="form-control form-select" id="the_type" name="the_type">
+                    <option value="" disabled {% if article.the_type == '' %}selected{% endif %}>اختر صنف الفيديو...</option>
+            
+                    <optgroup label="اللغات:">
+                        <option value="الأمازيغية" {% if article.the_type == 'الأمازيغية' %}selected{% endif %}>تعلم الأمازيغية</option>
+                        <option value="العربية" {% if article.the_type == 'العربية' %}selected{% endif %}>تعلم العربية</option>
+                        <option value="الفرنسية" {% if article.the_type == 'الفرنسية' %}selected{% endif %}>تعلم الفرنسية</option>
+                        <option value="الإنجليزية" {% if article.the_type == 'الإنجليزية' %}selected{% endif %}>تعلم الإنجليزية</option>
+                    </optgroup>
+            
+                    <optgroup label="العلوم:">
+                        <option value="علوم Apprendre les maths" {% if article.the_type == 'علوم Apprendre les maths' %}selected{% endif %}>تعلم الرياضيات</option>
+                        <option value="الفزياء" {% if article.the_type == 'الفزياء' %}selected{% endif %}>الفزياء</option>
+                        <option value="الكمياء" {% if article.the_type == 'الكمياء' %}selected{% endif %}>الكمياء</option>
+                        <option value="علوم الحياة والأرض SVT" {% if article.the_type == 'علوم الحياة والأرض SVT' %}selected{% endif %}>علوم الحياة والأرض</option>
+                    </optgroup>
+            
+                    <optgroup label="مواضيع أخرى:">
+                        <option value="صحة وحياة" {% if article.the_type == 'صحة وحياة' %}selected{% endif %}>صحة وحياة</option>
+                        <option value="Computer Science علوم الحاسوب" {% if article.the_type == 'Computer Science علوم الحاسوب' %}selected{% endif %}>علوم الحاسوب</option>
+                        <option value="القانون وحقوق الإنسان" {% if article.the_type == 'القانون وحقوق الإنسان' %}selected{% endif %}>القانون وحقوق الإنسان</option>
+                        <option value="الثقافة العامة" {% if article.the_type == 'الثقافة العامة' %}selected{% endif %}>الثقافة العامة</option>
+                        <option value="تربية وتعليم" {% if article.the_type == 'تربية وتعليم' %}selected{% endif %}>تربية وتعليم</option>
+                        <option value="أصناف أخرى" {% if article.the_type == 'أصناف أخرى' %}selected{% endif %}>أصناف أخرى</option>
+                    </optgroup>
+                </select>
+            </div>
+            <hr>
 
             <div class="form-group">
-                <label class="label" for="title"><i class="fas fa-heading"></i> عنوان المقال:</label>
+                <label class="label" for="title"><i class="fas fa-heading"></i> عنوان الاختبار:</label>
                 <input
                     type="text"
                     maxlength="50"
                     id="title"
                     name="title"
-                    placeholder="عنوان المنشور ..."
+                    placeholder="عنوان الاختبار ..."
                     class="title form-control"
                     value="{{ article.title }}"
                 >
@@ -61,36 +119,6 @@
                 >
                 {% if form.author.errors %}
                     <small class="text-danger">{{ form.author.errors }}</small>
-                {% endif %}
-            </div>
-
-            <hr>
-
-            <div class="form-group">
-                <label class="label" for="mysubject"><i class="fas fa-file-alt"></i> نص المقال:</label>
-                <textarea
-                    id="mysubject"
-                    name="mysubject"
-                    minlength="100"
-                    class="mysubject"
-                    placeholder="اكتب نص المقال هنا..."
-                >{{ article.mysubject }}</textarea>
-                {% if form.mysubject.errors %}
-                    <small class="text-danger">{{ form.mysubject.errors }}</small>
-                {% endif %}
-            </div>
-
-            <hr>
-            
-            <div>
-                        <img id="imagePreview2" src="{% static 'tifinar/images/' %}{{ folder }}/{{ obj.autre }}"  class="image-preview2" alt="معاينة الصورة">
-                    <img id="imagePreview2" class="image-preview2" alt="معاينة الصورة" style="display: none;">
-                <label class="label">
-                    <i class="fas fa-upload"></i> تحميل صورة أخرى تظهر أسفل المقال:
-                </label>
-                <input class="form-control" type="file" id="formFile2" name="autre" multiple>
-                {% if form.autre.errors %}
-                    <small class="text-danger">{{ form.autre.errors }}</small>
                 {% endif %}
             </div>
 
@@ -128,37 +156,21 @@
                     <small class="text-danger">{{ form.educational_level.errors }}</small>
                 {% endif %}
             </div>
+
             <hr>
-
-            <div class="form-group">
-                <label class="label " for="the_type"><i class="fas fa-tag"></i> نوع المنشور:</label>
-                <select class="form-control form-select" id="the_type" name="the_type" required>
-                    <option value="" disabled selected>اختر نوع المنشور</option>
-                    {% for item in article_types %}
-                        <option value="{{ item }}" {% if article.the_type == item %}selected{% endif %}>{{ item }}</option>
-                    {% endfor %}
-                </select>
-                {% if form.the_type.errors %}
-                    <small class="text-danger">{{ form.the_type.errors }}</small>
-                {% endif %}
-            </div>
-            
-            <hr>
-
-            <div class="form-group">
-                <label class="label" for="mydescription"><i class="fas fa-info-circle"></i> وصف المنشور:</label>
-                <textarea
-                    maxlength="255"
-                    id="mydescription"
-                    name="mydescription"
-                    class="description"
-                    placeholder="أكتب وصفاً لمنشورك..."
-                >{{ article.mydescription }}</textarea>
-                {% if form.mydescription.errors %}
-                    <small class="text-danger">{{ form.mydescription.errors }}</small>
-                {% endif %}
-            </div>
-
+                <div class="form-group">
+                    <label class="label" for="mydescription"><i class="fas fa-info-circle"></i> وصف المنشور:</label>
+                    <textarea
+                        maxlength="255"
+                        id="mydescription"
+                        name="mydescription"
+                        class="description"
+                        placeholder="أكتب وصفاً لمنشورك..."
+                    >{{ article.mydescription }}</textarea>
+                    {% if form.mydescription.errors %}
+                        <small class="text-danger">{{ form.mydescription.errors }}</small>
+                    {% endif %}
+                </div>
             <hr>
 
             <div class="form-group">
@@ -176,6 +188,24 @@
             </div>
 
             <hr>
+
+                 <div class="form-group">
+                    <label>الحالة:</label>
+                    <div style="display: flex; gap: 15px; font-size: 1.2em;">
+                        <label>
+                            <input type="radio" name="visibility_status" value="public" {% if article.visibility_status == 'public' %}checked{% endif %} onchange="updateStatusColor(this)"> 
+                            <span style="color: #4CAF50;"><i class="fas fa-globe"></i> عام</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="visibility_status" value="under_review" {% if article.visibility_status == 'under_review' %}checked{% endif %} onchange="updateStatusColor(this)"> 
+                            <span style="color: #FFC107;"><i class="fas fa-eye-slash"></i> قيد المراجعة</span>
+                        </label>
+                        <label>
+                            <input type="radio" name="visibility_status" value="restricted" {% if article.visibility_status == 'restricted' %}checked{% endif %} onchange="updateStatusColor(this)"> 
+                            <span style="color: #F44336;"><i class="fas fa-lock"></i> مقيد</span>
+                        </label>
+                    </div>
+                </div>
 
             <div class="form-group">
                 <button type="submit" class="btn add_btn form-control"><i class="fas fa-save"></i> تحديث المقال</button>

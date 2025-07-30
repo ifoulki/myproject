@@ -8,10 +8,11 @@
 <section class="content">
     <article class="content">
         <h1>
-            <i class="fas fa-edit"></i> تعديل مقال: <br> {{ article.title }}
+            <i class="fas fa-edit"></i> تعديل كتاب: <br> {{ article.title }}
         </h1>
 
-        <form method="POST" action="/articles/edit/{{ article.art_id }}/" enctype="multipart/form-data">
+        <form method="POST" action="{% url 'tifinar:edit_book' article.slug %}" enctype="multipart/form-data" id="editForm">
+
             {% csrf_token %}
             
             <div>
@@ -34,13 +35,13 @@
             <hr>
 
             <div class="form-group">
-                <label class="label" for="title"><i class="fas fa-heading"></i> عنوان المقال:</label>
+                <label class="label" for="title"><i class="fas fa-heading"></i> عنوان الكتاب:</label>
                 <input
                     type="text"
                     maxlength="50"
                     id="title"
                     name="title"
-                    placeholder="عنوان المنشور ..."
+                    placeholder="عنوان الكتاب ..."
                     class="title form-control"
                     value="{{ article.title }}"
                 >
@@ -70,13 +71,13 @@
             <hr>
 
             <div class="form-group">
-                <label class="label" for="mysubject"><i class="fas fa-file-alt"></i> نص المقال:</label>
+                <label class="label" for="mysubject"><i class="fas fa-file-alt"></i> وصف الكتاب:</label>
                 <textarea
                     id="mysubject"
                     name="mysubject"
                     minlength="100"
                     class="mysubject"
-                    placeholder="اكتب نص المقال هنا..."
+                    placeholder="وصف الكتاب، يظهر للزائر لتشجيعه على رفع الكتاب وقرائته ..."
                 >{{ article.mysubject }}</textarea>
                 {% if form.mysubject.errors %}
                     <small class="text-danger">{{ form.mysubject.errors }}</small>
@@ -86,12 +87,11 @@
             <hr>
             
             <div>
-                        <img id="imagePreview2" src="{% static 'tifinar/images/' %}{{ folder }}/{{ obj.autre }}"  class="image-preview2" alt="معاينة الصورة">
-                    <img id="imagePreview2" class="image-preview2" alt="معاينة الصورة" style="display: none;">
+                <input class="form-control" type="file" src="{% static 'tifinar/images/' %}{{ folder }}/{{ obj.autre }}"  >
+
                 <label class="label">
-                    <i class="fas fa-upload"></i> تحميل صورة أخرى تظهر أسفل المقال:
+                    <i class="fas fa-upload"></i> تحميل الكتاب:
                 </label>
-                <input class="form-control" type="file" id="formFile2" name="autre" multiple>
                 {% if form.autre.errors %}
                     <small class="text-danger">{{ form.autre.errors }}</small>
                 {% endif %}
@@ -100,7 +100,7 @@
             <hr>
             <div class="mb-3">
                 <label for="educational_level" class="form-label">
-                    <i class="fas fa-graduation-cap"></i> هل يجب أن يكون للقارئ مستوى دراسي محدد لقراءة هذا المقال؟
+                    <i class="fas fa-graduation-cap"></i> هل يجب أن يكون للقارئ مستوى دراسي محدد لقراءة هذاالكتاب؟
                 </label>
                 
                 <select id="educational_level" name="educational_level" class="form-select">
@@ -134,9 +134,9 @@
             <hr>
 
             <div class="form-group">
-                <label class="label " for="the_type"><i class="fas fa-tag"></i> نوع المنشور:</label>
+                <label class="label " for="the_type"><i class="fas fa-tag"></i> صنف الكتاب:</label>
                 <select class="form-control form-select" id="the_type" name="the_type" >
-                    <option value="" disabled selected>اختر نوع المنشور</option>
+                    <option value="" disabled selected>اختر صنف الكتاب</option>
                     {% for item in article_types %}
                         <option value="{{ item }}" {% if article.the_type == item %}selected{% endif %}>{{ item }}</option>
                     {% endfor %}
@@ -149,13 +149,13 @@
             <hr>
 
             <div class="form-group">
-                <label class="label" for="mydescription"><i class="fas fa-info-circle"></i> وصف المنشور:</label>
+                <label class="label" for="mydescription"><i class="fas fa-info-circle"></i> وصف الكتاب:</label>
                 <textarea
                     maxlength="255"
                     id="mydescription"
                     name="mydescription"
                     class="description"
-                    placeholder="أكتب وصفاً لمنشورك..."
+                    placeholder="أكتب وصف موجز يظهر في محركات البحث..."
                 >{{ article.mydescription }}</textarea>
                 {% if form.mydescription.errors %}
                     <small class="text-danger">{{ form.mydescription.errors }}</small>
@@ -181,7 +181,7 @@
             <hr>
 
             <div class="form-group">
-                <button type="submit" class="btn add_btn form-control"><i class="fas fa-save"></i> تحديث المقال</button>
+                <button type="submit" class="btn add_btn form-control"><i class="fas fa-save"></i> تحديث معلومات الكتاب</button>
             </div>
         </form>
 
@@ -208,31 +208,12 @@
         } else {
             preview.src = '';
             preview.style.display = 'none';
-            // إظهار الصور القديمة إذا لم يتم اختيار صورة جديدة
             oldImages.forEach(img => {
                 img.style.display = 'block';
             });
         }
     });
 
-    document.getElementById('formFile2').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        const preview = document.getElementById('imagePreview2');
-            
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                preview.src = e.target.result;
-                preview.style.display = 'block';
-            }
-            reader.readAsDataURL(file);
-        } else {
-            preview.src = '';
-            preview.style.display = 'none';
-        }
-    });
-</script>
-<script>
     document.getElementById('formFile1').addEventListener('change', function(event) {
         const file = event.target.files[0];
         const preview = document.getElementById('imagePreview1');
@@ -250,22 +231,6 @@
         }
     });
 
-    document.getElementById('formFile2').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        const preview = document.getElementById('imagePreview2');
-            
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                preview.src = e.target.result;
-                preview.style.display = 'block';
-            }
-            reader.readAsDataURL(file);
-        } else {
-            preview.src = '';
-            preview.style.display = 'none';
-        }
-    });
 </script>
 
 <footer>
