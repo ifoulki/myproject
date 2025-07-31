@@ -45,7 +45,15 @@ class articles(models.Model):
     updated_at = models.DateTimeField()
     created_at = models.DateTimeField()
     educational_level = models.CharField(max_length=26)
-    gender = models.CharField(max_length=6)
+    gender = models.CharField(
+        max_length=10,  # حجم كافي لجميع الخيارات
+        choices=[
+            ('male', 'ذكر'),
+            ('female', 'أنثى'),
+            ('unknown', 'غير محدد')
+        ],
+        default='unknown'
+    )
     min_age = models.IntegerField()
     max_age = models.IntegerField()
 

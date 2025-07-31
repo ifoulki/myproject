@@ -27,9 +27,36 @@ from .forms import MsgForm
 
 from .forms import ArticleForm
 
+def create_article(request):
+    if request.method == 'POST':
+        form = ArticleForm(request.POST, request.FILES)
+        if form.is_valid():
+            article = form.save(commit=False)
+            
+            title = form.cleaned_data['title']
+            
+            # 1. إزالة الرموز والإيموجي (بدون unidecode)
+            slug = re.sub(r'[^\w\s-]', '', title)
+            
+            # 2. استبدال المسافات بشرطات سفلية
+            slug = slug.replace(' ', '_')
+            
+            # 3. استخدام slugify للتنظيف النهائي مع allow_unicode
+            article.slug = slugify(slug, allow_unicode=True)
+            
+            
+            article.visibility_status = 'under_review'  # أو أي قيمة افتراضية تريدها
+            article.dir = 'rtl'  # أو 'ltr' حسب اللغة
+            article.created_at = timezone.now()
+            article.updated_at = timezone.now()
+            article.save()
+            return redirect('tifinar:edit_article', slug=article.slug)
 
-from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib import messages
+    else:
+        form = ArticleForm()
+    
+    return render(request, 'tifinar/auth/articles/create_article.html', {'form': form})
+
 
 CONTENT_TYPES = {
     'articles': {

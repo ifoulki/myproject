@@ -27,6 +27,9 @@ urlpatterns = [
     path('قواميس_بصرية/', views.contents, {'content_type': 'cours'}, name='cours'),
     path('مكتبة_تيفيناغ/', views.contents, {'content_type': 'books'}, name='books'),
 
+    # مسارات إنشاء لكل نوع محتوى
+    path('articles/create/', views.create_article, name='create_article'),
+
     # مسارات التعديل لكل نوع محتوى
     path('videos/edit/<str:slug>/', views.edit_content, {'content_type': 'videos'}, name='edit_video'),
     path('exams/edit/<str:slug>/', views.edit_content, {'content_type': 'exams'}, name='edit_exam'),

@@ -1,0 +1,184 @@
+
+{% load static %}
+{% include "tifinar/adm_header.html" %}
+{% load tz %}
+{% load customtags %}
+{% now "Y" as current_year %}
+{% load custom_filters %}
+
+<div class="content">
+    <h1><i class="fas fa-edit"></i> نشر مقال جديد</h1>
+    
+    <form method="POST" enctype="multipart/form-data" action="">
+        {% csrf_token %}
+        
+        <!-- حقل الصورة الرئيسية -->
+        <div class="mb-3 form">
+            <label class="label">
+                <i class="fas fa-upload"></i> {{ form.myimage.label }}
+            </label>
+            {{ form.myimage }}
+            <img id="imagePreview1" class="image-preview" alt="معاينة الصورة" style="display: none;">
+        </div>
+        <hr>
+        
+        <!-- باقي الحقول -->
+        <div class="form">
+            <label class="label">
+                <i class="fas fa-heading"></i> {{ form.title.label }}
+            </label>
+            {{ form.title }}
+            {{ form.title.errors }}
+        </div>
+        <hr>
+        
+        <div class="form">
+            <label class="label">
+                <i class="fas fa-user"></i> {{ form.author.label }}
+            </label>
+            {{ form.author }}
+            {{ form.author.errors }}
+        </div>
+        <hr>
+
+        <div class="form">
+            <label class="label">
+                <i class="fas fa-user"></i> {{ form.mysubject.label }}
+            </label>
+            {{ form.mysubject }}
+            {{ form.mysubject.errors }}
+        </div>
+        <hr>
+
+        <div class="form">
+            <label class="label">
+                <i class="fas fa-user"></i> {{ form.autre.label }}
+            </label>
+            {{ form.autre }}
+            {{ form.autre.errors }}
+        </div>
+        <hr>
+        
+        <div class="form">
+            <label class="label">
+                <i class="fas fa-list"></i>{{ form.the_type.label }}
+            </label>
+                {{ form.the_type }}
+                {{ form.the_type.errors }}
+        </div>
+        <hr>
+        
+        <div class="form">
+            <label class="label">
+                <i class="fas fa-gender"></i>{{ form.gender.label }}
+            </label>
+                {{ form.gender }}
+                {{ form.gender.errors }}
+        </div>
+        <hr>
+
+                <div class="mb-3 form">
+                    <label for="educational_level" class="form-label">
+                        <i class="fas fa-graduation-cap"></i> هل يجب أن يكون للقارئ مستوى دراسي محدد لقراءة هذا المقال؟
+                    </label>
+                    
+                    <select id="educational_level" name="educational_level" class="form-select">
+                        <option value="Unknown" {% if form.educational_level.value == 'Unknown' %}selected{% endif %}>لا، المقال مناسب للجميع</option>
+                        <optgroup label="الإبتدائي :">
+                            <option value="1st Year of Primary School" {% if form.educational_level.value == '1st Year of Primary School' %}selected{% endif %}>السنة الأولى ابتدائي</option>
+                            <option value="2nd Year of Primary School" {% if form.educational_level.value == '2nd Year of Primary School' %}selected{% endif %}>السنة الثانية ابتدائي</option>
+                            <option value="3rd Year of Primary School" {% if form.educational_level.value == '3rd Year of Primary School' %}selected{% endif %}>السنة الثالثة ابتدائي</option>
+                            <option value="4th Year of Primary School" {% if form.educational_level.value == '4th Year of Primary School' %}selected{% endif %}>السنة الرابعة ابتدائي</option>
+                            <option value="5th Year of Primary School" {% if form.educational_level.value == '5th Year of Primary School' %}selected{% endif %}>السنة الخامسة ابتدائي</option>
+                            <option value="6th Year of Primary School" {% if form.educational_level.value == '6th Year of Primary School' %}selected{% endif %}>السنة السادسة ابتدائي</option>
+                        </optgroup>
+
+                        <optgroup label="الإعدادي :">
+                            <option value="1st Year of Middle School" {% if form.educational_level.value == '1st Year of Middle School' %}selected{% endif %}>السنة الأولى إعدادي</option>
+                            <option value="2nd Year of Middle School" {% if form.educational_level.value == '2nd Year of Middle School' %}selected{% endif %}>السنة الثانية إعدادي</option>
+                            <option value="3rd Year of Middle School" {% if form.educational_level.value == '3rd Year of Middle School' %}selected{% endif %}>السنة الثالثة إعدادي</option>
+                        </optgroup>
+
+                        <optgroup label="الثانوي :">
+                            <option value="Common Core" {% if form.educational_level.value == 'Common Core' %}selected{% endif %}>المشترك العلمي</option>
+                            <option value="1st Year of Baccalaureate" {% if form.educational_level.value == '1st Year of Baccalaureate' %}selected{% endif %}>السنة الأولى من البكالوريا (تخصص علوم تجريبية)</option>
+                            <option value="2nd Year of Baccalaureate" {% if form.educational_level.value == '2nd Year of Baccalaureate' %}selected{% endif %}>السنة الثانية من البكالوريا (تخصص علوم فيزيائية)</option>
+                        </optgroup>
+
+                        <optgroup label="ما بعد الثانوي :">
+                            <option value="Post-Baccalaureate" {% if form.educational_level.value == 'Post-Baccalaureate' %}selected{% endif %}>الدراسة بعد البكالوريا</option>
+                        </optgroup>
+                    </select>
+                </div>
+
+        <hr>
+
+        <div class="form">
+            <label class="label">
+                <i class="fas fa-user"></i> {{ form.min_age.label }}
+            </label>
+            {{ form.min_age }}
+            {{ form.min_age.errors }}
+        </div>
+        <hr>
+
+        <div class="form">
+            <label class="label">
+                <i class="fas fa-user"></i> {{ form.max_age.label }}
+            </label>
+            {{ form.max_age }}
+            {{ form.max_age.errors }}
+        </div>
+        <hr>
+
+        <div class="form">
+            <label class="label">
+                <i class="fas fa-info-circle"></i> {{ form.mydescription.label }}
+            </label>
+            {{ form.mydescription }}
+            {{ form.mydescription.errors }}
+        </div>
+        <hr>
+
+        <div class="form">
+            <label class="label">
+                <i class="fas fa-key"></i> {{ form.keywords.label }}
+            </label>
+            {{ form.keywords }}
+            {{ form.keywords.errors }}
+        </div>
+        <hr>
+        
+        
+        <button class="add_btn btn btn-primary" type="submit">
+            <i class="fas fa-paper-plane"></i> نشر المقال
+        </button>
+    </form>
+</div>
+
+<script>
+    // كود معاينة الصورة يبقى كما هو
+    document.querySelectorAll('input[type="file"]').forEach(input => {
+        input.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const previewId = event.target.id.replace('formFile', 'imagePreview');
+            const preview = document.getElementById(previewId);
+    
+            if (preview) {
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    preview.src = '';
+                    preview.style.display = 'none';
+                }
+            }
+        });
+    });
+</script>
+
+{% include "tifinar/adm_footer.html" %}
