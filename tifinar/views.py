@@ -4,7 +4,7 @@ from django.db import models
 from .models import articles, books, exams, videos, cours, comments
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q, Case, When, IntegerField
-from .forms import CommentForm
+from .forms import CommentForm, ArticleForm, BookForm, MsgForm
 from django.contrib import messages
 from .models import ArticleReaction
 from django.http import FileResponse, Http404, JsonResponse
@@ -23,39 +23,41 @@ from django.core.exceptions import ValidationError
 from django.utils.html import escape
 from django.utils.text import slugify
 import re
-from .forms import MsgForm
 
-from .forms import ArticleForm
+def create_content(request, content_type):
+    if content_type == 'articles':
+        FormClass = ArticleForm
+        template = 'tifinar/auth/articles/create_article.html'
+        redirect_view = 'tifinar:edit_article'
+    elif content_type == 'books':
+        FormClass = BookForm
+        template = 'tifinar/auth/books/create_book.html'  # استخدم القالب المناسب
+        redirect_view = 'tifinar:edit_book'  # أنشئ هذه الصفحة لاحقًا
+    else:
+        return render(request, '404.html', status=404)
 
-def create_article(request):
     if request.method == 'POST':
-        form = ArticleForm(request.POST, request.FILES)
+        form = FormClass(request.POST, request.FILES)
         if form.is_valid():
-            article = form.save(commit=False)
-            
+            obj = form.save(commit=False)
+
             title = form.cleaned_data['title']
             
-            # 1. إزالة الرموز والإيموجي (بدون unidecode)
-            slug = re.sub(r'[^\w\s-]', '', title)
-            
-            # 2. استبدال المسافات بشرطات سفلية
-            slug = slug.replace(' ', '_')
-            
-            # 3. استخدام slugify للتنظيف النهائي مع allow_unicode
-            article.slug = slugify(slug, allow_unicode=True)
-            
-            
-            article.visibility_status = 'under_review'  # أو أي قيمة افتراضية تريدها
-            article.dir = 'rtl'  # أو 'ltr' حسب اللغة
-            article.created_at = timezone.now()
-            article.updated_at = timezone.now()
-            article.save()
-            return redirect('tifinar:edit_article', slug=article.slug)
+            clean = re.sub(r'[^\w\s-]', '', title)
+            clean = clean.replace(' ', '_')
+            obj.slug = slugify(clean, allow_unicode=True)
 
+            obj.visibility_status = 'under_review'
+            obj.created_at = timezone.now()
+            obj.updated_at = timezone.now()
+
+            obj.save()
+            return redirect(redirect_view, slug=obj.slug)
     else:
-        form = ArticleForm()
-    
-    return render(request, 'tifinar/auth/articles/create_article.html', {'form': form})
+        form = FormClass()
+
+    return render(request, template, {'form': form})
+
 
 
 CONTENT_TYPES = {
