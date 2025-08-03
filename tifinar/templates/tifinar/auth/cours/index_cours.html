@@ -1,0 +1,84 @@
+
+{% load static tz customtags custom_filters  %}
+{% include "tifinar/adm_header.html" %}
+{% now "Y" as current_year %}
+
+    <div class="content">
+
+   <h1 class="big-title" id="title">
+        {{ title }}
+        _<i class="fas fa-newspaper"></i>
+    </h1>
+
+    <div class="filter mt-4 p-4 border rounded shadow-sm bg-light">
+        <form method="GET" action="{{ request.path }}" class="d-flex flex-column flex-md-row align-items-md-center mb-3">
+            <div class="input-group border rounded flex-grow-1 d-flex">
+                <input type="text" class="form-control search-input border-0 flex-grow-1" name="search" placeholder="ابحث عن قاموس" value="{{ request.GET.search }}">
+                <button type="submit" class="btn btn-outline-primary search-btn flex-shrink-0" style="width: 50px;">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </form>
+              
+    </div>
+
+    <br>
+
+        {% if articles %}
+            {% for article in articles %}
+                    <div class="listes-contenu" dir="{{ article.dir  }}">
+
+                        <div class="image-caption">
+                            <a href="/exams/edit/{{ article.slug  }}">
+                                {% if article.images %}
+                                    <img src="{% static 'tifinar/images/' %}{{ table_name }}/{{ article.images.0 }}" 
+                                        alt="{{ article.title }}"
+                                    >
+                                {% endif %}
+                            </a>
+                        </div>
+                        <div class="listes-contenu-art">
+                            <a href="/{{ article.slug }}">
+                                <div class="listes-title-contenu">
+                                    <h2>{{ article.title }}</h2>
+                                    <p style="color:black; text-align:justify">
+                                        &emsp;{{ article.mydescription }}
+                                    </p>
+                                </div>
+                                {% if article.dir == 'rtl' %}
+                                    <div class="read-more">إقرأ المزيد</div>
+                                {% else %}
+                                    <div class="read-more">Lire la suite</div>
+                                {% endif %}
+                            </a>
+                            <div style="display: flex; gap: 15px; align-items: center;">
+                                <form action="" method="POST" style="margin: 0;">
+                                    {% csrf_token %}
+
+                                    <button class="btn btn-danger">
+                                        <i class="fas fa-trash-alt"></i> 
+                                        حدف المنشور
+                                    </button>
+                                </form>
+
+                                <a href="/{{ article.slug }}" class="btn btn-secondary">
+                                    <i class="fas fa-book-open" ></i>
+                                    معاينة المنشور 
+                                </a>
+
+                                <a href="/exams/edit/{{ article.slug  }}" class="btn btn-primary">
+                                    <i class="fas fa-edit"></i> تعديل المنشور
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+            {% endfor %}
+        {% else %}
+            <p style="text-align:center; color: gray;">لا توجد منشورات متاحة</p>
+        {% endif %}
+
+        {% include "tifinar/pagination.html" %}
+    </div>
+{% include "tifinar/adm_footer.html" %}
