@@ -31,6 +31,8 @@ urlpatterns = [
     path('articles/create/', views.create_content, {'content_type': 'articles'}, name='create_article'),
     path('books/create/', views.create_content, {'content_type': 'books'}, name='create_book'),
     path('cours/create/', views.create_content, {'content_type': 'cours'}, name='create_cours'),
+    path('videos/create/', views.create_content, {'content_type': 'videos'}, name='create_video'),
+    path('exams/create/', views.create_content, {'content_type': 'exams'}, name='create_exam'),
 
     # مسارات التعديل لكل نوع محتوى
     path('videos/edit/<str:slug>/', views.edit_content, {'content_type': 'videos'}, name='edit_video'),
