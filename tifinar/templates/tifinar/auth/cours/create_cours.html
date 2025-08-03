@@ -1,0 +1,297 @@
+
+{% load static tz customtags custom_filters  %}
+{% include "tifinar/adm_header.html" %}
+{% now "Y" as current_year %}
+
+    <div class="content">
+        <h1><i class="fas fa-edit"></i> نشر درس جديد</h1>
+
+        <form method="POST" enctype="multipart/form-data" action="">
+            {% csrf_token %}
+
+            <div class="mb-3 form">
+                <label class="label">
+                    <i class="fas fa-upload"></i> تحميل صورة:
+                </label>
+
+                    <input class="form-control" type="file" id="formFile" name="myimage">
+
+                    <img id="imagePreview" class="image-preview" alt="معاينة الصورة" style="display: none;">
+                </div>
+
+                <hr>
+
+                <div class="form">
+                    <label class="label">
+                        <i class="fas fa-heading"></i> عنوان الدرس :
+                    </label>
+                    <input
+                        type="text"
+                        name="title"
+                        placeholder="عنوان المنشور ..."
+                        minlength="7"
+                        class="title form-control"
+                        value="{{ form.title.value }}"
+                    >
+                </div>
+
+                <hr>
+
+                <div class="form">
+                    <label class="label">
+                        <i class="fas fa-heading"></i> نوع القاموس:
+                    </label>
+                    <select name="the_type" class="input">
+                        <option value="with_board">على شكل أزرار وشاشة</option>
+                        <option value="without_board">صور مع الأسماء</option>
+                    </select>
+                </div>
+
+                <hr>
+
+                <div class="form">
+                        <div>
+                            <label class="label">
+                                <i class="fas fa-user"></i> اسم الكاتب :
+                            </label>
+                            <input 
+                                type="text" 
+                                maxlength="255"
+                                name="Author"
+                                placeholder="اسم الكاتب ..."
+                                class="author form-control"
+                                value="{{ form.author.value }}"
+                                
+                                />
+                        </div>
+                </div>
+
+                <hr>
+                
+                <div class="form">
+                    <label class="label">
+                        <i class="fas fa-align-left"></i> مقدمة الدرس  :
+                    </label>
+                    <div><textarea
+                        name="intro" 
+                        type="text"
+                        class="form-control">{{ form.intro.value  }}</textarea>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="form">
+                    <label class="label">
+                        <i class="fas fa-info-circle"></i> وصف المنشور :
+                    </label><br>
+                    <textarea
+                        maxlength="255"
+                        name="mydescription" 
+                        placeholder="أكتب وصفًا لمنشورك ..."
+                        class="description"
+                    >{{ form.mydescription.value  }}</textarea>
+                </div>
+
+                <hr>
+
+                <div class="form-group form">
+                    <label class="label"><i class="fas fa-key"></i> اسم الملف الذي يضم الصور :</label>
+                    <input
+                        max="50"
+                        name="myfile"
+                        value="{{ form.myfile.value }}"
+                        placeholder="اسم الملف الذي يضم الصور...">
+                </div>
+
+                <hr>
+
+                <div class="form">
+                    <label class="label">
+                        <i class="fas fa-link"></i> رفع صورة الدرس واسم الصورة:
+                    </label>
+
+                    <div id="image-fields-container">
+                        <div class="image-field">
+                            <input class="form-control image-file" type="file" name="images[]" accept="image/*">
+                            <input class="form-control" type="text" name="image_names" placeholder="اسم الصورة">
+                            <img class="image-preview" style="display: none; max-width: 100px; margin-top: 10px;" />
+                            <br><hr>
+                        </div>
+                    </div>
+
+
+                    <button type="button" id="add-image-field" class="btn btn-secondary mt-2">
+                        إضافة صورة أخرى
+                    </button>
+                </div>
+
+                <hr>
+                <div class="form-row form">
+                    <label class="label">
+                        <i class="fas fa-hourglass-start"></i>  يجب أن يكون عمر الزائر:
+                    </label>                
+                    <div class="form-group">
+                        <label for="min_age" class="form-label">أكبر من:</label>
+                        <div class="col-4">
+                            <input 
+                                type="number" 
+                                id="min_age" 
+                                class="form-control" 
+                                name="min_age" 
+                                placeholder="الحد الأدنى" 
+                                min="2" 
+                                max="75"
+                                value="{{ form.min_age.value }}"
+                                
+                                >
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                        <label for="max_age" class="form-label">وأصغر من:</label>
+                        <div class="col-4">
+                            <input 
+                                type="number" 
+                                id="max_age" 
+                                class="form-control" 
+                                name="max_age" 
+                                placeholder="الحد الأقصى" 
+                                min="2" 
+                                max="75"
+                                value="{{ form.max_age.value }}"
+                            >
+                        </div>
+                    </div>
+                </div>
+    
+                <hr>
+
+                <div class="form">
+                    <label class="label">
+                        <i class="fas fa-key"></i> الكلمات المفتاحية :
+                    </label><br>
+                    <textarea
+                        maxlength="255"
+                        name="keywords" 
+                        placeholder="الكلمات المفتاحية ..."
+                        class="Keywords"
+                    >{{ form.keywords.value }}</textarea>
+                </div>
+
+                <hr>
+
+                <div class="form">
+                    <label class="label">
+                        <i class="fas fa-link"></i> إذا كان هناك اختبار تريد أن يجتازه الشخص بعد نهاية الدرس ضع رابطه هنا 👇  :
+                    </label>
+                    <input
+                        name="exams_link"
+                        placeholder="حقل اختياري* : أضف رابط الاختبار فقط في حالة إذا كان هناك اختبار يجتازه الزرائر"
+                        type="text"
+                        class="description"
+                        value="{{ form.exams_link.value }}">
+                </div>
+
+                <button class="add_btn btn btn-primary" type="submit">
+                    <i class="fas fa-paper-plane"></i> نشر الدرس
+                </button>
+
+            </form>
+        </div>
+</x-layoutAdm>
+
+<script>
+document.getElementById('add-image-field').addEventListener('click', function () {
+    let newField = document.createElement('div');
+    newField.classList.add('image-field');
+
+    let uniqueId = 'image-field-' + Date.now();
+
+    let fileInput = document.createElement('input');
+    fileInput.classList.add('form-control', 'image-file');
+    fileInput.type = 'file';
+    fileInput.name = 'images[]';
+    fileInput.id = uniqueId;
+    fileInput.accept = 'image/*';
+
+    let nameInput = document.createElement('input');
+    nameInput.classList.add('form-control');
+    nameInput.type = 'text';
+    nameInput.name = 'image_names[]';
+    nameInput.placeholder = 'اسم الصورة';
+
+    let previewImage = document.createElement('img');
+    previewImage.classList.add('image-preview');
+    previewImage.style.display = 'none';
+    previewImage.style.maxWidth = '100px';
+    previewImage.style.marginTop = '10px';
+
+    let br = document.createElement('br');
+    let hr = document.createElement('hr');
+
+    // ترتيب العناصر داخل الحقل الجديد
+    newField.appendChild(fileInput);
+    newField.appendChild(nameInput);
+    newField.appendChild(previewImage);
+    newField.appendChild(hr);
+    newField.appendChild(br);
+
+    // إضافة الحقل الجديد إلى الحاوية
+    document.getElementById('image-fields-container').appendChild(newField);
+
+    // إضافة مستمع الحدث لمعاينة الصورة
+    fileInput.addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        const preview = newField.querySelector('.image-preview');
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = '';
+            preview.style.display = 'none';
+        }
+    });
+});
+
+    document.getElementById('image-fields-container').addEventListener('change', function (event) {
+        if (event.target.classList.contains('image-file')) {
+            const file = event.target.files[0];
+            const preview = event.target.closest('.image-field').querySelector('.image-preview');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = '';
+                preview.style.display = 'none';
+            }
+        }
+    });
+
+    document.getElementById('formFile').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            const preview = document.getElementById('imagePreview');
+
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                }
+                reader.readAsDataURL(file);
+            } else {
+                preview.src = '';
+                preview.style.display = 'none';
+            }
+        });
+</script>

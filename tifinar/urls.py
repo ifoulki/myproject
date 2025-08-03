@@ -30,6 +30,7 @@ urlpatterns = [
     # مسارات إنشاء لكل نوع محتوى
     path('articles/create/', views.create_content, {'content_type': 'articles'}, name='create_article'),
     path('books/create/', views.create_content, {'content_type': 'books'}, name='create_book'),
+    path('cours/create/', views.create_content, {'content_type': 'cours'}, name='create_cours'),
 
     # مسارات التعديل لكل نوع محتوى
     path('videos/edit/<str:slug>/', views.edit_content, {'content_type': 'videos'}, name='edit_video'),

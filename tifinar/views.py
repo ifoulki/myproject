@@ -31,8 +31,12 @@ def create_content(request, content_type):
         redirect_view = 'tifinar:edit_article'
     elif content_type == 'books':
         FormClass = BookForm
-        template = 'tifinar/auth/books/create_book.html'  # استخدم القالب المناسب
-        redirect_view = 'tifinar:edit_book'  # أنشئ هذه الصفحة لاحقًا
+        template = 'tifinar/auth/books/create_book.html'
+        redirect_view = 'tifinar:edit_book'
+    elif content_type == 'cours':
+        FormClass = CoursForm
+        template = 'tifinar/auth/cours/create_cours.html'
+        redirect_view = 'tifinar:edit_cours'
     else:
         return render(request, '404.html', status=404)
 

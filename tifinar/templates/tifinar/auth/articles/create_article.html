@@ -1,10 +1,6 @@
-
-{% load static %}
+{% load static tz customtags custom_filters  %}
 {% include "tifinar/adm_header.html" %}
-{% load tz %}
-{% load customtags %}
 {% now "Y" as current_year %}
-{% load custom_filters %}
 
 <div class="content">
     <h1><i class="fas fa-edit"></i> نشر مقال جديد</h1>
