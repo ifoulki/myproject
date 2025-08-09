@@ -8,7 +8,6 @@
     <form method="POST" enctype="multipart/form-data" action="">
         {% csrf_token %}
         
-        <!-- حقل الصورة الرئيسية -->
         <div class="mb-3 form">
             <label class="label">
                 <i class="fas fa-upload"></i> {{ form.myimage.label }}
@@ -16,9 +15,9 @@
             {{ form.myimage }}
             <img id="imagePreview1" class="image-preview" alt="معاينة الصورة" style="display: none;">
         </div>
+
         <hr>
         
-        <!-- باقي الحقول -->
         <div class="form">
             <label class="label">
                 <i class="fas fa-heading"></i> {{ form.title.label }}
@@ -26,6 +25,7 @@
             {{ form.title }}
             {{ form.title.errors }}
         </div>
+
         <hr>
         
         <div class="form">
@@ -35,11 +35,12 @@
             {{ form.author }}
             {{ form.author.errors }}
         </div>
+        
         <hr>
 
         <div class="form">
             <label class="label">
-                <i class="fas fa-user"></i> {{ form.mysubject.label }}
+                <i class="fas fa-align-left"></i> {{ form.mysubject.label }}
             </label>
             {{ form.mysubject }}
             {{ form.mysubject.errors }}
@@ -72,58 +73,32 @@
                 {{ form.gender.errors }}
         </div>
         <hr>
-
-                <div class="mb-3 form">
-                    <label for="educational_level" class="form-label">
-                        <i class="fas fa-graduation-cap"></i> هل يجب أن يكون للقارئ مستوى دراسي محدد لقراءة هذا المقال؟
-                    </label>
-                    
-                    <select id="educational_level" name="educational_level" class="form-select">
-                        <option value="Unknown" {% if form.educational_level.value == 'Unknown' %}selected{% endif %}>لا، المقال مناسب للجميع</option>
-                        <optgroup label="الإبتدائي :">
-                            <option value="1st Year of Primary School" {% if form.educational_level.value == '1st Year of Primary School' %}selected{% endif %}>السنة الأولى ابتدائي</option>
-                            <option value="2nd Year of Primary School" {% if form.educational_level.value == '2nd Year of Primary School' %}selected{% endif %}>السنة الثانية ابتدائي</option>
-                            <option value="3rd Year of Primary School" {% if form.educational_level.value == '3rd Year of Primary School' %}selected{% endif %}>السنة الثالثة ابتدائي</option>
-                            <option value="4th Year of Primary School" {% if form.educational_level.value == '4th Year of Primary School' %}selected{% endif %}>السنة الرابعة ابتدائي</option>
-                            <option value="5th Year of Primary School" {% if form.educational_level.value == '5th Year of Primary School' %}selected{% endif %}>السنة الخامسة ابتدائي</option>
-                            <option value="6th Year of Primary School" {% if form.educational_level.value == '6th Year of Primary School' %}selected{% endif %}>السنة السادسة ابتدائي</option>
-                        </optgroup>
-
-                        <optgroup label="الإعدادي :">
-                            <option value="1st Year of Middle School" {% if form.educational_level.value == '1st Year of Middle School' %}selected{% endif %}>السنة الأولى إعدادي</option>
-                            <option value="2nd Year of Middle School" {% if form.educational_level.value == '2nd Year of Middle School' %}selected{% endif %}>السنة الثانية إعدادي</option>
-                            <option value="3rd Year of Middle School" {% if form.educational_level.value == '3rd Year of Middle School' %}selected{% endif %}>السنة الثالثة إعدادي</option>
-                        </optgroup>
-
-                        <optgroup label="الثانوي :">
-                            <option value="Common Core" {% if form.educational_level.value == 'Common Core' %}selected{% endif %}>المشترك العلمي</option>
-                            <option value="1st Year of Baccalaureate" {% if form.educational_level.value == '1st Year of Baccalaureate' %}selected{% endif %}>السنة الأولى من البكالوريا (تخصص علوم تجريبية)</option>
-                            <option value="2nd Year of Baccalaureate" {% if form.educational_level.value == '2nd Year of Baccalaureate' %}selected{% endif %}>السنة الثانية من البكالوريا (تخصص علوم فيزيائية)</option>
-                        </optgroup>
-
-                        <optgroup label="ما بعد الثانوي :">
-                            <option value="Post-Baccalaureate" {% if form.educational_level.value == 'Post-Baccalaureate' %}selected{% endif %}>الدراسة بعد البكالوريا</option>
-                        </optgroup>
-                    </select>
-                </div>
-
+            <div class="mb-3 form">
+                <label for="{{ form.educational_level.id_for_label }}" class="form-label">
+                    <i class="fas fa-graduation-cap"></i> المستوى الدراسي المطلوب
+                </label>
+                {{ form.educational_level }}
+            </div>
         <hr>
 
-        <div class="form">
+        <div class="form-row form">
             <label class="label">
-                <i class="fas fa-user"></i> {{ form.min_age.label }}
+                <i class="fas fa-hourglass-start"></i>  يجب أن يكون عمر الزائر:
             </label>
-            {{ form.min_age }}
-            {{ form.min_age.errors }}
-        </div>
-        <hr>
 
-        <div class="form">
-            <label class="label">
-                <i class="fas fa-user"></i> {{ form.max_age.label }}
-            </label>
-            {{ form.max_age }}
-            {{ form.max_age.errors }}
+            <div class="form">
+                <label class="label">
+                    <i class="fas fa-user"></i> {{ form.min_age.label }}
+                </label>
+                    {{ form.min_age }}
+                    {{ form.min_age.errors }}
+                <hr>
+                <label class="label">
+                    <i class="fas fa-user"></i> {{ form.max_age.label }}
+                </label>
+                {{ form.max_age }}
+                {{ form.max_age.errors }}
+            </div>
         </div>
         <hr>
 

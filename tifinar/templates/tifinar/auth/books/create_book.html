@@ -3,170 +3,89 @@
 {% include "tifinar/adm_header.html" %}
 {% now "Y" as current_year %}
 
-
-
         <div class="content">
             <h1> <i class="fas fa-video"></i> نشر كتاب جديد</h1>
 
             <form method="POST" enctype="multipart/form-data" action="">
                 {% csrf_token %}
-    
-                <div class="form">
+
+                <div class="mb-3 form">
                     <label class="label">
-                        <i class="fas fa-upload"></i> تحميل صورة غلاف الكتاب:
+                        <i class="fas fa-upload"></i> {{ form.myimage.label }}
                     </label>
-                    <div class="mb-3">
-                        <input class="form-control" type="file" id="formFile" name="myimage">
-
-                    <img id="imagePreview" class="image-preview" alt="معاينة الصورة" style="display: none;">
+                    {{ form.myimage }}
+                    <img id="imagePreview1" class="image-preview" alt="معاينة الصورة" style="display: none;">
                 </div>
 
                 <hr>
 
                 <div class="form">
                     <label class="label">
-                        <i class="fas fa-heading"></i> عنوان الكتاب :
+                        <i class="fas fa-heading"></i> {{ form.title.label }}
                     </label>
-                    <input
-                        type="text"
-                        name="title"
-                        placeholder="عنوان الكتاب ..."
-                        minlength="7"
-                        class="title form-control"
-                        value="{{ form.title.value }}"
-                    >
+                    {{ form.title }}
+                    {{ form.title.errors }}
                 </div>
 
                 <hr>
 
-                <div class="form">
-                    <div>
-                        <label class="label">
-                            <i class="fas fa-user"></i> اسم الكاتب :
-                        </label>
-                        <input 
-                            type="text" 
-                            name="author"
-                            placeholder="اسم الكاتب ..."
-                            maxlength="50"
-                            class="author form-control"
-                            value="{{ form.author.value }}"
-                        />
-                    </div>
-                </div>
-    
-                <hr>
-    
                 <div class="form">
                     <label class="label">
-                        <i class="fas fa-align-left"></i> عما يتحدث الكتاب؟ أكتب موجز قصير يشجع على تحميله :
-                    </label><br>
-                    <textarea
-                        name="mysubject" 
-                        class="mysubject"
-                    >{{ form.mysubject.value }}</textarea>
-                </div>
-
-                <hr>
-
-                <div class="form">
-                    <label class="label"><i class="fas fa-language"></i>  موجز الكتاب مكتوب بأي لغة ؟ </label>
-                    <select class="small-input @error('dir') is-invalid @enderror" name="dir">
-                        <option value="" disabled selected>اختر اللغة</option>
-                        <option value="rtl" {% if form.dir.value == 'rtl' %}selected{% endif %}>العربية</option>
-                        <option value="ltr" {% if form.dir.value == 'ltr' %}selected{% endif %}>Français</option>
-                        <option value="ltr" >English</option>
-                    </select>
-                </div>
-
-                <hr>
-    
-                <div class="form">
-                    <label class="label">
-                        <i class="fas fa-upload"></i> تحميل الكتاب:
+                        <i class="fas fa-user"></i> {{ form.author.label }}
                     </label>
+                    {{ form.author }}
+                    {{ form.author.errors }}
+                </div>
+            
+                <hr>
     
-                    <div class="mb-3">
-                        <input class="form-control" type="file" id="formFile" name="autre">
-                    </div>
+                <div class="form">
+                    <label class="label">
+                        <i class="fas fa-align-left"></i> {{ form.mysubject.label }}
+                    </label>
+                        {{ form.mysubject }}
+                        {{ form.mysubject.errors }}
+                </div>
+
+                <hr>
+
+                <div class="form">
+                    <i class="fas fa-language"></i>{{ form.dir.label_tag }}
+                    {{ form.dir }}
+                    {% if form.dir.errors %}
+                        <div class="invalid-feedback">
+                            {{ form.dir.errors|join:", " }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <hr>
+                
+                <div class="form">
+                    <label class="label">
+                        <i class="fas fa-upload"></i> {{ form.autre.label }}
+                    </label>
+                    {{ form.autre }}
+                    {{ form.autre.errors }}
                 </div>
     
                 <hr>
 
                 <div class="form">
                     <label class="label">
-                        <i class="fas fa-list"></i> صنف الكتاب:
+                        <i class="fas fa-list"></i>{{ form.the_type.label }}
                     </label>
-                    <select class="form-control form-select" name="the_type">
-                        <option value="" disabled selected>اختر صنف الكتب</option>
-
-                        <optgroup label="الأدب :">
-                            <option value="قصص و روايات" {% if form.the_type.value == 'قصص و روايات' %}selected{% endif %}>قصص و روايات</option>
-                            <option value="قصائد شعرية" {% if form.the_type.value == 'قصائد شعرية' %}selected{% endif %}>قصائد شعرية</option>
-                            <option value='مجلات' {% if form.the_type.value == 'مجلات' %}selected{% endif %}>مجلات</option>
-                            <option value='لقواميس اللغوية - Dictionaries' {% if form.the_type.value == 'قصائد شعرية' %}selected{% endif %}>لقواميس اللغوية - Dictionaries</option>
-                            <option value='أديان' {% if form.the_type.value == 'أديان' %}selected{% endif %}>أديان</option>
-                            <option value='فلسفة' {% if form.the_type.value == 'فلسفة' %}selected{% endif %}>فلسفة</option>
-                        </optgroup>
-                        <hr>
-                        <optgroup label="اللغات">
-                            <option value="الأمازيغية" {% if form.the_type.value == 'الأمازيغية' %}selected{% endif %}>تعلم الأمازيغية</option>
-                            <option value="الفرنسية" {% if form.the_type.value == 'تعلم الفرنسية' %}selected{% endif %}>تعلم الفرنسية</option>
-                            <option value="الإنجليزية" {% if form.the_type.value == 'الفرنسية' %}selected{% endif %}>تعلم الإنجليزية</option>
-                        </optgroup>
-                        <hr>
-                        <optgroup label="العلوم">
-                            <option value="رياضيات" {% if form.the_type.value == 'رياضيات' %}selected{% endif %}  >تعلم الرياضيات</option>
-                            <option value="الكيمياء" {% if form.the_type.value == 'الكيمياء' %}selected{% endif %}> الكيمياء</option>
-                            <option value="الفزياء" {% if form.the_type.value == 'الفزياء' %}selected{% endif %}>الفزياء</option>
-                            <option value="علوم الحياة والأرض" {% if form.the_type.value == 'علوم الحياة والأرض' %}selected{% endif %}>علوم الحياة والأرض</option>
-                        </optgroup>
-                        <hr>
-                        <optgroup label="مواضيع أخرى">
-                            <option value="صحة وحياة" {% if form.the_type.value == 'صحة وحياة' %}selected{% endif %}>صحة وحياة</option>
-                            <option value="علوم الحاسوب" {% if form.the_type.value == 'علوم الحاسوب' %}selected{% endif %}>علوم الحاسوب</option>
-                            <option value="حقوق الإنسان" {% if form.the_type.value == 'حقوق الإنسان' %}selected{% endif %}>القانون وحقوق الإنسان</option>
-                            <option value="الثقافة العامة" {% if form.the_type.value == 'الثقافة العامة' %}selected{% endif %}>الثقافة العامة</option>
-                            <option value="تربية وتعليم" {% if form.the_type.value == 'تربية وتعليم' %}selected{% endif %}>تربية وتعليم</option>
-                            <option value="أصناف أخرى" {% if form.the_type.value == 'أصناف أخرى' %}selected{% endif %}>أصناف أخرى</option>
-                        </optgroup>
-                    </select>
+                        {{ form.the_type }}
+                        {{ form.the_type.errors }}
                 </div>
 
                 <hr>
-
-                <div class="form">
-                    <div class="mb-3">
-                        <label for="educational_level" class="form-label">
-                            <i class="fas fa-graduation-cap"></i>هل يجب أن يكون للقراء مستوى دراسي محدد؟
-                        </label>
-                        
-                        <select id="educational_level" name="educational_level" class="form-select">
-                                <option value="Unknown" {% if form.educational_level.value == 'Unknown' %}selected{% endif %}>لا، الكتاب مناسب للجميع</option>
-                            <optgroup label="الإبتدائي :">
-                                <option value="1st Year of Primary School" {% if form.educational_level.value == '1st Year of Primary School' %}selected{% endif %}>السنة الأولى ابتدائي</option>
-                                <option value="2nd Year of Primary School" {% if form.educational_level.value == '2nd Year of Primary School' %}selected{% endif %}>السنة الثانية ابتدائي</option>
-                                <option value="3rd Year of Primary School" {% if form.educational_level.value == '3rd Year of Primary School' %}selected{% endif %}>السنة الثالثة ابتدائي</option>
-                                <option value="4th Year of Primary School" {% if form.educational_level.value == '4th Year of Primary School' %}selected{% endif %}>السنة الرابعة ابتدائي</option>
-                                <option value="5th Year of Primary School" {% if form.educational_level.value == '5th Year of Primary School' %}selected{% endif %}>السنة الخامسة ابتدائي</option>
-                                <option value="6th Year of Primary School" {% if form.educational_level.value == '6th Year of Primary School' %}selected{% endif %}>السنة السادسة ابتدائي</option>
-                            </optgroup>
-                            <optgroup label="الثانوي الإعدادي :">
-                                <option value="1st Year of Middle School" {% if form.educational_level.value == '1st Year of Middle School' %}selected{% endif %}>السنة الأولى إعدادي</option>
-                                <option value="2nd Year of Middle School" {% if form.educational_level.value == '2nd Year of Middle School' %}selected{% endif %}>السنة الثانية إعدادي</option>
-                                <option value="3rd Year of Middle School" {% if form.educational_level.value == '3rd Year of Middle School' %}selected{% endif %}>السنة الثالثة إعدادي</option>
-                            </optgroup>
-                            <optgroup label="الثانوي الثأهيلي :">
-                                <option value="Common Core" {% if form.educational_level.value == 'Common Core' %}selected{% endif %}>المشترك العلمي</option>
-                                <option value="1st Year of Baccalaureate" {% if form.educational_level.value == '1st Year of Baccalaureate' %}selected{% endif %}>السنة الأولى من البكالوريا</option>
-                                <option value="2nd Year of Baccalaureate" {% if form.educational_level.value == '2nd Year of Baccalaureate' %}selected{% endif %}>السنة الثانية من البكالوريا</option>
-                            </optgroup>
-                            <optgroup label="التعليم العالي">
-                                <option value="Post-Baccalaureate" {% if form.educational_level.value == 'Post-Baccalaureate' %}selected{% endif %}>الدراسة بعد البكالوريا</option>
-                            </optgroup>
-                        </select>
-                        
-                    </div>                 
+               
+                <div class="mb-3 form">
+                    <label for="{{ form.educational_level.id_for_label }}" class="form-label">
+                        <i class="fas fa-graduation-cap"></i> هل يجب أن يكون للقراء مستوى دراسي محدد؟
+                    </label>
+                        {{ form.educational_level }}
                 </div>
 
                 <hr>
@@ -175,66 +94,43 @@
                     <label class="label">
                         <i class="fas fa-hourglass-start"></i>  يجب أن يكون عمر الزائر:
                     </label>                
-                    <div class="form-group">
-                        <label for="min_age" class="form-label">أكبر من:</label>
-                        <div class="col-4">
-                            <input 
-                                type="number" 
-                                id="min_age" 
-                                class="form-control" 
-                                name="min_age" 
-                                placeholder="الحد الأدنى" 
-                                min="2" 
-                                max="75"
-                                value="{{ form.min_age.value }}"
-                            >
-                        </div>
+                    <div class="form">
+                        <label class="label">
+                            <i class="fas fa-user"></i> {{ form.min_age.label }}
+                        </label>
+                        {{ form.min_age }}
+                        {{ form.min_age.errors }}
+
+                        <hr>
+
+                        <label class="label">
+                            <i class="fas fa-user"></i> {{ form.max_age.label }}
+                        </label>
+                        {{ form.max_age }}
+                        {{ form.max_age.errors }}
                     </div>
     
-                    <div class="form-group">
-                        <label for="max_age" class="form-label">وأصغر من:</label>
-                        <div class="col-4">
-                            <input 
-                                type="number" 
-                                id="max_age" 
-                                class="form-control" 
-                                name="max_age" 
-                                placeholder="الحد الأقصى" 
-                                min="2" 
-                                max="75"
-                                value="{{ form.max_age.value }}"
-                                
-                                >
-                            </div>
-                    </div>
+                    
                 </div>
                 
                 <hr>
     
                 <div class="form">
                     <label class="label">
-                        <i class="fas fa-info-circle"></i> وصف لمحتوى الكتاب :
-                    </label><br>
-                    <textarea
-                        name="mydescription" 
-                        maxlength="255"
-                        placeholder="أكتب وصفًا يشجع للدخول للصفحة ..."
-                        class="description"
-                    >{{ form.mydescription.value }}</textarea>
+                        <i class="fas fa-info-circle"></i> {{ form.mydescription.label }}
+                    </label>
+                    {{ form.mydescription }}
+                    {{ form.mydescription.errors }}
                 </div>
     
                 <hr>
-    
+
                 <div class="form">
                     <label class="label">
-                        <i class="fas fa-key"></i> الكلمات المفتاحية :
-                    </label><br>
-                    <textarea
-                        maxlength="255"
-                        name="keywords" 
-                        placeholder="الكلمات المفتاحية ..."
-                        class="keywords"
-                    >{{ form.keywords.value }}</textarea>
+                        <i class="fas fa-key"></i> {{ form.keywords.label }}
+                    </label>
+                    {{ form.keywords }}
+                    {{ form.keywords.errors }}
                 </div>
     
                 <button class="add_btn btn btn-primary" type="submit">

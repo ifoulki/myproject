@@ -11,100 +11,73 @@
 
             <div class="mb-3 form">
                 <label class="label">
-                    <i class="fas fa-upload"></i> تحميل صورة:
+                    <i class="fas fa-upload"></i> {{ form.myimage.label }}
                 </label>
+                    {{ form.myimage }}
+                <img id="imagePreview1" class="image-preview" alt="معاينة الصورة" style="display: none;">
+            </div>
 
-                    <input class="form-control" type="file" id="formFile" name="myimage">
+            <hr>
 
-                    <img id="imagePreview" class="image-preview" alt="معاينة الصورة" style="display: none;">
-                </div>
+            <div class="form">
+                <label class="label">
+                    <i class="fas fa-heading"></i> {{ form.title.label }}
+                </label>
+                {{ form.title }}
+                {{ form.title.errors }}
+            </div>
 
-                <hr>
+            <hr>
 
-                <div class="form">
+            <div class="form">
+                <label class="label">
+                    <i class="fas fa-list"></i>{{ form.the_type.label }}
+                </label>
+                {{ form.the_type }}
+                {{ form.the_type.errors }}
+            </div>
+
+            <hr>
+
+            <div class="form">
+                <label class="label">
+                    <i class="fas fa-user"></i> {{ form.author.label }}
+                </label>
+                {{ form.author }}
+                {{ form.author.errors }}
+            </div>
+
+            <hr>
+
+            <div class="form">
+                <label class="label">
+                    <i class="fas fa-align-left"></i> {{ form.intro.label }}
+                </label>
+                {{ form.intro }}
+                {{ form.intro.errors }}
+            </div>
+
+            <hr>
+
+            <div class="form">
+                <label class="label">
+                    <i class="fas fa-user"></i> {{ form.author.label }}
+                </label>
+                {{ form.author }}
+                {{ form.author.errors }}
+            </div>
+            
+            <hr>
+
+            <div class="form">
                     <label class="label">
-                        <i class="fas fa-heading"></i> عنوان الدرس :
+                        <i class="fas fas fa-key"></i> {{ form.myfile.label }}
                     </label>
-                    <input
-                        type="text"
-                        name="title"
-                        placeholder="عنوان المنشور ..."
-                        minlength="7"
-                        class="title form-control"
-                        value="{{ form.title.value }}"
-                    >
-                </div>
-
-                <hr>
-
-                <div class="form">
-                    <label class="label">
-                        <i class="fas fa-heading"></i> نوع القاموس:
-                    </label>
-                    <select name="the_type" class="input">
-                        <option value="with_board">على شكل أزرار وشاشة</option>
-                        <option value="without_board">صور مع الأسماء</option>
-                    </select>
-                </div>
-
-                <hr>
-
-                <div class="form">
-                        <div>
-                            <label class="label">
-                                <i class="fas fa-user"></i> اسم الكاتب :
-                            </label>
-                            <input 
-                                type="text" 
-                                maxlength="255"
-                                name="Author"
-                                placeholder="اسم الكاتب ..."
-                                class="author form-control"
-                                value="{{ form.author.value }}"
-                                
-                                />
-                        </div>
-                </div>
-
-                <hr>
-                
-                <div class="form">
-                    <label class="label">
-                        <i class="fas fa-align-left"></i> مقدمة الدرس  :
-                    </label>
-                    <div><textarea
-                        name="intro" 
-                        type="text"
-                        class="form-control">{{ form.intro.value  }}</textarea>
-                    </div>
-                </div>
-
-                <hr>
-
-                <div class="form">
-                    <label class="label">
-                        <i class="fas fa-info-circle"></i> وصف المنشور :
-                    </label><br>
-                    <textarea
-                        maxlength="255"
-                        name="mydescription" 
-                        placeholder="أكتب وصفًا لمنشورك ..."
-                        class="description"
-                    >{{ form.mydescription.value  }}</textarea>
-                </div>
-
-                <hr>
-
-                <div class="form-group form">
-                    <label class="label"><i class="fas fa-key"></i> اسم الملف الذي يضم الصور :</label>
-                    <input
-                        max="50"
-                        name="myfile"
-                        value="{{ form.myfile.value }}"
-                        placeholder="اسم الملف الذي يضم الصور...">
-                </div>
-
-                <hr>
+                    {{ form.myfile }}
+                    {{ form.myfile.errors }}
+            </div>
+            
+            <hr>
 
                 <div class="form">
                     <label class="label">
@@ -127,59 +100,44 @@
                 </div>
 
                 <hr>
-                <div class="form-row form">
-                    <label class="label">
-                        <i class="fas fa-hourglass-start"></i>  يجب أن يكون عمر الزائر:
-                    </label>                
-                    <div class="form-group">
-                        <label for="min_age" class="form-label">أكبر من:</label>
-                        <div class="col-4">
-                            <input 
-                                type="number" 
-                                id="min_age" 
-                                class="form-control" 
-                                name="min_age" 
-                                placeholder="الحد الأدنى" 
-                                min="2" 
-                                max="75"
-                                value="{{ form.min_age.value }}"
-                                
-                                >
-                            </div>
-                        </div>
-                        
-                        <div class="form-group">
-                        <label for="max_age" class="form-label">وأصغر من:</label>
-                        <div class="col-4">
-                            <input 
-                                type="number" 
-                                id="max_age" 
-                                class="form-control" 
-                                name="max_age" 
-                                placeholder="الحد الأقصى" 
-                                min="2" 
-                                max="75"
-                                value="{{ form.max_age.value }}"
-                            >
-                        </div>
-                    </div>
-                </div>
-    
-                <hr>
+
+            <div class="form-row form">
+                <label class="label">
+                    <i class="fas fa-hourglass-start"></i>  يجب أن يكون عمر الزائر:
+                </label>
 
                 <div class="form">
-                    <label class="label">
-                        <i class="fas fa-key"></i> الكلمات المفتاحية :
-                    </label><br>
-                    <textarea
-                        maxlength="255"
-                        name="keywords" 
-                        placeholder="الكلمات المفتاحية ..."
-                        class="Keywords"
-                    >{{ form.keywords.value }}</textarea>
-                </div>
 
-                <hr>
+                    <label class="label">
+                        <i class="fas fa-user"></i> {{ form.min_age.label }}
+                    </label>
+
+                    {{ form.min_age }}
+                    {{ form.min_age.errors }}
+            
+                    <hr>
+
+                    <label class="label">
+                        <i class="fas fa-user"></i> {{ form.max_age.label }}
+                    </label>
+
+                    {{ form.max_age }}
+                    {{ form.max_age.errors }}
+
+                </div>
+            </div>
+    
+            <hr>
+
+            <div class="form">
+                <label class="label">
+                    <i class="fas fa-key"></i> {{ form.keywords.label }}
+                </label>
+                {{ form.keywords }}
+                {{ form.keywords.errors }}
+            </div>
+
+            <hr>
 
                 <div class="form">
                     <label class="label">

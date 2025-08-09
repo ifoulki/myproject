@@ -103,12 +103,15 @@ class BaseContentForm(forms.ModelForm):
         ])
     ]
     
-    
     dir = forms.ChoiceField(
         choices=DIR_CHOICES,
-        widget=forms.Select(attrs={'class': 'form-control form-select small-input'}),
-        label='لغة المحتوى',
-        required=True
+        widget=forms.Select(attrs={
+            'class': 'small-input',
+            'placeholder': 'اختر اللغة'
+        }),
+        label=' موجز الكتاب مكتوب بأي لغة؟',
+        required=True,
+        initial='',  # لجعل الخيار الأول هو المحدد افتراضياً
     )
 
     educational_level = forms.ChoiceField(
@@ -125,6 +128,10 @@ class BaseContentForm(forms.ModelForm):
         initial='all',
         required=False
     )
+    
+    class Meta:
+        abstract = True
+        fields = [] 
 
     def clean_title(self):
         title = self.cleaned_data.get('title')
@@ -235,7 +242,7 @@ class ArticleForm(BaseContentForm):
                 'placeholder': 'أكتب وصفًا لمنشورك ...'
             }),
             'keywords': forms.Textarea(attrs={
-                'class': 'Keyword',
+                'class': 'keywords',
                 'placeholder': 'الكلمات المفتاحية ...'
             }),
             'author': forms.TextInput(attrs={
@@ -296,26 +303,37 @@ class ArticleForm(BaseContentForm):
             raise forms.ValidationError('يجب أن لا يقل نص المقال عن 100 حرف.')
         return mysubject
 class BookForm(BaseContentForm):
+    
     TYPE_CHOICES = [
-        ('قصص و روايات', 'قصص و روايات'),
-        ('قصائد شعرية', 'قصائد شعرية'),
-        ('مجلات', 'مجلات'),
-        ('لقواميس اللغوية - Dictionaries', 'لقواميس اللغوية - Dictionaries'),
-        ('أديان', 'أديان'),
-        ('فلسفة', 'فلسفة'),
-        ('الأمازيغية', 'تعلم الأمازيغية'),
-        ('الفرنسية', 'تعلم الفرنسية'),
-        ('الإنجليزية', 'تعلم الإنجليزية'),
-        ('رياضيات', 'تعلم الرياضيات'),
-        ('الكيمياء', 'الكيمياء'),
-        ('الفزياء', 'الفزياء'),
-        ('علوم الحياة والأرض', 'علوم الحياة والأرض'),
-        ('صحة وحياة', 'صحة وحياة'),
-        ('علوم الحاسوب', 'علوم الحاسوب'),
-        ('حقوق الإنسان', 'القانون وحقوق الإنسان'),
-        ('الثقافة العامة', 'الثقافة العامة'),
-        ('تربية وتعليم', 'تربية وتعليم'),
-        ('أصناف أخرى', 'أصناف أخرى'),
+        ('', 'اختر صنف الكتاب'),
+        ('الآداب :', [
+            ('قصص و روايات', 'قصص و روايات'),
+            ('قصائد شعرية', 'قصائد شعرية'),
+            ('مجلات', 'مجلات'),
+            ('لقواميس اللغوية - Dictionaries', 'لقواميس اللغوية - Dictionaries'),
+            ('أديان', 'أديان'),
+            ('فلسفة', 'فلسفة'),
+        ]),
+        ('الغات :', [
+            ('الأمازيغية', 'تعلم الأمازيغية'),
+            ('العربية', 'تعلم العربية'),
+            ('الفرنسية', 'تعلم الفرنسية'),
+            ('الإنجليزية', 'تعلم الإنجليزية'),
+        ]),
+        ('العلوم :', [
+            ('علوم الحاسوب', 'علوم الحاسوب'),
+            ('رياضيات', 'تعلم الرياضيات'),
+            ('الكيمياء', 'الكيمياء'),
+            ('الفزياء', 'الفزياء'),
+            ('علوم الحياة والأرض', 'علوم الحياة والأرض'),
+        ]),
+        ('مواضيع أخرى :', [
+            ('صحة وحياة', 'صحة وحياة'),
+            ('حقوق الإنسان', 'القانون وحقوق الإنسان'),
+            ('الثقافة العامة', 'الثقافة العامة'),
+            ('تربية وتعليم', 'تربية وتعليم'),
+            ('أصناف أخرى', 'أصناف أخرى'),
+        ])
     ]
 
     the_type = forms.ChoiceField(
@@ -353,6 +371,7 @@ class BookForm(BaseContentForm):
             }),
             'mydescription': forms.Textarea(attrs={
                 'class': 'description',
+                'name': 'mydescription',
                 'placeholder': 'وصف مختصر ...',
                 'maxlength': '255'
             }),
@@ -378,10 +397,12 @@ class BookForm(BaseContentForm):
             }),
             'myimage': forms.FileInput(attrs={
                 'class': 'form-control',
+                'name': 'myimage',
                 'id': 'formFile1'
             }),
             'autre': forms.FileInput(attrs={
                 'class': 'form-control',
+                'name': 'autre',
                 'id': 'formFile2'
             }),
         }
@@ -389,7 +410,7 @@ class BookForm(BaseContentForm):
         labels = {
             'title': 'عنوان الكتاب',
             'author': 'اسم الكاتب',
-            'mysubject': 'موجز عن الكتاب',
+            'mysubject': 'موجز عن الكتاب يشجع على تحميله :',
             'mydescription': 'وصف المحتوى',
             'keywords': 'الكلمات المفتاحية',
             'the_type': 'صنف الكتاب',
@@ -451,6 +472,7 @@ class VideoForm(BaseContentForm):
             }),
             'author': forms.TextInput(attrs={
                 'class': 'form-control',
+                'name': 'author',
                 'placeholder': 'اسم الكاتب ...',
                 'maxlength': '50'
             }),
@@ -463,10 +485,11 @@ class VideoForm(BaseContentForm):
                 'class': 'description',
                 'placeholder': 'وصف الفيديو ...',
             }),
+            
             'keywords': forms.Textarea(attrs={
                 'class': 'keywords',
                 'placeholder': 'الكلمات المفتاحية ...',
-                'maxlength': '255'
+                'value': ''  # إضافة هذه السطر
             }),
             'educational_level': forms.Select(attrs={
                 'class': 'form-select'
@@ -565,12 +588,11 @@ class ExamForm(BaseContentForm):
             'mydescription': forms.Textarea(attrs={
                 'class': 'description',
                 'placeholder': 'وصف مختصر ...',
-                'maxlength': '255'
             }),
             'keywords': forms.Textarea(attrs={
                 'class': 'keywords',
                 'placeholder': 'الكلمات المفتاحية ...',
-                'maxlength': '255'
+                'value': ''  # إضافة هذه السطر
             }),
             'educational_level': forms.Select(attrs={
                 'class': 'form-select'
@@ -625,7 +647,7 @@ class CoursForm(BaseContentForm):
         model = cours
         fields = [
             'title', 'myfile', 'mydescription', 'keywords','cours_contents','images','exams_link',
-            'author', 'myimage', 'autre', 'the_type', 'educational_level',
+            'author', 'myimage', 'intro', 'the_type', 'educational_level',
             'min_age', 'max_age', 'dir','gender'
         ]
 
@@ -648,13 +670,13 @@ class CoursForm(BaseContentForm):
             }),
             'mydescription': forms.Textarea(attrs={
                 'class': 'description',
+                'name': 'mydescription',
                 'placeholder': 'وصف مختصر ...',
                 'maxlength': '255'
             }),
             'keywords': forms.Textarea(attrs={
                 'class': 'keywords',
                 'placeholder': 'الكلمات المفتاحية ...',
-                'maxlength': '255'
             }),
             'educational_level': forms.Select(attrs={
                 'class': 'form-select'
@@ -681,7 +703,8 @@ class CoursForm(BaseContentForm):
             'title': 'عنوان القاموس',
             'author': 'اسم الكاتب',
             'myfile': 'إسم المجلد الدي تخزن فيه الصور',
-            'mydescription': 'وصف المحتوى',
+            'mydescription': 'وصف يظهر في محركات البحث لتشجيع الناس على زيارة الصفحة ...',
+            'intro': 'وصف يظهر أعلى الصفحة يشرح للزائر كيفية التعامل مع الصفحة ...',
             'keywords': 'الكلمات المفتاحية',
             'the_type': 'صنف الكتاب',
             'dir': 'لغة الموجز',
@@ -690,5 +713,3 @@ class CoursForm(BaseContentForm):
             'max_age': 'العمر الأقصى',
             'myimage': 'غلاف الكتاب',
         }
-
-

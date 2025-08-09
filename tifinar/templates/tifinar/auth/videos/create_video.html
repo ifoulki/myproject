@@ -8,74 +8,52 @@
         <form method="POST" enctype="multipart/form-data" action="">
             {% csrf_token %}
 
-            <div class="form">
+            <div class="mb-3 form">
                 <label class="label">
-                    <i class="fas fa-upload"></i> تحميل صورة:
+                    <i class="fas fa-upload"></i> {{ form.myimage.label }}
                 </label>
-
-                <div class="mb-3">
-                    <input class="form-control" type="file" id="formFile" name="myimage">
-                </div>
-
-                <img id="imagePreview" class="image-preview" alt="معاينة الصورة" style="display: none;">
-       
+                {{ form.myimage }}
+                <img id="imagePreview1" class="image-preview" alt="معاينة الصورة" style="display: none;">
             </div>
 
             <hr>
 
             <div class="form">
                 <label class="label">
-                    <i class="fas fa-heading"></i> عنوان فيديو:
+                    <i class="fas fa-heading"></i> {{ form.title.label }}
                 </label>
-                <input
-                    type="text"
-                    name="title"
-                    placeholder="عنوان فيديو ..."
-                    minlength="5"
-                    class="title form-control"
-                    value="{{ form.title.value }}"
-                >
+                {{ form.title }}
+                {{ form.title.errors }}
+            </div>
+            
+            <hr>
 
+            <div class="form">
+                <label class="label">
+                    <i class="fas fa-language"></i> {{ form.dir.label }}
+                </label>
+                {{ form.dir }}
+                {{ form.dir.errors }}
             </div>
 
             <hr>
 
-                <div class="form">
-                    <label class="label"><i class="fas fa-language"></i>  العنوان مكتوب بأي لغة ؟ </label>
-                        <select class="form-control form-select @error('dir') is-invalid @enderror" name="dir">
-                            <option value="" disabled selected>اختر نوع المنشور</option>
-                            <option value="rtl" {% if form.dir.value == 'rtl' %}selected{% endif %}>العربية</option>
-                            <option value="ltr" {% if form.dir.value == 'ltr' %}selected{% endif %}>Français</option>
-                            <option value="ltr" {% if form.dir.value == 'ltr' %}selected{% endif %}>English</option>
-                        </select>
-           =
-                </div>
-
+            <div class="form">
+                <label class="label">
+                    <i class="fas fa-user"></i> {{ form.author.label }}
+                </label>
+                {{ form.author }}
+                {{ form.author.errors }}
+            </div>    
+                    
             <hr>
-
-                <div class="form">
-                    <label class="label">
-                        <i class="fas fa-user"></i> اسم الكاتب :
-                    </label>
-                    <input 
-                        type="text" 
-                        name="author"
-                        placeholder="اسم الكاتب ..."
-                        minlength="5"
-                        class="author form-control"
-                        value="{{ form.author.value }}"
-                        />
-                    </div>
                     
-                    
-                    <hr>
-                    
-                <div class="form">
-                        <label class="label">
-                            <i class="fas fa-paperclip"></i> رابط الفيديو:
-                        </label><br>
+            <div class="form">
+                <label class="label">
+                    <i class="fas fa-paperclip"></i> رابط الفيديو:
+                </label><br>
                         <input
-                            name="mysubject"
+                    name="mysubject"
                             id="video_url"
                             placeholder="أدخل رابط يوتيوب هنا"
                             class="form-control"
@@ -89,121 +67,56 @@
 
             <div class="form">
                 <label class="label">
-                    <i class="fas fa-align-right"></i> وصف مرفق للفيديو سيظهر أسفله:
-                </label><br>
-                <textarea
-                    name="autre"
-                    id="autreInput"
-                    class="form-control textarea-container"
-                    placeholder="أكتب أكواد html، لإرفاق صور أو كتب ... إلخ"
-                >{{ form.autre.value }}</textarea>
-             
+                    <i class="fas fa-align-right"></i> {{ form.autre.label }}
+                </label>
+                {{ form.autre }}
+                {{ form.autre.errors }}
             </div>
-
+    
             <hr>
 
             <div class="mb-3 form">
-                    <label for="educational_level" class="form-label">
-                        <i class="fas fa-graduation-cap"></i>هل يجب أن يكون للمشاهدين مستوى دراسي محدد؟
-                    </label>
-                    
-                   <select id="educational_level" name="educational_level" class="form-select">
-                            <option value="Unknown" {% if form.educational_level.value == 'Unknown' %}selected{% endif %}>لا، الاختبار مناسب للجميع</option>
-                            <option value="Preschool" {% if form.educational_level.value == 'Preschool' %}selected{% endif %}>للأطفال الصغار، أقل من 6 سنوات</option>
-                        <optgroup label="الإبتدائي :">
-                            <option value="1st Year of Primary School" {% if form.educational_level.value == '1st Year of Primary School' %}selected{% endif %}>السنة الأولى ابتدائي</option>
-                            <option value="2nd Year of Primary School" {% if form.educational_level.value == '2nd Year of Primary School' %}selected{% endif %}>السنة الثانية ابتدائي</option>
-                            <option value="3rd Year of Primary School" {% if form.educational_level.value == '3rd Year of Primary School' %}selected{% endif %}>السنة الثالثة ابتدائي</option>
-                            <option value="4th Year of Primary School" {% if form.educational_level.value == '4th Year of Primary School' %}selected{% endif %}>السنة الرابعة ابتدائي</option>
-                            <option value="5th Year of Primary School" {% if form.educational_level.value == '5th Year of Primary School' %}selected{% endif %}>السنة الخامسة ابتدائي</option>
-                            <option value="6th Year of Primary School" {% if form.educational_level.value == '6th Year of Primary School' %}selected{% endif %}>السنة السادسة ابتدائي</option>
-                        </optgroup>
-                        <optgroup label="الثانوي الإعدادي :">
-                            <option value="1st Year of Middle School" {% if form.educational_level.value == '1st Year of Middle School' %}selected{% endif %}>السنة الأولى إعدادي</option>
-                            <option value="2nd Year of Middle School" {% if form.educational_level.value == '2nd Year of Middle School' %}selected{% endif %}>السنة الثانية إعدادي</option>
-                            <option value="3rd Year of Middle School" {% if form.educational_level.value == '3rd Year of Middle School' %}selected{% endif %}>السنة الثالثة إعدادي </option>
-                        </optgroup>
-                        <optgroup label="الثانوي الثأهيلي :">
-                            <option value="Common Core" {% if form.educational_level.value == 'Common Core' %}selected{% endif %}>المشترك العلمي</option>
-                            <option value="1st Year of Baccalaureate" {% if form.educational_level.value == '1st Year of Baccalaureate' %}selected{% endif %}>السنة الأولى بكالوريا</option>
-                            <option value="2nd Year of Baccalaureate" {% if form.educational_level.value == '2nd Year of Baccalaureate' %}selected{% endif %}>السنة الثانية بكالوريا</option>
-                        </optgroup>
-                        <optgroup label="التعليم العالي">
-                            <option value="Post-Baccalaureate" {% if form.educational_level.value == 'Post-Baccalaureate' %}selected{% endif %}>الدراسة بعد البكالوريا</option>
-                        </optgroup>
-                    </select>               
+                <label for="{{ form.educational_level.id_for_label }}" class="form-label">
+                    <i class="fas fa-graduation-cap"></i> هل يجب أن يكون للقراء مستوى دراسي محدد؟
+                </label>
+                {{ form.educational_level }}
             </div>
 
             <hr>
-                <div class="form">
-                    <label class="label">
-                        </i><i class="fas fa-book"></i> صنف الفيديو  :
-                    </label>
-            
-                        <select class="form-control form-select @error('the_type') is-invalid @enderror" name="the_type">
-                            <option value="" disabled selected>اختر صنف الفيديو :</option>
-                            <option value='أديان' {% if form.the_type.value == 'أديان' %}selected{% endif %}>التربية الإسلامية</option>
-                            <option value='فلسفة' {% if form.the_type.value == 'فلسفة' %}selected{% endif %}>فلسفة</option>
 
-                            <optgroup label="اللغات">
-                                <option value="الأمازيغية" {% if form.the_type.value == 'الأمازيغية' %}selected{% endif %}>الأمازيغية</option>
-                                <option value="العربية" {% if form.the_type.value == 'العربية' %}selected{% endif %}>تعلم العربية</option>
-                                <option value="الفرنسية" {% if form.the_type.value == 'الفرنسية' %}selected{% endif %}>الفرنسية</option>
-                                <option value="الإنجليزية" {% if form.the_type.value == 'الإنجليزية' %}selected{% endif %}>الإنجليزية</option>
-                            </optgroup>
-                            <hr>
-                            <optgroup label="العلوم">
-                                <option value="رياضيات" {% if form.the_type.value == 'رياضيات' %}selected{% endif %}> رياضيات</option>
-                                <option value="الكيمياء" {% if form.the_type.value == 'الكيمياء' %}selected{% endif %}> كيمياء</option>
-                                <option value="الفزياء" {% if form.the_type.value == 'الفزياء' %}selected{% endif %}>الفزياء </option>
-                                <option value="علوم الحياة والأرض" {% if form.the_type.value == 'علوم الحياة والأرض' %}selected{% endif %}>علوم الحياة والأرض</option>
-                            </optgroup>
-                            <hr>
-                            <optgroup label="مواضيع أخرى">
-                                <option value="صحة وحياة" {% if form.the_type.value == 'صحة وحياة' %}selected{% endif %}>صحة وحياة</option>
-                                <option value="علوم الحاسوب" {% if form.the_type.value == 'علوم الحاسوب' %}selected{% endif %}>علوم الحاسوب</option>
-                                <option value="حقوق الإنسان" {% if form.the_type.value == 'حقوق الإنسان' %}selected{% endif %}>القانون وحقوق الإنسان</option>
-                                <option value="الثقافة العامة" {% if form.the_type.value == 'الثقافة العامة' %}selected{% endif %}>الثقافة العامة</option>
-                                <option value="أصناف أخرى" {% if form.the_type.value == 'أصناف أخرى' %}selected{% endif %}>أصناف أخرى</option>
-                            </optgroup>
-                        </select>
-                    </div>
+            <div class="form">
+                <label class="label">
+                    <i class="fas fa-list"></i>{{ form.the_type.label }}
+                </label>
+                {{ form.the_type }}
+                {{ form.the_type.errors }}
+            </div>
+
             <hr>
                 
             <div class="form-row form">
                 <label class="label">
                     <i class="fas fa-hourglass-start"></i>  يجب أن يكون عمر الزائر:
-                </label>                
-                <div class="form-group">
-                    <label for="min_age" class="form-label">أكبر من:</label>
-                    <div class="col-4">
-                        <input 
-                            value="{{ form.min_age.value }}"
-                            type="number" 
-                            id="min_age" 
-                            class="form-control" 
-                            name="min_age" 
-                            placeholder="الحد الأدنى" 
-                            min="2" 
-                            max="75"
-                            >
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="max_age" class="form-label">وأصغر من:</label>
-                    <div class="col-4">
-                        <input 
-                            value="{{ form.max_age.value }}"
-                            type="number" 
-                            id="max_age" 
-                            class="form-control" 
-                            name="max_age" 
-                            placeholder="الحد الأقصى" 
-                            min="2" 
-                            max="75"
-                        >
-                    </div>
+                </label>
+
+                <div class="form">
+
+                    <label class="label">
+                        <i class="fas fa-user"></i> {{ form.min_age.label }}
+                    </label>
+
+                    {{ form.min_age }}
+                    {{ form.min_age.errors }}
+            
+                    <hr>
+
+                    <label class="label">
+                        <i class="fas fa-user"></i> {{ form.max_age.label }}
+                    </label>
+
+                    {{ form.max_age }}
+                    {{ form.max_age.errors }}
+
                 </div>
             </div>
 
@@ -211,26 +124,20 @@
 
             <div class="form">
                 <label class="label">
-                    <i class="fas fa-info-circle"></i> وصف لمحتوى الفيديو سيظهر في محركات البحث ومواقع أخرى :
-                </label><br>
-                <textarea
-                    name="mydescription" 
-                    placeholder="أكتب وصفًا وجيزا لمحتوى الفيديو يشجع على مشاهدته..."
-                    class="form-control textarea-container"
-                >{{ form.mydescription.value }}</textarea>
+                    <i class="fas fa-info-circle"></i> {{ form.mydescription.label }}
+                </label>
+                {{ form.mydescription }}
+                {{ form.mydescription.errors }}
             </div>
 
             <hr>
 
             <div class="form">
                 <label class="label">
-                    <i class="fas fa-key"></i> الكلمات المفتاحية:
-                </label><br>
-                <textarea
-                    name="keywords" 
-                    placeholder="الكلمات المفتاحية ..."
-                    class="form-control textarea-container"
-                >{{ form.keywords.value }}</textarea>
+                    <i class="fas fa-key"></i> {{ form.keywords.label }}
+                </label>
+                {{ form.keywords }}
+                {{ form.keywords.errors }}
             </div>
 
             <button class="add_btn btn btn-primary" type="submit">
