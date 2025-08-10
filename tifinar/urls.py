@@ -5,13 +5,7 @@ from .views import serve_pdf, send_message
 app_name = "tifinar"
 
 urlpatterns = [
-
-    path('videos_edit/', views.index_edit, name='index_video'),
-    path('books_edit/', views.index_edit, name='index_book'),
-    path('articles_edit/', views.index_edit, name='index_article'),
-    path('cours_edit/', views.index_edit, name='index_cours'),
-    path('exams_edit/', views.index_edit, name='index_exam'),
-    
+    # المسارات العامة
     path('store-reaction/', views.store_reaction, name='store_reaction'),
     path('send_message/', send_message, name='send_message'),
     path('game/', views.rps_game, name='game'),
@@ -27,14 +21,23 @@ urlpatterns = [
     path('قواميس_بصرية/', views.contents, {'content_type': 'cours'}, name='cours'),
     path('مكتبة_تيفيناغ/', views.contents, {'content_type': 'books'}, name='books'),
 
-    # مسارات إنشاء لكل نوع محتوى
+    # المسارات الإدارية (تم تغيير البادئة من admin/ إلى adm/)
+    path('adm/dashboard/', views.dashboard, name='dashboard'),
+    
+    path('videos_edit/', views.index_edit, name='index_video'),
+    path('books_edit/', views.index_edit, name='index_book'),
+    path('articles_edit/', views.index_edit, name='index_article'),
+    path('cours_edit/', views.index_edit, name='index_cours'),
+    path('exams_edit/', views.index_edit, name='index_exam'),
+
+    # مسارات إنشاء المحتوى
     path('articles/create/', views.create_content, {'content_type': 'articles'}, name='create_article'),
     path('books/create/', views.create_content, {'content_type': 'books'}, name='create_book'),
     path('cours/create/', views.create_content, {'content_type': 'cours'}, name='create_cours'),
     path('videos/create/', views.create_content, {'content_type': 'videos'}, name='create_video'),
     path('exams/create/', views.create_content, {'content_type': 'exams'}, name='create_exam'),
 
-    # مسارات التعديل لكل نوع محتوى
+    # مسارات تعديل المحتوى
     path('videos/edit/<str:slug>/', views.edit_content, {'content_type': 'videos'}, name='edit_video'),
     path('exams/edit/<str:slug>/', views.edit_content, {'content_type': 'exams'}, name='edit_exam'),
     path('cours/edit/<str:slug>/', views.edit_content, {'content_type': 'cours'}, name='edit_cours'),

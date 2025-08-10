@@ -1,0 +1,42 @@
+
+{% load static %}
+{% include "tifinar/adm_header.html" %}
+
+<div class="content">
+    <h2 class="mt-5">لوحة تحكم الزوار</h2>
+
+    <div class="row">
+        <div class="col-12 col-md-6 mt-4">
+            <h4>إحصائيات الزيارات حسب عنوان IP</h4>
+            <div class="form">
+                <h4>عدد الزيارات لكل IP</h4>
+                <img src="data:image/png;base64,{{ ip_chart }}" alt="الزيارات حسب IP" style="width: 100%; height: auto;">
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 mt-4">
+            <h4>عدد الزيارات حسب نوع الجهاز</h4>
+            <div class="form">
+                <img src="data:image/png;base64,{{ device_chart }}" alt="الزيارات حسب نوع الجهاز" style="width: 100%; height: auto;">
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12 col-md-6">
+            <h4>عدد الزيارات لكل صفحة</h4>
+            <div class="form">
+                <img src="data:image/png;base64,{{ page_chart }}" alt="الزيارات حسب الصفحة" style="width: 100%; height: auto;">
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6">
+            <h4>عدد الزيارات حسب التاريخ (آخر 7 أيام)</h4>
+            <div class="form">
+                <img src="data:image/png;base64,{{ daily_chart }}" alt="الزيارات اليومية" style="width: 100%; height: auto;">
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "tifinar/adm_footer.html" %}

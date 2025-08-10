@@ -92,7 +92,7 @@
                                 {{ user.get_full_name|default:user.username }}</a></li>
                             <li><a class="dropdown-item" href=""><i class="fas fa-edit me-2"></i> تعديل المعلومات الشخصية</a></li>
                             {% if user.is_superuser %}
-                                <li><a class="dropdown-item" href=""><i class="fas fa-user-clock me-2"></i>تفاصيل الزيارة</a></li>
+                                <li><a class="dropdown-item" href="/adm/dashboard/"><i class="fas fa-user-clock me-2"></i>تفاصيل الزيارة</a></li>
                             {% endif %}
 
                             <li><a class="dropdown-item" href=""><i class="fas fa-sign-out-alt me-2"></i> تسجيل الخروج</a></li>

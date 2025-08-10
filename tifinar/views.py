@@ -3,10 +3,10 @@ from django.http import HttpResponseNotFound
 from django.db import models
 from .models import articles, books, exams, videos, cours, comments
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.db.models import Q, Case, When, IntegerField
+from django.db.models import Q, Case, When, IntegerField, Sum
 from .forms import CommentForm, ArticleForm, BookForm, MsgForm
 from django.contrib import messages
-from .models import ArticleReaction
+from .models import ArticleReaction, VisitorsIp
 from django.http import FileResponse, Http404, JsonResponse
 from django.utils.safestring import mark_safe
 import os
@@ -23,6 +23,136 @@ from django.core.exceptions import ValidationError
 from django.utils.html import escape
 from django.utils.text import slugify
 import re
+
+from datetime import timedelta
+import matplotlib.pyplot as plt
+from io import BytesIO
+import base64
+import pandas as pd
+import arabic_reshaper
+from bidi.algorithm import get_display
+import matplotlib as mpl
+
+# تهيئة إعدادات الخط لمعالجة النصوص العربية
+plt.rcParams['font.family'] = 'Arial'  # أو استخدام خط عربي مثل 'Traditional Arabic'
+mpl.rcParams['axes.unicode_minus'] = False
+
+def reshape_arabic(text):
+    """دالة لإعادة تشكيل النصوص العربية"""
+    reshaped_text = arabic_reshaper.reshape(text)
+    return get_display(reshaped_text)
+
+def generate_chart_image(fig):
+    buffer = BytesIO()
+    fig.savefig(buffer, format='png', bbox_inches='tight', dpi=100, transparent=True)
+    plt.close(fig)
+    buffer.seek(0)
+    image_png = buffer.getvalue()
+    buffer.close()
+    return base64.b64encode(image_png).decode('utf-8')
+
+def dashboard(request):
+    # إعداد العناوين العربية
+    titles = {
+        'ip_title': reshape_arabic('عدد الزيارات لكل IP'),
+        'device_title': reshape_arabic('نسبة الزيارات حسب نوع الجهاز'),
+        'daily_title': reshape_arabic('الزيارات خلال آخر 7 أيام'),
+        'page_title': reshape_arabic('عدد الزيارات لكل صفحة'),
+        'y_label': reshape_arabic('عدد الزيارات'),
+        'x_label_ip': reshape_arabic('عنوان IP'),
+        'x_label_date': reshape_arabic('التاريخ'),
+        'x_label_page': reshape_arabic('الصفحة'),
+    }
+
+    # إحصائيات الزيارات حسب IP
+    ip_stats = VisitorsIp.objects.values('ip').annotate(
+        total_visits=Sum('number_of_visits')
+    ).order_by('-total_visits')[:10]
+    
+    df_ip = pd.DataFrame(list(ip_stats))
+    fig_ip, ax_ip = plt.subplots(figsize=(10, 6))
+    
+    # معالجة عناوين IP العربية إن وجدت
+    df_ip['ip'] = df_ip['ip'].apply(lambda x: reshape_arabic(x) if any('\u0600' <= c <= '\u06FF' for c in str(x)) else x)
+    
+    df_ip.plot.bar(x='ip', y='total_visits', ax=ax_ip, color='purple', alpha=0.6)
+    ax_ip.set_title(titles['ip_title'], fontsize=14)
+    ax_ip.set_ylabel(titles['y_label'])
+    ax_ip.set_xlabel(titles['x_label_ip'])
+    plt.xticks(rotation=45)
+    ip_chart = generate_chart_image(fig_ip)
+
+    # إحصائيات الزيارات حسب نوع الجهاز
+    device_stats = VisitorsIp.objects.values('device_type').annotate(
+        total_visits=Sum('number_of_visits')
+    ).order_by('-total_visits')
+    
+    df_device = pd.DataFrame(list(device_stats))
+    fig_device, ax_device = plt.subplots(figsize=(10, 6))
+    
+    # معالجة أسماء الأجهزة العربية
+    df_device['device_type'] = df_device['device_type'].fillna(reshape_arabic('غير معروف'))
+    df_device['device_type'] = df_device['device_type'].apply(lambda x: reshape_arabic(x) if any('\u0600' <= c <= '\u06FF' for c in str(x)) else x)
+    
+    df_device.plot.pie(
+        y='total_visits', 
+        labels=df_device['device_type'],
+        autopct='%1.1f%%',
+        ax=ax_device,
+        colors=['#ff9999','#66b3ff','#99ff99','#ffcc99', '#c2c2f0'],
+        textprops={'fontsize': 12}
+    )
+    ax_device.set_title(titles['device_title'], fontsize=14)
+    device_chart = generate_chart_image(fig_device)
+
+    # إحصائيات الزيارات اليومية
+    seven_days_ago = timezone.now() - timedelta(days=7)
+    daily_stats = VisitorsIp.objects.filter(
+        visit_timestamp__gte=seven_days_ago
+    ).extra({'date': "DATE(visit_timestamp)"}).values('date').annotate(
+        daily_visits=Sum('number_of_visits')
+    ).order_by('date')
+    
+    df_daily = pd.DataFrame(list(daily_stats))
+    
+    if df_daily.empty:
+        df_daily = pd.DataFrame({
+            'date': pd.date_range(end=timezone.now(), periods=7).date,
+            'daily_visits': [0] * 7
+        })
+    
+    fig_daily, ax_daily = plt.subplots(figsize=(10, 6))
+    df_daily.plot.line(x='date', y='daily_visits', ax=ax_daily, marker='o', color='teal', alpha=0.6)
+    ax_daily.set_title(titles['daily_title'], fontsize=14)
+    ax_daily.set_ylabel(titles['y_label'])
+    ax_daily.set_xlabel(titles['x_label_date'])
+    plt.xticks(rotation=45)
+    daily_chart = generate_chart_image(fig_daily)
+
+    # بيانات زيارات الصفحات
+    pages = [
+        {'page': reshape_arabic('الصفحة الرئيسية'), 'visits': 120},
+        {'page': reshape_arabic('اتصل بنا'), 'visits': 80},
+        {'page': reshape_arabic('من نحن'), 'visits': 50}
+    ]
+    
+    df_page = pd.DataFrame(pages)
+    fig_page, ax_page = plt.subplots(figsize=(10, 6))
+    df_page.plot.bar(x='page', y='visits', ax=ax_page, color='blue', alpha=0.6)
+    ax_page.set_title(titles['page_title'], fontsize=14)
+    ax_page.set_ylabel(titles['y_label'])
+    ax_page.set_xlabel(titles['x_label_page'])
+    plt.xticks(rotation=45)
+    page_chart = generate_chart_image(fig_page)
+
+    context = {
+        'ip_chart': ip_chart,
+        'device_chart': device_chart,
+        'daily_chart': daily_chart,
+        'page_chart': page_chart,
+    }
+        
+    return render(request, 'tifinar/auth/dashboard.html', context)
 
 def create_content(request, content_type):
     if content_type == 'articles':
