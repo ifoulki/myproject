@@ -32,8 +32,24 @@ import pandas as pd
 import arabic_reshaper
 from bidi.algorithm import get_display
 import matplotlib as mpl
+from django.contrib.auth.decorators import login_required
+from .forms import UserEditForm  # ستحتاج لإنشاء هذا الفورم
 
-# تهيئة إعدادات الخط لمعالجة النصوص العربية
+@login_required
+def edit_user(request):
+    if request.method == 'POST':
+        form = UserEditForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            if 'clear_image' in request.POST:
+                request.user.profile_image.delete()
+            form.save()
+            messages.success(request, 'تم تحديث البيانات بنجاح')
+            return redirect('profile')
+    else:
+        form = UserEditForm(instance=request.user)
+    
+    return render(request, 'tifinar/auth/edit_user.html', {'form': form})
+
 plt.rcParams['font.family'] = 'Arial'  # أو استخدام خط عربي مثل 'Traditional Arabic'
 mpl.rcParams['axes.unicode_minus'] = False
 

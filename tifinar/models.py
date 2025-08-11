@@ -8,6 +8,8 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils import timezone
 from django.utils.text import slugify
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.utils.translation import gettext_lazy as _
 
 class AdminArticles(models.Model):
     adm_art_id = models.IntegerField(primary_key=True)
@@ -94,22 +96,155 @@ class AuthPermission(models.Model):
         db_table = 'auth_permission'
         unique_together = (('content_type', 'codename'),)
 
+class AuthUserManager(BaseUserManager):
+    def create_user(self, email, username, password=None, **extra_fields):
+        if not email:
+            raise ValueError(_('The Email must be set'))
+        if not username:
+            raise ValueError(_('The Username must be set'))
+        
+        email = self.normalize_email(email)
+        user = self.model(email=email, username=username, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
-class AuthUser(models.Model):
-    password = models.CharField(max_length=128)
-    last_login = models.DateTimeField(blank=True, null=True)
-    is_superuser = models.IntegerField()
-    username = models.CharField(unique=True, max_length=150)
-    first_name = models.CharField(max_length=150)
-    last_name = models.CharField(max_length=150)
-    email = models.CharField(max_length=254)
-    is_staff = models.IntegerField()
-    is_active = models.IntegerField()
-    date_joined = models.DateTimeField()
+    def create_superuser(self, email, username, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+        extra_fields.setdefault('is_active', True)
 
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError(_('Superuser must have is_staff=True.'))
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError(_('Superuser must have is_superuser=True.'))
+        
+        return self.create_user(email, username, password, **extra_fields)
+
+class AuthUser(AbstractBaseUser, PermissionsMixin):
+    # الحقول الأساسية
+    username = models.CharField(_('Username'), max_length=150, unique=True)
+    email = models.EmailField(_('Email Address'), max_length=254, unique=True)
+    first_name = models.CharField(_('First Name'), max_length=150)
+    last_name = models.CharField(_('Last Name'), max_length=150)
+    
+    # حقول التوثيق والحالة
+    is_staff = models.BooleanField(_('Staff Status'), default=False)
+    is_active = models.BooleanField(_('Active'), default=True)
+    date_joined = models.DateTimeField(_('Date Joined'), default=timezone.now)
+    last_login = models.DateTimeField(_('Last Login'), blank=True, null=True)
+    
+    # الحقول الإضافية من جدولك
+    email_verified_at = models.DateTimeField(_('Email Verified At'), null=True, blank=True)
+    remember_token = models.CharField(_('Remember Token'), max_length=100, null=True, blank=True)
+    
+    class Role(models.TextChoices):
+        CONTENT_CREATOR = 'content_creator', _('Content Creator')
+        ADMIN = 'admin', _('Admin')
+        USER = 'user', _('User')
+    
+    role = models.CharField(
+        _('Role'),
+        max_length=15,
+        choices=Role.choices,
+        default=Role.USER
+    )
+    
+    class EducationalLevel(models.TextChoices):
+        UNKNOWN = 'Unknown', _('Unknown')
+        ILLITERATE = 'Illiterate Person', _('Illiterate Person')
+        PRESCHOOL = 'Preschool', _('Preschool')
+        PRIMARY = 'Primary School', _('Primary School')
+        MIDDLE = 'Middle School', _('Middle School')
+        HIGH = 'High School', _('High School')
+        BACHELOR = 'Bachelor', _('Bachelor')
+        MASTER = 'Master', _('Master')
+        PHD = 'PhD', _('PhD')
+        OTHER = 'Other', _('Other')
+    
+    educational_level = models.CharField(
+        _('Educational Level'),
+        max_length=20,
+        choices=EducationalLevel.choices,
+        default=EducationalLevel.UNKNOWN
+    )
+    
+    images = models.TextField(_('Images'), null=True, blank=True)
+    ville_d_origine = models.TextField(_('Ville D\'origine'), null=True, blank=True)
+    adresse = models.TextField(_('Adresse'), null=True, blank=True)
+    
+    class EtatSocial(models.TextChoices):
+        CELIBATAIRE = 'Celibataire', _('Celibataire')
+        VEUF = 'Veu(f)ve', _('Veu(f)ve')
+        ORGANISME = 'Organisme', _('Organisme')
+        MARIE = 'Marie(e)', _('Marie(e)')
+        DIVORCE = 'Divorce(e)', _('Divorce(e)')
+    
+    etat_social = models.CharField(
+        _('Etat Social'),
+        max_length=15,
+        choices=EtatSocial.choices,
+        default=EtatSocial.CELIBATAIRE,
+        null=True,
+        blank=True
+    )
+    
+    date_de_naissance = models.DateField(_('Date de Naissance'), null=True, blank=True)
+    ideologie = models.TextField(_('Ideologie'), null=True, blank=True)
+    social_media = models.TextField(_('Social Media'), null=True, blank=True)
+    
+    class Gender(models.TextChoices):
+        MALE = 'Male', _('Male')
+        FEMALE = 'Female', _('Female')
+        OTHER = 'Other', _('Other')
+        UNKNOWN = 'Unknown', _('Unknown')
+    
+    gender = models.CharField(
+        _('Gender'),
+        max_length=10,
+        choices=Gender.choices,
+        default=Gender.UNKNOWN,
+        null=True,
+        blank=True
+    )
+    
+    tel = models.CharField(_('Tel'), max_length=20, null=True, blank=True)
+    the_type = models.TextField(_('Type'), null=True, blank=True)
+    societe = models.TextField(_('Societe'), null=True, blank=True)
+    commentaire = models.TextField(_('Commentaire'), null=True, blank=True)
+    path = models.TextField(_('Path'), null=True, blank=True)
+    keywords = models.TextField(_('Keywords'), null=True, blank=True)
+    spouse = models.CharField(_('Spouse'), max_length=255, null=True, blank=True)
+    children = models.TextField(_('Children'), null=True, blank=True)
+    siblings = models.TextField(_('Siblings'), null=True, blank=True)
+    parents = models.TextField(_('Parents'), null=True, blank=True)
+    maternal_relatives = models.TextField(_('Maternal Relatives'), null=True, blank=True)
+    paternal_relatives = models.TextField(_('Paternal Relatives'), null=True, blank=True)
+    grandparents = models.TextField(_('Grandparents'), null=True, blank=True)
+    friends = models.TextField(_('Friends'), null=True, blank=True)
+    friend_requests = models.TextField(_('Friend Requests'), null=True, blank=True)
+    name_in_arabic = models.CharField(_('Name in Arabic'), max_length=255, null=True, blank=True)
+    cousin = models.TextField(_('Cousin'), null=True, blank=True)
+    language = models.CharField(_('Language'), max_length=50, null=True, blank=True)
+    
+    USERNAME_FIELD = 'username'
+    REQUIRED_FIELDS = ['email']
+    
+    objects = AuthUserManager()
+    
     class Meta:
-        managed = False
+        verbose_name = _('Auth User')
+        verbose_name_plural = _('Auth Users')
         db_table = 'auth_user'
+    
+    def __str__(self):
+        return self.username
+    
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}"
+    
+    def get_short_name(self):
+        return self.username
 
 
 class AuthUserGroups(models.Model):

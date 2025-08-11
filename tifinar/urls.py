@@ -23,7 +23,8 @@ urlpatterns = [
 
     # المسارات الإدارية (تم تغيير البادئة من admin/ إلى adm/)
     path('adm/dashboard/', views.dashboard, name='dashboard'),
-    
+    path('profile/edit/', views.edit_user, name='edit_user'),
+
     path('videos_edit/', views.index_edit, name='index_video'),
     path('books_edit/', views.index_edit, name='index_book'),
     path('articles_edit/', views.index_edit, name='index_article'),

@@ -1,7 +1,122 @@
 from django import forms
-from .models import comments, Msgs, articles, books, videos, exams, cours
-from django.utils.text import slugify
 from django.core.exceptions import ValidationError
+from .models import comments, Msgs, articles, books, videos, exams, cours
+from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
+
+User = get_user_model()
+
+class UserEditForm(forms.ModelForm):
+    EDUCATIONAL_LEVEL_CHOICES = [
+        ('Unknown', 'لا، المقال مناسب للجميع'),
+        ('الإبتدائي :', [
+            ('1st Year of Primary School', 'السنة الأولى ابتدائي'),
+            ('2nd Year of Primary School', 'السنة الثانية ابتدائي'),
+            ('3rd Year of Primary School', 'السنة الثالثة ابتدائي'),
+            ('4th Year of Primary School', 'السنة الرابعة ابتدائي'),
+            ('5th Year of Primary School', 'السنة الخامسة ابتدائي'),
+            ('6th Year of Primary School', 'السنة السادسة ابتدائي'),
+        ]),
+        ('الإعدادي :', [
+            ('1st Year of Middle School', 'السنة الأولى إعدادي'),
+            ('2nd Year of Middle School', 'السنة الثانية إعدادي'),
+            ('3rd Year of Middle School', 'السنة الثالثة إعدادي'),
+        ]),
+        ('الثانوي :', [
+            ('Common Core', 'المشترك العلمي'),
+            ('1st Year of Baccalaureate', 'السنة الأولى من البكالوريا (تخصص علوم تجريبية)'),
+            ('2nd Year of Baccalaureate', 'السنة الثانية من البكالوريا (تخصص علوم فيزيائية)'),
+        ]),
+        ('ما بعد الثانوي :', [
+            ('Post-Baccalaureate', 'الدراسة بعد البكالوريا'),
+        ])
+    ]
+
+    profile_image = forms.ImageField(
+        label=_('الصورة الشخصية'),
+        required=False,
+        widget=forms.FileInput(attrs={'class': 'form-control'}),
+        help_text=_('الصيغ المدعومة: JPG, PNG, WEBP (الحد الأقصى 2MB)')
+    )
+    
+    educational_level = forms.ChoiceField(
+        choices=EDUCATIONAL_LEVEL_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-select'}),
+        label=_('المستوى التعليمي'),
+        required=False
+    )
+    
+    password = forms.CharField(
+        label=_("كلمة المرور الجديدة"),
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        required=False,
+        help_text=_("اتركه فارغاً إذا لم ترد التغيير (8 أحرف على الأقل)")
+    )
+    
+    password_confirmation = forms.CharField(
+        label=_("تأكيد كلمة المرور"),
+        widget=forms.PasswordInput(attrs={'class': 'form-control'}),
+        required=False
+    )
+
+    class Meta:
+        model = User
+        fields = ['profile_image', 'educational_level', 'email', 
+                 'first_name', 'last_name', 'password']
+        
+        labels = {
+            'email': _('البريد الإلكتروني'),
+            'first_name': _('الاسم الأول'),
+            'last_name': _('الاسم الأخير'),
+        }
+        
+        widgets = {
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance.pk:
+            self.fields['password'].help_text = _("اتركه فارغاً للحفاظ على كلمة المرور الحالية")
+
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get("password")
+        password_confirmation = cleaned_data.get("password_confirmation")
+        
+        if password and len(password) < 8:
+            raise ValidationError(_("كلمة المرور يجب أن تكون 8 أحرف على الأقل"))
+            
+        if password and password != password_confirmation:
+            raise ValidationError(_("كلمة المرور وتأكيدها غير متطابقين"))
+        
+        return cleaned_data
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exclude(pk=self.instance.pk).exists():
+            raise ValidationError(_("هذا البريد الإلكتروني مسجل بالفعل"))
+        return email
+
+    def clean_profile_image(self):
+        image = self.cleaned_data.get('profile_image')
+        if image:
+            if image.size > 2*1024*1024:
+                raise ValidationError(_("حجم الصورة كبير جداً (الحد الأقصى 2MB)"))
+            if not image.name.lower().endswith(('.jpg', '.jpeg', '.png', '.webp')):
+                raise ValidationError(_("نوع الملف غير مدعوم. يرجى رفع صورة بصيغة JPG, PNG أو WEBP"))
+        return image
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        if self.cleaned_data['password']:
+            user.set_password(self.cleaned_data['password'])
+        if commit:
+            user.save()
+        return user
+
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -11,28 +126,27 @@ class CommentForm(forms.ModelForm):
             'page_title': forms.HiddenInput(),
             'author_name': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'اسمك ...',
+                'placeholder': _('اسمك ...'),
                 'minlength': '3',
                 'required': True
             }),
             'author_email': forms.EmailInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'بريدك الإلكتروني ...',
+                'placeholder': _('بريدك الإلكتروني ...'),
                 'required': True
             }),
             'cmt_subject': forms.Textarea(attrs={
                 'rows': 4,
                 'class': 'form-control',
-                'placeholder': 'اكتب تعليقك هنا ...',
+                'placeholder': _('اكتب تعليقك هنا ...'),
                 'required': True
             }),
         }
         labels = {
-            'author_name': 'الاسم',
-            'author_email': 'البريد الإلكتروني',
-            'cmt_subject': 'التعليق'
+            'author_name': _('الاسم'),
+            'author_email': _('البريد الإلكتروني'),
+            'cmt_subject': _('التعليق')
         }
-
 class MsgForm(forms.ModelForm):
     class Meta:
         model = Msgs

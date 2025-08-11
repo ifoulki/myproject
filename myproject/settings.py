@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-t=+h^h+f=mxi!&hq^^fw2f-_*28g5a4ieva$tv26r^v9%m-$#8'
 DEBUG = True
 ALLOWED_HOSTS = []
-
+AUTH_USER_MODEL = 'tifinar.AuthUser'
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
