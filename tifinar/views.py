@@ -1,12 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseNotFound
 from django.db import models
-from .models import articles, books, exams, videos, cours, comments
+from .models import articles, books, exams, videos, cours, comments, ArticleReaction, VisitorsIp,AuthUser
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q, Case, When, IntegerField, Sum
-from .forms import CommentForm, ArticleForm, BookForm, MsgForm
+from .forms import CommentForm, ArticleForm, BookForm, MsgForm, ExamForm, CoursForm, VideoForm,UserEditForm
 from django.contrib import messages
-from .models import ArticleReaction, VisitorsIp
 from django.http import FileResponse, Http404, JsonResponse
 from django.utils.safestring import mark_safe
 import os
@@ -17,7 +16,6 @@ import logging
 from django.views.decorators.csrf import csrf_exempt
 logger = logging.getLogger(__name__)
 
-from .forms import ArticleForm, BookForm, ExamForm, CoursForm, VideoForm
 from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
 from django.utils.html import escape
@@ -33,7 +31,23 @@ import arabic_reshaper
 from bidi.algorithm import get_display
 import matplotlib as mpl
 from django.contrib.auth.decorators import login_required
-from .forms import UserEditForm  # ستحتاج لإنشاء هذا الفورم
+
+from django.shortcuts import render, get_object_or_404
+
+@login_required
+def show_user(request, user_id=None):
+    if user_id:
+        user = get_object_or_404(AuthUser, pk=user_id)
+    else:
+        user = request.user
+    
+    context = {
+        'user': user,
+        'user_full_name': user.get_full_name(),
+        'user_role': user.get_role_display(),
+        'educational_level': user.get_educational_level_display(),
+    }
+    return render(request, 'tifinar/auth/show_user.html', context)
 
 @login_required
 def edit_user(request):
@@ -80,7 +94,6 @@ def dashboard(request):
         'x_label_page': reshape_arabic('الصفحة'),
     }
 
-    # إحصائيات الزيارات حسب IP
     ip_stats = VisitorsIp.objects.values('ip').annotate(
         total_visits=Sum('number_of_visits')
     ).order_by('-total_visits')[:10]
@@ -88,7 +101,6 @@ def dashboard(request):
     df_ip = pd.DataFrame(list(ip_stats))
     fig_ip, ax_ip = plt.subplots(figsize=(10, 6))
     
-    # معالجة عناوين IP العربية إن وجدت
     df_ip['ip'] = df_ip['ip'].apply(lambda x: reshape_arabic(x) if any('\u0600' <= c <= '\u06FF' for c in str(x)) else x)
     
     df_ip.plot.bar(x='ip', y='total_visits', ax=ax_ip, color='purple', alpha=0.6)
@@ -98,7 +110,6 @@ def dashboard(request):
     plt.xticks(rotation=45)
     ip_chart = generate_chart_image(fig_ip)
 
-    # إحصائيات الزيارات حسب نوع الجهاز
     device_stats = VisitorsIp.objects.values('device_type').annotate(
         total_visits=Sum('number_of_visits')
     ).order_by('-total_visits')
@@ -106,7 +117,6 @@ def dashboard(request):
     df_device = pd.DataFrame(list(device_stats))
     fig_device, ax_device = plt.subplots(figsize=(10, 6))
     
-    # معالجة أسماء الأجهزة العربية
     df_device['device_type'] = df_device['device_type'].fillna(reshape_arabic('غير معروف'))
     df_device['device_type'] = df_device['device_type'].apply(lambda x: reshape_arabic(x) if any('\u0600' <= c <= '\u06FF' for c in str(x)) else x)
     
@@ -145,7 +155,6 @@ def dashboard(request):
     plt.xticks(rotation=45)
     daily_chart = generate_chart_image(fig_daily)
 
-    # بيانات زيارات الصفحات
     pages = [
         {'page': reshape_arabic('الصفحة الرئيسية'), 'visits': 120},
         {'page': reshape_arabic('اتصل بنا'), 'visits': 80},
@@ -278,26 +287,19 @@ def edit_content(request, content_type, slug):
         form = config['form_class'](request.POST, request.FILES, instance=content)
         
         if form.is_valid():
-            # حفظ جميع الحقول ماعدا حقول الصور
+            
             content = form.save(commit=False)
-            
-            # قائمة حقول الصور التي نريد حمايتها
-            image_fields = ['myimage', 'autre']
-            
-            # حفظ القيم الأصلية للصور
+            image_fields = ['myimage', 'autre']            
             original_images = {field: getattr(content, field, '') for field in image_fields}
             
-            # تحديث حقول الصور فقط إذا تم رفع ملفات جديدة
             for field in image_fields:
                 if field in request.FILES and request.FILES[field]:
                     new_files = request.FILES.getlist(field)
                     processed_value = handle_uploaded_images(new_files, original_images[field], content.slug, field.split('_')[-1])
                     setattr(content, field, processed_value)
                 else:
-                    # إعادة القيمة الأصلية إذا لم يتم رفع ملف
                     setattr(content, field, original_images[field])
             
-            # الحصول على قائمة الحقول القابلة للتحديث (استثناء PK و M2M)
             update_fields = [
                 f.name for f in content._meta.get_fields()
                 if f.concrete and 
@@ -307,10 +309,8 @@ def edit_content(request, content_type, slug):
                 f.name not in image_fields
             ]
             
-            # حفظ التغييرات مع استثناء حقول الصور من التحديث التلقائي
             content.save(update_fields=update_fields)
             
-            # تحديث حقول الصور يدوياً إذا لزم الأمر
             for field in image_fields:
                 if not (field in request.FILES and request.FILES[field]):
                     ModelClass.objects.filter(pk=content.pk).update(**{field: original_images[field]})
@@ -359,7 +359,6 @@ def send_message(request):
         if form.is_valid():
             msg = form.save(commit=False)
 
-            # القيم الافتراضية في حالة لم تُرسل
             if not msg.author_id:
                 msg.author_id = '0'
             if not msg.recipient:
@@ -382,14 +381,12 @@ def send_message(request):
 def rps_game(request):
     return render(request, 'tifinar/game.html')
 
-# دالة المساعدة لتنظيف النصوص
 def normalize_text(text):
     if not text:
         return ""
-    text = re.sub(r'[^\w\sء-ي]', '', text)  # إزالة علامات الترقيم
+    text = re.sub(r'[^\w\sء-ي]', '', text)
     text = text.strip().lower()
     return text
-
 
 def showContent(request, slug):
     found_obj = None
@@ -495,10 +492,9 @@ def showContent(request, slug):
     
     if found_obj.title:
         try:
-            # الطريقة الآمنة بدون normalized_title
             all_comments = comments.objects.filter(
                 visibility_status='public'
-            ).only('page_title', 'cmt_subject', 'author_name')  # تحديد الحقول المطلوبة فقط
+            ).only('page_title', 'cmt_subject', 'author_name')
             
             target_title = found_obj.title.lower().strip()
             comments_list = [
@@ -528,28 +524,21 @@ def showContent(request, slug):
     return render(request, 'tifinar/showContent.html', context)
 
 
-
 @csrf_exempt
 def store_comment(request):
     if request.method != 'POST':
         return redirect(request.META.get('HTTP_REFERER', '/'))
 
     try:
-        # استخراج عنوان الصفحة من URL
         referer = request.META.get('HTTP_REFERER', '')
         if referer:
-            # تحليل المسار من الرابط
             path_parts = unquote(referer).split('/')
-            # أخذ الجزء قبل الأخير من المسار (آخر جزء قبل /)
             page_title = path_parts[-2] if path_parts[-1] == '' else path_parts[-1]
-            
-            # تنظيف العنوان من الشرطات والأحرف الخاصة
             page_title = page_title.replace('-', ' ').replace('_', ' ')
             page_title = ' '.join(word.capitalize() for word in page_title.split())
         else:
             page_title = request.POST.get('page_title', 'صفحة بدون عنوان').strip()
 
-        # معالجة بيانات المستخدم
         if request.user.is_authenticated:
             author_name = f"{request.user.first_name} {request.user.last_name}".strip()
             author_email = request.user.email
@@ -559,13 +548,11 @@ def store_comment(request):
 
         cmt_subject = request.POST.get('cmt_subject', '').strip()
 
-        # التحقق من الحقول المطلوبة
         if not cmt_subject:
             raise ValidationError("نص التعليق مطلوب")
         if not author_name:
             raise ValidationError("اسم المؤلف مطلوب")
 
-        # إنشاء التعليق الجديد
         comment_data = {
             'page_title': escape(page_title),
             'author_name': escape(author_name),
@@ -604,7 +591,6 @@ def serve_pdf(request, filename):
     else:
         raise Http404("PDF not found")
 
-# تعريف قائمة الموديلات مع أسماء أعمدة المفتاح الأساسي
 models = [
     {'model': articles, 'id_column': 'art_id'},
     {'model': books, 'id_column': 'books_id'},
@@ -612,7 +598,6 @@ models = [
     {'model': videos, 'id_column': 'vd_id'},
     {'model': cours, 'id_column': 'cours_id'},
 ]
-
 
 def store_reaction(request):
     if request.method == 'POST':
@@ -639,21 +624,17 @@ def store_reaction(request):
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 def comment_view(request, title=None):
-    # الحصول على عنوان الصفحة الحالية إذا لم يتم توفيره
     if not title:
         referer = request.META.get('HTTP_REFERER', '')
         if referer:
             try:
-                # استخراج الجزء الأخير من URL
                 path_parts = unquote(referer).split('/')
                 title = path_parts[-2] if path_parts[-1] == '' else path_parts[-1]
-                # تنظيف العنوان من الرموز الخاصة
                 title = title.replace('-', ' ').replace('_', ' ').strip()
             except Exception as e:
                 logger.warning(f"Failed to extract title from URL: {str(e)}")
                 title = "صفحة بدون عنوان"
     
-    # جلب التعليقات العامة فقط للصفحة الحالية
     public_comments = comments.objects.filter(
         page_title=title,
         visibility_status='public'
@@ -665,7 +646,6 @@ def comment_view(request, title=None):
             try:
                 comment = form.save(commit=False)
                 
-                # تعبئة بيانات المستخدم المسجل
                 if request.user.is_authenticated:
                     comment.user = request.user
                     comment.author_name = f"{request.user.first_name} {request.user.last_name}".strip()
@@ -690,7 +670,6 @@ def comment_view(request, title=None):
         else:
             messages.error(request, 'يوجد خطأ في البيانات المدخلة')
     
-    # إعداد النموذج
     initial_data = {'page_title': title}
     
     if request.user.is_authenticated:
@@ -706,7 +685,7 @@ def comment_view(request, title=None):
         'comments': public_comments,
         'title': title,
         'user': request.user,
-        'obj': getattr(request, 'obj', None)  # إضافة كائن الصفحة إذا كان متاحاً
+        'obj': getattr(request, 'obj', None) 
     }
     
     return render(request, 'tifinar/comments/article_comments.html', context)
@@ -716,7 +695,6 @@ def contents(request, content_type):
     search = request.GET.get("search", "").strip()
     the_type = request.GET.get("the_type", "").strip()
 
-    # استخراج اسم الصفحة من الرابط لاختيار الجدول المناسب
     path = request.path.strip('/')
     if path == "فيديوهات":
         model = videos
@@ -777,8 +755,7 @@ def contents(request, content_type):
             article.images = []
 
     types_list = ['الأمازيغية', 'تربية وتعليم', 'الثقافة العامة', 'علوم', 'القانون وحقوق الإنسان']
-        # ------------------------------
-    # إضافة Pagination هنا:
+   
     page = request.GET.get('page', 1)  # رقم الصفحة من الرابط
 
     if model == videos or model == books:
@@ -893,10 +870,8 @@ def index_edit(request):
     try:
         articles_page = paginator.page(page)
     except PageNotAnInteger:
-        # إذا كان رقم الصفحة غير صحيح، أرجع الصفحة الأولى
         articles_page = paginator.page(1)
     except EmptyPage:
-        # إذا كانت الصفحة أكبر من عدد الصفحات، أرجع آخر صفحة
         articles_page = paginator.page(paginator.num_pages)
 
     current_url = request.build_absolute_uri()

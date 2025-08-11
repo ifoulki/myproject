@@ -10,7 +10,7 @@
                 <div class="mb-3">
                     <label for="profile_image" class="form-label">الصورة الشخصية</label>
                     {% if user.path %}
-                        <img src="{{ user.profile_image.url }}" class="img-thumbnail mb-2" width="100" alt="الصورة الحالية">
+                        <img src="/static/tifinar/{{ user.path }}" class="img-thumbnail mb-2" width="100" alt="الصورة الحالية">
                         <div class="form-check mb-2">
                             <input class="form-check-input" type="checkbox" name="clear_image" id="clear_image">
                             <label class="form-check-label" for="clear_image">حذف الصورة الحالية</label>
@@ -85,9 +85,6 @@
                             <option value="Post-Baccalaureate" {% if form.educational_level.value == 'Post-Baccalaureate' or user.educational_level == 'Post-Baccalaureate' %}selected{% endif %}>الدراسة بعد البكالوريا</option>
                         </optgroup>
                     </select>
-                    {% if form.educational_level.errors %}
-                        <small class="text-danger">{{ form.educational_level.errors }}</small>
-                    {% endif %}
                 </div>
 
                 <hr>

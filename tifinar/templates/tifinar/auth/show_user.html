@@ -1,22 +1,27 @@
-<x-layoutAdm page='الصفحة الشخصية'>
-    <section class="content">
+{% load static %}
+{% include "tifinar/adm_header.html" %}
 
-        <div class="container">
-            <div class="container">
-                <h2 class="mb-4">عرض بيانات المستخدم</h2>
+<div class="content container">
+    <div class="container">
+        <h2 class="mb-4">عرض بيانات المستخدم</h2>
 
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">معلومات المستخدم</h5>
-                        <p class="card-text"><strong>اسم المستخدم:</strong> {{ $user->name }}</p>
-                        <p class="card-text"><strong>البريد الإلكتروني:</strong> {{ $user->email }}</p>
-                        <p class="card-text"><strong>الدور:</strong> {{ $user_role }}</p>
-                        <p class="card-text"><strong>المستوى الدراسي:</strong> {{ $user->educational_level }}</p>
+        <div class="card">
+            <div class="card-body">
+                
+                <img src="/static/tifinar/{{ user.path }}" class="img-thumbnail mb-2"  alt="{{ user_full_name }}">
 
-                        <a href="{{ route('user.edit', $user) }}" class="btn btn-primary">تعديل البيانات</a>
-                    </div>
-                </div>
+                <strong>{{ user_full_name }}</strong>
+                <hr>
+
+                <p class="card-text"><strong>البريد الإلكتروني:</strong> {{ user.email }}</p>
+                <p class="card-text"><strong>الدور:</strong> {{ user_role }}</p>
+                <p class="card-text"><strong>المستوى الدراسي:</strong> {{ educational_level }}</p>
+                <p class="card-text"><strong>تاريخ التسجيل:</strong> {{ user.date_joined|date:"Y-m-d" }}</p>
+
+                <a href="/profile/edit/" class="btn btn-primary">تعديل البيانات</a>
             </div>
         </div>
-    </section>
-</x-layoutAdm>
+    </div>
+</div>
+
+{% include "tifinar/adm_footer.html" %}

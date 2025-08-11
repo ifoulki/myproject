@@ -67,7 +67,7 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle profile" href="#" id="authDropdown" role="button" data-bs-toggle="dropdown">
                             {% if user_first_image %}
-                                <img src="/static/{{ user_first_image }}" 
+                                <img src="/static/tifinar/{{ user_first_image }}" 
                                     class="img-profile rounded-circle" 
                                     width="30" 
                                     height="30"
@@ -78,9 +78,9 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-left">
 
-                            <li><a class="dropdown-item" href="">
+                            <li><a class="dropdown-item" href="/profile/">
                                 {% if user_first_image %}
-                                    <img src="/static/{{ user_first_image }}" 
+                                    <img src="/static/tifinar/{{ user_first_image }}" 
                                     class="img-profile rounded-circle" 
                                     width="30" 
                                     height="30"
@@ -90,7 +90,7 @@
                                 {% endif %}
 
                                 {{ user.get_full_name|default:user.username }}</a></li>
-                            <li><a class="dropdown-item" href=""><i class="fas fa-edit me-2"></i> تعديل المعلومات الشخصية</a></li>
+                            <li><a class="dropdown-item" href="/profile/edit/"><i class="fas fa-edit me-2"></i> تعديل المعلومات الشخصية</a></li>
                             {% if user.is_superuser %}
                                 <li><a class="dropdown-item" href="/adm/dashboard/"><i class="fas fa-user-clock me-2"></i>تفاصيل الزيارة</a></li>
                             {% endif %}

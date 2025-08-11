@@ -22,8 +22,10 @@ urlpatterns = [
     path('مكتبة_تيفيناغ/', views.contents, {'content_type': 'books'}, name='books'),
 
     # المسارات الإدارية (تم تغيير البادئة من admin/ إلى adm/)
+    path('profile/', views.show_user, name='show_profile'),
     path('adm/dashboard/', views.dashboard, name='dashboard'),
     path('profile/edit/', views.edit_user, name='edit_user'),
+    path('profile/<int:user_id>/', views.show_user, name='show_user'),    
 
     path('videos_edit/', views.index_edit, name='index_video'),
     path('books_edit/', views.index_edit, name='index_book'),
