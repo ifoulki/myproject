@@ -69,8 +69,7 @@
             <div class="collapse navbar-collapse" id="navbarContent">
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        {% if not user.is_authenticated %}
-                            <li class="nav-item dropdown">
+                        {% if not request.user.is_authenticated %}                            <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="authDropdown" role="button" data-bs-toggle="dropdown">
                                     <i class="fas fa-user-circle me-2"></i> دخول/إنشاء حساب
                                 </a>
@@ -90,42 +89,47 @@
                         {% else %}
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="authDropdown" role="button" data-bs-toggle="dropdown">
-                                    {% if user.profile.path %}
-                                        <img src="{{ user.profile.first_image }}" alt="لوحة التحكم" class="img-profile rounded-circle" width="30" height="30">
+                                    {% if user_first_image %}
+                                        <img src="/static/tifinar/{{ user_first_image }}" 
+                                            class="img-profile rounded-circle" 
+                                            width="30" 
+                                            height="30"
+                                            alt="{{ user_full_name }}">
                                     {% else %}
-                                        <i class="fas fa-user-circle me-2"></i> لوحة التحكم
+                                        <i class="fas fa-user-circle me-2"></i>
                                     {% endif %}
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-left">
-                                    <li>
-                                        <a class="dropdown-item" href="{% url 'user_profile' user.id %}">
-                                            {% if user.profile.path %}
-                                                <img src="{{ user.profile.first_image }}" alt="لوحة التحكم" class="img-profile rounded-circle" width="30" height="30">
-                                                {{ user.first_name }} {{ user.last_name }}
-                                            {% else %}
-                                                <i class="fas fa-user me-2"></i> {{ user.first_name }} {{ user.last_name }}
-                                            {% endif %}
-                                        </a>
+                                    <li><a class="dropdown-item" href="/profile/">
+                                        {% if user_first_image %}
+                                            <img src="/static/tifinar/{{ user_first_image }}" 
+                                            class="img-profile rounded-circle" 
+                                            width="30" 
+                                            height="30"
+                                            alt="{{ user_full_name }}">
+                                        {% else %}
+                                            <i class="fas fa-user-circle me-2"></i>
+                                        {% endif %}
+
+                                        {{ user.get_full_name|default:user.username }}</a>
                                     </li>
                     
                                     {% if user.is_staff %}
-                                    <li>
-                                        <a class="dropdown-item" href="{% url 'dashboard' %}">
-                                            <i class="fas fa-user-clock me-2"></i> تفاصيل الزيارة
-                                        </a>
-                                    </li>
+                                        <li>
+                                            <a class="dropdown-item" href="{% url 'dashboard' %}">
+                                                <i class="fas fa-user-clock me-2"></i> تفاصيل الزيارة
+                                            </a>
+                                        </li>
                                     {% endif %}
                     
-                                    <li>
-                                        <a class="dropdown-item" href="{% url 'edit_profile' user.id %}">
-                                            <i class="fas fa-edit me-2"></i> تعديل المعلومات الشخصية
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="">
-                                            <i class="fas fa-sign-out-alt me-2"></i> تسجيل الخروج
-                                        </a>
-                                    </li>
+                                    <li><a class="dropdown-item" href="/profile/edit/"><i class="fas fa-edit me-2"></i> تعديل المعلومات الشخصية</a></li>
+                                    {% if user.is_superuser %}
+                                        <li>
+                                            <a class="dropdown-item" href="">
+                                                <i class="fas fa-sign-out-alt me-2"></i> تسجيل الخروج
+                                            </a>
+                                        </li>
+                                    {% endif %}
                                 </ul>
                             </li>
                         {% endif %}

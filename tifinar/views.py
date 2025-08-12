@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseNotFound
 from django.db import models
-from .models import articles, books, exams, videos, cours, comments, ArticleReaction, VisitorsIp,AuthUser
+from .models import articles, books, exams, videos, cours, comments, ArticleReaction, VisitorsIp,AuthUser, myadmin
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q, Case, When, IntegerField, Sum
 from .forms import CommentForm, ArticleForm, BookForm, MsgForm, ExamForm, CoursForm, VideoForm,UserEditForm
@@ -16,7 +16,6 @@ import logging
 from django.views.decorators.csrf import csrf_exempt
 logger = logging.getLogger(__name__)
 
-from django.shortcuts import render, redirect
 from django.core.exceptions import ValidationError
 from django.utils.html import escape
 from django.utils.text import slugify
@@ -32,7 +31,51 @@ from bidi.algorithm import get_display
 import matplotlib as mpl
 from django.contrib.auth.decorators import login_required
 
-from django.shortcuts import render, get_object_or_404
+
+
+def welcome(request):
+    """
+    عرض صفحة الترحيب الرئيسية مع المحتوى والإعلانات
+    """
+    content = {
+        'title': "مجلة تيفيناغ - tifinar.net",
+        'page': "مجلة تيفيناغ هي مجلة إلكترونية تهتم بنشر المعرفة العلمية والثقافية وتبسيط العلوم، كما تقدم دروس رائعة لمساعدة التلاميذ والطلاب في دراستهم",
+        'image': "education.webp",
+        'author': 'حميد بعلوان',
+        'date': timezone.now().date(),
+        'description': "مجلة تيفيناغ هي مجلة إلكترونية تهتم بنشر المعرفة العلمية والثقافية وتبسيط العلوم، كما تقدم دروس رائعة لمساعدة التلاميذ والطلاب في دراستهم",
+        'url': request.build_absolute_uri('/'),
+        'folder': "assets",
+    }
+    
+    try:
+        admin_settings = myadmin.objects.first()
+        if admin_settings:
+            content['ads'] = admin_settings.ads or ""  
+            content['aside_ads'] = admin_settings.aside_ads or "" 
+            content['meta_title'] = admin_settings.meta_title or content['title']
+            content['meta_description'] = admin_settings.meta_description or content['description']
+        else:
+            content['ads'] = ""
+            content['aside_ads'] = ""
+    except Exception as e:
+        print(f"Error loading admin settings: {e}")
+        content['ads'] = ""
+        content['aside_ads'] = ""
+    
+    try:
+        content['books'] = books.objects.order_by('?')[:4]
+        content['articles'] = articles.objects.order_by('?')[:5] 
+        content['videos'] = videos.objects.filter(
+            the_type__contains='أصناف أخرى'
+        ).order_by('?')[:5] 
+    except Exception as e:
+        print(f"Error loading content: {e}")
+        content['books'] = []
+        content['articles'] = []
+        content['videos'] = []
+    
+    return render(request, 'tifinar/index.html', content)
 
 @login_required
 def show_user(request, user_id=None):
@@ -64,7 +107,7 @@ def edit_user(request):
     
     return render(request, 'tifinar/auth/edit_user.html', {'form': form})
 
-plt.rcParams['font.family'] = 'Arial'  # أو استخدام خط عربي مثل 'Traditional Arabic'
+plt.rcParams['font.family'] = 'Arial'
 mpl.rcParams['axes.unicode_minus'] = False
 
 def reshape_arabic(text):
@@ -179,6 +222,12 @@ def dashboard(request):
         
     return render(request, 'tifinar/auth/dashboard.html', context)
 
+
+    
+    position = models.CharField(max_length=10, choices=POSITION_CHOICES)
+    code = models.TextField()
+    is_active = models.BooleanField(default=True)
+    
 def create_content(request, content_type):
     if content_type == 'articles':
         FormClass = ArticleForm

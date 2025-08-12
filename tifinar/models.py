@@ -632,7 +632,7 @@ class Msgs(models.Model):
         db_table = 'msgs'
 
 
-class Myadmin(models.Model):
+class myadmin(models.Model):
     adm_id = models.IntegerField(primary_key=True)
     logo = models.CharField(max_length=255, blank=True, null=True)
     mobile_logo = models.CharField(max_length=255, blank=True, null=True)
@@ -644,7 +644,6 @@ class Myadmin(models.Model):
     meta_keyword = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
-
     class Meta:
         managed = False
         db_table = 'myadmin'

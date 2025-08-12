@@ -1,10 +1,11 @@
 from django.urls import path
 from . import views
 from .views import serve_pdf, send_message
-
-app_name = "tifinar"
+from . import api_views
+from .api_views import content_detail 
 
 urlpatterns = [
+
     # المسارات العامة
     path('store-reaction/', views.store_reaction, name='store_reaction'),
     path('send_message/', send_message, name='send_message'),
@@ -32,6 +33,7 @@ urlpatterns = [
     path('articles_edit/', views.index_edit, name='index_article'),
     path('cours_edit/', views.index_edit, name='index_cours'),
     path('exams_edit/', views.index_edit, name='index_exam'),
+    path('', views.welcome, name='welcome'),
 
     # مسارات إنشاء المحتوى
     path('articles/create/', views.create_content, {'content_type': 'articles'}, name='create_article'),
@@ -39,13 +41,14 @@ urlpatterns = [
     path('cours/create/', views.create_content, {'content_type': 'cours'}, name='create_cours'),
     path('videos/create/', views.create_content, {'content_type': 'videos'}, name='create_video'),
     path('exams/create/', views.create_content, {'content_type': 'exams'}, name='create_exam'),
-
+    
     # مسارات تعديل المحتوى
     path('videos/edit/<str:slug>/', views.edit_content, {'content_type': 'videos'}, name='edit_video'),
     path('exams/edit/<str:slug>/', views.edit_content, {'content_type': 'exams'}, name='edit_exam'),
     path('cours/edit/<str:slug>/', views.edit_content, {'content_type': 'cours'}, name='edit_cours'),
     path('articles/edit/<str:slug>/', views.edit_content, {'content_type': 'articles'}, name='edit_article'),
     path('books/edit/<str:slug>/', views.edit_content, {'content_type': 'books'}, name='edit_book'),
+    path('api/content/<slug:slug>/', content_detail, name='content-detail'),
 
     # مسار عرض المحتوى الفردي (يجب أن يكون في النهاية)
     path('<str:slug>/', views.showContent, name='show_content'),
