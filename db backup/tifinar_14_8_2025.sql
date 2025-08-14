@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 10, 2025 at 11:17 PM
+-- Generation Time: Aug 15, 2025 at 12:25 AM
 -- Server version: 11.8.2-MariaDB
 -- PHP Version: 8.0.30
 
@@ -229,7 +229,6 @@ INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `userna
 (16, '$2b$12$QoIB/EDfA1KOS8IWGz7P5u6S7XYDwnMvwg.JxlFtrGowlUQlkmVT.', NULL, 0, 'adilmilano999@gmail.com', 'Maryam', 'Aytihya', 'adilmilano999@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', '2nd Year of Primary School', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar'),
 (17, '$2b$12$ahJZln.cBqUPT6Tq3pNTOu0lSUF/Ks.CXc1Tmyuoo/9SESRLC70dq', NULL, 0, 'sedrikhuntfd54@gmail.com', 'EsSxcclQdDg', 'zDKXZDIfqB', 'sedrikhuntfd54@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Other', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar'),
 (18, '$2b$12$jkehKt5OqbTzlUudFcy3j.7DK9AWxjKuxUvWYx8ogwMpU2s.gdD5W', NULL, 0, 'ahurstm46@gmail.com', 'WtmwKbqOa', 'vVKcPqTB', 'ahurstm46@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Other', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar'),
-(19, '$2b$12$rCtiVmaoU7qqhiNDeun7x.Y0CgPIVqNYgDMlfkJnkKTQsHABYIDEi', NULL, 0, 'bqnpbfad@dont-reply.me', 'John', 'MyName', 'bqnpbfad@dont-reply.me', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Unknown', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Other', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar'),
 (20, '$2b$12$otoxy/WLwNB9mrqYxcZqvuX1iqC0VmwG6wldHvP/YQHvElwtIkU4K', NULL, 0, 'agounimohamed669@gmail.com', 'ⴰⴳⵓⵏⵉ', 'ⵎⵓⵃⵎⵎⴷ', 'agounimohamed669@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Common Core', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Male', NULL, NULL, NULL, NULL, '/tmp/phpkBbimL,images/users/41/1745370044888.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar'),
 (21, '$2b$12$GMY1wsD4n4/2a/cI.rR/fOY2q1pzr3ryQrLDKSMt4WdrKbygTwgqm', NULL, 0, 'inigow27@gmail.com', 'QncFHGEmSHJ', 'oksfLFbqt', 'inigow27@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Other', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar'),
 (22, '$2b$12$CyRKf5900JgFIaDFzbf/1eEQl.Dyq2C8Xx5PZqiQmOlklGD1JCvHa', NULL, 0, 'ibratasti@gmail.com', 'Brahim', 'Tasti', 'ibratasti@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar'),
@@ -476,7 +475,7 @@ CREATE TABLE `comments` (
 INSERT INTO `comments` (`cmt_id`, `page_title`, `author_name`, `cmt_subject`, `author_email`, `visibility_status`, `created_at`, `updated_at`) VALUES
 (3, 'Vocabulaire de l\'École en Français', 'douae elaceri', '😊😊😊😊😊سرعتيه يا  حميد   ولوليييي', 'douae@2016', 'public', '2025-01-14 16:01:17', '2025-01-20 23:51:07'),
 (4, 'Vocabulaire de l\'École en Français', 'sirine bellihi', 'Merci👍', 'sirinebellihi@gmail.com', 'public', '2025-01-14 17:57:07', '2025-01-20 23:50:49'),
-(5, 'قصة الحكيم واختبار الكلمات الثلاث', 'sirine bellihi', 'الله يعطيكم الصحة🥳', 'sirinebellihi@gmail.com', 'public', '2025-01-14 18:11:09', '2025-07-29 22:06:45'),
+(5, 'قصة الحكيم واختبار الكلمات الثلاث', 'حميد بعلوان', 'الله يعطيكم الصحة🥳', 'contact@tifinar.net', 'public', '2025-01-14 18:11:09', '2025-08-14 22:17:54'),
 (7, 'Apprenez les Noms des Animaux en Français', 'sirine bellihi', '👏', 'sirinebellihi@gmail.com', 'public', '2025-01-14 21:42:59', '2025-01-20 23:50:55');
 
 -- --------------------------------------------------------

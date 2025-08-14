@@ -122,7 +122,7 @@
         
             <div class="reaction-btn-container">
                                 
-                <form action="{% url 'tifinar:store_reaction' %}" method="POST">
+                <form action="" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="page_title" value="{{ obj.title }}">
         
