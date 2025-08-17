@@ -20,6 +20,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('tifinar.urls')),  # للمحتوى الرئيسي (سيحتفظ بكل مساراتك الحالية)
-    path('api/comments/', include('tifinar.comment_urls')),  # مسار منفصل للتعليقات
 ]
 

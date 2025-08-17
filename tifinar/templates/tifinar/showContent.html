@@ -4,7 +4,7 @@
 
 <section>
     <article>
-        <h1>{{ obj.title|safe }}</h1>
+        <h1>{{ title|safe }}</h1>
 
         {# عرض الصورة إذا لم يكن المحتوى فيديو #}
         {% if folder != 'videos' %}
@@ -151,7 +151,7 @@
         
         <hr>
         
-        {% include "tifinar/comments/article_comments.html" %}
+        {% comment %} {% include "tifinar/comments/article_comments.html" %} {% endcomment %}
 
     </article>
     {% include "tifinar/sidebar.html" %}
