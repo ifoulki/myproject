@@ -591,7 +591,7 @@ class Migrations(models.Model):
         db_table = 'migrations'
 
 
-class Msgs(models.Model):
+class msgs(models.Model):
     STATUS_CHOICES = [
         ('read', 'Read'),
         ('unread', 'Unread'),
@@ -603,7 +603,7 @@ class Msgs(models.Model):
         ('rtl', 'rtl'),
     ]
     msg_id = models.AutoField(primary_key=True)
-    mysubject = models.TextField(db_column='Mysubject', blank=True, null=True)  # Field name made lowercase.        
+    mysubject = models.TextField(db_column='mysubject', blank=True, null=True)  # Field name made lowercase.        
     email = models.TextField(db_column='Email', blank=True, null=True)  # Field name made lowercase.
     title = models.TextField(blank=True, null=True)
     author = models.CharField(db_column='Author', max_length=255, blank=True, null=True)  # Field name made lowercase.

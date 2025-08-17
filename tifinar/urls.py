@@ -2,10 +2,13 @@ from django.urls import path
 from django.http import Http404
 from importlib import import_module
 from django.db import connection
-from tifinar.models import articles, videos, cours, books, exams,Visitors,VisitorsIp
+from tifinar.models import articles, videos, cours, books, exams,Visitors,VisitorsIp,msgs
 from tifinar.views.content.content import contents
 from tifinar.views.dashboard.dashboard import dashboard_view
 from tifinar.views.content.eddit_index import index_eddit
+from tifinar.views.content.welcome import welcome
+from tifinar.views.games.rock_paper_scissors import rps_game
+from tifinar.views.audience.msgs import send_message
 
 def table_exists(table_name):
     """للتحقق من وجود الجدول في قاعدة البيانات"""
@@ -63,7 +66,10 @@ urlpatterns = [
     path('books_edit/', index_eddit, name='books_edit'),
     path('exams_edit/', index_eddit, name='exams_edit'),
     path('adm/dashboard/', dashboard_view, name='dashboard'),
+    path('rock_paper_scissors/', rps_game, name='rock_paper_scissors'),
+    path('send_message/', send_message, name='send_message'),
 
     # المحتوى الديناميكي (يجب أن يكون آخر مسار)
     path('<str:slug>/', content_router, name='dynamic_content'),
+    path('', welcome, name='welcome'),
 ]

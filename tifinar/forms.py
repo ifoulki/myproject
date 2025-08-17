@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import comments, Msgs, articles, books, videos, exams, cours
+from .models import comments, msgs, articles, books, videos, exams, cours
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
@@ -149,7 +149,7 @@ class CommentForm(forms.ModelForm):
         }
 class MsgForm(forms.ModelForm):
     class Meta:
-        model = Msgs
+        model = msgs
         fields = ['author', 'author_id', 'email', 'title', 'author_img', 'recipient', 'mysubject']
 
         widgets = {

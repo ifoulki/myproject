@@ -31,52 +31,6 @@ from bidi.algorithm import get_display
 import matplotlib as mpl
 from django.contrib.auth.decorators import login_required
 
-
-
-def welcome(request):
-    """
-    عرض صفحة الترحيب الرئيسية مع المحتوى والإعلانات
-    """
-    content = {
-        'title': "مجلة تيفيناغ - tifinar.net",
-        'page': "مجلة تيفيناغ هي مجلة إلكترونية تهتم بنشر المعرفة العلمية والثقافية وتبسيط العلوم، كما تقدم دروس رائعة لمساعدة التلاميذ والطلاب في دراستهم",
-        'image': "education.webp",
-        'author': 'حميد بعلوان',
-        'date': timezone.now().date(),
-        'description': "مجلة تيفيناغ هي مجلة إلكترونية تهتم بنشر المعرفة العلمية والثقافية وتبسيط العلوم، كما تقدم دروس رائعة لمساعدة التلاميذ والطلاب في دراستهم",
-        'url': request.build_absolute_uri('/'),
-        'folder': "assets",
-    }
-    
-    try:
-        admin_settings = myadmin.objects.first()
-        if admin_settings:
-            content['ads'] = admin_settings.ads or ""  
-            content['aside_ads'] = admin_settings.aside_ads or "" 
-            content['meta_title'] = admin_settings.meta_title or content['title']
-            content['meta_description'] = admin_settings.meta_description or content['description']
-        else:
-            content['ads'] = ""
-            content['aside_ads'] = ""
-    except Exception as e:
-        print(f"Error loading admin settings: {e}")
-        content['ads'] = ""
-        content['aside_ads'] = ""
-    
-    try:
-        content['books'] = books.objects.order_by('?')[:4]
-        content['articles'] = articles.objects.order_by('?')[:5] 
-        content['videos'] = videos.objects.filter(
-            the_type__contains='أصناف أخرى'
-        ).order_by('?')[:5] 
-    except Exception as e:
-        print(f"Error loading content: {e}")
-        content['books'] = []
-        content['articles'] = []
-        content['videos'] = []
-    
-    return render(request, 'tifinar/index.html', content)
-
 @login_required
 def show_user(request, user_id=None):
     if user_id:
@@ -395,35 +349,6 @@ def handle_uploaded_images(new_images, existing_images, slug, image_type):
     
     return ','.join(image_names)
             
-
-def send_message(request):
-    if request.method == 'POST':
-
-        form = MsgForm(request.POST)
-        if form.is_valid():
-            msg = form.save(commit=False)
-
-            if not msg.author_id:
-                msg.author_id = '0'
-            if not msg.recipient:
-                msg.recipient = '1'
-            if not msg.author_img:
-                msg.author_img = ''
-            
-            msg.save()
-
-            messages.success(request, 'تم إرسال رسالتك بنجاح!')
-            return redirect(request.META.get('HTTP_REFERER', '/'))
-        else:
-            messages.error(request, 'حدث خطأ أثناء إرسال الرسالة. تأكد من صحة البيانات.')
-
-    else:
-        form = MsgForm()
-
-    return render(request, 'tifinar/send_message.html', {'form': form})
-
-def rps_game(request):
-    return render(request, 'tifinar/game.html')
 
 def normalize_text(text):
     if not text:
