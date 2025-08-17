@@ -7,11 +7,9 @@
 {% endif %}
 
 <h2>أضف تعليقك</h2>
-<form class="form" action="{% url 'tifinar_comments:store_comment' %}" method="POST" id="comment-form" >
+<form class="form" action="" method="POST" id="comment-form" >
     {% csrf_token %}
 
-
-    <input type="hidden" name="page_title" value="{{ obj.name|default:obj.get_title|default:request.path|default:'عنوان افتراضي' }}">
     <input type="hidden" name="page_title" value="{{ title }}">
 
     {% if user.is_authenticated %}

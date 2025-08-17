@@ -8,21 +8,19 @@
 
         {# عرض الصورة إذا لم يكن المحتوى فيديو #}
         {% if folder != 'videos' %}
-            {% if obj.myimage %}
-                <img src="{% static 'tifinar/images/' %}{{ folder }}/{{ obj.myimage }}" 
-                     alt="{{ obj.title }}" class="article-image">
+            {% if  myimage %}
+                <img src="{% static 'tifinar/images/' %}{{ folder }}/{{  myimage }}" 
+                     alt="{{  title }}" class="article-image">
             {% endif %}
         {% endif %}
 
         <div class="Author">
-            {{ obj.author|safe }}
+            {{  author|safe }}
         </div>
         
         <div class="date">
-            {{ obj.updated_at }}
+            {{  updated_at }}
         </div>
-
-        {% with direction=obj.dir subject=obj.mysubject %}
 
             {# عرض محتوى الفيديو لو كان الفيديو هو المحتوى #}
             {% if folder == 'videos' %}
@@ -56,23 +54,22 @@
                     {{ subject|safe }}
                 </div>
             {% endif %}
-        
-        {% endwith %}
-        
+                
         {# عرض إضافات أخرى حسب نوع المحتوى #}
-        <div {% if obj.dir %} dir="{{ obj.dir }}" {% endif %}>
+        <div {% if  dir %} dir="{{  dir }}" {% endif %}>
             {% if folder == 'articles' %}
-                {{ obj.mysubject | safe }}
-                {% if autres_list %}
-                    <img src="{% static 'tifinar/images/articles/' %}{{ autres_list.0 }}" alt="{{ obj.title }}">
+                {{  subject | safe }}
+                {% if autre %}
+                    <img src="{% static 'tifinar/images/articles/' %}{{ autre }}" alt="{{  title }}" width="100%">
                 {% endif %}
             {% elif folder == 'books' %}
-                {{ obj.mysubject | safe }}<br>
-                {% if obj.dir == 'rtl' %}
+                {{  subject | safe }}<br>
+                {% if  dir == 'rtl' %}
                     رابط تحميل كتاب :
-                        <a target="_blank" href="/files/{{obj.autre}}">{{obj.title}}</a>                    
+                        <a target="_blank" href="/files/{{ autre}}">{{ title}}</a>                    
                 {% else %}
                     📖 Download the book:
+                        <a target="_blank" href="/files/{{ autre}}">{{ title}}</a>                    
                 {% endif %}
             {% endif %}
         </div>
@@ -81,7 +78,7 @@
                         return url.replace(/\s+/g, '_');
                     }
         
-                    let originalText = "{{ obj.autre }}";
+                    let originalText = "{{  autre }}";
                     let urlText = convertSpacesToUnderscores(originalText);
         
                     document.addEventListener("DOMContentLoaded", function() {
@@ -124,7 +121,7 @@
                                 
                 <form action="" method="POST">
                     {% csrf_token %}
-                    <input type="hidden" name="page_title" value="{{ obj.title }}">
+                    <input type="hidden" name="page_title" value="{{  title }}">
         
                     <button class="reaction-btn btn-love {% if reactions.love %}selected{% endif %}" type="submit" name="reaction_type" value="love">
                         ❤️ <span class="reaction-count">{{ reactions.love|default:"" }}</span>
@@ -151,7 +148,7 @@
         
         <hr>
         
-        {% comment %} {% include "tifinar/comments/article_comments.html" %} {% endcomment %}
+        {% include "tifinar/comments/article_comments.html" %}
 
     </article>
     {% include "tifinar/sidebar.html" %}
