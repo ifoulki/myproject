@@ -1,0 +1,153 @@
+{% load static %}
+{% load custom_filters %}
+{% include "tifinar/adm_header.html" %}
+
+<div class="content">
+    <h1>{{ title }}</h1>
+
+    <div class="filter mt-4 p-4 border rounded shadow-sm bg-light">
+        <form method="GET" action="{% url 'users' %}" class="d-flex flex-column flex-md-row align-items-md-center mb-3">
+            <div class="input-group border rounded flex-grow-1 d-flex">
+                <input type="text" class="form-control search-input border-0 flex-grow-1" id="search" name="search" 
+                       placeholder="ابحث عن عضو" value="{{ request.GET.search }}">
+                <button type="submit" class="btn btn-outline-primary search-btn flex-shrink-0" style="width: 50px;">
+                    <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+    
+    {% if not users %}
+        <p>لا توجد بيانات للعرض.</p>
+    {% else %}
+        <div class="container mt-5">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th class="img-contacnt">ID</th>
+                            <th class="img-contacnt">الصورة</th>
+                            <th>الاسم</th>
+                            <th>Tel</th>
+                            <th>التحكم</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                            {% if user.contacts_id != request.user.contacts_id %}
+                                {% with user.path|split as paths %}
+                                    {% with paths|shuffle as shuffled_paths %}
+                                        {% with shuffled_paths.0 as first_path %}
+                                            <tr>
+                                                <td><a href="{% url 'user_profile' user.contacts_id %}">{{ user.contacts_id }}</a></td>
+                                                <td class="img-contacnt">
+                                                    {% if first_path %}
+                                                        <a href="{{ first_path|media_url }}" data-lightbox="gallery" 
+                                                           data-title="{{ user.first_name }} {{ user.last_name }}">
+                                                            <img src="{% static 'tifinar/images/contacts/'%}{{ first_path }}" 
+                                                                 alt="{{ user.first_name }} {{ user.last_name }}" 
+                                                                 class="img-thumbnail" style="width: 80px; height: 80px;">
+                                                        </a>
+                                                    {% else %}
+                                                        {% if user.gender == 'Female' %}
+                                                            <a href="{% static 'tifinar/assets/female.webp' %}" data-lightbox="gallery"
+                                                               data-title="{{ user.first_name }} {{ user.last_name }}">
+                                                                <img src="{% static 'tifinar/assets/female.webp' %}" 
+                                                                     alt="{{ user.prenom }} {{ user.nom }}"
+                                                                     class="img-thumbnail" style="width: 80px; height: 80px;">
+                                                            </a>
+                                                        {% else %}
+                                                            <a href="{% static 'tifinar/assets/male.webp' %}" data-lightbox="gallery"
+                                                               data-title="{{ user.prenom }} {{ user.nom }}">
+                                                                <img src="{% static 'tifinar/assets/male.webp' %}" 
+                                                                     alt="{{ user.first_name }} {{ user.last_name }}"
+                                                                     class="img-thumbnail" style="width: 80px; height: 80px;">
+                                                            </a>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <a href="{% url 'user_profile' user.contacts_id %}">
+                                                        {{ user.prenom }} {{ user.nom }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    {% if user.tel %}
+                                                        <a href="{% url 'user_profile' user.contacts_id %}">
+                                                            {{ user.tel }}
+                                                        </a>
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <div class="friendship-section">
+                                                        <div>
+                                                            {% if false %}
+                                                                <form action="" method="POST">
+                                                                    {% csrf_token %}
+                                                                    <button type="submit" class="btn btn-warning">إلغاء طلب صداقة</button>
+                                                                </form>
+                                                                <form action="" method="POST">
+                                                                    {% csrf_token %}
+                                                                    <button type="submit" class="btn btn-success">قبول طلب صداقة</button>
+                                                                </form>
+                                                                <form action="" method="POST">
+                                                                    {% csrf_token %}
+                                                                    <button type="submit" class="btn btn-danger">رفض طلب صداقة</button>
+                                                                </form>
+                                                            {% else %}
+                                                                <form action="" method="POST">
+                                                                    {% csrf_token %}
+                                                                    <button type="submit" class="btn btn-primary">إرسال طلب صداقة</button>
+                                                                </form>
+                                                            {% endif %}
+                                                            <button onclick="redirectToForm({{ user.contacts_id }})" class="send-button">
+                                                                <i class="fas fa-comment"></i> إرسال رسالة
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        {% endwith %}
+                                    {% endwith %}
+                                {% endwith %}
+                            {% endif %}
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="pagination-wrapper">
+        {% if users.has_other_pages %}
+            <ul class="pagination">
+                {% if users.has_previous %}
+                    <li><a href="?page={{ users.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.role %}&role={{ request.GET.role }}{% endif %}">&laquo;</a></li>
+                {% endif %}
+                {% for i in users.paginator.page_range %}
+                    {% if users.number == i %}
+                        <li class="active"><span>{{ i }}</span></li>
+                    {% else %}
+                        <li><a href="?page={{ i }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.role %}&role={{ request.GET.role }}{% endif %}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+                {% if users.has_next %}
+                    <li><a href="?page={{ users.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.role %}&role={{ request.GET.role }}{% endif %}">&raquo;</a></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightbox2/dist/js/lightbox-plus-jquery.js"></script>
+
+<script>
+function redirectToForm(userId) {
+    const url = `/اتصل_بنا?user_id=${userId}`;
+    window.location.href = url;
+}
+</script>
+
+{% include "tifinar/adm_footer.html" %}

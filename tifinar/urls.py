@@ -11,6 +11,8 @@ from tifinar.views.games.rock_paper_scissors import rps_game
 from tifinar.views.audience.msgs import send_message
 from tifinar.views.content.cours import show_cours 
 from tifinar.views.users.user import show_user 
+from tifinar.views.users.users_index import users_index 
+from tifinar.views.contacts.contacts_index import contacts_index
 from tifinar.views.users.user import edit_user 
 from tifinar.views.content_manager.create_contents import create_content 
 from tifinar.views.content_manager.edit_contents import edit_content
@@ -89,6 +91,8 @@ urlpatterns = [
     path('send_message/', send_message, name='send_message'),
     path('profile/edit/', edit_user, name='edit_user'),
     path('profile/', show_user, name='show_user'),
+    path('users/', users_index, name='users'),
+    path('contacts/', contacts_index, name='contacts'),
     
     #  إنشاء المحتوى
     path('articles/create/', create_content, {'content_type': 'articles'}, name='create_article'),
@@ -103,7 +107,7 @@ urlpatterns = [
     path('books/edit/<path:slug>/', edit_content, {'content_type': 'books'}, name='edit_book'),
     path('cours/edit/<path:slug>/', edit_content, {'content_type': 'cours'}, name='edit_cours'),
     path('exams/edit/<path:slug>/', edit_content, {'content_type': 'exams'}, name='edit_exam'), 
-    
+    path('profile/<int:user_id>/', show_user, name='user_profile'),
     # مسار خاص بـ cours قبل المسار العام
     path('cours/<path:slug>/', show_cours, name='show_cours'),
 

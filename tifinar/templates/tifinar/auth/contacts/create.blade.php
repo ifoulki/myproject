@@ -13,10 +13,8 @@
                 </div>
             @endif
 
-            <form method="POST" enctype="multipart/form-data" action="{{ route('contacts.store') }}">
+            <form method="POST" enctype="multipart/form-data" action="{{ route('auth.users.store') }}">
                 @csrf
-                
-                <input value="{{Auth::user()->id}}" name="Author" >
     
                 <label class="label">
                     <i class="fas fa-upload"></i> تحميل صورة :
@@ -37,43 +35,36 @@
                     <input type="text" name="Nom" class="form-control" value="{{ old('Nom')}}">
                 </div>
 
-                <hr>
-
-                <div>
-                    <div class="mb-3">
-                        <label for="educational_level" class="form-label">
-                            <i class="fas fa-graduation-cap"></i>المستوى الدراسي :
-                        </label>
-                        
-                        <select id="educational_level" name="educational_level" class="form-select">
-                                <option value="Unknown" {{ old('educational_level') == 'Unknown' ? 'selected' : '' }}>لا، الكتاب مناسب للجميع</option>
-                            <optgroup label="الإبتدائي :">
-                                <option value="1st Year of Primary School" {{ old('educational_level') == '1st Year of Primary School' ? 'selected' : '' }}>السنة الأولى ابتدائي</option>
-                                <option value="2nd Year of Primary School" {{ old('educational_level') == '2nd Year of Primary School' ? 'selected' : '' }}>السنة الثانية ابتدائي</option>
-                                <option value="3rd Year of Primary School" {{ old('educational_level') == '3rd Year of Primary School' ? 'selected' : '' }}>السنة الثالثة ابتدائي</option>
-                                <option value="4th Year of Primary School" {{ old('educational_level') == '4th Year of Primary School' ? 'selected' : '' }}>السنة الرابعة ابتدائي</option>
-                                <option value="5th Year of Primary School" {{ old('educational_level') == '5th Year of Primary School' ? 'selected' : '' }}>السنة الخامسة ابتدائي</option>
-                                <option value="6th Year of Primary School" {{ old('educational_level') == '6th Year of Primary School' ? 'selected' : '' }}>السنة السادسة ابتدائي</option>
-                            </optgroup>
-                            <optgroup label="الثانوي الإعدادي :">
-                                <option value="1st Year of Middle School" {{ old('educational_level') == '1st Year of Middle School' ? 'selected' : '' }}>السنة الأولى إعدادي</option>
-                                <option value="2nd Year of Middle School" {{ old('educational_level') == '2nd Year of Middle School' ? 'selected' : '' }}>السنة الثانية إعدادي</option>
-                                <option value="3rd Year of Middle School" {{ old('educational_level') == '3rd Year of Middle School' ? 'selected' : '' }}>السنة الثالثة إعدادي</option>
-                            </optgroup>
-                            <optgroup label="الثانوي الثأهيلي :">
-                                <option value="Common Core" {{ old('educational_level') == 'Common Core' ? 'selected' : '' }}>المشترك العلمي</option>
-                                <option value="1st Year of Baccalaureate" {{ old('educational_level') == '1st Year of Baccalaureate' ? 'selected' : '' }}>السنة الأولى من البكالوريا</option>
-                                <option value="2nd Year of Baccalaureate" {{ old('educational_level') == '2nd Year of Baccalaureate' ? 'selected' : '' }}>السنة الثانية من البكالوريا</option>
-                            </optgroup>
-                            <optgroup label="التعليم العالي">
-                                <option value="Post-Baccalaureate" {{ old('educational_level') == 'Post-Baccalaureate' ? 'selected' : '' }}>الدراسة بعد البكالوريا</option>
-                            </optgroup>
-                        </select>
-                        
-                    </div>
-                    @error('education_level')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror                  
+                <div class="mb-3">
+                    <label for="educational_level" class="form-label"><i class="fas fa-graduation-cap"></i> المستوي الدراسي:</label>
+                    <select id="educational_level" name="educational_level" class="form-select">
+                        <option value="Unknown" disabled selected>اختر مستواك التعليمي</option>
+                        <optgroup label="المستويات غير المدرسية">
+                            <option value="Illiterate Person" {{ old('educational_level')   == 'Unknown' ? 'selected' : '' }}>غير متعلم في المدرسة</option>
+                            <option value="Preschool" {{ old('educational_level')   == 'Illiterate Person' ? 'selected' : '' }}>روضة الأطفال</option>
+                        </optgroup>
+                        <optgroup label="التعليم الابتدائي">
+                            <option value="1st Year of Primary School" {{ old('educational_level')  == '1st Year of Primary School' ? 'selected' : '' }}>السنة الأولى ابتدائي</option>
+                            <option value="2nd Year of Primary School" {{ old('educational_level')  == '2nd Year of Primary School' ? 'selected' : '' }}>السنة الثانية ابتدائي</option>
+                            <option value="3rd Year of Primary School" {{ old('educational_level')  == '3rd Year of Primary School' ? 'selected' : '' }}>السنة الثالثة ابتدائي</option>
+                            <option value="4th Year of Primary School" {{ old('educational_level')  == '4th Year of Primary School' ? 'selected' : '' }}>السنة الرابعة ابتدائي</option>
+                            <option value="5th Year of Primary School" {{ old('educational_level')  == '5th Year of Primary School' ? 'selected' : '' }}>السنة الخامسة ابتدائي</option>
+                            <option value="6th Year of Primary School" {{ old('educational_level')  == '6th Year of Primary School' ? 'selected' : '' }}>السنة السادسة ابتدائي</option>
+                        </optgroup>
+                        <optgroup label="التعليم الإعدادي">
+                            <option value="1st Year of Middle School" {{ old('educational_level')  == '1st Year of Middle School' ? 'selected' : '' }}>السنة الأولى إعدادي</option>
+                            <option value="2nd Year of Middle School" {{ old('educational_level')  == '2nd Year of Middle School' ? 'selected' : '' }}>السنة الثانية إعدادي</option>
+                            <option value="3rd Year of Middle School" {{ old('educational_level')  == '3rd Year of Middle School' ? 'selected' : '' }}>السنة الثالثة إعدادي</option>
+                        </optgroup>
+                        <optgroup label="التعليم الثانوي">
+                            <option value="Common Core" {{ old('educational_level')  == 'Common Core' ? 'selected' : '' }}>جدع مشترك</option>
+                            <option value="1st Year of Baccalaureate" {{ old('educational_level')  == '1st Year of Baccalaureate' ? 'selected' : '' }}>السنة الأولى بكالوريا</option>
+                            <option value="2nd Year of Baccalaureate" {{ old('educational_level')  == '2nd Year of Baccalaureate' ? 'selected' : '' }}>السنة الثانية بكالوريا</option>
+                        </optgroup>
+                        <optgroup label="التعليم العالي">
+                            <option value="Post-Baccalaureate" {{ old('educational_level')  == 'Post-Baccalaureate' ? 'selected' : '' }}>التعليم العالي</option>
+                        </optgroup>
+                    </select>
                 </div>
 
                 <div class="mb-3">
@@ -157,4 +148,5 @@
                 
             </form>
         </article>
-    </x-layoutAdm>
+    
+</x-layoutAdm>
