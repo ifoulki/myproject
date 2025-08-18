@@ -13,6 +13,7 @@ from tifinar.views.content.cours import show_cours
 from tifinar.views.users.user import show_user 
 from tifinar.views.users.user import edit_user 
 from tifinar.views.content_manager.create_contents import create_content 
+from tifinar.views.content_manager.edit_contents import edit_content
 
 def table_exists(table_name):
     """للتحقق من وجود الجدول في قاعدة البيانات"""
@@ -87,13 +88,22 @@ urlpatterns = [
     path('rock_paper_scissors/', rps_game, name='rock_paper_scissors'),
     path('send_message/', send_message, name='send_message'),
     path('profile/edit/', edit_user, name='edit_user'),
+    path('profile/', show_user, name='show_user'),
+    
+    #  إنشاء المحتوى
     path('articles/create/', create_content, {'content_type': 'articles'}, name='create_article'),
     path('videos/create/', create_content, {'content_type': 'videos'}, name='create_video'),
     path('books/create/', create_content, {'content_type': 'books'}, name='create_book'),
     path('cours/create/', create_content, {'content_type': 'cours'}, name='create_cours'),
     path('exams/create/', create_content, {'content_type': 'exams'}, name='create_exam'),
-    path('profile/', show_user, name='show_user'),
 
+    #  تعديل المحتوى المحتوى
+    path('articles/edit/<path:slug>/', edit_content, {'content_type': 'articles'}, name='edit_article'),
+    path('videos/edit/<path:slug>/', edit_content, {'content_type': 'videos'}, name='edit_video'),
+    path('books/edit/<path:slug>/', edit_content, {'content_type': 'books'}, name='edit_book'),
+    path('cours/edit/<path:slug>/', edit_content, {'content_type': 'cours'}, name='edit_cours'),
+    path('exams/edit/<path:slug>/', edit_content, {'content_type': 'exams'}, name='edit_exam'), 
+    
     # مسار خاص بـ cours قبل المسار العام
     path('cours/<path:slug>/', show_cours, name='show_cours'),
 

@@ -9,7 +9,7 @@
     <article class="content">
         <h1><i class="fas fa-edit"></i> تعديل مقال: <br> {{ article.title }}</h1>
 
-        <form method="POST" action="{% url 'tifinar:edit_article' article.slug %}" enctype="multipart/form-data" id="editForm">
+        <form method="POST" action="{% url 'edit_article' article.slug %}" enctype="multipart/form-data" id="editForm">
             {% csrf_token %}
             
             <div>

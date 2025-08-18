@@ -8,7 +8,7 @@
             <i class="fas fa-edit"></i> تعديل كتاب: <br> {{ article.title }}
         </h1>
 
-        <form method="POST" action="{% url 'tifinar:edit_book' article.slug %}" enctype="multipart/form-data" id="editForm">
+        <form method="POST" action="{% url 'edit_book' article.slug %}" enctype="multipart/form-data" id="editForm">
 
             {% csrf_token %}
             

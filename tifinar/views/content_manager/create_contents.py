@@ -14,55 +14,6 @@ import arabic_reshaper
 from bidi.algorithm import get_display
 import matplotlib as mpl
 
-
-CONTENT_TYPES = {
-    'articles': {
-        'model': articles,
-        'id_field': 'art_id',
-        'subject_field': 'mysubject',
-        'template': 'edit_article.html',
-        'redirect_name': 'show_article',
-        'types': ['الأمازيغية', 'تربية وتعليم', 'الثقافة العامة', 'علوم', 'القانون وحقوق الإنسان'],
-        'form_class': ArticleForm,
-    },
-    'books': {
-        'model': books,
-        'id_field': 'book_id',
-        'subject_field': 'mysubject',
-        'template': 'edit_book.html',
-        'redirect_name': 'show_book',
-        'form_class': BookForm,
-        'types': ['أدب', 'علوم', 'تاريخ', 'فلسفة']
-    },
-    'exams': {
-        'model': exams,
-        'id_field': 'exam_id',
-        'subject_field': 'mysubject',
-        'template': 'edit_exam.html',
-        'redirect_name': 'show_exam',
-        'form_class': ExamForm,
-        'types': ['أدب', 'علوم', 'تاريخ', 'فلسفة']
-    },
-    'cours': {
-        'model': cours,
-        'id_field': 'cours_id',
-        'subject_field': 'mysubject',
-        'template': 'edit_cours.html',
-        'redirect_name': 'show_cours',
-        'form_class': CoursForm,
-        'types': ['أدب', 'علوم', 'تاريخ', 'فلسفة']
-    },
-    'videos': {
-        'model': videos,
-        'id_field': 'vd_id',
-        'template': 'edit_video.html',
-        'form_class': VideoForm,
-        'redirect_name': 'show_video',
-        'types': ['أدب', 'علوم', 'تاريخ', 'فلسفة']
-    },
-}
-
-
 plt.rcParams['font.family'] = 'Arial'
 mpl.rcParams['axes.unicode_minus'] = False
 

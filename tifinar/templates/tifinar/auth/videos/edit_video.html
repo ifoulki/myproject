@@ -11,7 +11,7 @@
             <i class="fas fa-edit"></i> تعديل فيديو: <br> {{ article.title }}
         </h1>
 
-        <form method="POST" action="{% url 'tifinar:edit_video' article.slug %}" enctype="multipart/form-data" id="editForm">
+        <form method="POST" action="{% url 'edit_video' article.slug %}" enctype="multipart/form-data" id="editForm">
 
             {% csrf_token %}
             

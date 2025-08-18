@@ -45,7 +45,7 @@
                     <div class="listes-contenu" dir="{{ article.dir  }}">
 
                         <div class="image-caption">
-                            <a href="/exams/edit/{{ article.slug  }}">
+                            <a href="/articles/edit/{{ article.slug  }}">
                                 {% if article.images %}
                                     <img src="{% static 'tifinar/images/' %}{{ table_name }}/{{ article.images.0 }}" 
                                         alt="{{ article.title }}"
@@ -82,7 +82,7 @@
                                     معاينة المقال 
                                 </a>
 
-                                <a href="/exams/edit/{{ article.slug  }}" class="btn btn-primary">
+                                <a href="/articles/edit/{{ article.slug  }}" class="btn btn-primary">
                                     <i class="fas fa-edit"></i> تعديل المقال
                                 </a>
                             </div>
