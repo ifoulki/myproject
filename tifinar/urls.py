@@ -14,6 +14,8 @@ from tifinar.views.users.user import show_user
 from tifinar.views.users.users_index import users_index 
 from tifinar.views.contacts.contacts_index import contacts_index
 from tifinar.views.users.user import edit_user 
+from tifinar.views.users.show_user import user_profile_view,edit_user_profile, delete_user_profile, manage_user_relations, update_profile_image
+from tifinar.views.contacts.show_contact import contact_view,edit_contact, delete_contact, manage_contact_relations, update_contact_image
 from tifinar.views.content_manager.create_contents import create_content 
 from tifinar.views.content_manager.edit_contents import edit_content
 
@@ -91,8 +93,22 @@ urlpatterns = [
     path('send_message/', send_message, name='send_message'),
     path('profile/edit/', edit_user, name='edit_user'),
     path('profile/', show_user, name='show_user'),
-    path('users/', users_index, name='users'),
+    
+        # مسارات المستخدمين
     path('contacts/', contacts_index, name='contacts'),
+    path('users/', users_index, name='users'),
+    
+    path('users/<int:user_id>/', user_profile_view, name='user_profile_view'),  # لملف شخصي معين
+    path('users/<int:user_id>/edit/', edit_user_profile, name='edit_user_profile'),  # لتعديل ملف معين (للمسؤولين)
+    path('users/<int:user_id>/delete/', delete_user_profile, name='delete_user_profile'),
+    path('users/<int:user_id>/manage-relations/', manage_user_relations, name='manage_user_relations'),
+    path('users/<int:user_id>/update-image/', update_profile_image, name='update_profile_image'),
+    
+    path('contacts/<int:contacts_id>/', contact_view, name='contact_view'),  # لملف شخصي معين
+    path('contacts/<int:contacts_id>/edit/', edit_contact, name='edit_contact'),  # لتعديل ملف معين (للمسؤولين)
+    path('contacts/<int:contacts_id>/delete/', delete_contact, name='delete_contact'),
+    path('contacts/<int:contacts_id>/manage-relations/', manage_contact_relations, name='manage_contact_relations'),
+    path('contacts/<int:contacts_id>/update-image/', update_contact_image, name='update_contact_image'),
     
     #  إنشاء المحتوى
     path('articles/create/', create_content, {'content_type': 'articles'}, name='create_article'),

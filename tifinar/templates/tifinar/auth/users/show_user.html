@@ -1,0 +1,249 @@
+{% load static %}
+{% load custom_filters %}
+{% include "tifinar/adm_header.html" %}
+
+<div class="content">
+    {% with user.path|split:',' as images %}
+    {% with images|shuffle as shuffled_images %}
+    
+    {% if user.path %}
+        <div id="imageCarousel" class="carousel slide mb-4" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for image in shuffled_images %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <img src="{% static 'tifinar/'%}{{ image }}" class="d-block w-100" alt=" {{image}} صورة {{ user.first_name }} {{ user.last_name }}" style="max-width:400px; margin: auto;">
+                    </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#imageCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">السابق</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#imageCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">التالي</span>
+            </button>
+        </div>
+    {% else %}
+        {% if user.gender == 'Male' %}
+            <div class="text-center mb-4">
+                <img src="{% static 'tifinar/assets/male.webp' %}" class="img-fluid" alt="صورة {{ user.first_name }} {{ user.last_name }}" style="max-width:400px;">
+            </div>
+        {% else %}
+            <div class="text-center mb-4">
+                <img src="{% static 'tifinar/assets/female.webp' %}" class="img-fluid" alt="صورة {{ user.first_name }} {{ user.last_name }}" style="max-width:400px;">
+            </div>
+        {% endif %}
+    {% endif %}
+    {% endwith %}
+    {% endwith %}
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <h1 class="mb-4"><i class="fas fa-user"></i> {{ user.first_name }} {{ user.last_name }}</h1>
+
+            {% if request.user.role == "admin" %}
+                <h5 class="card-title"><i class="fas fa-id-badge"></i> الرقم التسلسلي: {{ user.id }}</h5>
+                <hr>
+            {% endif %}
+
+            <p class="card-text"><i class="fas fa-venus-mars"></i> <strong>الجنس:</strong>  
+                {% if user.gender == 'Female' %}
+                    أنثى
+                {% elif user.gender == 'Male' %}
+                    ذكر
+                {% else %}
+                    آخر
+                {% endif %}
+                <hr>
+            </p>
+
+            {% if user.email %}
+                <p class="card-text"><i class="fas fa-envelope"></i> <strong>البريد الإلكتروني:</strong> {{ user.email }}</p>
+                <hr>
+            {% endif %}
+
+            {% if user.phone and request.user.role == "admin" or request.user.id == user.id %}
+                <p class="card-text"><i class="fas fa-phone"></i> <strong>رقم الهاتف:</strong> {{ user.phone }}</p>
+                <hr>
+            {% endif %}
+
+            {% if user.role and request.user.role == "admin" or request.user.id == user.id %}
+                <p class="card-text"><i class="fas fa-list"></i> <strong>الصفة:</strong>
+                {% if user.role == 'admin' %}
+                    مدير الموقع 
+                {% elif user.role == 'content_creator' %}
+                    منشئ محتوى
+                {% else %}
+                    مستخدم للموقع
+                {% endif %}
+                <hr>
+            {% endif %}
+
+            {% if user.societe %}
+                <p class="card-text"><i class="fas fa-building"></i> <strong>الشركة:</strong> {{ user.societe }}</p>
+                <hr>
+            {% endif %}
+
+            {% if user.address %}
+                <p class="card-text"><i class="fas fa-map-marker-alt"></i> <strong>العنوان:</strong> {{ user.address }}</p>
+                <hr>
+            {% endif %}
+            
+            {% if user.origin_city %}
+                <p class="card-text"><i class="fas fa-city"></i> <strong>المدينة الأصلية:</strong> {{ user.origin_city }}</p>
+                <hr>
+            {% endif %}
+
+            {% if user.social_media %}
+                <p class="card-text"><i class="fas fa-share-alt"></i> <strong>وسائل التواصل الإجتماعي:</strong>
+                    {% with user.social_media|string_to_dict as social_media %}
+                        {% if social_media %}
+                            <style>
+                                ul li::before {
+                                    content: "\002B9C";
+                                    left: 0;
+                                }
+                            </style>
+                            <ul>
+                                {% for site, username in social_media.items %}
+                                    <li style="list-style: none;">
+                                        {% if site == 'facebook' %}
+                                            <a href="https://www.facebook.com/{{ username }}" target="_blank">
+                                                {{ username }} <i class="fab fa-facebook"></i>
+                                            </a>
+                                        {% elif site == 'youtube' %}
+                                            <style>
+                                                ul li::before {
+                                                    color: red;
+                                                }
+                                            </style>
+                                            <a href="https://www.youtube.com/{{ username }}" target="_blank" style="color: red;">
+                                                {{ username }} <i class="fab fa-youtube"></i>
+                                            </a>
+                                        {% elif site == 'instagram' %}
+                                            <style>
+                                                ul li::before {
+                                                    color: #dd2a7b;
+                                                }
+                                            </style>
+                                            <a href="https://www.instagram.com/{{ username }}" style="color:#dd2a7b;" target="_blank">
+                                                {{ username }} <i style="padding:2px; color:white; background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4);" class="fab fa-instagram"></i>
+                                            </a>
+                                        {% endif %}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endwith %}
+                </p>
+                <hr>
+            {% endif %}
+
+            <p class="card-text">💍 <strong>الحالة الإجتماعية:</strong> 
+                {% if user.social_status == 'Celibataire' %}
+                    {% if user.gender == 'Female' %}
+                        <span class="badge bg-warning">عازبة</span>
+                    {% else %}
+                        <span class="badge bg-warning">عازب</span>
+                    {% endif %}
+                {% elif user.social_status == 'Veu(f)ve' %}
+                    {% if user.gender == 'Female' %}
+                        <span class="badge bg-danger">أرملة</span>
+                    {% else %}
+                        <span class="badge bg-danger">أرمل</span>
+                    {% endif %}
+                {% elif user.social_status == 'Organisme' %}
+                    <span class="badge bg-info">مؤسسة</span>
+                {% elif user.social_status == 'Marie(e)' %}
+                    {% if user.gender == 'Female' %}
+                        متزوجة
+                    {% else %}
+                        متزوج
+                    {% endif %}
+                    {% if user.spouse %}
+                        من {{ user.spouse }}
+                    {% endif %}
+                {% elif user.social_status == 'Fiancee' %}
+                    <span class="badge bg-primary">في فترة خطوبة</span>
+                {% elif user.social_status == 'Divorce(e)' %}
+                    {% if user.gender == 'Female' %}
+                        <span class="badge bg-dark">مطلقة</span>
+                    {% else %}
+                        <span class="badge bg-dark">مطلق</span>
+                    {% endif %}
+                {% else %}
+                    <span class="badge bg-secondary">غير معروفة</span>
+                {% endif %}
+                <hr>
+            </p>
+
+            {% if user.birth_date %}
+                <p class="card-text"><i class="fas fa-birthday-cake"></i> <strong>تاريخ الإزدياد:</strong> {{ user.birth_date }}</p>
+                <hr>
+            {% endif %}
+
+            <p class="card-text"><i class="fas fa-graduation-cap"></i> <strong>المستوي الدراسي:</strong> {{ user.educational_level }}</p>
+            <hr>
+
+            {% if user.ideology %}
+                <p class="card-text"><i class="fas fa-comment-dots"></i> <strong>الآراء الدينية والسياسية:</strong> {{ user.ideology }}</p>
+                <hr>
+            {% endif %}
+
+            {% if user.comment %}
+                <p class="card-text"><i class="fas fa-info-circle"></i> <strong>معلومات إضافية أخرى:</strong> {{ user.comment }}</p>
+                <hr>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="d-flex gap-2 mb-4">
+        {% if request.user.role == "admin" %}
+            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                <i class="fas fa-trash-alt"></i> حذف العضو
+            </button>
+        {% endif %}
+
+        {% if request.user.id == user.id or request.user.role == "admin" %}
+            <a href="{% url 'edit_user_profile' user.id %}" class="btn btn-primary">
+                {% if user.path %}
+                    <img src="{% static 'tifinar/'%}{{ user.path|split:','|first }}" alt="لوحة التحكم" class="img-profile rounded-circle" width="30" height="30">
+                {% endif %}
+                <i class="fas fa-arrow-left"></i> تعديل أو إضافة تفاصيل أخرى
+            </a>
+        {% endif %}
+    </div>
+    
+    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> العودة للصفحة السابقة
+    </a>
+
+    {% if request.user.role == "admin" %}
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel"><i class="fas fa-exclamation-triangle text-danger"></i> تأكيد الحذف</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        هل أنت متأكد من أنك تريد حذف هذا العضو؟
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
+                        <form action="{% url 'delete_user_profile' user.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="fas fa-trash-alt"></i> نعم، احذف
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+{% include "tifinar/adm_footer.html" %}

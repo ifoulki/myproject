@@ -39,7 +39,7 @@
                                     {% with paths|shuffle as shuffled_paths %}
                                         {% with shuffled_paths.0 as first_path %}
                                             <tr>
-                                                <td><a href="{% url 'user_profile' user.id %}">{{ user.id }}</a></td>
+                                                <td><a href="{% url 'user_profile_view' user.id %}">{{ user.id }}</a></td>
                                                 <td class="img-contacnt">
                                                     {% if first_path %}
                                                         <a href="{{ first_path|media_url }}" data-lightbox="gallery" 
@@ -67,13 +67,13 @@
                                                     {% endif %}
                                                 </td>
                                                 <td>
-                                                    <a href="{% url 'user_profile' user.id %}">
+                                                    <a href="{% url 'user_profile_view' user.id %}">
                                                         {{ user.first_name }} {{ user.last_name }}
                                                     </a>
                                                 </td>
                                                 <td>
                                                     {% if user.tel %}
-                                                        <a href="{% url 'user_profile' user.id %}">
+                                                        <a href="{% url 'user_profile_view' user.id %}">
                                                             {{ user.tel }}
                                                         </a>
                                                     {% endif %}
