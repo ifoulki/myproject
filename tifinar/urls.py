@@ -2,14 +2,16 @@ from django.urls import path
 from django.http import Http404
 from importlib import import_module
 from django.db import connection
-from tifinar.models import articles, videos, cours, books, exams, Visitors, VisitorsIp, msgs
+from tifinar.models import articles, videos, cours, books, exams, Visitors, AuthUser
 from tifinar.views.content.content import contents
 from tifinar.views.dashboard.dashboard import dashboard_view
 from tifinar.views.content.eddit_index import index_eddit
 from tifinar.views.content.welcome import welcome
 from tifinar.views.games.rock_paper_scissors import rps_game
 from tifinar.views.audience.msgs import send_message
-from tifinar.views.content.cours import show_cours  # تأكد من أن هذا الاستيراد صحيح
+from tifinar.views.content.cours import show_cours 
+from tifinar.views.users.user import show_user 
+from tifinar.views.users.user import edit_user 
 
 def table_exists(table_name):
     """للتحقق من وجود الجدول في قاعدة البيانات"""
@@ -19,10 +21,12 @@ def table_exists(table_name):
 CONTENT_TYPES = [
     ('articles', articles, 'tifinar.views.content.articles.article_detail'),
     ('videos', videos, 'tifinar.views.content.videos.video_detail'),
-    ('cours', cours, 'tifinar.views.content.cours.show_cours'),  # تأكد من المسار الصحيح
+    ('cours', cours, 'tifinar.views.content.cours.show_cours'), 
     ('books', books, 'tifinar.views.content.books.book_detail'),
     ('exams', exams, 'tifinar.views.content.exams.exam_detail'),
     ('visitors', Visitors, 'tifinar.views.dashboard.dashboard.dashboard_view'),
+    ('user', AuthUser, 'tifinar.views.users.user.show_user'),
+    ('edit_user', AuthUser, 'tifinar.views.users.user.edit_user'),
 ]
 
 def get_view(view_path):
@@ -81,6 +85,8 @@ urlpatterns = [
     path('adm/dashboard/', dashboard_view, name='dashboard'),
     path('rock_paper_scissors/', rps_game, name='rock_paper_scissors'),
     path('send_message/', send_message, name='send_message'),
+    path('profile/edit/', edit_user, name='edit_user'),
+    path('profile/', show_user, name='show_user'),
 
     # مسار خاص بـ cours قبل المسار العام
     path('cours/<path:slug>/', show_cours, name='show_cours'),

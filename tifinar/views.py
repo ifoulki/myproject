@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseNotFound
-from .models import articles, books, exams, videos, cours, comments, ArticleReaction, VisitorsIp,AuthUser, myadmin
+from .models import articles, books, exams, videos, cours, comments, ArticleReaction
 from .forms import CommentForm, ArticleForm, BookForm, ExamForm, CoursForm, VideoForm,UserEditForm
 from django.contrib import messages
 from django.http import FileResponse, Http404
@@ -24,21 +24,6 @@ import arabic_reshaper
 from bidi.algorithm import get_display
 import matplotlib as mpl
 from django.contrib.auth.decorators import login_required
-
-@login_required
-def show_user(request, user_id=None):
-    if user_id:
-        user = get_object_or_404(AuthUser, pk=user_id)
-    else:
-        user = request.user
-    
-    context = {
-        'user': user,
-        'user_full_name': user.get_full_name(),
-        'user_role': user.get_role_display(),
-        'educational_level': user.get_educational_level_display(),
-    }
-    return render(request, 'tifinar/auth/show_user.html', context)
 
 @login_required
 def edit_user(request):
