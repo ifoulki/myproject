@@ -53,7 +53,7 @@
                 {% endif %}
             {% endif %}
 
-            <input type="hidden" name="recipient_id" value="{{ recipient_id }}">
+                <input type="hidden" name="recipient" value="{{ request.GET.user_id }}">
 
             {% if recipient_id == 14 or user.id == 1 or user.id == 14 %}
                 <label class="label"><i class="fas fa-sticky-note"></i> موضوع الرسالة:</label><br>
@@ -73,5 +73,17 @@
         </form>
     </article>
 </section>
-
+<script>
+    // الحصول على قيمة user_id من URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const userId = urlParams.get('user_id');
+    
+    // تعيين القيمة في الحقل المخفي
+    document.addEventListener('DOMContentLoaded', function() {
+        const recipientInput = document.querySelector('input[name="recipient"]');
+        if (recipientInput && userId) {
+            recipientInput.value = userId;
+        }
+    });
+</script>
 {% include "tifinar/footer.html" %}
