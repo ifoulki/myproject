@@ -1,7 +1,16 @@
 from django import template
-
 import re
+import random
 
+register = template.Library()
+
+@register.filter
+def shuffle(value):
+    temp = list(value)
+    random.shuffle(temp)
+    return temp
+
+    
 register = template.Library()
 
 @register.filter(name='youtube_url_check')

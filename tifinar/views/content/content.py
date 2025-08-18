@@ -65,7 +65,9 @@ def contents(request):
                 output_field=IntegerField(),
             )
         ).order_by('relevance')
-
+    else:
+        queryset = queryset.order_by('-created_at')
+        
     # معالجة الصور للمحتوى
     for item in queryset:
         if hasattr(item, 'myimage') and item.myimage:
@@ -101,6 +103,7 @@ def contents(request):
         'title': title,
         'dir': 'rtl',
         'articles': page_obj,
+        'page_obj': page_obj,      # هذا ما يحتاجه الـ template
         'types_list': types_list,
         'table_name': model._meta.db_table,
         'paginator': paginator,

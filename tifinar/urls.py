@@ -2,13 +2,14 @@ from django.urls import path
 from django.http import Http404
 from importlib import import_module
 from django.db import connection
-from tifinar.models import articles, videos, cours, books, exams,Visitors,VisitorsIp,msgs
+from tifinar.models import articles, videos, cours, books, exams, Visitors, VisitorsIp, msgs
 from tifinar.views.content.content import contents
 from tifinar.views.dashboard.dashboard import dashboard_view
 from tifinar.views.content.eddit_index import index_eddit
 from tifinar.views.content.welcome import welcome
 from tifinar.views.games.rock_paper_scissors import rps_game
 from tifinar.views.audience.msgs import send_message
+from tifinar.views.content.cours import show_cours  # تأكد من أن هذا الاستيراد صحيح
 
 def table_exists(table_name):
     """للتحقق من وجود الجدول في قاعدة البيانات"""
@@ -18,7 +19,7 @@ def table_exists(table_name):
 CONTENT_TYPES = [
     ('articles', articles, 'tifinar.views.content.articles.article_detail'),
     ('videos', videos, 'tifinar.views.content.videos.video_detail'),
-    ('cours', cours, 'tifinar.views.content.cours.cours_detail'),
+    ('cours', cours, 'tifinar.views.content.cours.show_cours'),  # تأكد من المسار الصحيح
     ('books', books, 'tifinar.views.content.books.book_detail'),
     ('exams', exams, 'tifinar.views.content.exams.exam_detail'),
     ('visitors', Visitors, 'tifinar.views.dashboard.dashboard.dashboard_view'),
@@ -36,6 +37,18 @@ def get_view(view_path):
 
 def content_router(request, slug):
     """موجه المحتوى الديناميكي"""
+    print(f"البحث عن slug: {slug}")  # للتصحيح
+    
+    try:
+        if table_exists(cours._meta.db_table):
+            cour = cours.objects.filter(slug=slug).first()
+            print(f"نتيجة البحث في جدول cours: {cour}")  # للتصحيح
+            if cour:
+                return show_cours(request, slug)
+    except Exception as e:
+        print(f"خطأ في البحث في جدول cours: {str(e)}")
+
+    # إذا لم يوجد في cours، ابحث في بقية الجداول
     for content_type, model, view_path in CONTENT_TYPES:
         try:
             if not table_exists(model._meta.db_table):
@@ -68,6 +81,9 @@ urlpatterns = [
     path('adm/dashboard/', dashboard_view, name='dashboard'),
     path('rock_paper_scissors/', rps_game, name='rock_paper_scissors'),
     path('send_message/', send_message, name='send_message'),
+
+    # مسار خاص بـ cours قبل المسار العام
+    path('cours/<path:slug>/', show_cours, name='show_cours'),
 
     # المحتوى الديناميكي (يجب أن يكون آخر مسار)
     path('<str:slug>/', content_router, name='dynamic_content'),

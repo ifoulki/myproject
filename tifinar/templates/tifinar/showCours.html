@@ -1,0 +1,142 @@
+{% include "tifinar/header.html" %} 
+{% load static %}
+
+<section>
+  <article dir="{{ dir }}">
+    <h1>{{ title|safe }}</h1>
+
+    <div class="date">{{ updated_at }}</div>
+
+    {% if the_type == 'without_board' %}
+    <div class="Author">{{ intro|safe }}</div>
+
+    <div class="cours">
+      {% for item in content_image_pairs %}
+      <figure class="{{ folder_child }}">
+        <figcaption class="invisible figname_cour">
+          {{ item.content }}
+        </figcaption>
+
+        <img
+          src="{% static 'tifinar/images/cours/'|add:folder_child|add:'/'|add:item.image %}"
+          loading="lazy"
+          alt="{{ item.content }}"
+        />
+      </figure>
+      {% endfor %}
+    </div>
+
+    <audio id="soundEffect" preload="auto"></audio>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        document.querySelectorAll("figure").forEach((figure) => {
+          figure.addEventListener("click", function () {
+            let caption = this.querySelector("figcaption");
+            let soundEffect = document.getElementById("soundEffect");
+            let folderChild = "{{ folder_child }}";
+
+            let imgSrc = this.querySelector("img").src;
+            let audeoName = imgSrc.substring(
+              imgSrc.lastIndexOf("/") + 1,
+              imgSrc.lastIndexOf(".")
+            );
+
+            if (caption) {
+              if (caption.classList.contains("invisible")) {
+                caption.classList.remove("invisible");
+                caption.classList.add("visible");
+              } else if (caption.classList.contains("visible")) {
+                caption.classList.remove("visible");
+                caption.classList.add("invisible");
+              }
+            }
+
+            let soundPath =
+              "{% static 'tifinar/images/cours/' %}" +
+              folderChild +
+              "/" +
+              audeoName +
+              ".mp3";
+            soundEffect.src = soundPath;
+
+            soundEffect.currentTime = 0;
+            soundEffect.play();
+          });
+        });
+      });
+    </script>
+    {% else %}
+    <div class="main-image">
+      <img
+        src="{% static 'tifinar/images/cours/'|add:image %}"
+        alt="{{ title }}"
+        style="height: 222px"
+        id="main"
+        loading="lazy"
+      />
+    </div>
+
+    <audio id="audio" controls style="display: none">
+      <source src="" id="audioSource" />
+      متصفحك لا يدعم تشغيل الصوتيات.
+    </audio>
+
+    <div class="btn">
+      <input type="hidden" id="lines" value="{{ cours_contents|join:',' }}" />
+      <div id="cours_contents" style="display: none">
+        {{ cours_contents|join:',' }}
+      </div>
+      <div class="cour-btn-container" id="button-container"></div>
+    </div>
+
+    <script>
+      let buttons = document.getElementById('cours_contents').innerText.split(',').filter(Boolean);
+
+      if (buttons.length === 0) {
+          buttons = ['زر 1', 'زر 2', 'زر 3', 'زر 4', 'زر 5', 'زر 6', 'زر 7'];
+      }
+
+      let images = {{ images|safe }};
+      let folderChild = "{{ folder_child }}";
+
+      function afficheContenue(folderChild, max) {
+          let container = document.getElementById('button-container');
+
+          for (let i = 0; i < Math.min(max, buttons.length); i++) {
+              let button = document.createElement('button');
+              button.id = `${i}`;
+              button.className = `btn btn-primary ${folderChild} lettre`;
+              button.alt = buttons[i];
+              button.innerHTML = buttons[i];
+
+              button.onclick = function() {
+                  document.getElementById('main').src = "{% static 'tifinar/images/cours/' %}" + folderChild + "/" + images[i];
+
+                  let audio = document.getElementById('audio');
+                  let audioSource = document.getElementById('audioSource');
+                  let audioPath = "{% static 'tifinar/images/cours/' %}" + folderChild + "/" + i + ".mp3";
+
+                  console.log("Audio Path:", audioPath);
+
+                  audioSource.src = audioPath;
+                  audio.load();
+                  audio.play();
+                  audio.style.display = 'block';
+              };
+
+              container.appendChild(button);
+          }
+      }
+
+      afficheContenue(folderChild, buttons.length);
+    </script>
+    {% endif %}
+
+    <hr />
+
+    {% include "tifinar/comments/article_comments.html" %}
+  </article>
+  {% include "tifinar/sidebar.html" %}
+</section>
+{% include "tifinar/footer.html" %}
