@@ -12,6 +12,7 @@ from tifinar.views.audience.msgs import send_message
 from tifinar.views.content.cours import show_cours 
 from tifinar.views.users.user import show_user 
 from tifinar.views.users.user import edit_user 
+from tifinar.views.content_manager.create_contents import create_content 
 
 def table_exists(table_name):
     """للتحقق من وجود الجدول في قاعدة البيانات"""
@@ -86,6 +87,11 @@ urlpatterns = [
     path('rock_paper_scissors/', rps_game, name='rock_paper_scissors'),
     path('send_message/', send_message, name='send_message'),
     path('profile/edit/', edit_user, name='edit_user'),
+    path('articles/create/', create_content, {'content_type': 'articles'}, name='create_article'),
+    path('videos/create/', create_content, {'content_type': 'videos'}, name='create_video'),
+    path('books/create/', create_content, {'content_type': 'books'}, name='create_book'),
+    path('cours/create/', create_content, {'content_type': 'cours'}, name='create_cours'),
+    path('exams/create/', create_content, {'content_type': 'exams'}, name='create_exam'),
     path('profile/', show_user, name='show_user'),
 
     # مسار خاص بـ cours قبل المسار العام
