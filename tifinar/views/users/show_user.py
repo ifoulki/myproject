@@ -4,108 +4,120 @@ from django.contrib import messages
 from django.views.decorators.http import require_http_methods
 from tifinar.models import AuthUser
 import random
-
+import os 
 @login_required
-def user_profile_view(request, user_id):
+def member_profile_view(request, user_id):
     """
     عرض الملف الشخصي الكامل للمستخدم مع كل التفاصيل
     """
-    user = get_object_or_404(AuthUser, id=user_id)
+    member = get_object_or_404(AuthUser, id=user_id)
     
     # معالجة الصور
     images = []
-    if user.path:
-        images = [img.strip() for img in user.path.split(',') if img.strip()]
+    if member.path:
+        images = [img.strip() for img in member.path.split(',') if img.strip()]
         random.shuffle(images)  # خلط الصور لعرض عشوائي
     
     # معالجة وسائل التواصل الاجتماعي
     social_media = {}
-    if user.social_media:
-        for item in user.social_media.split(','):
+    if member.social_media:
+        for item in member.social_media.split(','):
             if '=' in item:
                 key, value = item.split('=', 1)
                 social_media[key.strip()] = value.strip()
     
     # معالجة العلاقات العائلية
-    family_data = {
-        'parents': user.parents.split(',') if user.parents else [],
-        'children': user.children.split(',') if user.children else [],
-        'siblings': user.siblings.split(',') if user.siblings else [],
-        'spouse': user.spouse.split(',') if user.spouse else [],
-        'grandparents': user.grandparents.split(',') if user.grandparents else [],
-        'maternal_relatives': user.maternal_relatives.split(',') if user.maternal_relatives else [],
-        'paternal_relatives': user.paternal_relatives.split(',') if user.paternal_relatives else [],
-        'friends': user.friends.split(',') if user.friends else [],
-        'cousins': user.cousin.split(',') if user.cousin else [],
-    }
+    family_data = {}
+    if hasattr(member, 'parents'):
+        family_data['parents'] = {
+            'parents': member.parents.split(',') if member.parents else [],
+            'children': member.children.split(',') if member.children else [],
+            'siblings': member.siblings.split(',') if member.siblings else [],
+            'spouse': member.spouse.split(',') if member.spouse else [],
+            'grandparents': member.grandparents.split(',') if member.grandparents else [],
+            'maternal_relatives': member.maternal_relatives.split(',') if member.maternal_relatives else [],
+            'paternal_relatives': member.paternal_relatives.split(',') if member.paternal_relatives else [],
+            'friends': member.friends.split(',') if member.friends else [],
+            'cousins': member.cousin.split(',') if member.cousin else [],
+        }
 
     # التحقق من الصلاحيات
-    is_owner = request.user.id == user.id
+    is_owner = request.user.id == member.id
     is_admin = request.user.role == AuthUser.Role.ADMIN
     
     context = {
-        'user': user,
+        'member': member,
         'images': images,
         'social_media': social_media,
         'family_data': family_data,
         'is_owner': is_owner,
         'is_admin': is_admin,
-        'languages': user.language.split(',') if user.language else [],
+        'languages': member.language.split(',') if member.language else [],
     }
     
-    return render(request, 'tifinar/auth/users/show_user.html', context)
+    return render(request, 'tifinar/auth/users/show_member.html', context)
 
 @login_required
 @require_http_methods(["GET", "POST"])
-def edit_user_profile(request, user_id):
+def edit_member_profile(request, user_id):
     """
     تعديل الملف الشخصي للمستخدم بدون استخدام Forms
     """
-    user = get_object_or_404(AuthUser, id=user_id)
-    
-    if not (request.user.id == user.id or request.user.role == AuthUser.Role.ADMIN):
-        messages.error(request, "ليس لديك صلاحية لتعديل هذا الملف الشخصي")
-        return redirect('user_profile', user_id=user.id)
+    member = get_object_or_404(AuthUser, id=user_id)
     
     if request.method == 'POST':
         try:
             # تحديث الحقول الأساسية
-            user.first_name = request.POST.get('first_name', user.first_name)
-            user.last_name = request.POST.get('last_name', user.last_name)
-            user.email = request.POST.get('email', user.email)
-            user.phone = request.POST.get('phone', user.phone)
+            member.first_name = request.POST.get('first_name', member.first_name)
+            member.last_name = request.POST.get('last_name', member.last_name)
+            member.email = request.POST.get('email', member.email)
+            member.tel = request.POST.get('tel', member.tel)
             
             # تحديث الحقول الاختيارية
-            user.gender = request.POST.get('gender', user.gender)
-            user.role = request.POST.get('role', user.role)
-            user.societe = request.POST.get('societe', user.societe)
-            user.address = request.POST.get('address', user.address)
-            user.origin_city = request.POST.get('origin_city', user.origin_city)
-            user.social_status = request.POST.get('social_status', user.social_status)
-            user.birth_date = request.POST.get('birth_date', user.birth_date)
-            user.ideology = request.POST.get('ideology', user.ideology)
-            user.comment = request.POST.get('comment', user.comment)
-            user.social_media = request.POST.get('social_media', user.social_media)
+            member.gender = request.POST.get('gender', member.gender)
+            member.role = request.POST.get('role', member.role)
+            member.societe = request.POST.get('societe', member.societe)
+            member.adresse = request.POST.get('adresse', member.adresse)
+            member.ville_d_origine = request.POST.get('ville_d_origine', member.ville_d_origine)
+            member.etat_social = request.POST.get('etat_social', member.etat_social)
+            member.date_de_naissance = request.POST.get('date_de_naissance', member.date_de_naissance)
+            member.ideologie = request.POST.get('ideologie', member.ideologie)
+            member.commentaire = request.POST.get('comment', member.commentaire)
+            member.social_media = request.POST.get('social_media', member.social_media)
             
             # معالجة الصور المرفوعة
+            
+            # معالجة الصور المرفوعة (محسنة)
             if 'new_images' in request.FILES:
                 new_images = request.FILES.getlist('new_images')
-                image_paths = [img.name for img in new_images]
-                if user.path:
-                    user.path += ',' + ','.join(image_paths)
+                image_names = []
+                
+                for image in new_images:
+                    # حفظ الملف فعلياً (يجب تكوين إعدادات MEDIA أولاً)
+                    file_name = f"{member.id}_{image.name}"
+                    file_path = os.path.join(settings.MEDIA_ROOT, 'profiles', file_name)
+                    
+                    with open(file_path, 'wb+') as destination:
+                        for chunk in image.chunks():
+                            destination.write(chunk)
+                    
+                    image_names.append(file_name)
+                
+                if member.path:
+                    member.path += ',' + ','.join(image_names)
                 else:
-                    user.path = ','.join(image_paths)
+                    member.path = ','.join(image_names)
             
-            user.save()
+            member.save()
             messages.success(request, "تم تحديث الملف الشخصي بنجاح")
-            return redirect('user_profile', user_id=user.id)
+            return redirect('member_profile', user_id=member.id)
             
         except Exception as e:
             messages.error(request, f"حدث خطأ أثناء التحديث: {str(e)}")
     
     # عرض صفحة التعديل
     return render(request, 'tifinar/auth/users/edit_profile.html', {
-        'user': user,
+        'member': member,
         'role_choices': AuthUser.Role.choices,
         'gender_choices': AuthUser.Gender.choices,
         'social_status_choices': AuthUser.EtatSocial.choices,
@@ -113,18 +125,14 @@ def edit_user_profile(request, user_id):
 
 @login_required
 @require_http_methods(["POST"])
-def delete_user_profile(request, user_id):
+def delete_member_profile(request, user_id):
     """
     حذف الملف الشخصي (للمسؤولين فقط)
     """
-    if request.user.role != AuthUser.Role.ADMIN:
-        messages.error(request, "ليس لديك صلاحية لحذف المستخدمين")
-        return redirect('home')
-    
-    user = get_object_or_404(AuthUser, id=user_id)
+    member = get_object_or_404(AuthUser, id=user_id)
     try:
-        full_name = user.get_full_name()
-        user.delete()
+        full_name = member.get_full_name()
+        member.delete()
         messages.success(request, f"تم حذف المستخدم {full_name} بنجاح")
     except Exception as e:
         messages.error(request, f"حدث خطأ أثناء الحذف: {str(e)}")
@@ -132,11 +140,11 @@ def delete_user_profile(request, user_id):
     return redirect('users_list')
 
 @login_required
-def manage_user_relations(request, user_id):
+def manage_member_relations(request, user_id):
     """
     إدارة علاقات المستخدم (أصدقاء، عائلة، إلخ)
     """
-    user = get_object_or_404(AuthUser, id=user_id)
+    member = get_object_or_404(AuthUser, id=user_id)
     
     if request.method == 'POST':
         relation_type = request.POST.get('relation_type')
@@ -144,51 +152,47 @@ def manage_user_relations(request, user_id):
         action = request.POST.get('action')
         
         try:
-            target_user = AuthUser.objects.get(id=target_id)
+            target_member = AuthUser.objects.get(id=target_id)
             
             if relation_type == 'friend':
-                friends = user.friends.split(',') if user.friends else []
+                friends = member.friends.split(',') if member.friends else []
                 if action == 'add' and str(target_id) not in friends:
                     friends.append(str(target_id))
-                    user.friends = ','.join(friends)
+                    member.friends = ','.join(friends)
                 elif action == 'remove' and str(target_id) in friends:
                     friends.remove(str(target_id))
-                    user.friends = ','.join(friends)
+                    member.friends = ','.join(friends)
             
             elif relation_type == 'family':
                 # يمكنك إضافة المزيد من أنواع العلاقات هنا
                 pass
                 
-            user.save()
+            member.save()
             messages.success(request, "تم تحديث العلاقة بنجاح")
         except AuthUser.DoesNotExist:
             messages.error(request, "المستخدم المطلوب غير موجود")
         except Exception as e:
             messages.error(request, f"حدث خطأ: {str(e)}")
     
-    return redirect('user_profile', user_id=user.id)
+    return redirect('member_profile', user_id=member.id)
 
 @login_required
 def update_profile_image(request, user_id):
     """
     تحديث الصورة الرئيسية للملف الشخصي
     """
-    user = get_object_or_404(AuthUser, id=user_id)
-    
-    if not (request.user.id == user.id or request.user.role == AuthUser.Role.ADMIN):
-        messages.error(request, "ليس لديك صلاحية لتعديل هذا الملف الشخصي")
-        return redirect('user_profile', user_id=user.id)
+    member = get_object_or_404(AuthUser, id=user_id)
     
     if request.method == 'POST' and 'profile_image' in request.FILES:
         try:
             new_image = request.FILES['profile_image']
-            if user.path:
-                user.path = f"{new_image.name},{user.path}"
+            if member.path:
+                member.path = f"{new_image.name},{member.path}"
             else:
-                user.path = new_image.name
-            user.save()
+                member.path = new_image.name
+            member.save()
             messages.success(request, "تم تحديث صورة الملف الشخصي بنجاح")
         except Exception as e:
             messages.error(request, f"حدث خطأ أثناء تحديث الصورة: {str(e)}")
     
-    return redirect('user_profile', user_id=user.id)
+    return redirect('member_profile', user_id=member.id)

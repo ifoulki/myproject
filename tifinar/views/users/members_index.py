@@ -5,8 +5,8 @@ from tifinar.models import AuthUser
 from django.contrib.auth.decorators import login_required
 
 @login_required
-def users_index(request):
-    users = AuthUser.objects.all()
+def members_index(request):
+    members = AuthUser.objects.all()
     searchable_columns = [
         'name_in_arabic', 'social_media', 'last_name', 'first_name', 'keywords', 'address',
         'origin_city', 'gender', 'phone', 'email', 'role', 'educational_level',
@@ -17,7 +17,7 @@ def users_index(request):
 
     role = request.GET.get('role')
     if role:
-        users = users.filter(role__icontains=role)
+        members = members.filter(role__icontains=role)
 
     search_term = request.GET.get('search')
     if search_term:
@@ -58,149 +58,149 @@ def users_index(request):
             name_matches = AuthUser.objects.filter(name_in_arabic__icontains=name_part)
             
             related_names = []
-            for user in name_matches:
+            for member in name_matches:
                 # معالجة علاقات الأب والأم
                 if relation_found in father + mother:
-                    if user.parents:
-                        parents = [p.strip() for p in user.parents.split(',') if p.strip()]
+                    if member.parents:
+                        parents = [p.strip() for p in member.parents.split(',') if p.strip()]
                         for parent in parents:
-                            parent_user = AuthUser.objects.filter(name_in_arabic__icontains=parent).first()
-                            if parent_user:
-                                if (relation_found in father and parent_user.gender == 'Male') or (relation_found in mother and parent_user.gender == 'Female'):
+                            parent_member = AuthUser.objects.filter(name_in_arabic__icontains=parent).first()
+                            if parent_member:
+                                if (relation_found in father and parent_member.gender == 'Male') or (relation_found in mother and parent_member.gender == 'Female'):
                                     related_names.append(parent)
                 
                 # معالجة علاقات الأبناء
                 elif relation_found in son + daughter:
-                    if user.children:
-                        children = [c.strip() for c in user.children.split(',') if c.strip()]
+                    if member.children:
+                        children = [c.strip() for c in member.children.split(',') if c.strip()]
                         for child in children:
-                            child_user = AuthUser.objects.filter(name_in_arabic__icontains=child).first()
-                            if child_user:
-                                if (relation_found in son and child_user.gender == 'Male') or (relation_found in daughter and child_user.gender == 'Female'):
+                            child_member = AuthUser.objects.filter(name_in_arabic__icontains=child).first()
+                            if child_member:
+                                if (relation_found in son and child_member.gender == 'Male') or (relation_found in daughter and child_member.gender == 'Female'):
                                     related_names.append(child)
                 
                 # معالجة علاقات الإخوة
                 elif relation_found in brother + sister:
-                    if user.siblings:
-                        siblings = [s.strip() for s in user.siblings.split(',') if s.strip()]
+                    if member.siblings:
+                        siblings = [s.strip() for s in member.siblings.split(',') if s.strip()]
                         for sibling in siblings:
-                            sibling_user = AuthUser.objects.filter(name_in_arabic__icontains=sibling).first()
-                            if sibling_user:
-                                if (relation_found in brother and sibling_user.gender == 'Male') or (relation_found in sister and sibling_user.gender == 'Female'):
+                            sibling_member = AuthUser.objects.filter(name_in_arabic__icontains=sibling).first()
+                            if sibling_member:
+                                if (relation_found in brother and sibling_member.gender == 'Male') or (relation_found in sister and sibling_member.gender == 'Female'):
                                     related_names.append(sibling)
                 
                 # معالجة علاقات الأزواج
                 elif relation_found in husband + wife:
-                    if user.spouse:
-                        spouses = [s.strip() for s in user.spouse.split(',') if s.strip()]
+                    if member.spouse:
+                        spouses = [s.strip() for s in member.spouse.split(',') if s.strip()]
                         for spouse in spouses:
-                            spouse_user = AuthUser.objects.filter(name_in_arabic__icontains=spouse).first()
-                            if spouse_user:
-                                if (relation_found in husband and spouse_user.gender == 'Male') or (relation_found in wife and spouse_user.gender == 'Female'):
+                            spouse_member = AuthUser.objects.filter(name_in_arabic__icontains=spouse).first()
+                            if spouse_member:
+                                if (relation_found in husband and spouse_member.gender == 'Male') or (relation_found in wife and spouse_member.gender == 'Female'):
                                     related_names.append(spouse)
                 
                 # معالجة علاقات الأعمام والعمات
                 elif relation_found in paternal_uncle + paternal_aunt:
-                    if user.paternal_relatives:
-                        paternal_rels = [r.strip() for r in user.paternal_relatives.split(',') if r.strip()]
+                    if member.paternal_relatives:
+                        paternal_rels = [r.strip() for r in member.paternal_relatives.split(',') if r.strip()]
                         for rel in paternal_rels:
-                            rel_user = AuthUser.objects.filter(name_in_arabic__icontains=rel).first()
-                            if rel_user:
-                                if (relation_found in paternal_uncle and rel_user.gender == 'Male') or (relation_found in paternal_aunt and rel_user.gender == 'Female'):
+                            rel_member = AuthUser.objects.filter(name_in_arabic__icontains=rel).first()
+                            if rel_member:
+                                if (relation_found in paternal_uncle and rel_member.gender == 'Male') or (relation_found in paternal_aunt and rel_member.gender == 'Female'):
                                     related_names.append(rel)
                 
                 # معالجة علاقات الأخوال والخالات
                 elif relation_found in maternal_uncle + maternal_aunt:
-                    if user.maternal_relatives:
-                        maternal_rels = [r.strip() for r in user.maternal_relatives.split(',') if r.strip()]
+                    if member.maternal_relatives:
+                        maternal_rels = [r.strip() for r in member.maternal_relatives.split(',') if r.strip()]
                         for rel in maternal_rels:
-                            rel_user = AuthUser.objects.filter(name_in_arabic__icontains=rel).first()
-                            if rel_user:
-                                if (relation_found in maternal_uncle and rel_user.gender == 'Male') or (relation_found in maternal_aunt and rel_user.gender == 'Female'):
+                            rel_member = AuthUser.objects.filter(name_in_arabic__icontains=rel).first()
+                            if rel_member:
+                                if (relation_found in maternal_uncle and rel_member.gender == 'Male') or (relation_found in maternal_aunt and rel_member.gender == 'Female'):
                                     related_names.append(rel)
                 
                 # معالجة علاقات الأجداد
                 elif relation_found in grandfather + grandmother:
-                    if user.grandparents:
-                        grandparents = [g.strip() for g in user.grandparents.split(',') if g.strip()]
+                    if member.grandparents:
+                        grandparents = [g.strip() for g in member.grandparents.split(',') if g.strip()]
                         for grandparent in grandparents:
-                            grandparent_user = AuthUser.objects.filter(name_in_arabic__icontains=grandparent).first()
-                            if grandparent_user:
-                                if (relation_found in grandfather and grandparent_user.gender == 'Male') or (relation_found in grandmother and grandparent_user.gender == 'Female'):
+                            grandparent_member = AuthUser.objects.filter(name_in_arabic__icontains=grandparent).first()
+                            if grandparent_member:
+                                if (relation_found in grandfather and grandparent_member.gender == 'Male') or (relation_found in grandmother and grandparent_member.gender == 'Female'):
                                     related_names.append(grandparent)
                 
                 # معالجة علاقات أبناء العم/العمة
                 elif relation_found in cousin_male + cousin_female:
-                    if user.cousins:
-                        cousins = [c.strip() for c in user.cousins.split(',') if c.strip()]
+                    if member.cousins:
+                        cousins = [c.strip() for c in member.cousins.split(',') if c.strip()]
                         for cousin in cousins:
-                            cousin_user = AuthUser.objects.filter(name_in_arabic__icontains=cousin).first()
-                            if cousin_user:
-                                if (relation_found in cousin_male and cousin_user.gender == 'Male') or (relation_found in cousin_female and cousin_user.gender == 'Female'):
+                            cousin_member = AuthUser.objects.filter(name_in_arabic__icontains=cousin).first()
+                            if cousin_member:
+                                if (relation_found in cousin_male and cousin_member.gender == 'Male') or (relation_found in cousin_female and cousin_member.gender == 'Female'):
                                     related_names.append(cousin)
                 
                 # معالجة علاقات أبناء الإخوة
                 elif relation_found in niece_nephew_male + niece_nephew_female:
-                    if user.nieces_nephews:
-                        nieces_nephews = [n.strip() for n in user.nieces_nephews.split(',') if n.strip()]
+                    if member.nieces_nephews:
+                        nieces_nephews = [n.strip() for n in member.nieces_nephews.split(',') if n.strip()]
                         for niece_nephew in nieces_nephews:
-                            niece_nephew_user = AuthUser.objects.filter(name_in_arabic__icontains=niece_nephew).first()
-                            if niece_nephew_user:
-                                if (relation_found in niece_nephew_male and niece_nephew_user.gender == 'Male') or (relation_found in niece_nephew_female and niece_nephew_user.gender == 'Female'):
+                            niece_nephew_member = AuthUser.objects.filter(name_in_arabic__icontains=niece_nephew).first()
+                            if niece_nephew_member:
+                                if (relation_found in niece_nephew_male and niece_nephew_member.gender == 'Male') or (relation_found in niece_nephew_female and niece_nephew_member.gender == 'Female'):
                                     related_names.append(niece_nephew)
                 
                 # معالجة علاقات الأصدقاء
                 elif relation_found in friend + girlfriend:
-                    if user.friends:
-                        friends = [f.strip() for f in user.friends.split(',') if f.strip()]
+                    if member.friends:
+                        friends = [f.strip() for f in member.friends.split(',') if f.strip()]
                         for friend_rel in friends:
-                            friend_user = AuthUser.objects.filter(name_in_arabic__icontains=friend_rel).first()
-                            if friend_user:
-                                if (relation_found in friend and friend_user.gender == 'Male') or (relation_found in girlfriend and friend_user.gender == 'Female'):
+                            friend_member = AuthUser.objects.filter(name_in_arabic__icontains=friend_rel).first()
+                            if friend_member:
+                                if (relation_found in friend and friend_member.gender == 'Male') or (relation_found in girlfriend and friend_member.gender == 'Female'):
                                     related_names.append(friend_rel)
 
             if related_names:
                 q_objects = Q()
                 for name in set(related_names):  # استخدام set لإزالة التكرارات
                     q_objects |= Q(name_in_arabic__icontains=name)
-                users = AuthUser.objects.filter(q_objects)
+                members = AuthUser.objects.filter(q_objects)
             else:
-                users = AuthUser.objects.none()
+                members = AuthUser.objects.none()
         else:
             # البحث العادي إذا لم تكن هناك علاقة
             q_objects = Q()
             for column in searchable_columns:
                 q_objects |= Q(**{f'{column}__icontains': search_term})
-            users = users.filter(q_objects)
+            members = members.filter(q_objects)
             
             # ترتيب النتائج حسب أفضل تطابق (تطبيق بسيط)
-            users = sorted(users, key=lambda u: sum(
+            members = sorted(members, key=lambda u: sum(
                 1 for col in searchable_columns 
                 if getattr(u, col) and search_term.lower() in str(getattr(u, col)).lower()
             ), reverse=True)
 
     # التقسيم إلى صفحات
-    paginator = Paginator(users, 20)
+    paginator = Paginator(members, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
     # إذا لم يكن هناك بحث وعرض المسؤولين لكل المستخدمين
     if not search_term and not role and request.user.role == 'admin':
-        users = AuthUser.objects.all()
-        paginator = Paginator(users, 20)
+        members = AuthUser.objects.all()
+        paginator = Paginator(members, 20)
         page_obj = paginator.get_page(page_number)
     elif not search_term and not role:
         # للمستخدمين العاديين: عرض الأصدقاء وطلبات الصداقة فقط
-        current_user = request.user
-        friend_ids = [int(id) for id in current_user.friends.split(',')] if current_user.friends else []
-        request_ids = [int(id) for id in current_user.friend_requests.split(',')] if current_user.friend_requests else []
+        current_member = request.user
+        friend_ids = [int(id) for id in current_member.friends.split(',')] if current_member.friends else []
+        request_ids = [int(id) for id in current_member.friend_requests.split(',')] if current_member.friend_requests else []
         
         all_ids = list(set(friend_ids + request_ids))
-        users = AuthUser.objects.filter(id__in=all_ids)
-        paginator = Paginator(users, 20)
+        members = AuthUser.objects.filter(id__in=all_ids)
+        paginator = Paginator(members, 20)
         page_obj = paginator.get_page(page_number)
     return render(request, 'tifinar/auth/users/index.html', {
-        'users': page_obj,
+        'members': page_obj,
         'search_term': search_term,
         'role': role
     })

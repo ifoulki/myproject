@@ -122,7 +122,7 @@ class AuthUserManager(BaseUserManager):
         return self.create_user(email, username, password, **extra_fields)
 
 class AuthUser(AbstractBaseUser, PermissionsMixin):
-    # الحقول الأساسية
+    id = models.AutoField(primary_key=True)
     username = models.CharField(_('Username'), max_length=150, unique=True)
     email = models.EmailField(_('Email Address'), max_length=254, unique=True)
     first_name = models.CharField(_('First Name'), max_length=150)
