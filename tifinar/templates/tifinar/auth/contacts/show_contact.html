@@ -42,7 +42,7 @@
         <div class="card-body">
             <h1 class="mb-4"><i class="fas fa-contact"></i> {{ contact.prenom }} {{ contact.nom }}</h1>
 
-            {% if request.contact.role == "admin" %}
+            {% if user.role == "admin" %}
                 <h5 class="card-title"><i class="fas fa-id-badge"></i> الرقم التسلسلي: {{ contact.contacts_id }}</h5>
                 <hr>
             {% endif %}
@@ -68,7 +68,7 @@
                 <hr>
             {% endif %}
 
-            {% if contact.role and request.contact.role == "admin" or request.contact.contacts_id == contact.contacts_id %}
+            {% if user.role and user.role == "admin" or user.id == contact.contacts_id %}
                 <p class="card-text"><i class="fas fa-list"></i> <strong>الصفة:</strong>
                 {% if contact.role == 'admin' %}
                     مدير الموقع 
@@ -85,8 +85,8 @@
                 <hr>
             {% endif %}
 
-            {% if contact.address %}
-                <p class="card-text"><i class="fas fa-map-marker-alt"></i> <strong>العنوان:</strong> {{ contact.address }}</p>
+            {% if contact.adresse %}
+                <p class="card-text"><i class="fas fa-map-marker-alt"></i> <strong>العنوان:</strong> {{ contact.adresse }}</p>
                 <hr>
             {% endif %}
             
@@ -99,34 +99,20 @@
                 <p class="card-text"><i class="fas fa-share-alt"></i> <strong>وسائل التواصل الإجتماعي:</strong>
                     {% with contact.social_media|string_to_dict as social_media %}
                         {% if social_media %}
-                            <style>
-                                ul li::before {
-                                    content: "\002B9C";
-                                    left: 0;
-                                }
-                            </style>
                             <ul>
                                 {% for site, username in social_media.items %}
                                     <li style="list-style: none;">
                                         {% if site == 'facebook' %}
-                                            <a href="https://www.facebook.com/{{ username }}" target="_blank">
+                                            <a href="https://www.facebook.com/{{ username }}" target="_blank" style="color:blue;">
                                                 {{ username }} <i class="fab fa-facebook"></i>
                                             </a>
                                         {% elif site == 'youtube' %}
-                                            <style>
-                                                ul li::before {
-                                                    color: red;
-                                                }
-                                            </style>
+                                           
                                             <a href="https://www.youtube.com/{{ username }}" target="_blank" style="color: red;">
                                                 {{ username }} <i class="fab fa-youtube"></i>
                                             </a>
                                         {% elif site == 'instagram' %}
-                                            <style>
-                                                ul li::before {
-                                                    color: #dd2a7b;
-                                                }
-                                            </style>
+                                            
                                             <a href="https://www.instagram.com/{{ username }}" style="color:#dd2a7b;" target="_blank">
                                                 {{ username }} <i style="padding:2px; color:white; background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4);" class="fab fa-instagram"></i>
                                             </a>
@@ -141,21 +127,21 @@
             {% endif %}
 
             <p class="card-text">💍 <strong>الحالة الإجتماعية:</strong> 
-                {% if contact.social_status == 'Celibataire' %}
+                {% if contact.Etat_Social == 'Celibataire' %}
                     {% if contact.gender == 'Female' %}
                         <span class="badge bg-warning">عازبة</span>
                     {% else %}
                         <span class="badge bg-warning">عازب</span>
                     {% endif %}
-                {% elif contact.social_status == 'Veu(f)ve' %}
+                {% elif contact.Etat_Social == 'Veu(f)ve' %}
                     {% if contact.gender == 'Female' %}
                         <span class="badge bg-danger">أرملة</span>
                     {% else %}
                         <span class="badge bg-danger">أرمل</span>
                     {% endif %}
-                {% elif contact.social_status == 'Organisme' %}
+                {% elif contact.Etat_Social == 'Organisme' %}
                     <span class="badge bg-info">مؤسسة</span>
-                {% elif contact.social_status == 'Marie(e)' %}
+                {% elif contact.Etat_Social == 'Marie(e)' %}
                     {% if contact.gender == 'Female' %}
                         متزوجة
                     {% else %}
@@ -164,9 +150,9 @@
                     {% if contact.spouse %}
                         من {{ contact.spouse }}
                     {% endif %}
-                {% elif contact.social_status == 'Fiancee' %}
+                {% elif contact.Etat_Social == 'Fiancee' %}
                     <span class="badge bg-primary">في فترة خطوبة</span>
-                {% elif contact.social_status == 'Divorce(e)' %}
+                {% elif contact.Etat_Social == 'Divorce(e)' %}
                     {% if contact.gender == 'Female' %}
                         <span class="badge bg-dark">مطلقة</span>
                     {% else %}
@@ -178,37 +164,37 @@
                 <hr>
             </p>
 
-            {% if contact.birth_date %}
-                <p class="card-text"><i class="fas fa-birthday-cake"></i> <strong>تاريخ الإزدياد:</strong> {{ contact.birth_date }}</p>
+            {% if contact.Date_de_naissance %}
+                <p class="card-text"><i class="fas fa-birthday-cake"></i> <strong>تاريخ الإزدياد:</strong> {{ contact.Date_de_naissance }}</p>
                 <hr>
             {% endif %}
 
             <p class="card-text"><i class="fas fa-graduation-cap"></i> <strong>المستوي الدراسي:</strong> {{ contact.educational_level }}</p>
             <hr>
 
-            {% if contact.ideology %}
-                <p class="card-text"><i class="fas fa-comment-dots"></i> <strong>الآراء الدينية والسياسية:</strong> {{ contact.ideology }}</p>
+            {% if contact.ideologie %}
+                <p class="card-text"><i class="fas fa-comment-dots"></i> <strong>الآراء الدينية والسياسية:</strong> {{ contact.ideologie }}</p>
                 <hr>
             {% endif %}
 
-            {% if contact.comment %}
-                <p class="card-text"><i class="fas fa-info-circle"></i> <strong>معلومات إضافية أخرى:</strong> {{ contact.comment }}</p>
+            {% if contact.commentaire %}
+                <p class="card-text"><i class="fas fa-info-circle"></i> <strong>معلومات إضافية أخرى:</strong> {{ contact.commentaire }}</p>
                 <hr>
             {% endif %}
         </div>
     </div>
 
     <div class="d-flex gap-2 mb-4">
-        {% if request.contact.role == "admin" %}
+        {% if user.role == "admin" %}
             <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
                 <i class="fas fa-trash-alt"></i> حذف العضو
             </button>
         {% endif %}
 
-        {% if contact.contacts_id == current_user.id or current_user.role == "superadmin" %}
+        {% if contact.contacts_id == user.id or user.role == "admin" %}
             <a href="{% url 'edit_contact' contact.contacts_id %}" class="btn btn-primary">
                 {% if contact.path %}
-                    <img src="{% static 'tifinar/'%}{{ contact.path|split:','|first }}" alt="لوحة التحكم" class="img-profile rounded-circle" width="30" height="30">
+                    <img src="{% static 'tifinar/images/contacts/'%}{{ contact.path|split:','|first }}" alt="لوحة التحكم" class="img-profile rounded-circle" width="30" height="30">
                 {% endif %}
                 <i class="fas fa-arrow-left"></i> تعديل أو إضافة تفاصيل أخرى
             </a>

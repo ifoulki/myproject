@@ -180,17 +180,16 @@ class AuthUser(AbstractBaseUser, PermissionsMixin):
         MARIE = 'Marie(e)', _('Marie(e)')
         DIVORCE = 'Divorce(e)', _('Divorce(e)')
     
-    etat_social = models.CharField(
+    Etat_Social = models.CharField(
         _('Etat Social'),
         max_length=15,
-        choices=EtatSocial.choices,
         default=EtatSocial.CELIBATAIRE,
         null=True,
         blank=True
     )
     
-    date_de_naissance = models.DateField(_('Date de Naissance'), null=True, blank=True)
-    ideologie = models.TextField(_('Ideologie'), null=True, blank=True)
+    Date_de_naissance = models.DateField(_('Date_de_naissance'), null=True, blank=True)
+    Ideologie = models.TextField(_('Ideologie'), null=True, blank=True)
     social_media = models.TextField(_('Social Media'), null=True, blank=True)
     
     class Gender(models.TextChoices):
@@ -211,7 +210,7 @@ class AuthUser(AbstractBaseUser, PermissionsMixin):
     tel = models.CharField(_('Tel'), max_length=20, null=True, blank=True)
     the_type = models.TextField(_('Type'), null=True, blank=True)
     societe = models.TextField(_('Societe'), null=True, blank=True)
-    commentaire = models.TextField(_('Commentaire'), null=True, blank=True)
+    Commentaire = models.TextField(_('Commentaire'), null=True, blank=True)
     path = models.TextField(_('Path'), null=True, blank=True)
     keywords = models.TextField(_('Keywords'), null=True, blank=True)
     spouse = models.CharField(_('Spouse'), max_length=255, null=True, blank=True)
@@ -373,8 +372,8 @@ class Contacts(models.Model):
     societe = models.TextField(db_column='Societe', blank=True, null=True)  # Field name made lowercase.
     ville_d_origine = models.TextField(db_column='Ville_D_origine', blank=True, null=True)  # Field name made lowercase.
     adresse = models.CharField(db_column='Adresse', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    etat_social = models.CharField(db_column='Etat_Social', max_length=11, blank=True, null=True)  # Field name made lowercase.
-    date_de_naissance = models.DateField(db_column='Date_de_naissance', blank=True, null=True)  # Field name made lowercase.
+    Etat_Social = models.CharField(db_column='Etat_Social', max_length=11, blank=True, null=True)  # Field name made lowercase.
+    Date_de_naissance = models.DateField(db_column='Date_de_naissance', blank=True, null=True)  # Field name made lowercase.
     ideologie = models.TextField(db_column='Ideologie', blank=True, null=True)  # Field name made lowercase.        
     commentaire = models.TextField(db_column='Commentaire', blank=True, null=True)  # Field name made lowercase.    
     social_media = models.TextField(blank=True, null=True)

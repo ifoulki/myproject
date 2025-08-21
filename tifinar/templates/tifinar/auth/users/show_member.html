@@ -83,51 +83,37 @@
                 <hr>
             {% endif %}
 
-            {% if member.address %}
-                <p class="card-text"><i class="fas fa-map-marker-alt"></i> <strong>العنوان:</strong> {{ member.address }}</p>
+            {% if member.adresse %}
+                <p class="card-text"><i class="fas fa-map-marker-alt"></i> <strong>العنوان:</strong> {{ member.adresse }}</p>
                 <hr>
             {% endif %}
             
-            {% if member.origin_city %}
-                <p class="card-text"><i class="fas fa-city"></i> <strong>المدينة الأصلية:</strong> {{ member.origin_city }}</p>
+            {% if member.ville_d_origine %}
+                <p class="card-text"><i class="fas fa-city"></i> <strong>المدينة الأصلية:</strong> {{ member.ville_d_origine }}</p>
                 <hr>
             {% endif %}
 
             {% if member.social_media %}
                 <p class="card-text"><i class="fas fa-share-alt"></i> <strong>وسائل التواصل الإجتماعي:</strong>
-                    {% with member.social_media|string_to_dict as social_media %}
-                        {% if social_media %}
-                            <style>
-                                ul li::before {
-                                    content: "\002B9C";
-                                    left: 0;
-                                }
-                            </style>
-                            <ul>
-                                {% for site, username in social_media.items %}
-                                    <li style="list-style: none;">
-                                        {% if site == 'facebook' %}
-                                            <a href="https://www.facebook.com/{{ username }}" target="_blank">
-                                                {{ username }} <i class="fab fa-facebook"></i>
+                    {% with member.social_media|parse_social_media as social_media_list %}
+                        {% if social_media_list %}
+                            <ul style="list-style: none; padding-right: 0;">
+                                {% for item in social_media_list %}
+                                    <li style="margin-bottom: 10px;">
+                                        {% if item.platform == 'facebook' %}
+                                            <a href="https://www.facebook.com/{{ item.username }}" target="_blank" class="text-primary">
+                                                <i class="fab fa-facebook me-2"></i> {{ item.username }}
                                             </a>
-                                        {% elif site == 'youtube' %}
-                                            <style>
-                                                ul li::before {
-                                                    color: red;
-                                                }
-                                            </style>
-                                            <a href="https://www.youtube.com/{{ username }}" target="_blank" style="color: red;">
-                                                {{ username }} <i class="fab fa-youtube"></i>
+                                        {% elif item.platform == 'youtube' %}
+                                            <a href="https://www.youtube.com/{{ item.username }}" target="_blank" class="text-danger">
+                                                <i class="fab fa-youtube me-2"></i> {{ item.username }}
                                             </a>
-                                        {% elif site == 'instagram' %}
-                                            <style>
-                                                ul li::before {
-                                                    color: #dd2a7b;
-                                                }
-                                            </style>
-                                            <a href="https://www.instagram.com/{{ username }}" style="color:#dd2a7b;" target="_blank">
-                                                {{ username }} <i style="padding:2px; color:white; background: linear-gradient(45deg, #f58529, #dd2a7b, #8134af, #515bd4);" class="fab fa-instagram"></i>
+                                        {% elif item.platform == 'instagram' %}
+                                            <a href="https://www.instagram.com/{{ item.username }}" target="_blank" class="instagram-link">
+                                                <i class="fab fa-instagram me-2"></i> {{ item.username }}
                                             </a>
+                                        {% else %}
+                                            <span>{{ item.platform }}: {{ item.username }}</span>
                                         {% endif %}
                                     </li>
                                 {% endfor %}
@@ -139,21 +125,28 @@
             {% endif %}
 
             <p class="card-text">💍 <strong>الحالة الإجتماعية:</strong> 
-                {% if member.social_status == 'Celibataire' %}
+
+                {% if member.Etat_Social == 'Celibataire' %}
                     {% if member.gender == 'Female' %}
                         <span class="badge bg-warning">عازبة</span>
+
                     {% else %}
                         <span class="badge bg-warning">عازب</span>
                     {% endif %}
-                {% elif member.social_status == 'Veu(f)ve' %}
+
+                {% elif member.Etat_Social == 'Veu(f)ve' %}
                     {% if member.gender == 'Female' %}
                         <span class="badge bg-danger">أرملة</span>
+
                     {% else %}
                         <span class="badge bg-danger">أرمل</span>
                     {% endif %}
-                {% elif member.social_status == 'Organisme' %}
+
+                {% elif member.Etat_Social == 'Organisme' %}
                     <span class="badge bg-info">مؤسسة</span>
-                {% elif member.social_status == 'Marie(e)' %}
+
+                {% elif member.Etat_Social == 'Marie(e)' %}
+
                     {% if member.gender == 'Female' %}
                         متزوجة
                     {% else %}
@@ -162,35 +155,36 @@
                     {% if member.spouse %}
                         من {{ member.spouse }}
                     {% endif %}
+
                 {% elif member.social_status == 'Fiancee' %}
                     <span class="badge bg-primary">في فترة خطوبة</span>
-                {% elif member.social_status == 'Divorce(e)' %}
+                {% elif member.Etat_Social == 'Divorce(e)' %}
                     {% if member.gender == 'Female' %}
                         <span class="badge bg-dark">مطلقة</span>
                     {% else %}
                         <span class="badge bg-dark">مطلق</span>
                     {% endif %}
                 {% else %}
-                    <span class="badge bg-secondary">غير معروفة</span>
+                    <span class="badge bg-secondary" >غير معروفة</span>
                 {% endif %}
                 <hr>
             </p>
 
-            {% if member.birth_date %}
-                <p class="card-text"><i class="fas fa-birthday-cake"></i> <strong>تاريخ الإزدياد:</strong> {{ member.birth_date }}</p>
+            {% if member.Date_de_naissance %}
+                <p class="card-text"><i class="fas fa-birthday-cake"></i> <strong>تاريخ الإزدياد:</strong> {{ member.Date_de_naissance }}</p>
                 <hr>
             {% endif %}
 
             <p class="card-text"><i class="fas fa-graduation-cap"></i> <strong>المستوي الدراسي:</strong> {{ member.educational_level }}</p>
             <hr>
 
-            {% if member.ideology %}
-                <p class="card-text"><i class="fas fa-comment-dots"></i> <strong>الآراء الدينية والسياسية:</strong> {{ member.ideology }}</p>
+            {% if member.Ideologie %}
+                <p class="card-text"><i class="fas fa-comment-dots"></i> <strong>الآراء الدينية والسياسية:</strong> {{ member.Ideologie }}</p>
                 <hr>
             {% endif %}
 
-            {% if member.comment %}
-                <p class="card-text"><i class="fas fa-info-circle"></i> <strong>معلومات إضافية أخرى:</strong> {{ member.comment }}</p>
+            {% if member.Commentaire %}
+                <p class="card-text"><i class="fas fa-info-circle"></i> <strong>معلومات إضافية أخرى:</strong> {{ member.Commentaire }}</p>
                 <hr>
             {% endif %}
         </div>
@@ -204,12 +198,11 @@
         {% endif %}
 
         {% if user.id == member.id or user.role == "admin" %}
-
             <a href="{% url 'edit_member_profile' user.id %}" class="btn btn-primary">
                 {% if member.path %}
                     <img src="{% static 'tifinar/'%}{{ member.path|split:','|first }}" alt="لوحة التحكم" class="img-profile rounded-circle" width="30" height="30">
                 {% endif %}
-                <i class="fas fa-arrow-left"></i> تعديل أو إضافة تفاصيل أخرى
+                <i class="fas fa-edit"></i> تعديل أو إضافة تفاصيل أخرى
             </a>
         {% endif %}
     </div>
@@ -245,4 +238,15 @@
     {% endif %}
 
 </div>
+
+<style>
+    .instagram-link {
+        color: #dd2a7b !important;
+        text-decoration: none;
+    }
+    .instagram-link:hover {
+        color: #8134af !important;
+    }
+</style>
+
 {% include "tifinar/adm_footer.html" %}

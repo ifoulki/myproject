@@ -75,3 +75,27 @@ def media_url(path):
     if not path:
         return ''
     return f"{settings.MEDIA_URL}{path}"
+
+@register.filter
+def parse_social_media(value):
+    """
+    يحول سلسلة وسائل التواصل الاجتماعي إلى قائمة من القواميس
+    "facebook:hamid.bialouan, youtube:hamid4TV, instagram:bbc5" 
+    -> [{'platform': 'facebook', 'username': 'hamid.bialouan'}, ...]
+    """
+    if not value:
+        return []
+    
+    social_list = []
+    accounts = value.split(',')
+    
+    for account in accounts:
+        account = account.strip()
+        if ':' in account:
+            platform, username = account.split(':', 1)
+            social_list.append({
+                'platform': platform.strip().lower(),
+                'username': username.strip()
+            })
+    
+    return social_list

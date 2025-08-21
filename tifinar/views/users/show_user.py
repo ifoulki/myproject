@@ -79,10 +79,10 @@ def edit_member_profile(request, user_id):
             member.societe = request.POST.get('societe', member.societe)
             member.adresse = request.POST.get('adresse', member.adresse)
             member.ville_d_origine = request.POST.get('ville_d_origine', member.ville_d_origine)
-            member.etat_social = request.POST.get('etat_social', member.etat_social)
-            member.date_de_naissance = request.POST.get('date_de_naissance', member.date_de_naissance)
-            member.ideologie = request.POST.get('ideologie', member.ideologie)
-            member.commentaire = request.POST.get('comment', member.commentaire)
+            member.Etat_Social = request.POST.get('Etat_Social', member.Etat_Social)
+            member.Date_de_naissance = request.POST.get('Date_de_naissance', member.Date_de_naissance)
+            member.Ideologie = request.POST.get('ideologie', member.Ideologie)
+            member.Commentaire = request.POST.get('Commentaire', member.Commentaire)
             member.social_media = request.POST.get('social_media', member.social_media)
             
             # معالجة الصور المرفوعة
@@ -120,7 +120,6 @@ def edit_member_profile(request, user_id):
         'member': member,
         'role_choices': AuthUser.Role.choices,
         'gender_choices': AuthUser.Gender.choices,
-        'social_status_choices': AuthUser.EtatSocial.choices,
     })
 
 @login_required
