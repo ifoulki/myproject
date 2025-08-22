@@ -36,7 +36,7 @@ def contact_view(request, contacts_id):
         'maternal_relatives': contact.maternal_relatives.split(',') if contact.maternal_relatives else [],
         'paternal_relatives': contact.paternal_relatives.split(',') if contact.paternal_relatives else [],
         'friends': contact.friends.split(',') if contact.friends else [],
-        'cousins': contact.cousin.split(',') if contact.cousin else [],
+        'cousins': contact.cousins.split(',') if contact.cousins else [],
     }
 
     # التحقق من الصلاحيات

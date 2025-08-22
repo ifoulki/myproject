@@ -10,11 +10,11 @@ from tifinar.views.content.welcome import welcome
 from tifinar.views.games.rock_paper_scissors import rps_game
 from tifinar.views.audience.msgs import send_message
 from tifinar.views.content.cours import show_cours 
-from tifinar.views.users.user import show_user 
-from tifinar.views.users.members_index import members_index 
+from tifinar.views.members.user import show_user 
+from tifinar.views.members.members_index import members_index 
 from tifinar.views.contacts.contacts_index import contacts_index
-from tifinar.views.users.user import edit_user 
-from tifinar.views.users.show_user import member_profile_view, edit_member_profile, delete_member_profile, manage_member_relations, update_profile_image
+from tifinar.views.members.user import edit_user 
+from tifinar.views.members.show_member import member_profile_view, edit_member_profile, delete_member_profile, manage_member_relations, update_profile_image
 from tifinar.views.contacts.show_contact import contact_view,edit_contact, delete_contact, manage_contact_relations, update_contact_image
 from tifinar.views.content_manager.create_contents import create_content 
 from tifinar.views.content_manager.edit_contents import edit_content

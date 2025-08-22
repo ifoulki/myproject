@@ -8,11 +8,11 @@ from django.contrib.auth.decorators import login_required
 def contacts_index(request):
     contacts = Contacts.objects.all()
     searchable_columns = [
-        'name_in_arabic', 'social_media', 'last_name', 'first_name', 'keywords', 'address',
-        'origin_city', 'gender', 'phone', 'email', 'role', 'educational_level',
-        'ideology', 'society', 'comment', 'birth_date',
+        'name_in_arabic', 'social_media', 'nom', 'prenom', 'keywords', 'adresse',
+        'ville_d_origine', 'gender', 'tel', 'email', 'educational_level',
+        'ideologie', 'societe', 'commentaire', 'date_de_naissance',
         'spouse', 'children', 'siblings', 'parents', 'maternal_relatives',
-        'grandparents', 'friends', 'language',
+        'grandparents', 'friends',
     ]
 
     role = request.GET.get('role')

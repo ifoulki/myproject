@@ -223,7 +223,7 @@ class AuthUser(AbstractBaseUser, PermissionsMixin):
     friends = models.TextField(_('Friends'), null=True, blank=True)
     friend_requests = models.TextField(_('Friend Requests'), null=True, blank=True)
     name_in_arabic = models.CharField(_('Name in Arabic'), max_length=255, null=True, blank=True)
-    cousin = models.TextField(_('Cousin'), null=True, blank=True)
+    cousins = models.TextField(_('Cousins'), null=True, blank=True)
     language = models.CharField(_('Language'), max_length=50, null=True, blank=True)
     
     USERNAME_FIELD = 'username'
@@ -373,7 +373,7 @@ class Contacts(models.Model):
     ville_d_origine = models.TextField(db_column='Ville_D_origine', blank=True, null=True)  # Field name made lowercase.
     adresse = models.CharField(db_column='Adresse', max_length=255, blank=True, null=True)  # Field name made lowercase.
     Etat_Social = models.CharField(db_column='Etat_Social', max_length=11, blank=True, null=True)  # Field name made lowercase.
-    Date_de_naissance = models.DateField(db_column='Date_de_naissance', blank=True, null=True)  # Field name made lowercase.
+    date_de_naissance = models.DateField(db_column='date_de_naissance', blank=True, null=True)  # Field name made lowercase.
     ideologie = models.TextField(db_column='Ideologie', blank=True, null=True)  # Field name made lowercase.        
     commentaire = models.TextField(db_column='Commentaire', blank=True, null=True)  # Field name made lowercase.    
     social_media = models.TextField(blank=True, null=True)
@@ -392,7 +392,7 @@ class Contacts(models.Model):
     name_in_arabic = models.CharField(max_length=255, blank=True, null=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     created_at = models.DateTimeField(blank=True, null=True)
-    cousin = models.TextField(blank=True, null=True)
+    cousins = models.TextField(blank=True, null=True)
     author = models.CharField(db_column='Author', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
@@ -766,7 +766,7 @@ class Users(models.Model):
     friends = models.TextField(blank=True, null=True)
     friend_requests = models.TextField(blank=True, null=True)
     name_in_arabic = models.CharField(max_length=255, blank=True, null=True)
-    cousin = models.TextField(blank=True, null=True)
+    cousins = models.TextField(blank=True, null=True)
     language = models.TextField(db_column='Language')  # Field name made lowercase.
 
     class Meta:
