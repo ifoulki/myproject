@@ -69,6 +69,7 @@ def edit_contact(request, contacts_id):
             # تحديث الحقول الأساسية
             contact.prenom = request.POST.get('prenom', contact.prenom)
             contact.nom = request.POST.get('last_name', contact.nom)
+            contact.name_in_arabic = request.POST.get('name_in_arabic', contact.name_in_arabic)
             contact.email = request.POST.get('email', contact.email)
             contact.tel = request.POST.get('phone', contact.tel)
             

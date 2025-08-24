@@ -38,7 +38,7 @@ def member_profile_view(request, user_id):
             'maternal_relatives': member.maternal_relatives.split(',') if member.maternal_relatives else [],
             'paternal_relatives': member.paternal_relatives.split(',') if member.paternal_relatives else [],
             'friends': member.friends.split(',') if member.friends else [],
-            'cousins': member.cousin.split(',') if member.cousin else [],
+            'cousins': member.cousins.split(',') if member.cousins else [],
         }
 
     # التحقق من الصلاحيات
@@ -55,7 +55,7 @@ def member_profile_view(request, user_id):
         'languages': member.language.split(',') if member.language else [],
     }
     
-    return render(request, 'tifinar/auth/users/show_member.html', context)
+    return render(request, 'tifinar/auth/members/show_member.html', context)
 
 @login_required
 @require_http_methods(["GET", "POST"])
@@ -81,7 +81,7 @@ def edit_member_profile(request, user_id):
             member.ville_d_origine = request.POST.get('ville_d_origine', member.ville_d_origine)
             member.Etat_Social = request.POST.get('Etat_Social', member.Etat_Social)
             member.date_de_naissance = request.POST.get('date_de_naissance', member.date_de_naissance)
-            member.Ideologie = request.POST.get('ideologie', member.Ideologie)
+            member.Ideologie = request.POST.get('Ideologie', member.Ideologie)
             member.Commentaire = request.POST.get('Commentaire', member.Commentaire)
             member.social_media = request.POST.get('social_media', member.social_media)
             
@@ -110,13 +110,13 @@ def edit_member_profile(request, user_id):
             
             member.save()
             messages.success(request, "تم تحديث الملف الشخصي بنجاح")
-            return redirect('member_profile', user_id=member.id)
+            return redirect('edit_member_profile', user_id=member.id)
             
         except Exception as e:
             messages.error(request, f"حدث خطأ أثناء التحديث: {str(e)}")
     
     # عرض صفحة التعديل
-    return render(request, 'tifinar/auth/users/edit_profile.html', {
+    return render(request, 'tifinar/auth/members/edit_profile.html', {
         'member': member,
         'role_choices': AuthUser.Role.choices,
         'gender_choices': AuthUser.Gender.choices,
@@ -173,7 +173,7 @@ def manage_member_relations(request, user_id):
         except Exception as e:
             messages.error(request, f"حدث خطأ: {str(e)}")
     
-    return redirect('member_profile', user_id=member.id)
+    return redirect('edit_member_profile', user_id=member.id)
 
 @login_required
 def update_profile_image(request, user_id):
@@ -194,4 +194,4 @@ def update_profile_image(request, user_id):
         except Exception as e:
             messages.error(request, f"حدث خطأ أثناء تحديث الصورة: {str(e)}")
     
-    return redirect('member_profile', user_id=member.id)
+    return redirect('edit_member_profile', user_id=member.id)

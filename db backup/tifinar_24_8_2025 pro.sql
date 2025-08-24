@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 24, 2025 at 03:24 PM
+-- Generation Time: Aug 24, 2025 at 09:06 PM
 -- Server version: 11.8.2-MariaDB
 -- PHP Version: 8.0.30
 
@@ -225,7 +225,7 @@ INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `userna
 (11, '$2b$12$K/mLJGv/O.0.eEs5/wvEIONidINwiRXv.8vI7KqSULVxpA4aJtfM6', NULL, 0, 'hberouhou@gmail.com', 'حمزة', 'بروحو', 'hberouhou@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar', NULL),
 (12, '$2b$12$Q4lOt.Ia8F5KSLFxTTsnl.2NNktHyrY84DyI8Ohy7GiTuMlYry4am', NULL, 0, 'oufkkir26@gmail.com', 'Chaimae', 'Bouzarra', 'oufkkir26@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', '3rd Year of Primary School', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar', NULL),
 (13, '$2b$12$uXxD.9xb2pUvCWspQEcokuknUiVR1p3q/Gbv1/PBq5qrHfGEVNHc2', NULL, 0, 'h.aitfaraji2852@uca.ac.ma', 'Hassna', 'Hassna', 'h.aitfaraji2852@uca.ac.ma', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar', NULL),
-(14, 'pbkdf2_sha256$1000000$YLwOtf89g2iiJf8VRoL3Xz$zC/+stG7M0PEaxBsoDucN6dnHNBr2GO2oGMTCfFKVRg=', '2025-08-10 16:40:23.174650', 1, 'contact@tifinar.net', 'موقع', 'تيفيناغ', 'contact@tifinar.net', 1, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'admin', '2nd Year of Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Other', NULL, NULL, NULL, NULL, 'images/users/14/tifinar.webp', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Fr', NULL),
+(14, 'pbkdf2_sha256$1000000$YLwOtf89g2iiJf8VRoL3Xz$zC/+stG7M0PEaxBsoDucN6dnHNBr2GO2oGMTCfFKVRg=', '2025-08-24 18:13:03.535868', 1, 'contact@tifinar.net', 'موقع', 'تيفيناغ', 'contact@tifinar.net', 1, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'admin', '2nd Year of Baccalaureate', NULL, 'بلاد', 'رباط', 'Unknown', '2015-08-19', 'أدلوجة', NULL, 'Other', '0977889900', NULL, 'الشركة', 'تعليق', 'images/users/14/tifinar.webp', 'كي وورد', 'مراتي', 'ولدي,بني', 'خوتي, خواتاتي', 'ماما,بابا', 'ماما رولاتيف', 'شي وحدين رولاتيف', 'جدي', NULL, NULL, 'موقع تيفيناغ', 'ابن عمي', 'Fr', NULL),
 (15, '$2b$12$BVK6LScDLjsSsNdXsCOQD.cBNQgclbzY4DtIo46BCUjzqQA6YhAua', NULL, 0, 'malkinourdine1@gmail.com', 'نورالدين', 'مالكي', 'malkinourdine1@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar', NULL),
 (16, '$2b$12$QoIB/EDfA1KOS8IWGz7P5u6S7XYDwnMvwg.JxlFtrGowlUQlkmVT.', NULL, 0, 'adilmilano999@gmail.com', 'Maryam', 'Aytihya', 'adilmilano999@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', '2nd Year of Primary School', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar', NULL),
 (17, '$2b$12$ahJZln.cBqUPT6Tq3pNTOu0lSUF/Ks.CXc1Tmyuoo/9SESRLC70dq', NULL, 0, 'sedrikhuntfd54@gmail.com', 'EsSxcclQdDg', 'zDKXZDIfqB', 'sedrikhuntfd54@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Other', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar', NULL),
@@ -963,7 +963,8 @@ CREATE TABLE `django_session` (
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
 ('3ldj8q1v5aavjx7djkcgwc159wjtpjbg', '.eJxVjMsOwiAQRf-FtSGUNy7d-w1kZgCpGkhKuzL-uzbpQrf3nHNfLMK21riNvMQ5sTObNDv9jgj0yG0n6Q7t1jn1ti4z8l3hBx382lN-Xg7376DCqN_aFxNSQLJgoThXwCrhhRYySO2NVVoXQ9lSAfQ5kVSIyYEhM_ki0Qj2_gAPszhv:1ul95r:4uRObIZW0_UmwII4XkBgUwyaVv8AkpeD5sL2BxlLbWI', '2025-08-24 16:40:23.184773'),
-('68i5ptdi86xacz03rz10hkeabnis0gkd', '.eJxVjMsOwiAQRf-FtSGUNy7d-w1kZgCpGkhKuzL-uzbpQrf3nHNfLMK21riNvMQ5sTObBDv9jgj0yG0n6Q7t1jn1ti4z8l3hBx382lN-Xg7376DCqN_aFxNSQLJgoThXwCrhhRYySO2NVVoXQ9lSAfQ5kVSIyYEhM_ki0Qj2_gANTzhr:1ul7sO:ODTKpbPUuY-Ru-TFlUjbikGGfaOmVb6Km947pzta-W0', '2025-08-24 15:22:24.780300');
+('68i5ptdi86xacz03rz10hkeabnis0gkd', '.eJxVjMsOwiAQRf-FtSGUNy7d-w1kZgCpGkhKuzL-uzbpQrf3nHNfLMK21riNvMQ5sTObBDv9jgj0yG0n6Q7t1jn1ti4z8l3hBx382lN-Xg7376DCqN_aFxNSQLJgoThXwCrhhRYySO2NVVoXQ9lSAfQ5kVSIyYEhM_ki0Qj2_gANTzhr:1ul7sO:ODTKpbPUuY-Ru-TFlUjbikGGfaOmVb6Km947pzta-W0', '2025-08-24 15:22:24.780300'),
+('mmm2ytsp162vezeye0g3gtg6olo6so81', '.eJxVjMsOwiAQRf-FtSGUNy7d-w1kZgCpGkhKuzL-uzbpQrf3nHNfLMK21riNvMQ5sTObNDv9jgj0yG0n6Q7t1jn1ti4z8l3hBx382lN-Xg7376DCqN_aFxNSQLJgoThXwCrhhRYySO2NVVoXQ9lSAfQ5kVSIyYEhM_ki0Qj2_gAPszhv:1uqFDD:hiHiVW22HgQmwhlf8IJEl9NPr8_e-W9uRKJOjIdgl5s', '2025-09-07 18:13:03.578009');
 
 -- --------------------------------------------------------
 

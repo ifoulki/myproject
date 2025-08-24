@@ -32,22 +32,22 @@
 
 <article class="content">
 
-    <h1 class="mb-4">تعديل معلومات : {{ contact.prenom }} {{ contact.nom }}</h1>
+    <h1 class="mb-4">تعديل معلومات : {{ member.prenom }} {{ member.nom }}</h1>
 
-    <form class="form" action="{% url 'edit_contact' contact.contacts_id %}" method="POST" enctype="multipart/form-data">
+    <form class="form" action="{% url 'edit_member_profile' member.id %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         
-        {% with images=contact.path|split:","|shuffle %}
+        {% with images=member.path|split:","|shuffle %}
         <div class="mb-3 text-center">
             <img id="imagePreview" class="img-fluid mb-2" alt="معاينة الصورة"
                 style="display: none; max-width: 400px;">
             {% if images.0 %}
-                <img id="currentImage" src="{% static 'tifinar/images/contacts/' %}{{ images.0 }}" alt="الصورة الحالية" class="img-fluid mb-2"
+                <img id="currentImage" src="{% static 'tifinar/' %}{{ images.0 }}" alt="الصورة الحالية" class="img-fluid mb-2"
                     style="max-width: 400px;">
             {% else %}
                 <img id="currentImage"
-                    src="{% static 'tifinar/images/contacts/' %}{% if contact.gender == 'Male' %}male.webp{% else %}female.webp{% endif %}"
-                    alt="صورة {{ contact.prenom }} {{ contact.nom }}" class="img-fluid mb-2"
+                    src="{% static 'tifinar/images/members/' %}{% if member.gender == 'Male' %}male.webp{% else %}female.webp{% endif %}"
+                    alt="صورة {{ member.prenom }} {{ member.nom }}" class="img-fluid mb-2"
                     style="max-width: 400px;">
             {% endif %}
         </div>
@@ -69,14 +69,14 @@
 
     <hr>
 
-    <form class="form" action="{% url 'edit_contact' contact.contacts_id %}" method="POST" enctype="multipart/form-data">
+    <form class="form" action="{% url 'edit_member_profile' member.id %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <h1>
             <i class="fas fa-user"></i> تعديل الإسم ومعلومات التواصل:
         </h1>
         <div class="mb-3">
             <label class="form-label"><i class="fas fa-user"></i>الإسم الشخصي :</label>
-            <input type="text" name="prenom" class="form-control input" value="{{ contact.prenom }}">
+            <input type="text" name="prenom" class="form-control input" value="{{ member.first_name }}">
             {% if form.errors.prenom %}
                 <small class="text-danger">{{ form.errors.prenom }}</small>
             {% endif %}
@@ -86,7 +86,7 @@
 
         <div class="mb-3">
             <label class="form-label"><i class="fas fa-user"></i>الإسم العائلي :</label>
-            <input type="text" name="nom" class="form-control input" value="{{ contact.nom }}">
+            <input type="text" name="nom" class="form-control input" value="{{ member.last_name }}">
             {% if form.errors.nom %}
                 <small class="text-danger">{{ form.errors.nom }}</small>
             {% endif %}
@@ -100,7 +100,7 @@
             </label>
             <input type="text" name="name_in_arabic" id="name_in_arabic" class="form-control input"
                 placeholder="أدخل الاسم الكامل باللغة العربية"
-                value="{{ contact.name_in_arabic|default_if_none:'' }}">
+                value="{{ member.name_in_arabic|default_if_none:'' }}">
             {% if form.errors.name_in_arabic %}
                 <small class="text-danger">{{ form.errors.name_in_arabic }}</small>
             {% endif %}
@@ -113,17 +113,17 @@
             <div class="mb-3 position-relative gender-container">
                 <label class="form-label">
                     <input type="radio" value="Male" name="gender"
-                        {% if contact.gender == 'Male' %}checked{% endif %}>
+                        {% if member.gender == 'Male' %}checked{% endif %}>
                     ذكر ♂️
                 </label>
                 <label class="form-label">
                     <input type="radio" value="Female" name="gender"
-                        {% if contact.gender == 'Female' %}checked{% endif %}>
+                        {% if member.gender == 'Female' %}checked{% endif %}>
                     أنثى ♀️
                 </label>
                 <label class="form-label">
                     <input type="radio" value="Other" name="gender"
-                        {% if contact.gender == 'Other' %}checked{% endif %}>
+                        {% if member.gender == 'Other' %}checked{% endif %}>
                     آخر <i class="fas fa-transgender-alt"></i>
                 </label>
             </div>
@@ -133,14 +133,14 @@
 
         <div class="mb-3">
             <label for="Tel" class="form-label"><i class="fas fa-phone"></i> رقم الهاتف :</label>
-            <input type="text" name="tel" id="Tel" class="form-control input" value="{{ contact.tel }}">
+            <input type="text" name="tel" id="Tel" class="form-control input" value="{{ member.tel }}">
         </div>
 
         <hr>
 
         <div class="mb-3">
             <label for="email" class="form-label"><i class="fas fa-list"></i> البريد الالكتروني :</label>
-            <input type="text" name="email" id="email" class="form-control input" value="{{ contact.email }}">
+            <input type="text" name="email" id="email" class="form-control input" value="{{ member.email }}">
             {% if form.errors.email %}
                 <small class="text-danger">{{ form.errors.email }}</small>
             {% endif %}
@@ -150,14 +150,14 @@
 
         <div class="mb-3">
             <label for="Ville_D_origine"><i class="fas fa-city"></i>المدينة الأصلية :</label>
-            <input type="text" name="ville_d_origine" id="Ville_D_origine" class="form-control input" value="{{ contact.ville_d_origine|default_if_none:'' }}">
+            <input type="text" name="ville_d_origine" id="Ville_D_origine" class="form-control input" value="{{ member.ville_d_origine|default_if_none:'' }}">
         </div>
 
         <hr>
 
         <div class="mb-3">
             <label for="Adresse"><i class="fas fa-map-marker-alt"></i> العنوان</label>
-            <input type="text" name="adresse" id="Adresse" class="form-control input" value="{{ contact.adresse|default_if_none:'' }}">
+            <input type="text" name="adresse" id="Adresse" class="form-control input" value="{{ member.adresse|default_if_none:'' }}">
         </div>
 
         <hr>
@@ -165,7 +165,7 @@
         <div class="mb-3">
             <h4>وسائل التواصل الاجتماعي</h4>
 
-            {% with social_media=contact.social_media|split:"," %}
+            {% with social_media=member.social_media|split:"," %}
                 <label for="social_media_1"> الفيسبوك Facebook : </label>
                 <input type="text" id="social_media_1" name="social_media_1" value="{{ social_media.0|default_if_none:'' }}">
             
@@ -178,7 +178,7 @@
                 <label for="social_media_4">سناب شات Snapchat :</label>
                 <input type="text" id="social_media_4" name="social_media_4" value="{{ social_media.3|default_if_none:'' }}">
             
-                <input type="hidden" id="social_media" name="social_media" value="{{ contact.social_media|default_if_none:'' }}">
+                <input type="hidden" id="social_media" name="social_media" value="{{ member.social_media|default_if_none:'' }}">
             {% endwith %}
 
             <script>
@@ -202,7 +202,7 @@
 
     <hr>
 
-    <form class="form" action="{% url 'edit_contact' contact.contacts_id %}" method="POST" enctype="multipart/form-data">
+    <form class="form" action="{% url 'edit_member_profile' member.id %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 
         <h1>
@@ -211,7 +211,7 @@
 
         <div class="mb-3">
             <label for="Societe"><i class="fas fa-building"></i>المهنة :</label>
-            <input type="text" name="societe" id="Societe" class="form-control" value="{{ contact.societe|default_if_none:'' }}">
+            <input type="text" name="societe" id="Societe" class="form-control" value="{{ member.societe|default_if_none:'' }}">
         </div>
 
         <hr>
@@ -223,58 +223,58 @@
                 <option value="" disabled selected>حدد المستوى الدراسي</option>
                 
                 <option value="Preschool"
-                    {% if contact.educational_level == 'Preschool' %}selected{% endif %}>
+                    {% if member.educational_level == 'Preschool' %}selected{% endif %}>
                     روضة الأطفال</option>
                 <option value="Unknown"
-                    {% if contact.educational_level == 'Unknown' %}selected{% endif %}>
+                    {% if member.educational_level == 'Unknown' %}selected{% endif %}>
                     غير متعلم في المدرسة</option>
                 <optgroup label="التعليم الابتدائي">
                     <option value="1st Year of Primary School"
-                        {% if contact.educational_level == '1st Year of Primary School' %}selected{% endif %}>
+                        {% if member.educational_level == '1st Year of Primary School' %}selected{% endif %}>
                         السنة الأولى ابتدائي</option>
                     <option value="2nd Year of Primary School"
-                        {% if contact.educational_level == '2nd Year of Primary School' %}selected{% endif %}>
+                        {% if member.educational_level == '2nd Year of Primary School' %}selected{% endif %}>
                         السنة الثانية ابتدائي</option>
                     <option value="3rd Year of Primary School"
-                        {% if contact.educational_level == '3rd Year of Primary School' %}selected{% endif %}>
+                        {% if member.educational_level == '3rd Year of Primary School' %}selected{% endif %}>
                         السنة الثالثة ابتدائي</option>
                     <option value="4th Year of Primary School"
-                        {% if contact.educational_level == '4th Year of Primary School' %}selected{% endif %}>
+                        {% if member.educational_level == '4th Year of Primary School' %}selected{% endif %}>
                         السنة الرابعة ابتدائي</option>
                     <option value="5th Year of Primary School"
-                        {% if contact.educational_level == '5th Year of Primary School' %}selected{% endif %}>
+                        {% if member.educational_level == '5th Year of Primary School' %}selected{% endif %}>
                         السنة الخامسة ابتدائي</option>
                     <option value="6th Year of Primary School"
-                        {% if contact.educational_level == '6th Year of Primary School' %}selected{% endif %}>
+                        {% if member.educational_level == '6th Year of Primary School' %}selected{% endif %}>
                         السنة السادسة ابتدائي</option>
                 </optgroup>
 
                 <optgroup label="التعليم الإعدادي">    
                     <option value="1st Year of Middle School"
-                        {% if contact.educational_level == '1st Year of Middle School' %}selected{% endif %}>
+                        {% if member.educational_level == '1st Year of Middle School' %}selected{% endif %}>
                         السنة الأولى إعدادي</option>
                     <option value="2nd Year of Middle School"
-                        {% if contact.educational_level == '2nd Year of Middle School' %}selected{% endif %}>
+                        {% if member.educational_level == '2nd Year of Middle School' %}selected{% endif %}>
                         السنة الثانية إعدادي</option>
                     <option value="3rd Year of Middle School"
-                        {% if contact.educational_level == '3rd Year of Middle School' %}selected{% endif %}>
+                        {% if member.educational_level == '3rd Year of Middle School' %}selected{% endif %}>
                         السنة الثالثة إعدادي</option>
                 </optgroup>
                 <optgroup label="التعليم الثانوي">
                     <option value="Common Core"
-                        {% if contact.educational_level == 'Common Core' %}selected{% endif %}>
+                        {% if member.educational_level == 'Common Core' %}selected{% endif %}>
                         جدع مشترك</option>
                     <option value="1st Year of Baccalaureate"
-                        {% if contact.educational_level == '1st Year of Baccalaureate' %}selected{% endif %}>
+                        {% if member.educational_level == '1st Year of Baccalaureate' %}selected{% endif %}>
                         السنة الأولى بكالوريا</option>
                     <option value="2nd Year of Baccalaureate"
-                        {% if contact.educational_level == '2nd Year of Baccalaureate' %}selected{% endif %}>
+                        {% if member.educational_level == '2nd Year of Baccalaureate' %}selected{% endif %}>
                         السنة الثانية بكالوريا</option>
                 </optgroup>
                 
                 <optgroup label="التعليم العالي">
                     <option value="Post-Baccalaureate"
-                    {% if contact.educational_level == 'Post-Baccalaureate' %}selected{% endif %}>
+                    {% if member.educational_level == 'Post-Baccalaureate' %}selected{% endif %}>
                     التعليم العالي</option>
                 </optgroup>
             </select>
@@ -291,11 +291,11 @@
             <label for="role" class="form-label"><i class="fas fa-list"></i>الدور :</label>
             <select id="role" name="role" class="form-select form-control">
                 <option value="" disabled selected>اختر دور العضو</option>
-                <option value="admin" {% if contact.role == 'admin' %}selected{% endif %}>مدير
+                <option value="admin" {% if member.role == 'admin' %}selected{% endif %}>مدير
                     الموقع</option>
                 <option value="content_creator"
-                    {% if contact.role == 'content_creator' %}selected{% endif %}>منشئ محتوى</option>
-                <option value="user" {% if contact.role == 'user' %}selected{% endif %}>مستخدم
+                    {% if member.role == 'content_creator' %}selected{% endif %}>منشئ محتوى</option>
+                <option value="user" {% if member.role == 'user' %}selected{% endif %}>مستخدم
                     للموقع</option>
             </select>
         </div>
@@ -303,7 +303,7 @@
 
     <hr>
 
-    <form class="form" action="{% url 'edit_contact' contact.contacts_id %}" method="POST" enctype="multipart/form-data">
+    <form class="form" action="{% url 'edit_member_profile' member.id %}" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
 
         <h1>
@@ -313,7 +313,7 @@
         <div class="mb-3">
             <label for="date_de_naissance"><i class="fas fa-birthday-cake"></i> تاريخ الازدياد :</label>
             <input type="date" name="date_de_naissance" id="date_de_naissance" class="form-control"
-                value="{{ contact.date_de_naissance|date:'Y-m-d' }}">
+                value="{{ member.date_de_naissance|date:'Y-m-d' }}">
         </div>
 
         <hr>
@@ -323,23 +323,23 @@
             <select id="Etat_Social" name="Etat_Social" class="form-select form-control">
                 <option value="" disabled>حدد الحالة الاجتماعية</option>
                 <option value="Celibataire"
-                    {% if contact.Etat_Social == 'Celibataire' %}selected{% endif %}>
+                    {% if member.Etat_Social == 'Celibataire' %}selected{% endif %}>
                     عازب(ة)
                 </option>
                 <option value="Marie(e)"
-                    {% if contact.Etat_Social == 'Marie(e)' %}selected{% endif %}>
+                    {% if member.Etat_Social == 'Marie(e)' %}selected{% endif %}>
                     متزوج(ة)
                 </option>
                 <option value="Fiancee"
-                    {% if contact.Etat_Social == 'Fiancee' %}selected{% endif %}>
+                    {% if member.Etat_Social == 'Fiancee' %}selected{% endif %}>
                     مخطوبة
                 </option>
                 <option value="Veu(f)ve"
-                    {% if contact.Etat_Social == 'Veu(f)ve' %}selected{% endif %}>
+                    {% if member.Etat_Social == 'Veu(f)ve' %}selected{% endif %}>
                     أرمل(ة)
                 </option>
                 <option value="Divorce(e)"
-                    {% if contact.Etat_Social == 'Divorce(e)' %}selected{% endif %}>
+                    {% if member.Etat_Social == 'Divorce(e)' %}selected{% endif %}>
                     مطلق(ة)
                 </option>
             </select>
@@ -349,14 +349,14 @@
 
         <div class="mb-3">
             <label class="form-label"><i class="fas fa-comment-dots"></i> الآراء الدينية والسياسية </label>
-            <textarea name="ideologie" class="form-control" rows="3">{{ contact.ideologie|default_if_none:'' }}</textarea>
+            <textarea name="Ideologie" class="form-control" rows="3">{{ member.Ideologie|default_if_none:'' }}</textarea>
         </div>
 
         <hr>
 
         <div class="mb-3">
             <label class="form-label"><i class="fas fa-info-circle"></i> نبذة موجزة عنك :</label>
-            <textarea name="commentaire" class="form-control" rows="3">{{ contact.commentaire|default_if_none:'' }}</textarea>
+            <textarea name="Commentaire" class="form-control" rows="3">{{ member.Commentaire|default_if_none:'' }}</textarea>
         </div>
 
         <button type="submit" name="eddit_mbr" class="btn btn-primary">
@@ -365,12 +365,12 @@
     </form>
 
     {% if request.user.role == 'admin' %}
-        <form class="form" action="{% url 'edit_contact' contact.contacts_id %}" method="POST" enctype="multipart/form-data">
+        <form class="form" action="{% url 'edit_member_profile' member.id %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
 
             <div class="mb-3">
                 <label for="children"><i class="fas fa-baby"></i>الأبناء</label>
-                <textarea name="children" id="children" class="form-control" rows="3">{{ contact.children|default_if_none:'' }}</textarea>
+                <textarea name="children" id="children" class="form-control" rows="3">{{ member.children|default_if_none:'' }}</textarea>
             </div>
 
             <div class="mb-3">
@@ -378,7 +378,7 @@
                     <i class="fas fa-users"></i> الإخوة والأخوات
                 </label>
                 <textarea name="siblings" id="siblings" class="form-control" rows="3"
-                    placeholder="أدخل أسماء الإخوة والأخوات">{{ contact.siblings|default_if_none:'' }}</textarea>
+                    placeholder="أدخل أسماء الإخوة والأخوات">{{ member.siblings|default_if_none:'' }}</textarea>
             </div>
 
             <div class="mb-3">
@@ -386,14 +386,14 @@
                     <i class="fas fa-users"></i> أبناء العم/العمة
                 </label>
                 <textarea name="cousin" id="cousin" class="form-control" rows="3"
-                    placeholder="أدخل أسماء أبناء العم/العمة">{{ contact.cousin|default_if_none:'' }}</textarea>
+                    placeholder="أدخل أسماء أبناء العم/العمة">{{ member.cousin|default_if_none:'' }}</textarea>
             </div>
 
             <div class="mb-3">
                 <label for="parents">
                     <i class="fas fa-user-friends"></i> الوالدان
                 </label>
-                <textarea name="parents" id="parents" class="form-control" rows="3" placeholder="أدخل معلومات عن الوالدين">{{ contact.parents|default_if_none:'' }}</textarea>
+                <textarea name="parents" id="parents" class="form-control" rows="3" placeholder="أدخل معلومات عن الوالدين">{{ member.parents|default_if_none:'' }}</textarea>
             </div>
 
             <div class="mb-3">
@@ -401,7 +401,7 @@
                     <i class="fas fa-hand-holding-heart"></i> الأقارب من جهة الأم
                 </label>
                 <textarea name="maternal_relatives" id="maternal_relatives" class="form-control" rows="3"
-                    placeholder="أدخل أسماء أقارب جهة الأم">{{ contact.maternal_relatives|default_if_none:'' }}</textarea>
+                    placeholder="أدخل أسماء أقارب جهة الأم">{{ member.maternal_relatives|default_if_none:'' }}</textarea>
             </div>
 
             <div class="mb-3">
@@ -409,7 +409,7 @@
                     <i class="fas fa-hand-holding-heart"></i> الأقارب من جهة الأب
                 </label>
                 <textarea name="paternal_relatives" id="paternal_relatives" class="form-control" rows="3"
-                    placeholder="أدخل أسماء أقارب جهة الأب">{{ contact.paternal_relatives|default_if_none:'' }}</textarea>
+                    placeholder="أدخل أسماء أقارب جهة الأب">{{ member.paternal_relatives|default_if_none:'' }}</textarea>
             </div>
 
             <div class="mb-3">
@@ -417,18 +417,18 @@
                     <i class="fas fa-people-arrows"></i> الأجداد
                 </label>
                 <textarea name="grandparents" id="grandparents" class="form-control" rows="3"
-                    placeholder="أدخل معلومات عن الأجداد">{{ contact.grandparents|default_if_none:'' }}</textarea>
+                    placeholder="أدخل معلومات عن الأجداد">{{ member.grandparents|default_if_none:'' }}</textarea>
             </div>
 
             <div class="mb-3">
                 <label class="form-label"><i class="fas fa-key"></i> الكلمات المفتاحية :</label>
-                <textarea name="keywords" class="form-control" rows="2">{{ contact.keywords|default_if_none:'' }}</textarea>
+                <textarea name="keywords" class="form-control" rows="2">{{ member.keywords|default_if_none:'' }}</textarea>
             </div>
 
             <div class="mb-3">
                 <label for="spouse"><i class="fas fa-heart"></i>الزوج/الزوجة</label>
                 <input type="text" name="spouse" id="spouse" class="form-control"
-                    value="{{ contact.spouse|default_if_none:'' }}">
+                    value="{{ member.spouse|default_if_none:'' }}">
             </div>
             
             <div class="d-flex justify-content-between">
