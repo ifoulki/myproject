@@ -62,7 +62,7 @@ def edit_contact(request, contacts_id):
     
     if not (request.user.id == contact.contacts_id or request.user.role == "admin"):
         messages.error(request, "ليس لديك صلاحية لتعديل هذا الملف الشخصي")
-        return redirect('contact_view', contacts_id=contact.id)
+        return redirect('contact_view', contacts_id=contact.contacts_id)
     
     if request.method == 'POST':
         try:
@@ -78,7 +78,7 @@ def edit_contact(request, contacts_id):
             contact.adresse = request.POST.get('adresse', contact.adresse)
             contact.ville_d_origine = request.POST.get('ville_d_origine', contact.ville_d_origine)
             contact.Etat_Social = request.POST.get('Etat_Social', contact.Etat_Social)
-            contact.date_de_naissance = request.POST.get('Date_de_naissance', contact.Date_de_naissance)
+            contact.date_de_naissance = request.POST.get('date_de_naissance', contact.date_de_naissance)
             contact.ideologie = request.POST.get('ideologie', contact.ideologie)
             contact.commentaire = request.POST.get('commentaire', contact.commentaire)
             contact.social_media = request.POST.get('social_media', contact.social_media)
@@ -94,7 +94,7 @@ def edit_contact(request, contacts_id):
             
             contact.save()
             messages.success(request, "تم تحديث الملف الشخصي بنجاح")
-            return redirect('contact_view', contacts_id=contact.id)
+            return redirect('contact_view', contacts_id=contact.contacts_id)
             
         except Exception as e:
             messages.error(request, f"حدث خطأ أثناء التحديث: {str(e)}")
@@ -102,8 +102,8 @@ def edit_contact(request, contacts_id):
     # عرض صفحة التعديل
     return render(request, 'tifinar/auth/contacts/edit_contact.html', {
         'contact': contact,
-        'gender_choices': Contacts.Gender.choices,
-        'social_status_choices': Contacts.EtatSocial.choices,
+        'gender_choices': Contacts.gender,
+        'social_status_choices': Contacts.Etat_Social,
     })
 
 @login_required
@@ -161,7 +161,7 @@ def manage_contact_relations(request, contacts_id):
         except Exception as e:
             messages.error(request, f"حدث خطأ: {str(e)}")
     
-    return redirect('contact_view', contacts_id=contact.id)
+    return redirect('contact_view', contacts_id=contact.contacts_id)
 
 @login_required
 def update_contact_image(request, contacts_id):

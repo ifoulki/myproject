@@ -1,206 +1,257 @@
 from django.shortcuts import render
-from django.db.models import Q
+from django.db.models import Q, Value, CharField
+from django.db.models.functions import Concat, Coalesce
 from django.core.paginator import Paginator
-from tifinar.models import AuthUser
+from tifinar.models import AuthUser, synonym_terms
 from django.contrib.auth.decorators import login_required
+import re
 
 @login_required
 def members_index(request):
-    members = AuthUser.objects.all()
-    searchable_columns = [
-        'name_in_arabic', 'social_media', 'nom', 'prenom', 'keywords', 'adresse',
-        'ville_d_origine', 'gender', 'tel', 'email', 'educational_level',
-        'ideologie', 'societe', 'commentaire', 'date_de_naissance',
-        'spouse', 'children', 'siblings', 'parents', 'maternal_relatives',
-        'grandparents', 'friends',
-    ]
-
+    # البدء بجميع الأعضاء للمسؤولين، أو محدود للعاديين
+    if request.user.role == 'admin':
+        members = AuthUser.objects.all()
+    else:
+        # للمستخدمين العاديين: الأصدقاء وطلبات الصداقة فقط
+        current_member = request.user
+        friend_ids = [int(id) for id in current_member.friends.split(',')] if current_member.friends else []
+        request_ids = [int(id) for id in current_member.friend_requests.split(',')] if current_member.friend_requests else []
+        all_ids = list(set(friend_ids + request_ids))
+        members = AuthUser.objects.filter(id__in=all_ids)
+    
+    # معالجة تصفية الدور
     role = request.GET.get('role')
     if role:
         members = members.filter(role__icontains=role)
 
-    search_term = request.GET.get('search')
+    search_term = request.GET.get('search', '').strip()
+    
     if search_term:
-        # تعريف جميع علاقات القرابة بشكل كامل
-        father = ['أب','اب', 'والد', 'father', 'père de']
-        mother = ['أم','ام', 'والدة', 'mother', 'mère de']
-        husband = ['زوج', 'husband','خطيب','حبيب','عشيق','l\'époux de ', 'le compagnon de','le conjoine de','le partenaire de ','le mari de']
-        wife = ['زوجة', 'wife','عشيقة','خطيبة','حبيبة', 'l\'épouse de', 'la conjointe de', 'la femme de', 'la compagne de', 'la partenaire de']
-        son = ['ابن', 'إبن', 'son', 'fils de', 'نجل']
-        daughter = ['ابنة', 'إبنة', 'daughter', 'fille de', 'نجلة']
-        brother = ['أخ','اخ', 'شقيق', 'brother', 'أخ لأم', 'أخ لأب','frère de']
-        sister = ['أخت','اخت', 'شقيقة', 'sister', 'أخت لأم', 'أخت لأب','soeur de','sœur de']
-        grandfather = ['جد', 'grandfather','grand-père','père de père de','père de mère de','أب أم','أب أب']
-        grandmother = ['جدة', 'grandmother','grand-mère','أم أب','أم أب','mère de mère de','mère de père']
-        maternal_uncle = ['خال', 'maternal uncle','أخ أم','l\'oncle','uncle']
-        maternal_aunt = ['خالة', 'maternal aunt','aunt','أخت أم']
-        paternal_uncle = ['عم', 'paternal uncle','uncle','l\'oncle','أخ أب']
-        paternal_aunt = ['عمة', 'paternal aunt','أخت أب','aunt']
-        cousin_male = ['ابن عم', 'أبناء عم', 'cousin','cousin de']
-        cousin_female = ['ابنة العم','cousine','cousine de']
-        niece_nephew_male = ['إبن أخ', 'إبن أخت', 'nephew de']
-        niece_nephew_female = ['إبنة أخ', 'إبنة أخت', 'niece de','niéce']
-        friend = ["صديق", "رفيق", "صاحب", "زميل", "خل", "رفيق درب","l\'ami de", "le camarade de", "le collègue de", "le copain de", "le pote de", "l\'allié de", "connaissance de","friend", "companion", "buddy", "pal", "mate", "ally", "acquaintance", "colleague"]
-        girlfriend = ["صديقة", "رفيقة", "خلة", "زميلة", "صحبة","l\amie", "la compagne de", "la camarade de", "la collègue de", "la copine de", "l\alliée de", "connaissance de","girlfriend", "companion", "buddy", "pal", "mate", "ally", "acquaintance", "colleague"]
-
-        relations = father + mother + husband + wife + son + daughter + brother + sister + grandfather + grandmother + maternal_uncle + maternal_aunt + paternal_uncle + paternal_aunt + cousin_male + cousin_female + niece_nephew_male + niece_nephew_female + friend + girlfriend
-
-        relation_found = None
-        for relation in relations:
-            if relation in search_term:
-                relation_found = relation
-                break
-
-        if relation_found:
-            parts = search_term.split(relation_found)
-            name_part = parts[-1].strip() if len(parts) > 1 else ''
-            
-            name_matches = AuthUser.objects.filter(name_in_arabic__icontains=name_part)
-            
-            related_names = []
-            for member in name_matches:
-                # معالجة علاقات الأب والأم
-                if relation_found in father + mother:
-                    if member.parents:
-                        parents = [p.strip() for p in member.parents.split(',') if p.strip()]
-                        for parent in parents:
-                            parent_member = AuthUser.objects.filter(name_in_arabic__icontains=parent).first()
-                            if parent_member:
-                                if (relation_found in father and parent_member.gender == 'Male') or (relation_found in mother and parent_member.gender == 'Female'):
-                                    related_names.append(parent)
-                
-                # معالجة علاقات الأبناء
-                elif relation_found in son + daughter:
-                    if member.children:
-                        children = [c.strip() for c in member.children.split(',') if c.strip()]
-                        for child in children:
-                            child_member = AuthUser.objects.filter(name_in_arabic__icontains=child).first()
-                            if child_member:
-                                if (relation_found in son and child_member.gender == 'Male') or (relation_found in daughter and child_member.gender == 'Female'):
-                                    related_names.append(child)
-                
-                # معالجة علاقات الإخوة
-                elif relation_found in brother + sister:
-                    if member.siblings:
-                        siblings = [s.strip() for s in member.siblings.split(',') if s.strip()]
-                        for sibling in siblings:
-                            sibling_member = AuthUser.objects.filter(name_in_arabic__icontains=sibling).first()
-                            if sibling_member:
-                                if (relation_found in brother and sibling_member.gender == 'Male') or (relation_found in sister and sibling_member.gender == 'Female'):
-                                    related_names.append(sibling)
-                
-                # معالجة علاقات الأزواج
-                elif relation_found in husband + wife:
-                    if member.spouse:
-                        spouses = [s.strip() for s in member.spouse.split(',') if s.strip()]
-                        for spouse in spouses:
-                            spouse_member = AuthUser.objects.filter(name_in_arabic__icontains=spouse).first()
-                            if spouse_member:
-                                if (relation_found in husband and spouse_member.gender == 'Male') or (relation_found in wife and spouse_member.gender == 'Female'):
-                                    related_names.append(spouse)
-                
-                # معالجة علاقات الأعمام والعمات
-                elif relation_found in paternal_uncle + paternal_aunt:
-                    if member.paternal_relatives:
-                        paternal_rels = [r.strip() for r in member.paternal_relatives.split(',') if r.strip()]
-                        for rel in paternal_rels:
-                            rel_member = AuthUser.objects.filter(name_in_arabic__icontains=rel).first()
-                            if rel_member:
-                                if (relation_found in paternal_uncle and rel_member.gender == 'Male') or (relation_found in paternal_aunt and rel_member.gender == 'Female'):
-                                    related_names.append(rel)
-                
-                # معالجة علاقات الأخوال والخالات
-                elif relation_found in maternal_uncle + maternal_aunt:
-                    if member.maternal_relatives:
-                        maternal_rels = [r.strip() for r in member.maternal_relatives.split(',') if r.strip()]
-                        for rel in maternal_rels:
-                            rel_member = AuthUser.objects.filter(name_in_arabic__icontains=rel).first()
-                            if rel_member:
-                                if (relation_found in maternal_uncle and rel_member.gender == 'Male') or (relation_found in maternal_aunt and rel_member.gender == 'Female'):
-                                    related_names.append(rel)
-                
-                # معالجة علاقات الأجداد
-                elif relation_found in grandfather + grandmother:
-                    if member.grandparents:
-                        grandparents = [g.strip() for g in member.grandparents.split(',') if g.strip()]
-                        for grandparent in grandparents:
-                            grandparent_member = AuthUser.objects.filter(name_in_arabic__icontains=grandparent).first()
-                            if grandparent_member:
-                                if (relation_found in grandfather and grandparent_member.gender == 'Male') or (relation_found in grandmother and grandparent_member.gender == 'Female'):
-                                    related_names.append(grandparent)
-                
-                # معالجة علاقات أبناء العم/العمة
-                elif relation_found in cousin_male + cousin_female:
-                    if member.cousins:
-                        cousins = [c.strip() for c in member.cousins.split(',') if c.strip()]
-                        for cousin in cousins:
-                            cousin_member = AuthUser.objects.filter(name_in_arabic__icontains=cousin).first()
-                            if cousin_member:
-                                if (relation_found in cousin_male and cousin_member.gender == 'Male') or (relation_found in cousin_female and cousin_member.gender == 'Female'):
-                                    related_names.append(cousin)
-                
-                # معالجة علاقات أبناء الإخوة
-                elif relation_found in niece_nephew_male + niece_nephew_female:
-                    if member.nieces_nephews:
-                        nieces_nephews = [n.strip() for n in member.nieces_nephews.split(',') if n.strip()]
-                        for niece_nephew in nieces_nephews:
-                            niece_nephew_member = AuthUser.objects.filter(name_in_arabic__icontains=niece_nephew).first()
-                            if niece_nephew_member:
-                                if (relation_found in niece_nephew_male and niece_nephew_member.gender == 'Male') or (relation_found in niece_nephew_female and niece_nephew_member.gender == 'Female'):
-                                    related_names.append(niece_nephew)
-                
-                # معالجة علاقات الأصدقاء
-                elif relation_found in friend + girlfriend:
-                    if member.friends:
-                        friends = [f.strip() for f in member.friends.split(',') if f.strip()]
-                        for friend_rel in friends:
-                            friend_member = AuthUser.objects.filter(name_in_arabic__icontains=friend_rel).first()
-                            if friend_member:
-                                if (relation_found in friend and friend_member.gender == 'Male') or (relation_found in girlfriend and friend_member.gender == 'Female'):
-                                    related_names.append(friend_rel)
-
-            if related_names:
-                q_objects = Q()
-                for name in set(related_names):  # استخدام set لإزالة التكرارات
-                    q_objects |= Q(name_in_arabic__icontains=name)
-                members = AuthUser.objects.filter(q_objects)
-            else:
-                members = AuthUser.objects.none()
+        # 1. البحث في المرادفات أولاً
+        synonym_results = search_with_synonyms(search_term, members)
+        if synonym_results is not None:
+            members = synonym_results
         else:
-            # البحث العادي إذا لم تكن هناك علاقة
-            q_objects = Q()
-            for column in searchable_columns:
-                q_objects |= Q(**{f'{column}__icontains': search_term})
-            members = members.filter(q_objects)
-            
-            # ترتيب النتائج حسب أفضل تطابق (تطبيق بسيط)
-            members = sorted(members, key=lambda u: sum(
-                1 for col in searchable_columns 
-                if getattr(u, col) and search_term.lower() in str(getattr(u, col)).lower()
-            ), reverse=True)
-
+            # 2. البحث الذكي إذا لم توجد مرادفات
+            members = smart_search(search_term, members)
+    
     # التقسيم إلى صفحات
     paginator = Paginator(members, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    # إذا لم يكن هناك بحث وعرض المسؤولين لكل المستخدمين
-    if not search_term and not role and request.user.role == 'admin':
-        members = AuthUser.objects.all()
-        paginator = Paginator(members, 20)
-        page_obj = paginator.get_page(page_number)
-    elif not search_term and not role:
-        # للمستخدمين العاديين: عرض الأصدقاء وطلبات الصداقة فقط
-        current_member = request.user
-        friend_ids = [int(id) for id in current_member.friends.split(',')] if current_member.friends else []
-        request_ids = [int(id) for id in current_member.friend_requests.split(',')] if current_member.friend_requests else []
-        
-        all_ids = list(set(friend_ids + request_ids))
-        members = AuthUser.objects.filter(id__in=all_ids)
-        paginator = Paginator(members, 20)
-        page_obj = paginator.get_page(page_number)
     return render(request, 'tifinar/auth/members/index.html', {
         'members': page_obj,
         'search_term': search_term,
         'role': role
     })
+
+def search_with_synonyms(search_term, queryset):
+    """
+    البحث باستخدام جدول المرادفات
+    """
+    synonym_entries = synonym_terms.objects.all()
+    
+    for entry in synonym_entries:
+        terms_to_check = [entry.term.strip()] 
+        if entry.synonyms:
+            terms_to_check.extend([s.strip() for s in entry.synonyms.split(',')])
+        
+        ignore_terms = [i.strip() for i in entry.ignore_terms.split(',')] if entry.ignore_terms else []
+        
+        # التحقق من وجود أي مصطلح في البحث
+        for term in terms_to_check:
+            if term and term in search_term:
+                # التحقق من عدم وجود كلمات محظورة
+                if any(ignore in search_term for ignore in ignore_terms if ignore):
+                    continue
+                
+                # استخراج الاسم بعد المصطلح
+                name_part = extract_name_after_term(search_term, term)
+                
+                if name_part:
+                    return find_related_members(entry, name_part, queryset)
+    
+    return None
+
+def extract_name_after_term(search_term, term):
+    """
+    استخراج الاسم من البحث بعد المصطلح
+    """
+    # استخدام regex لأفضل استخراج
+    pattern = r'(?:^|\s)' + re.escape(term) + r'\s+([^\s].*?)(?:\s|$)'
+    match = re.search(pattern, search_term, re.IGNORECASE)
+    
+    if match:
+        return match.group(1).strip()
+    
+    # إذا لم يعثر، حاول تقسيم بسيط
+    parts = search_term.split(term)
+    if len(parts) > 1:
+        return parts[-1].strip()
+    
+    return ''
+
+def find_related_members(synonym_entry, name_part, queryset):
+    """
+    إيجاد الأعضاء المرتبطين بناءً على المرادف
+    """
+    target_field = synonym_entry.contact_field
+    target_gender = synonym_entry.target_gender
+    
+    if not target_field:
+        return None
+    
+    # البحث عن الأعضاء الذين يتطابق اسمهم مع name_part
+    name_matches = queryset.filter(
+        Q(name_in_arabic__icontains=name_part) |
+        Q(first_name__icontains=name_part) |
+        Q(last_name__icontains=name_part)
+    )
+    
+    if not name_matches:
+        return queryset.none()
+    
+    # جمع الأسماء المرتبطة
+    related_names = set()
+    
+    for member in name_matches:
+        if hasattr(member, target_field):
+            field_value = getattr(member, target_field)
+            if field_value:
+                # تقسيم القيم (دعم تنسيقات متعددة)
+                names = re.split(r'[,\n;]+', str(field_value))
+                for name in names:
+                    clean_name = name.strip()
+                    if clean_name and len(clean_name) > 2:  # تجنب الأسماء القصيرة
+                        related_names.add(clean_name)
+    
+    if not related_names:
+        return queryset.none()
+    
+    # البحث عن الأعضاء المرتبطين
+    q_objects = Q()
+    for name in related_names:
+        q_objects |= Q(name_in_arabic__icontains=name)
+        q_objects |= Q(first_name__icontains=name)
+        q_objects |= Q(last_name__icontains=name)
+    
+    results = queryset.filter(q_objects)
+    
+    # تصفية حسب الجنس إذا محدد
+    if target_gender:
+        results = results.filter(gender=target_gender)
+    
+    return results
+
+def smart_search(search_term, queryset):
+    """
+    بحث ذكي مع ترجيح النتائج
+    """
+    # تقسيم كلمات البحث
+    search_words = re.findall(r'\w+', search_term.lower())
+    
+    if not search_words:
+        return queryset.none()
+    
+    # تعريف أوزان الحقول
+    field_weights = {
+        'name_in_arabic': 17,  # الأعلى أولوية
+        'last_name': 16,
+        'first_name': 15,
+        'friends': 14,
+        'siblings': 13,
+        'parents': 12,
+        'spouse': 12,
+        'children': 12,
+        'cousins': 12,
+        'adresse': 11,
+        'tel': 11,
+        'email': 11,
+        'Ideologie': 10,
+        'societe': 9,
+        'gender': 8,
+        'the_type': 7,
+        'keywords': 7,
+        'maternal_relatives': 6,
+        'paternal_relatives': 6,
+        'ville_d_origine': 5,
+        'social_media': 5,
+        'educational_level': 4,
+        'Commentaire': 3,
+        'grandparents': 2,
+        'date_de_naissance': 2,
+        'path': 1,
+    }
+    
+    # إنشاء استعلام ديناميكي
+    q_objects = Q()
+    for field, weight in field_weights.items():
+        for word in search_words:
+            if len(word) > 2:  # تجاهل الكلمات القصيرة
+                q_objects |= Q(**{f'{field}__icontains': word})
+    
+    # البحث الأولي
+    results = queryset.filter(q_objects)
+    
+    if not results:
+        return queryset.none()
+    
+    # ترجيح النتائج
+    weighted_results = []
+    for member in results:
+        score = 0
+        
+        for field, weight in field_weights.items():
+            field_value = getattr(member, field, '')
+            if field_value:
+                field_value_lower = str(field_value).lower()
+                for word in search_words:
+                    if word in field_value_lower:
+                        # زيادة الوزن إذا كانت المطابقة كاملة
+                        if word == field_value_lower:
+                            score += weight * 2
+                        else:
+                            score += weight
+        
+        # زيادة الوزن إذا كان الاسم الكامل مطابق
+        full_name = f"{member.first_name or ''} {member.last_name or ''}".strip().lower()
+        if search_term.lower() in full_name:
+            score += 15
+        
+        if score > 0:
+            weighted_results.append((member, score))
+    
+    # ترتيب حسب الوزن
+    weighted_results.sort(key=lambda x: x[1], reverse=True)
+    
+    return [result[0] for result in weighted_results]
+
+# وظيفة مساعدة للبحث المتقدم (اختياري)
+def advanced_search_filters(queryset, request):
+    """
+    تطبيق فلاتر البحث المتقدم
+    """
+    filters = Q()
+    
+    # فلترة حسب الجنس
+    gender = request.GET.get('gender')
+    if gender:
+        filters &= Q(gender=gender)
+    
+    # فلترة حسب المدينة
+    city = request.GET.get('city')
+    if city:
+        filters &= Q(ville_d_origine__icontains=city)
+    
+    # فلترة حسب المستوى التعليمي
+    education = request.GET.get('education')
+    if education:
+        filters &= Q(educational_level=education)
+    
+    # فلترة حسب الحالة الاجتماعية
+    marital_status = request.GET.get('marital_status')
+    if marital_status:
+        filters &= Q(etat_social=marital_status)
+    
+    return queryset.filter(filters)

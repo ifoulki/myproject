@@ -188,7 +188,7 @@ class AuthUser(AbstractBaseUser, PermissionsMixin):
         blank=True
     )
     
-    Date_de_naissance = models.DateField(_('Date_de_naissance'), null=True, blank=True)
+    date_de_naissance = models.DateField(_('date_de_naissance'), null=True, blank=True)
     Ideologie = models.TextField(_('Ideologie'), null=True, blank=True)
     social_media = models.TextField(_('Social Media'), null=True, blank=True)
     
@@ -224,6 +224,7 @@ class AuthUser(AbstractBaseUser, PermissionsMixin):
     friend_requests = models.TextField(_('Friend Requests'), null=True, blank=True)
     name_in_arabic = models.CharField(_('Name in Arabic'), max_length=255, null=True, blank=True)
     cousins = models.TextField(_('Cousins'), null=True, blank=True)
+    nieces_nephews = models.TextField(_('nieces_nephews'), null=True, blank=True)
     language = models.CharField(_('Language'), max_length=50, null=True, blank=True)
     
     USERNAME_FIELD = 'username'
@@ -266,6 +267,7 @@ class AuthUserUserPermissions(models.Model):
         managed = False
         db_table = 'auth_user_user_permissions'
         unique_together = (('user', 'permission'),)
+
 
 
 class books(models.Model):
@@ -718,16 +720,16 @@ class Sessions(models.Model):
         managed = False
         db_table = 'sessions'
 
-
-class SynonymTerms(models.Model):
+class synonym_terms(models.Model):
     term = models.CharField(max_length=255)
-    synonyms = models.TextField()
+    synonyms = models.TextField(blank=True, null=True)
+    contact_field = models.CharField(max_length=64)  # هذا يجب أن يكون موجودًا
+    target_gender = models.CharField(max_length=6, choices=[('Male','Male'),('Female','Female')], blank=True, null=True)
     ignore_terms = models.CharField(max_length=255, blank=True, null=True)
-
+    
     class Meta:
         managed = False
         db_table = 'synonym_terms'
-
 
 class Users(models.Model):
     id = models.BigAutoField(primary_key=True)
@@ -744,7 +746,7 @@ class Users(models.Model):
     ville_d_origine = models.TextField(db_column='Ville_D_origine', blank=True, null=True)  # Field name made lowercase.
     adresse = models.TextField(db_column='Adresse', blank=True, null=True)  # Field name made lowercase.
     etat_social = models.CharField(db_column='Etat_Social', max_length=11, blank=True, null=True)  # Field name made lowercase.
-    date_de_naissance = models.DateField(db_column='Date_de_naissance', blank=True, null=True)  # Field name made lowercase.
+    date_de_naissance = models.DateField(db_column='date_de_naissance', blank=True, null=True)  # Field name made lowercase.
     ideologie = models.TextField(db_column='Ideologie', blank=True, null=True)  # Field name made lowercase.        
     social_media = models.TextField(blank=True, null=True)
     gender = models.CharField(max_length=7, blank=True, null=True)

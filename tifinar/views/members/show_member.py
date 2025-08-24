@@ -80,7 +80,7 @@ def edit_member_profile(request, user_id):
             member.adresse = request.POST.get('adresse', member.adresse)
             member.ville_d_origine = request.POST.get('ville_d_origine', member.ville_d_origine)
             member.Etat_Social = request.POST.get('Etat_Social', member.Etat_Social)
-            member.Date_de_naissance = request.POST.get('Date_de_naissance', member.Date_de_naissance)
+            member.date_de_naissance = request.POST.get('date_de_naissance', member.date_de_naissance)
             member.Ideologie = request.POST.get('ideologie', member.Ideologie)
             member.Commentaire = request.POST.get('Commentaire', member.Commentaire)
             member.social_media = request.POST.get('social_media', member.social_media)

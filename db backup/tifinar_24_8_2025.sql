@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 18, 2025 at 01:39 AM
+-- Generation Time: Aug 24, 2025 at 03:24 PM
 -- Server version: 11.8.2-MariaDB
 -- PHP Version: 8.0.30
 
@@ -183,7 +183,7 @@ CREATE TABLE `auth_user` (
   `Ville_D_origine` text DEFAULT NULL,
   `Adresse` text DEFAULT NULL,
   `Etat_Social` enum('Celibataire','Veu(f)ve','Organisme','Marie(e)','Fiancee','Divorce(e)','Unknown') DEFAULT 'Celibataire',
-  `Date_de_naissance` date DEFAULT NULL,
+  `date_de_naissance` date DEFAULT NULL,
   `Ideologie` text DEFAULT NULL,
   `social_media` tinytext DEFAULT NULL,
   `gender` enum('Male','Female','Other','Unknown') DEFAULT 'Unknown',
@@ -203,37 +203,38 @@ CREATE TABLE `auth_user` (
   `friends` longtext DEFAULT NULL,
   `friend_requests` text DEFAULT NULL,
   `name_in_arabic` varchar(255) DEFAULT NULL,
-  `cousin` longtext DEFAULT NULL,
-  `Language` text NOT NULL DEFAULT 'Ar'
+  `cousins` longtext DEFAULT NULL,
+  `Language` text NOT NULL DEFAULT 'Ar',
+  `nieces_nephews` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
 
 --
 -- Dumping data for table `auth_user`
 --
 
-INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`, `email_verified_at`, `remember_token`, `role`, `educational_level`, `images`, `Ville_D_origine`, `Adresse`, `Etat_Social`, `Date_de_naissance`, `Ideologie`, `social_media`, `gender`, `Tel`, `the_type`, `Societe`, `Commentaire`, `path`, `keywords`, `spouse`, `children`, `siblings`, `parents`, `maternal_relatives`, `paternal_relatives`, `grandparents`, `friends`, `friend_requests`, `name_in_arabic`, `cousin`, `Language`) VALUES
-(1, '$2b$12$x11kR61QnMXH0ZK8CZdtHO5K3fbE9Lr1ih0ZDPp8A57lrZFOtBtiS', NULL, 0, 'hassnadaki7@gmail.com', 'Hassna', 'Hassna', 'hassnadaki7@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar'),
-(2, 'pbkdf2_sha256$1000000$YLwOtf89g2iiJf8VRoL3Xz$zC/+stG7M0PEaxBsoDucN6dnHNBr2GO2oGMTCfFKVRg=', '2025-08-10 15:18:08.369185', 1, 'hbialouan@gmail.com', 'حميد', 'بعلوان', 'hbialouan@gmail.com', 1, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', '5th Year of Primary School', 'حميد_بعلوان_1.webp', 'Tagdicht', 'temara', 'Celibataire', '2006-05-09', NULL, NULL, 'Male', '0653455653', NULL, NULL, NULL, 'images/users/1/حميد_بعلوان_1.webp,\nimages/users/1/حميد_بعلوان_2.webp,\nimages/users/1/حميد_بعلوان_3.webp,\nimages/users/1/حميد_بعلوان_4.jpg,\nimages/users/1/حميد_بعلوان_5.jpg,\nimages/users/1/حميد_بعلوان_6.jpg,\nimages/users/1/حميد_بعلوان_7.jpg,\nimages/users/1/حميد_بعلوان_8.jpg,\nimages/users/1/حميد_بعلوان_9.jpg,\nimages/users/1/حميد_بعلوان_10.jpg,\nimages/users/1/حميد_بعلوان_11.jpg,\nimages/users/1/حميد_بعلوان_12.jpg,\nimages/users/1/حميد_بعلوان_13.jpg,\nimages/users/1/حميد_بعلوان_14.jpg,\nimages/users/1/حميد_بعلوان_15.jpg,\nimages/users/1/حميد_بعلوان_16.jpg,\nimages/users/1/حميد_بعلوان_17.jpg', NULL, NULL, NULL, 'سميرة بعلوان, ماجيد بعلوان, بلقاسم بعلوان,', 'فاظمة مخروبي, محمد بعلوان', NULL, NULL, NULL, '5,6,7,8,9,10', '', 'حميد بعلوان', NULL, 'Ar'),
-(3, '$2b$12$pPlSNpXcbZex6/p2MzlLau6TSXooAJm5cM.8hpSvHWskhE.yTmNLu', NULL, 0, 'ismailaitomar4@gmail.com', 'ismail', 'Benomar', 'ismailaitomar4@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', '1st Year of Baccalaureate', NULL, NULL, NULL, 'Celibataire', NULL, NULL, NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, 'إسماعيل بنعمر', NULL, 'Ar'),
-(4, '$2b$12$gMOplbFVj4UjNHkxeS1ikeo/jGyaxP3nTqmXA7W5zPdIbzAQUcpby', NULL, 0, 'oumaimaelmouden65@gmail.com', 'oumaima', 'elmouden', 'oumaimaelmouden65@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', '2nd Year of Middle School', 'oum.png', NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1,10', '', 'المودن أميمة', NULL, 'Ar'),
-(5, '$2b$12$JPEcKk1RttOTrhg63wDNFemH6WAQloeWIy4avX.IsaH56v2lREccm', NULL, 0, 'mbialouan@gmail.com', 'عبد', 'المجيد', 'mbialouan@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', 'Post-Baccalaureate', '1000160286.jpg', NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Male', NULL, NULL, NULL, NULL, 'images/users/7/1000160286.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '10', 'عبد المجيد', NULL, 'Ar'),
-(6, '$2b$12$ZyXd3LW3EV09O.2hPC//aOpFRwejYu3tZM2oWGZn3xCO5NohvXOWi', NULL, 0, 'samira@gmail.com', 'samira', 'bialouan', 'samira@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', '6th Year of Primary School', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '10', 'بعلوان سميرة', NULL, 'Ar'),
-(7, '$2b$12$pPlSNpXcbZex6/p2MzlLau6TSXooAJm5cM.8hpSvHWskhE.yTmNLu', NULL, 0, 'elaceri2008@gmail.com', 'alae', 'elaceri', 'elaceri2008@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', '5th Year of Primary School', NULL, NULL, NULL, 'Celibataire', '2014-11-06', NULL, NULL, 'Female', NULL, NULL, NULL, NULL, 'images/users/10/image_alae.webp,images/users/10/oumaima.png,images/users/10/alae.jfif', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1,12,6', NULL, NULL, NULL, 'Ar'),
-(8, '$2b$12$.6EU9vM3h5Uzf20gm.DSMONnL4dQPZK5HEFFKSakR0GM4ME63vzre', NULL, 0, 'douae@2016', 'douae', 'elaceri', 'douae@2016', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', '2nd Year of Primary School', NULL, NULL, NULL, 'Celibataire', NULL, NULL, NULL, 'Female', NULL, NULL, NULL, NULL, 'images/users/11/242138917457869975.jfif', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar'),
-(9, '$2b$12$224BSM7eL5KNTLujLmD1R.2VZ7tAD/mD9Wa9RnI/nQyZd6OL5dTqK', NULL, 0, 'sirinebellihi@gmail.com', 'sirine', 'bellihi', 'sirinebellihi@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', '5th Year of Primary School', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Female', NULL, NULL, NULL, NULL, 'images/users/12/sirine.jpeg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '10', NULL, NULL, 'Ar'),
-(11, '$2b$12$K/mLJGv/O.0.eEs5/wvEIONidINwiRXv.8vI7KqSULVxpA4aJtfM6', NULL, 0, 'hberouhou@gmail.com', 'حمزة', 'بروحو', 'hberouhou@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar'),
-(12, '$2b$12$Q4lOt.Ia8F5KSLFxTTsnl.2NNktHyrY84DyI8Ohy7GiTuMlYry4am', NULL, 0, 'oufkkir26@gmail.com', 'Chaimae', 'Bouzarra', 'oufkkir26@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', '3rd Year of Primary School', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar'),
-(13, '$2b$12$uXxD.9xb2pUvCWspQEcokuknUiVR1p3q/Gbv1/PBq5qrHfGEVNHc2', NULL, 0, 'h.aitfaraji2852@uca.ac.ma', 'Hassna', 'Hassna', 'h.aitfaraji2852@uca.ac.ma', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar'),
-(14, 'pbkdf2_sha256$1000000$YLwOtf89g2iiJf8VRoL3Xz$zC/+stG7M0PEaxBsoDucN6dnHNBr2GO2oGMTCfFKVRg=', '2025-08-10 16:40:23.174650', 1, 'contact@tifinar.net', 'موقع', 'تيفيناغ', 'contact@tifinar.net', 1, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'admin', '2nd Year of Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Other', NULL, NULL, NULL, NULL, 'images/users/14/tifinar.webp', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Fr'),
-(15, '$2b$12$BVK6LScDLjsSsNdXsCOQD.cBNQgclbzY4DtIo46BCUjzqQA6YhAua', NULL, 0, 'malkinourdine1@gmail.com', 'نورالدين', 'مالكي', 'malkinourdine1@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar'),
-(16, '$2b$12$QoIB/EDfA1KOS8IWGz7P5u6S7XYDwnMvwg.JxlFtrGowlUQlkmVT.', NULL, 0, 'adilmilano999@gmail.com', 'Maryam', 'Aytihya', 'adilmilano999@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', '2nd Year of Primary School', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar'),
-(17, '$2b$12$ahJZln.cBqUPT6Tq3pNTOu0lSUF/Ks.CXc1Tmyuoo/9SESRLC70dq', NULL, 0, 'sedrikhuntfd54@gmail.com', 'EsSxcclQdDg', 'zDKXZDIfqB', 'sedrikhuntfd54@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Other', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar'),
-(18, '$2b$12$jkehKt5OqbTzlUudFcy3j.7DK9AWxjKuxUvWYx8ogwMpU2s.gdD5W', NULL, 0, 'ahurstm46@gmail.com', 'WtmwKbqOa', 'vVKcPqTB', 'ahurstm46@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Other', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar'),
-(20, '$2b$12$otoxy/WLwNB9mrqYxcZqvuX1iqC0VmwG6wldHvP/YQHvElwtIkU4K', NULL, 0, 'agounimohamed669@gmail.com', 'ⴰⴳⵓⵏⵉ', 'ⵎⵓⵃⵎⵎⴷ', 'agounimohamed669@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Common Core', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Male', NULL, NULL, NULL, NULL, '/tmp/phpkBbimL,images/users/41/1745370044888.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar'),
-(21, '$2b$12$GMY1wsD4n4/2a/cI.rR/fOY2q1pzr3ryQrLDKSMt4WdrKbygTwgqm', NULL, 0, 'inigow27@gmail.com', 'QncFHGEmSHJ', 'oksfLFbqt', 'inigow27@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Other', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar'),
-(22, '$2b$12$CyRKf5900JgFIaDFzbf/1eEQl.Dyq2C8Xx5PZqiQmOlklGD1JCvHa', NULL, 0, 'ibratasti@gmail.com', 'Brahim', 'Tasti', 'ibratasti@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar'),
-(23, '$2b$12$ydPe26AisYj7JItDHA.7RuWMwHZL58WPhyTbCnNazWWoOQGwQ3ARO', NULL, 0, 'onagalizoset72@gmail.com', 'WwgXnBOmDESyg', 'FSYgwLBwbUw', 'onagalizoset72@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Other', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar'),
-(24, '$2b$12$KWZsPHQdj7BjxSUd6Q8J/up49tc8TfyzyEDVZM8.U3PE8VBaF/gOC', NULL, 0, 'frostkeiden@gmail.com', 'VQcMLMQnw', 'QSpjdeUBYaeTz', 'frostkeiden@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Other', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar');
+INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`, `email_verified_at`, `remember_token`, `role`, `educational_level`, `images`, `Ville_D_origine`, `Adresse`, `Etat_Social`, `date_de_naissance`, `Ideologie`, `social_media`, `gender`, `Tel`, `the_type`, `Societe`, `Commentaire`, `path`, `keywords`, `spouse`, `children`, `siblings`, `parents`, `maternal_relatives`, `paternal_relatives`, `grandparents`, `friends`, `friend_requests`, `name_in_arabic`, `cousins`, `Language`, `nieces_nephews`) VALUES
+(1, '$2b$12$x11kR61QnMXH0ZK8CZdtHO5K3fbE9Lr1ih0ZDPp8A57lrZFOtBtiS', NULL, 0, 'hassnadaki7@gmail.com', 'Hassna', 'Hassna', 'hassnadaki7@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar', NULL),
+(2, 'pbkdf2_sha256$1000000$YLwOtf89g2iiJf8VRoL3Xz$zC/+stG7M0PEaxBsoDucN6dnHNBr2GO2oGMTCfFKVRg=', '2025-08-10 15:18:08.369185', 1, 'hbialouan@gmail.com', 'حميد', 'بعلوان', 'hbialouan@gmail.com', 1, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', '5th Year of Primary School', 'حميد_بعلوان_1.webp', 'Tagdicht', 'temara', 'Marie(e)', '2006-05-09', 'my ideo test', 'facebook:Hamid.Videos.YouTube', 'Male', '0653455653', NULL, NULL, 'my comnt test', 'images/users/1/حميد_بعلوان_1.webp,\nimages/users/1/حميد_بعلوان_2.webp,\nimages/users/1/حميد_بعلوان_3.webp,\nimages/users/1/حميد_بعلوان_4.jpg,\nimages/users/1/حميد_بعلوان_5.jpg,\nimages/users/1/حميد_بعلوان_6.jpg,\nimages/users/1/حميد_بعلوان_7.jpg,\nimages/users/1/حميد_بعلوان_8.jpg,\nimages/users/1/حميد_بعلوان_9.jpg,\nimages/users/1/حميد_بعلوان_10.jpg,\nimages/users/1/حميد_بعلوان_11.jpg,\nimages/users/1/حميد_بعلوان_12.jpg,\nimages/users/1/حميد_بعلوان_13.jpg,\nimages/users/1/حميد_بعلوان_14.jpg,\nimages/users/1/حميد_بعلوان_15.jpg,\nimages/users/1/حميد_بعلوان_16.jpg,\nimages/users/1/حميد_بعلوان_17.jpg', NULL, 'hanane', NULL, 'سميرة بعلوان, ماجيد بعلوان, بلقاسم بعلوان,', 'فاظمة مخروبي, محمد بعلوان', NULL, NULL, NULL, '5,6,7,8,9,10', '', 'حميد بعلوان', NULL, 'Ar', NULL),
+(3, '$2b$12$pPlSNpXcbZex6/p2MzlLau6TSXooAJm5cM.8hpSvHWskhE.yTmNLu', NULL, 0, 'ismailaitomar4@gmail.com', 'ismail', 'Benomar', 'ismailaitomar4@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', '1st Year of Baccalaureate', NULL, NULL, NULL, 'Celibataire', NULL, NULL, NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'كوكو عو, زاز', NULL, 'إبراهيم أيت عمر', 'حكيم أيت عمر', 'إبراهيم أيت عمر', NULL, 'حميد بعلوان', NULL, 'إسماعيل بنعمر', NULL, 'Ar', NULL),
+(4, '$2b$12$gMOplbFVj4UjNHkxeS1ikeo/jGyaxP3nTqmXA7W5zPdIbzAQUcpby', NULL, 0, 'oumaimaelmouden65@gmail.com', 'oumaima', 'elmouden', 'oumaimaelmouden65@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', '2nd Year of Middle School', 'oum.png', NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1,10', '', 'المودن أميمة', NULL, 'Ar', NULL),
+(5, '$2b$12$JPEcKk1RttOTrhg63wDNFemH6WAQloeWIy4avX.IsaH56v2lREccm', NULL, 0, 'mbialouan@gmail.com', 'عبد', 'المجيد', 'mbialouan@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', 'Post-Baccalaureate', '1000160286.jpg', NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Male', NULL, NULL, NULL, NULL, 'images/users/7/1000160286.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1', '10', 'ماجيد بعلوان', NULL, 'Ar', NULL),
+(6, '$2b$12$ZyXd3LW3EV09O.2hPC//aOpFRwejYu3tZM2oWGZn3xCO5NohvXOWi', NULL, 0, 'samira@gmail.com', 'samira', 'bialouan', 'samira@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', '6th Year of Primary School', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'حميد بعلوان, ماجيد بعلوان', NULL, NULL, NULL, NULL, '1', '10', 'بعلوان سميرة', NULL, 'Ar', NULL),
+(7, '$2b$12$pPlSNpXcbZex6/p2MzlLau6TSXooAJm5cM.8hpSvHWskhE.yTmNLu', NULL, 0, 'elaceri2008@gmail.com', 'alae', 'elaceri', 'elaceri2008@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', '5th Year of Primary School', NULL, NULL, NULL, 'Celibataire', '2014-11-06', NULL, NULL, 'Female', NULL, NULL, NULL, NULL, 'images/users/10/image_alae.webp,images/users/10/oumaima.png,images/users/10/alae.jfif', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '1,12,6', NULL, NULL, NULL, 'Ar', NULL),
+(8, '$2b$12$.6EU9vM3h5Uzf20gm.DSMONnL4dQPZK5HEFFKSakR0GM4ME63vzre', NULL, 0, 'douae@2016', 'douae', 'elaceri', 'douae@2016', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', '2nd Year of Primary School', NULL, NULL, NULL, 'Celibataire', NULL, NULL, NULL, 'Female', NULL, NULL, NULL, NULL, 'images/users/11/242138917457869975.jfif', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar', NULL),
+(9, '$2b$12$224BSM7eL5KNTLujLmD1R.2VZ7tAD/mD9Wa9RnI/nQyZd6OL5dTqK', NULL, 0, 'sirinebellihi@gmail.com', 'sirine', 'bellihi', 'sirinebellihi@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', '5th Year of Primary School', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Female', NULL, NULL, NULL, NULL, 'images/users/12/sirine.jpeg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', '10', NULL, NULL, 'Ar', NULL),
+(11, '$2b$12$K/mLJGv/O.0.eEs5/wvEIONidINwiRXv.8vI7KqSULVxpA4aJtfM6', NULL, 0, 'hberouhou@gmail.com', 'حمزة', 'بروحو', 'hberouhou@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar', NULL),
+(12, '$2b$12$Q4lOt.Ia8F5KSLFxTTsnl.2NNktHyrY84DyI8Ohy7GiTuMlYry4am', NULL, 0, 'oufkkir26@gmail.com', 'Chaimae', 'Bouzarra', 'oufkkir26@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', '3rd Year of Primary School', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar', NULL),
+(13, '$2b$12$uXxD.9xb2pUvCWspQEcokuknUiVR1p3q/Gbv1/PBq5qrHfGEVNHc2', NULL, 0, 'h.aitfaraji2852@uca.ac.ma', 'Hassna', 'Hassna', 'h.aitfaraji2852@uca.ac.ma', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar', NULL),
+(14, 'pbkdf2_sha256$1000000$YLwOtf89g2iiJf8VRoL3Xz$zC/+stG7M0PEaxBsoDucN6dnHNBr2GO2oGMTCfFKVRg=', '2025-08-10 16:40:23.174650', 1, 'contact@tifinar.net', 'موقع', 'تيفيناغ', 'contact@tifinar.net', 1, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'admin', '2nd Year of Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Other', NULL, NULL, NULL, NULL, 'images/users/14/tifinar.webp', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Fr', NULL),
+(15, '$2b$12$BVK6LScDLjsSsNdXsCOQD.cBNQgclbzY4DtIo46BCUjzqQA6YhAua', NULL, 0, 'malkinourdine1@gmail.com', 'نورالدين', 'مالكي', 'malkinourdine1@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar', NULL),
+(16, '$2b$12$QoIB/EDfA1KOS8IWGz7P5u6S7XYDwnMvwg.JxlFtrGowlUQlkmVT.', NULL, 0, 'adilmilano999@gmail.com', 'Maryam', 'Aytihya', 'adilmilano999@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'content_creator', '2nd Year of Primary School', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar', NULL),
+(17, '$2b$12$ahJZln.cBqUPT6Tq3pNTOu0lSUF/Ks.CXc1Tmyuoo/9SESRLC70dq', NULL, 0, 'sedrikhuntfd54@gmail.com', 'EsSxcclQdDg', 'zDKXZDIfqB', 'sedrikhuntfd54@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Other', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar', NULL),
+(18, '$2b$12$jkehKt5OqbTzlUudFcy3j.7DK9AWxjKuxUvWYx8ogwMpU2s.gdD5W', NULL, 0, 'ahurstm46@gmail.com', 'WtmwKbqOa', 'vVKcPqTB', 'ahurstm46@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Other', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar', NULL),
+(20, '$2b$12$otoxy/WLwNB9mrqYxcZqvuX1iqC0VmwG6wldHvP/YQHvElwtIkU4K', NULL, 0, 'agounimohamed669@gmail.com', 'ⴰⴳⵓⵏⵉ', 'ⵎⵓⵃⵎⵎⴷ', 'agounimohamed669@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Common Core', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Male', NULL, NULL, NULL, NULL, '/tmp/phpkBbimL,images/users/41/1745370044888.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar', NULL),
+(21, '$2b$12$GMY1wsD4n4/2a/cI.rR/fOY2q1pzr3ryQrLDKSMt4WdrKbygTwgqm', NULL, 0, 'inigow27@gmail.com', 'QncFHGEmSHJ', 'oksfLFbqt', 'inigow27@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Other', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar', NULL),
+(22, '$2b$12$CyRKf5900JgFIaDFzbf/1eEQl.Dyq2C8Xx5PZqiQmOlklGD1JCvHa', NULL, 0, 'ibratasti@gmail.com', 'Brahim', 'Tasti', 'ibratasti@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar', NULL),
+(23, '$2b$12$ydPe26AisYj7JItDHA.7RuWMwHZL58WPhyTbCnNazWWoOQGwQ3ARO', NULL, 0, 'onagalizoset72@gmail.com', 'WwgXnBOmDESyg', 'FSYgwLBwbUw', 'onagalizoset72@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Other', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar', NULL),
+(24, '$2b$12$KWZsPHQdj7BjxSUd6Q8J/up49tc8TfyzyEDVZM8.U3PE8VBaF/gOC', NULL, 0, 'frostkeiden@gmail.com', 'VQcMLMQnw', 'QSpjdeUBYaeTz', 'frostkeiden@gmail.com', 0, 1, '2025-08-10 16:02:55.000000', NULL, NULL, 'user', 'Post-Baccalaureate', NULL, NULL, NULL, 'Unknown', NULL, NULL, NULL, 'Other', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Ar', NULL);
 
 -- --------------------------------------------------------
 
@@ -486,8 +487,8 @@ INSERT INTO `comments` (`cmt_id`, `page_title`, `author_name`, `cmt_subject`, `a
 
 CREATE TABLE `contacts` (
   `contacts_id` smallint(6) NOT NULL,
-  `Nom` tinytext DEFAULT NULL,
-  `Prenom` tinytext DEFAULT NULL,
+  `nom` tinytext DEFAULT NULL,
+  `prenom` tinytext DEFAULT NULL,
   `Tel` varchar(20) DEFAULT NULL,
   `Email` text DEFAULT NULL,
   `the_type` tinytext DEFAULT NULL,
@@ -495,7 +496,7 @@ CREATE TABLE `contacts` (
   `Ville_D_origine` tinytext DEFAULT NULL,
   `Adresse` varchar(255) DEFAULT NULL,
   `Etat_Social` enum('Celibataire','Veu(f)ve','Organisme','Marie(e)','Fiancee','Divorce(e)','Unknown') DEFAULT 'Unknown',
-  `Date_de_naissance` date DEFAULT NULL,
+  `date_de_naissance` date DEFAULT NULL,
   `Ideologie` longtext DEFAULT NULL,
   `Commentaire` longtext DEFAULT NULL,
   `social_media` longtext DEFAULT NULL,
@@ -514,7 +515,7 @@ CREATE TABLE `contacts` (
   `name_in_arabic` varchar(255) DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `cousin` longtext DEFAULT NULL,
+  `cousins` longtext DEFAULT NULL,
   `Author` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -522,7 +523,7 @@ CREATE TABLE `contacts` (
 -- Dumping data for table `contacts`
 --
 
-INSERT INTO `contacts` (`contacts_id`, `Nom`, `Prenom`, `Tel`, `Email`, `the_type`, `Societe`, `Ville_D_origine`, `Adresse`, `Etat_Social`, `Date_de_naissance`, `Ideologie`, `Commentaire`, `social_media`, `gender`, `path`, `educational_level`, `keywords`, `spouse`, `children`, `siblings`, `parents`, `maternal_relatives`, `paternal_relatives`, `grandparents`, `friends`, `name_in_arabic`, `updated_at`, `created_at`, `cousin`, `Author`) VALUES
+INSERT INTO `contacts` (`contacts_id`, `nom`, `prenom`, `Tel`, `Email`, `the_type`, `Societe`, `Ville_D_origine`, `Adresse`, `Etat_Social`, `date_de_naissance`, `Ideologie`, `Commentaire`, `social_media`, `gender`, `path`, `educational_level`, `keywords`, `spouse`, `children`, `siblings`, `parents`, `maternal_relatives`, `paternal_relatives`, `grandparents`, `friends`, `name_in_arabic`, `updated_at`, `created_at`, `cousins`, `Author`) VALUES
 (1, 'Elhaouss', 'Mona', NULL, 'mona.elhouas@gmai.com', 'collegue', 'Telexpert', 'Sale', 'Sale', 'Fiancee', '1997-01-01', NULL, 'لم تتمكن من بيع أي شيء عندما كانت تعمل في مركز الاتصال، إلا في اليوم الأخير عندما ساعدتها في إقناع أول زبون لها،\r\nوأنا أسجل معلوماته طلبت منها أن تقبلني ففعلت بدون تردد، لكنها لم تعجب بالأمر، فضلت تتجاهلني، وادعت أنها مخطوبة،', NULL, 'Female', '', '2nd Year of Baccalaureate', NULL, NULL, NULL, 'إقبال الهاوس', NULL, NULL, NULL, NULL, NULL, 'منى الهاوس', '2024-12-29 12:30:40', '2024-12-08 23:00:00', NULL, ''),
 (2, 'Lachgar_Tagdicht', 'Khadija', '0671-665637', '', 'Ami (e)', NULL, 'Tagdicht', 'مكناس', 'Celibataire', NULL, '', NULL, NULL, 'Female', '', '4th Year of Primary School', 'تكضيشت إيساكن، نيت ناجيم، تكناتين', NULL, NULL, 'إبراهيم لشكر, محمد لشكر, الحسين لشكر, حبيبة لشكر', 'الناجيم لشكر، عائشة لشكر', 'إبراهيم المخروبي أفلاي،', NULL, NULL, NULL, 'خديجة لشكر', '2024-12-29 18:48:42', '2024-12-08 23:00:00', NULL, '1,7,8,9'),
 (3, 'Abourou', 'Soukaina', '0682-766880//0608-54', 'abourousoukaina1998@gmail.com', 'collegue', 'Telexpert,ADM', NULL, 'Rabat', 'Fiancee', NULL, NULL, 'قامت بحظري من الفيسبوك بسبب مقال: \"في مدح الفساد وجمال اللحية\"، أصلها شلحة ولكن لا تتحدثها', NULL, 'Female', '3Soukaina_Abourou1.webp,3Soukaina_Abourou2.webp,3Soukaina_Abourou3.webp,3Soukaina_Abourou4.webp,3Soukaina_Abourou5.webp', 'Post-Baccalaureate', 'مركز الأتصال', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'سارة دحو', 'سكينة أبورو', '2024-12-29 12:30:40', '2024-12-08 23:00:00', NULL, ''),
@@ -562,7 +563,7 @@ INSERT INTO `contacts` (`contacts_id`, `Nom`, `Prenom`, `Tel`, `Email`, `the_typ
 (37, 'Ahizoun', 'Karim', '0659-301745', '', 'collegue', 'Procallmaster', 'Rabat', NULL, 'Celibataire', NULL, NULL, NULL, NULL, 'Male', '', '2nd Year of Baccalaureate', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'كريم أحيزون', '2024-12-29 12:30:40', '2024-12-08 23:00:00', NULL, ''),
 (38, 'Aqchmar', 'walid', '0766-983608', 'aqachmarwalid@gmail.com // aqachmar.walid@gmail.com', 'collegue', 'Telexpert', 'Sale', NULL, 'Marie(e)', NULL, 'علماني', 'طرد ندير بشكل غريب من مركز الاتصال، ومنذ ذلك الوقت قطع الاتصال ولم يعد يرد علي، قال أنه ابن الكوميسير أقشمار، هو متزوج وأب لأطفال', NULL, 'Male', '38Walid_Aqchmar1.webp', 'Post-Baccalaureate', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'وليد أقشمار', '2024-12-29 12:30:40', '2024-12-08 23:00:00', NULL, ''),
 (39, 'centre', 'Sedrik', '0687-032732', '', 'collegue', 'Telexpert', NULL, 'Rabat', 'Unknown', NULL, NULL, 'سدريك هو إفريقي اشتغل في مركز الاتصال لأيام قبل أن يغادر', NULL, 'Male', '', '2nd Year of Baccalaureate', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'باتريك', '2024-12-29 18:51:09', '2024-12-08 23:00:00', NULL, ''),
-(40, 'BIALOUAN', 'Hamid', '0653-455653', 'hbialouan@gmail.com', 'Famille', NULL, 'Tagdicht', 'temara', 'Celibataire', NULL, NULL, NULL, NULL, 'Male', '40Hamid_BIALOUAN1.webp,40Hamid_BIALOUAN2.webp,40Hamid_BIALOUAN3.webp,40Hamid_BIALOUAN4.webp,40Hamid_BIALOUAN5.webp,40Hamid_BIALOUAN6.webp,40Hamid_BIALOUAN7.webp,40Hamid_BIALOUAN8.webp,40Hamid_BIALOUAN9.webp,40Hamid_BIALOUAN10.webp,40Hamid_BIALOUAN11.webp,40Hamid_BIALOUAN12.webp,40Hamid_BIALOUAN13.webp,40Hamid_BIALOUAN14.webp,40Hamid_BIALOUAN15.webp,40Hamid_BIALOUAN16.webp,40Hamid_BIALOUAN17.webp,40Hamid_BIALOUAN18.webp,40Hamid_BIALOUAN19.webp,40Hamid_BIALOUAN20.webp', 'Post-Baccalaureate', 'تكضيشت إيساكن', NULL, NULL, 'ماجيد بعلوان, بعلوان سميرة, بعلوان بلقاسم', 'محمد بعلوان, فاظمة أمخروب', 'أحمد أمخروب, عمر أمخروب, زينة أمخروب,صفية أمخروب', 'جامع بعلوان,داود بعلوان,الزهراء بعلوان, خديجة بعلوان', '', NULL, 'حميد بعلوان', '2024-12-29 12:52:13', '2024-12-08 23:00:00', NULL, '1,5,6,7,8'),
+(40, 'BIALOUAN', 'Hamid', '0653-455653', 'hbialouan@gmail.com', 'Famille', 'scte', 'Tagdicht', 'temara', 'Marie(e)', '2025-08-13', 'ideo pp', 'cmnt tt', 'facebook:jkljkj,youtube:hkjhk', 'Male', '40Hamid_BIALOUAN1.webp,40Hamid_BIALOUAN2.webp,40Hamid_BIALOUAN3.webp,40Hamid_BIALOUAN4.webp,40Hamid_BIALOUAN5.webp,40Hamid_BIALOUAN6.webp,40Hamid_BIALOUAN7.webp,40Hamid_BIALOUAN8.webp,40Hamid_BIALOUAN9.webp,40Hamid_BIALOUAN10.webp,40Hamid_BIALOUAN11.webp,40Hamid_BIALOUAN12.webp,40Hamid_BIALOUAN13.webp,40Hamid_BIALOUAN14.webp,40Hamid_BIALOUAN15.webp,40Hamid_BIALOUAN16.webp,40Hamid_BIALOUAN17.webp,40Hamid_BIALOUAN18.webp,40Hamid_BIALOUAN19.webp,40Hamid_BIALOUAN20.webp', 'Post-Baccalaureate', 'تكضيشت إيساكن', 'hanane', NULL, 'ماجيد بعلوان, بعلوان سميرة, بعلوان بلقاسم', 'محمد بعلوان, فاظمة أمخروب', 'أحمد أمخروب, عمر أمخروب, زينة أمخروب,صفية أمخروب', 'جامع بعلوان,داود بعلوان,الزهراء بعلوان, خديجة بعلوان', '', NULL, 'حميد بعلوان', '2025-08-20 23:42:27', '2024-12-08 23:00:00', NULL, '1,5,6,7,8'),
 (41, 'chnaoui', 'med_amin', '0637-465951', '', 'Code', 'Procallmaster', 'Rabat', NULL, 'Celibataire', NULL, 'علماني', 'اشتغل في مركز الاتصال، شهر تقريبا ثم غادر وذهب يعمل في الأمن الخاص، يبدو أنه مبرمج، له علاقة بالاتحاد الاشتراكي', NULL, 'Male', '', '2nd Year of Baccalaureate', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'محمد أمين الشناوي', '2024-12-29 12:30:40', '2024-12-08 23:00:00', NULL, ''),
 (42, 'chrif_alaoui', 'hicham', '0655-436407', 'hichamchrifialaoui2000@gmail.com', 'collegue', 'Telexpert', 'Rabat', 'Rabat', 'Marie(e)', NULL, NULL, NULL, NULL, 'Male', '', 'Post-Baccalaureate', 'هشام شريف العلوي', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'وليد أقشمار', 'هشام شريف علوي', '2024-12-29 12:30:40', '2024-12-08 23:00:00', NULL, ''),
 (43, 'drissi_yahyaoui', 'Ayoub', '', 'ayoubdrissiyahyaoui@gmail.com', 'Code', 'Telexpert', NULL, 'Rabat', 'Marie(e)', NULL, NULL, 'تزوج بهند hind oxo', NULL, 'Male', '', 'Post-Baccalaureate', NULL, 'هند oxo', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'أيوب دريسي اليحياوي', '2024-12-29 12:30:40', '2024-12-08 23:00:00', NULL, ''),
@@ -637,7 +638,7 @@ INSERT INTO `contacts` (`contacts_id`, `Nom`, `Prenom`, `Tel`, `Email`, `the_typ
 (113, 'Ma', 'Hasnae', '0677-777964', '', 'Famille', 'Autre', 'Tagdicht', 'Tanger', 'Celibataire', '1991-01-20', '', '', '', 'Female', '', 'Post-Baccalaureate', '', ' بلقاسم بعلوان', 'هيثم بعلوان, أمير بعلوان', 'أيوب مخروبي, ليلى مخروبي', 'زينة أمخروب, محمد مخروبي', NULL, NULL, NULL, NULL, 'حسناء مخروبي', '2024-12-29 18:43:01', '2024-12-08 23:00:00', NULL, '1,7,8,9'),
 (114, 'Tiki', 'Raqya', '0610-557839', '', 'Famille', 'Autre', 'Tiki', 'Rabat', 'Celibataire', NULL, '', '', '', 'Female', '', '6th Year of Primary School', '', NULL, NULL, 'محمد تيقي, زينة تيقي', ' عمتي زهرة بعلوان, أمحمد تقني', 'محمد بعلوان', NULL, NULL, NULL, 'رقية تيقي', '2024-12-29 18:43:01', '2024-12-08 23:00:00', NULL, '1,7,8,9'),
 (115, 'TiKi', 'Naima', '0637-916131', '', 'Famille', 'Autre', 'Tiki', '', 'Celibataire', NULL, '', '', '', 'Female', '', '6th Year of Primary School', '', NULL, NULL, 'مولود تيقي , يوسف شكري', 'رقية بعلوان', NULL, NULL, NULL, NULL, 'نعيمة شكري تيقي', '2024-12-29 19:31:41', '2024-12-08 23:00:00', NULL, '1,7,8,9');
-INSERT INTO `contacts` (`contacts_id`, `Nom`, `Prenom`, `Tel`, `Email`, `the_type`, `Societe`, `Ville_D_origine`, `Adresse`, `Etat_Social`, `Date_de_naissance`, `Ideologie`, `Commentaire`, `social_media`, `gender`, `path`, `educational_level`, `keywords`, `spouse`, `children`, `siblings`, `parents`, `maternal_relatives`, `paternal_relatives`, `grandparents`, `friends`, `name_in_arabic`, `updated_at`, `created_at`, `cousin`, `Author`) VALUES
+INSERT INTO `contacts` (`contacts_id`, `nom`, `prenom`, `Tel`, `Email`, `the_type`, `Societe`, `Ville_D_origine`, `Adresse`, `Etat_Social`, `date_de_naissance`, `Ideologie`, `Commentaire`, `social_media`, `gender`, `path`, `educational_level`, `keywords`, `spouse`, `children`, `siblings`, `parents`, `maternal_relatives`, `paternal_relatives`, `grandparents`, `friends`, `name_in_arabic`, `updated_at`, `created_at`, `cousins`, `Author`) VALUES
 (116, 'Afokal', 'Hanane', '0634-433623', 'ta9afatv@gmail.com', 'Ami (e)', 'YouTube', '', 'Casa', 'Celibataire', NULL, 'علمانية', 'تعرفت عليها من خلال اليوتيوب، أستاذة اللغة الانجليزية، لديها تجربة في العمل في ماكدونالدز ومركز الاتصال، هاجرت للتيلاند للعمل، كانت تستقبل السياح في موقع إلكتروني، تعرض لهم حجرة للكراء بمبلغ 50 درهم لليلة', '', 'Female', '117Hanane_Afokal1.webp,117Hanane_Afokal2.webp', 'Post-Baccalaureate', 'أمازيغية، يوتيوبر', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'حنان أفوكال', '2024-12-29 19:18:59', '2024-12-08 23:00:00', NULL, ''),
 (117, 'Tahri', 'Yasmine', '0615-082436', '', 'collegue ', 'Isoclean', 'Rabat', '', 'Celibataire', NULL, '', 'زميلة مركز اتصال', '', 'Female', '118Yasmine_Tahri1.webp', 'Post-Baccalaureate', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ياسمين الطاهري', '2024-12-29 19:19:10', '2024-12-08 23:00:00', NULL, ''),
 (118, 'Telexpert', 'Warda', '', 'warda30.rose30@gmail.com', 'collegue ', 'Telexpert', 'Rabat', 'Rabat', 'Marie(e)', NULL, '', 'أمازيغية شلحة، خجولة ومعقد، اشتغلت مع عماد في  pompe à chaleur، ثم غيرت لisolation ربما طمعا في مال أكثر', '', 'Female', '', 'Post-Baccalaureate', 'وردة', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-12-29 12:30:40', '2024-12-08 23:00:00', NULL, ''),
@@ -769,7 +770,7 @@ INSERT INTO `contacts` (`contacts_id`, `Nom`, `Prenom`, `Tel`, `Email`, `the_typ
 (244, 'Telexcel', 'Emmanuel', '0707-256314', '', 'collegue ', 'Telexcel', 'Casa', 'casa', 'Unknown', NULL, '', 'زميل مركز اتصال افريقي', '', 'Male', '247Emmanuel_Telexcel1.webp', '2nd Year of Baccalaureate', 'ايمانويل', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-12-29 12:30:40', '2024-12-08 23:00:00', NULL, ''),
 (245, 'Marzouk', 'Najia', '0626-865640', '', 'collegue ', 'Telexcel', 'Casa', 'Casa', 'Celibataire', NULL, '', 'فتاة جميلة وخجولة ومتواضعة، معجبة بي تتقرب مني بل وتقلدني في بعض الأمور حيث تتنافس مع مريم في التقرب، كانت تراسلني على الوتساب حتى وقع فصلي بسبب انتخابات مناديب الأجراء', '', 'Female', '', 'Post-Baccalaureate', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ناجية مرزوق', '2024-12-29 20:51:19', '2024-12-08 23:00:00', NULL, ''),
 (246, 'RH_Telexcel', 'Amal', '0660-176369', '', 'Code', 'Telexcel', 'Casa', 'Casa', 'Marie(e)', NULL, '', 'زوجة إدريس الشرايبي، كانت في أمريكا، مديرة مركز الاتصال TELEXCEL', '', 'Female', '249Amal_RH_Telexcel1.webp', 'Post-Baccalaureate', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'أمل حسني', '2024-12-29 20:51:29', '2024-12-08 23:00:00', NULL, '');
-INSERT INTO `contacts` (`contacts_id`, `Nom`, `Prenom`, `Tel`, `Email`, `the_type`, `Societe`, `Ville_D_origine`, `Adresse`, `Etat_Social`, `Date_de_naissance`, `Ideologie`, `Commentaire`, `social_media`, `gender`, `path`, `educational_level`, `keywords`, `spouse`, `children`, `siblings`, `parents`, `maternal_relatives`, `paternal_relatives`, `grandparents`, `friends`, `name_in_arabic`, `updated_at`, `created_at`, `cousin`, `Author`) VALUES
+INSERT INTO `contacts` (`contacts_id`, `nom`, `prenom`, `Tel`, `Email`, `the_type`, `Societe`, `Ville_D_origine`, `Adresse`, `Etat_Social`, `date_de_naissance`, `Ideologie`, `Commentaire`, `social_media`, `gender`, `path`, `educational_level`, `keywords`, `spouse`, `children`, `siblings`, `parents`, `maternal_relatives`, `paternal_relatives`, `grandparents`, `friends`, `name_in_arabic`, `updated_at`, `created_at`, `cousins`, `Author`) VALUES
 (247, 'Lqassya', 'Smail', '0666-436186', '', 'Ami (e)', '', 'Temara', 'Temra', 'Celibataire', NULL, '', 'Colocataire، شريك السكن في تمارة، جزار', '', 'Male', '250Smail_Lqassya1.webp,250Smail_Lqassya2.webp,250Smail_Lqassya3.webp', '6th Year of Primary School', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'اسماعيل القصية', '2024-12-29 20:51:40', '2024-12-08 23:00:00', NULL, ''),
 (248, 'Ouaraq', 'Dounia', '0771-822489', '', 'collegue ', 'Telexcel', 'Mohamadia', 'Mohamadia', 'Celibataire', NULL, '', 'زميلة مركز الاتصال صديقة كريمة العروسي، زينب زركاش، إلهام رباح،', '', 'Female', '251Dounia_Ouaraq1.webp,251Dounia_Ouaraq2.webp,251Dounia_Ouaraq3.webp', 'Post-Baccalaureate', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'دنيا وراق', '2024-12-29 20:51:58', '2024-12-08 23:00:00', NULL, ''),
 (249, 'Mrichka', 'Imad', '0628_655398', '', 'collegue ', 'Telexcel', 'Casa', 'Casa', 'Unknown', NULL, '', 'زميل مركز الاتصال', '', 'Male', '252Imad_Mrichka1.webp', 'Post-Baccalaureate', '', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'عماد مريشقا', '2024-12-29 20:52:08', '2024-12-08 23:00:00', NULL, ''),
@@ -2764,7 +2765,11 @@ INSERT INTO `msgs` (`msg_id`, `mysubject`, `Email`, `title`, `Author`, `author_i
 (61, '', 'contact@tifinar.net', 'BETS KSJJ', 'موقع تيفيناغ', 14, '', '1', '2025-08-17 23:24:24', '2025-08-17 23:24:24', 'unread', 'ltr'),
 (62, '', 'contact@tifinar.net', 'success', 'موقع تيفيناغ', 14, '', '1', '2025-08-17 23:26:39', '2025-08-17 23:26:39', 'unread', 'ltr'),
 (63, '', 'contact@tifinar.net', 'susssssssssss', 'موقع تيفيناغ', 14, '', '1', '2025-08-17 23:28:38', '2025-08-17 23:28:38', 'unread', 'ltr'),
-(64, 'best sub', 'contact@tifinar.net', 'best', 'موقع تيفيناغ', 14, 'images/users/14/tifinar.webp', '1', '2025-08-17 23:37:33', '2025-08-17 23:37:33', 'unread', 'ltr');
+(64, 'best sub', 'contact@tifinar.net', 'best', 'موقع تيفيناغ', 14, 'images/users/14/tifinar.webp', '1', '2025-08-17 23:37:33', '2025-08-17 23:37:33', 'unread', 'ltr'),
+(65, 'bnjr zyach', 'contact@tifinar.net', 'إلى الأحت رقم 7', 'موقع تيفيناغ', 14, 'images/users/14/tifinar.webp', '1', '2025-08-18 18:42:07', '2025-08-18 18:42:07', 'unread', 'ltr'),
+(66, 'bnjr zyach', 'contact@tifinar.net', 'إلى الأحت رقم 7', 'موقع تيفيناغ', 14, 'images/users/14/tifinar.webp', NULL, '2025-08-18 18:44:51', '2025-08-18 18:44:51', 'unread', 'ltr'),
+(67, 'واش رقمك 4', 'contact@tifinar.net', 'سلام أحلام 4', 'موقع تيفيناغ', 14, 'images/users/14/tifinar.webp', NULL, '2025-08-18 18:45:37', '2025-08-18 18:45:37', 'unread', 'ltr'),
+(68, 'أنت الأمال 3', 'contact@tifinar.net', 'سكينة زين 3', 'موقع تيفيناغ', 14, 'images/users/14/tifinar.webp', '3', '2025-08-18 18:47:33', '2025-08-18 18:47:33', 'unread', 'ltr');
 
 -- --------------------------------------------------------
 
@@ -4490,6 +4495,8 @@ CREATE TABLE `synonym_terms` (
   `id` int(11) NOT NULL,
   `term` varchar(255) NOT NULL,
   `synonyms` longtext NOT NULL,
+  `contact_field` varchar(64) NOT NULL,
+  `target_gender` enum('Male','Female') DEFAULT NULL,
   `ignore_terms` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -4497,18 +4504,27 @@ CREATE TABLE `synonym_terms` (
 -- Dumping data for table `synonym_terms`
 --
 
-INSERT INTO `synonym_terms` (`id`, `term`, `synonyms`, `ignore_terms`) VALUES
-(9, 'إبن', 'ولد، فلذة الكبد', 'ثيضصبضصث'),
-(11, 'خال', ' أخ الأم، أخ الخال، إبن الجد', 'خالد،\r\nمركز الاتصال،\r\nمركز اتصال'),
-(12, 'أم', 'والدة، مامات', 'ثيضصبضصث'),
-(13, 'أخت', 'شقيقة، خت ', 'بصثق'),
-(14, 'خالة', 'أخت الأم، شقيقة الأم', 'ثيضصبضصث'),
-(15, 'عمة', 'أخت الأب، شقيقة الأب', 'ثيضصبضصث'),
-(16, 'جد', 'والد الأب، والد الأم', 'ثيضصبضصث'),
-(17, 'زوجة', 'شريكة الحياة، مراة', 'ثيضصبضصث'),
-(18, 'حماة', 'والدة الزوجة، والدة الزوج', 'ثيضصبضصث'),
-(20, 'عمتي', 'أخت أبي،أخت عمي', 'ثيضصبضصث'),
-(21, 'زينة', 'زينة', 'الخزينة');
+INSERT INTO `synonym_terms` (`id`, `term`, `synonyms`, `contact_field`, `target_gender`, `ignore_terms`) VALUES
+(23, 'father', 'أب,اب,والد,father,père de', 'parents', 'Male', NULL),
+(24, 'mother', 'أم,ام,والدة,mother,mère de', 'parents', 'Female', NULL),
+(25, 'husband', 'زوج,husband,خطيب,حبيب,عشيق,l\'époux de ,le compagnon de,le conjoine de,le partenaire de ,le mari de', 'spouse', 'Male', NULL),
+(26, 'wife', 'زوجة,wife,عشيقة,خطيبة,حبيبة,l\'épouse de,la conjointe de,la femme de,la compagne de,la partenaire de', 'spouse', 'Female', NULL),
+(27, 'son', 'ابن,إبن,son,fils de,نجل', 'children', 'Male', NULL),
+(28, 'daughter', 'ابنة,إبنة,daughter,fille de,نجلة', 'children', 'Female', NULL),
+(29, 'brother', 'أخ,اخ,شقيق,brother,أخ لأم,أخ لأب,frère de', 'siblings', 'Male', NULL),
+(30, 'sister', 'أخت,اخت,شقيقة,sister,أخت لأم,أخت لأب,soeur de,sœur de', 'siblings', 'Female', NULL),
+(31, 'grandfather', 'جد,grandfather,grand-père,père de père de,père de mère de,أب أم,أب أب', 'grandparents', 'Male', NULL),
+(32, 'grandmother', 'جدة,grandmother,grand-mère,أم أب,أم أب,mère de mère de,mère de père', 'grandparents', 'Female', NULL),
+(33, 'maternal_uncle', 'خال,maternal uncle,أخ أم,l\'oncle,uncle', 'maternal_relatives', 'Male', NULL),
+(34, 'maternal_aunt', 'خالة,maternal aunt,aunt,أخت أم', 'maternal_relatives', 'Female', NULL),
+(35, 'paternal_uncle', 'عم,paternal uncle,uncle,l\'oncle,أخ أب', 'paternal_relatives', 'Male', NULL),
+(36, 'paternal_aunt', 'عمة,paternal aunt,أخت أب,aunt', 'paternal_relatives', 'Female', NULL),
+(37, 'cousin_male', 'ابن عم,أبناء عم,cousin,cousin de', 'cousins', 'Male', NULL),
+(38, 'cousin_female', 'ابنة العم,cousine,cousine de', 'cousins', 'Female', NULL),
+(39, 'niece_nephew_male', 'إبن أخ,إبن أخت,nephew de', 'nieces_nephews', 'Male', NULL),
+(40, 'niece_nephew_female', 'إبنة أخ,إبنة أخت,niece de,niéce', 'nieces_nephews', 'Female', NULL),
+(41, 'friend', 'صديق,رفيق,صاحب,زميل,خل,رفيق درب,l\'ami de,le camarade de,le collègue de,le copain de,le pote de,l\'allié de,connaissance de,friend,companion,buddy,pal,mate,ally,acquaintance,colleague', 'friends', 'Male', NULL),
+(42, 'girlfriend', 'صديقة,رفيقة,خلة,زميلة,صحبة,l\'amie,la compagne de,la camarade de,la collègue de,la copine de,l\'alliée de,connaissance de,girlfriend,companion,buddy,pal,mate,ally,acquaintance,colleague', 'friends', 'Female', NULL);
 
 -- --------------------------------------------------------
 
@@ -65414,7 +65430,9 @@ ALTER TABLE `sessions`
 -- Indexes for table `synonym_terms`
 --
 ALTER TABLE `synonym_terms`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uq_term` (`term`);
+ALTER TABLE `synonym_terms` ADD FULLTEXT KEY `ft_synonyms` (`synonyms`);
 
 --
 -- Indexes for table `users`
@@ -65587,7 +65605,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `msgs`
 --
 ALTER TABLE `msgs`
-  MODIFY `msg_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=65;
+  MODIFY `msg_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=69;
 
 --
 -- AUTO_INCREMENT for table `products`
@@ -65611,7 +65629,7 @@ ALTER TABLE `search_logs`
 -- AUTO_INCREMENT for table `synonym_terms`
 --
 ALTER TABLE `synonym_terms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
 
 --
 -- AUTO_INCREMENT for table `users`
