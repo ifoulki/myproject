@@ -5,6 +5,13 @@
 <div class="content">
     <h1>{{ title }}</h1>
 
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>{{ title }}</h1>
+        <a href="http://127.0.0.1:8000/contacts/create/" class="btn btn-primary">
+            <i class="bi bi-plus-circle"></i> إضافة عضو جديد
+        </a>
+    </div>
+
     <div class="filter mt-4 p-4 border rounded shadow-sm bg-light">
         <form method="GET" action="{% url 'contacts' %}" class="d-flex flex-column flex-md-row align-items-md-center mb-3">
             <div class="input-group border rounded flex-grow-1 d-flex">
