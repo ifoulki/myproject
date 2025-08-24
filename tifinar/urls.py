@@ -13,6 +13,7 @@ from tifinar.views.content.cours import show_cours
 from tifinar.views.members.user import show_user 
 from tifinar.views.members.members_index import members_index 
 from tifinar.views.contacts.contacts_index import contacts_index
+from tifinar.views.contacts.create_contact import contact_create
 from tifinar.views.members.user import edit_user 
 from tifinar.views.members.show_member import member_profile_view, edit_member_profile, delete_member_profile, manage_member_relations, update_profile_image
 from tifinar.views.contacts.show_contact import contact_view,edit_contact, delete_contact, manage_contact_relations, update_contact_image
@@ -106,10 +107,13 @@ urlpatterns = [
     
     path('contacts/<int:contacts_id>/', contact_view, name='contact_view'),  # لملف شخصي معين
     path('contacts/<int:contacts_id>/edit/', edit_contact, name='edit_contact'),  # لتعديل ملف معين (للمسؤولين)
+    path('contacts/create/', contact_create, name='contact_create'),
+    
+    # لتعديل ملف معين (للمسؤولين)
     path('contacts/<int:contacts_id>/delete/', delete_contact, name='delete_contact'),
     path('contacts/<int:contacts_id>/manage-relations/', manage_contact_relations, name='manage_contact_relations'),
     path('contacts/<int:contacts_id>/update-image/', update_contact_image, name='update_contact_image'),
-    
+
     #  إنشاء المحتوى
     path('articles/create/', create_content, {'content_type': 'articles'}, name='create_article'),
     path('videos/create/', create_content, {'content_type': 'videos'}, name='create_video'),

@@ -1,0 +1,192 @@
+{% load static custom_filters %}
+{% include "tifinar/adm_header.html" %}
+
+<article class="content">
+    <h1><i class="fas fa-edit"></i> تسجيل عضو جديد</h1>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    {% if form.errors %}
+        <div class="alert alert-danger">
+            <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data" action="{% url 'contact_create' %}">
+        {% csrf_token %}
+        
+        {{ form.Author }}
+        
+        <label class="label">
+            <i class="fas fa-upload"></i> تحميل صورة :
+        </label>
+        <div class="mb-3">
+            {{ form.path }}
+            <div class="form-text">يمكنك اختيار ملفات متعددة.</div>
+        </div>
+
+        <hr>
+        
+        <div class="mb-3">
+            <label class="form-label"><i class="fas fa-user"></i>الإسم الشخصي :</label>
+            {{ form.prenom }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><i class="fas fa-user"></i>الإسم العائلي :</label>
+            {{ form.nom }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><i class="fas fa-venus-mars"></i> الجنس :</label>
+            {{ form.gender }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><i class="fas fa-envelope"></i> البريد الإلكتروني :</label>
+            {{ form.email }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><i class="fas fa-phone"></i> الهاتف :</label>
+            {{ form.tel }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><i class="fas fa-tag"></i> النوع :</label>
+            {{ form.the_type }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><i class="fas fa-building"></i> الشركة :</label>
+            {{ form.societe }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><i class="fas fa-city"></i> المدينة الأصلية :</label>
+            {{ form.ville_d_origine }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><i class="fas fa-share-alt"></i> وسائل التواصل الاجتماعي :</label>
+            {{ form.social_media }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><i class="fas fa-map-marker-alt"></i> العنوان :</label>
+            {{ form.adresse }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><i class="fas fa-heart"></i> الحالة الاجتماعية :</label>
+            {{ form.etat_social }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><i class="fas fa-birthday-cake"></i> تاريخ الميلاد :</label>
+            {{ form.date_de_naissance }}
+        </div>
+
+        <div class="mb-3">
+            <label for="educational_level" class="form-label">
+                <i class="fas fa-graduation-cap"></i>المستوى الدراسي :
+            </label>
+            {{ form.educational_level }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><i class="fas fa-comment-dots"></i> الآراء الدينية والسياسية :</label>
+            {{ form.ideologie }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><i class="fas fa-info-circle"></i> معلومات إضافية أخرى :</label>
+            {{ form.commentaire }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label"><i class="fas fa-key"></i> الكلمات المفتاحية :</label>
+            {{ form.keywords }}
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="spouse"><i class="fas fa-heart"></i>الزوج/الزوجة :</label>
+            {{ form.spouse }}
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="children"><i class="fas fa-baby"></i>الأبناء :</label>
+            {{ form.children }}
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="siblings">
+                <i class="fas fa-users"></i> الإخوة والأخوات :
+            </label>
+            {{ form.siblings }}
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="parents">
+                <i class="fas fa-user-friends"></i> الوالدان :
+            </label>
+            {{ form.parents }}
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="maternal_relatives">
+                <i class="fas fa-hand-holding-heart"></i> الأقارب من جهة الأم :
+            </label>
+            {{ form.maternal_relatives }}
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="paternal_relatives">
+                <i class="fas fa-hand-holding-heart"></i> الأقارب من جهة الأب :
+            </label>
+            {{ form.paternal_relatives }}
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="grandparents">
+                <i class="fas fa-people-arrows"></i> الأجداد :
+            </label>
+            {{ form.grandparents }}
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="friends">
+                <i class="fas fa-user-friends"></i> الأصدقاء :
+            </label>
+            {{ form.friends }}
+        </div>
+
+        <div class="form-group mb-3">
+            <label for="name_in_arabic">
+                <i class="fas fa-font"></i> الاسم بالعربية :
+            </label>
+            {{ form.name_in_arabic }}
+        </div>
+
+        <button class="add_btn btn btn-primary" type="submit">
+            <i class="fas fa-paper-plane"></i> تسجيل العضو
+        </button>
+    </form>
+</article>
+
+{% include "tifinar/adm_footer.html" %}

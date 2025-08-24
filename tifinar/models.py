@@ -366,8 +366,8 @@ class comments(models.Model):
 
 class Contacts(models.Model):
     contacts_id = models.SmallAutoField(primary_key=True)
-    nom = models.TextField(db_column='Nom', blank=True, null=True)  # Field name made lowercase.
-    prenom = models.TextField(db_column='Prenom', blank=True, null=True)  # Field name made lowercase.
+    nom = models.TextField(db_column='nom', blank=True, null=True)  # Field name made lowercase.
+    prenom = models.TextField(db_column='prenom', blank=True, null=True)  # Field name made lowercase.
     tel = models.CharField(db_column='Tel', max_length=20, blank=True, null=True)  # Field name made lowercase.     
     email = models.TextField(db_column='Email', blank=True, null=True)  # Field name made lowercase.
     the_type = models.TextField(blank=True, null=True)
