@@ -1,20 +1,18 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseNotFound
 from .models import articles, books, exams, videos, cours, comments, ArticleReaction
-from .forms import CommentForm, ArticleForm, BookForm, ExamForm, CoursForm, VideoForm,UserEditForm
+from .forms import CommentForm, ArticleForm, BookForm, ExamForm, CoursForm, VideoForm
 from django.contrib import messages
 from django.http import FileResponse, Http404
 import os
 from django.conf import settings
 from urllib.parse import unquote
-from django.utils import timezone
 import logging
 from django.views.decorators.csrf import csrf_exempt
 logger = logging.getLogger(__name__)
 
 from django.core.exceptions import ValidationError
 from django.utils.html import escape
-from django.utils.text import slugify
 import re
 
 import matplotlib.pyplot as plt
@@ -23,6 +21,13 @@ import base64
 import arabic_reshaper
 from bidi.algorithm import get_display
 import matplotlib as mpl
+
+from django.contrib.auth import logout
+
+def custom_logout(request):
+    logout(request)
+    return redirect("welcome")  # استبدل "home" بالصفحة التي تريد
+
 
 plt.rcParams['font.family'] = 'Arial'
 mpl.rcParams['axes.unicode_minus'] = False
