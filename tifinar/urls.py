@@ -20,6 +20,7 @@ from tifinar.views.contacts.show_contact import contact_view,edit_contact, delet
 from tifinar.views.content_manager.create_contents import create_content 
 from tifinar.views.content_manager.edit_contents import edit_content
 from .logout import custom_logout
+from .login import custom_login
 
 def table_exists(table_name):
     """للتحقق من وجود الجدول في قاعدة البيانات"""
@@ -132,7 +133,9 @@ urlpatterns = [
     # مسار خاص بـ cours قبل المسار العام
     path('cours/<path:slug>/', show_cours, name='show_cours'),
     
-        path("logout/", custom_logout, name="logout"),
+    path("logout/", custom_logout, name="logout"),
+    path("login/", custom_login, name="login"),
+
 
     # المحتوى الديناميكي (يجب أن يكون آخر مسار)
     path('<str:slug>/', content_router, name='dynamic_content'),
