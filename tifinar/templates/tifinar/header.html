@@ -80,7 +80,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="">
+                                        <a class="dropdown-item" href="{% url 'logup' %}">
                                             <i class="fas fa-user-plus me-2"></i> إنشاء حساب
                                         </a>
                                     </li>
@@ -116,7 +116,7 @@
                     
                                     {% if user.is_staff %}
                                         <li>
-                                            <a class="dropdown-item" href="">
+                                            <a class="dropdown-item" href="/adm/dashboard/">
                                                 <i class="fas fa-user-clock me-2"></i> تفاصيل الزيارة
                                             </a>
                                         </li>

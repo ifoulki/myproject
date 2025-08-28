@@ -1,5 +1,5 @@
 {% load static %}
-{% load crispy_forms_tags %} {# إذا استعملت crispy-forms #}
+{% load crispy_forms_tags %}
 
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
@@ -15,15 +15,88 @@
     <link rel="stylesheet" href="{% static 'tifinar/css/main.css' %}">
 
     <link rel="icon" href="{% static 'tifinar/assets/siteicon.ico' %}">
+
+    <meta property="og:image" content="{% static 'tifinar/assets/tifinar.webp' %}">
+    <meta property="og:title" content="تسجيل الدخول | مجلة تيفيناغ">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://tifinar.net/login">    
+    <meta property="og:description" content="انضم إلى عائلة تيفيناغ.كوم وساهم في تطوير المحتوى العربي على الإنترنت بنشر مقالاتك وأخبارك ودروسك في مجلتنا. تجد أيضًا مكتبة كبيرة من الكتب والمجلات والمواد المدرسية لتقديم قيمة مفيدة لزوارنا.">
+
+    <meta name="description" content="انضم إلى عائلة تيفيناغ.كوم وساهم في تطوير المحتوى العربي على الإنترنت بنشر مقالاتك وأخبارك ودروسك في مجلتنا. تجد أيضًا مكتبة كبيرة من الكتب والمجلات والمواد المدرسية لتقديم قيمة مفيدة لزوارنا.">
+
     <title>تسجيل الدخول | مجلة تيفيناغ</title>
+
+    <style>
+        .gender-container {
+            display: flex;
+            gap: 20px; 
+            align-items: center;
+        }
+        .gender-container label {
+            display: flex;
+            align-items: center;
+            gap: 8px; 
+            font-size: 16px; 
+            cursor: pointer;
+        }
+        .gender-container input[type="radio"] {
+            margin: 0;
+        }
+        .errorlist {
+            color: red;
+            list-style: none;
+            padding: 0;
+            margin: 5px 0 0 0;
+        }
+    </style>
 </head>
 <body>
+
+     <div class="logo-mobile">
+        <a href="/">
+            <img src="{% static 'tifinar/assets/tifinar.webp' %}" alt="الصفحة الرئيسية" title="الصفحة الرئيسية" width="80%">
+        </a>
+    </div>
+    <nav class="navbar nav Topmenu navbar-expand-lg navbar-light" dir="rtl">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="dropdown-item" href="{% url 'logup' %}">
+                                  إذا لم يكن لك حساب، أنقر هنا لإنشائه 
+                                 _<i class="fas fa-user-plus"></i>
+                            </a>
+                        </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="header">
+            <div class="logo">
+                <img src="{% static 'tifinar/assets/tifinar.webp' %}" alt="الصفحة الرئيسية" title="الصفحة الرئيسية" style="cursor: pointer;">
+            </div>
+
+            <div class="pub-and-menu">
+                <div class="pub">
+                    <a target="_blank" href="https://hostinger.ae?REFERRALCODE=1HAMID718">
+                        <img src="https://tifinar.net/assets/hostinger.webp">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
     <div class="container mt-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header text-center bg-primary">
-                        <h2 class="text-white"><i class="fas fa-user-plus"></i> تسجيل الدخول:</h2>
+                        <h2 class="text-white"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول:</h2>
                     </div>
                     <div class="card-body">
                         
@@ -80,4 +153,5 @@
         }
     </script>
 </body>
+{% include "tifinar/footer.html" %}
 </html>

@@ -1,19 +1,20 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import comments, msgs, articles, books, videos, exams, cours, Contacts
+from .models import comments, msgs, articles, books, videos, exams, cours, Contacts, AuthUser
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
 User = get_user_model()
+from django.contrib.auth.forms import UserCreationForm
 import os
-from django import forms
-from django.core.exceptions import ValidationError
-from .models import Contacts
-from django.contrib.auth import get_user_model
-from django.utils.translation import gettext_lazy as _
 
-User = get_user_model()
-import os
+class AuthUserCreationForm(UserCreationForm):
+    class Meta:
+        model = AuthUser
+        fields = ('username', 'first_name', 'last_name', 'email', 'educational_level', 'gender', 'password1', 'password2')
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
 class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True

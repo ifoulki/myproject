@@ -21,6 +21,7 @@ from tifinar.views.content_manager.create_contents import create_content
 from tifinar.views.content_manager.edit_contents import edit_content
 from .logout import custom_logout
 from .login import custom_login
+from .logup import custom_logup
 
 def table_exists(table_name):
     """للتحقق من وجود الجدول في قاعدة البيانات"""
@@ -135,6 +136,8 @@ urlpatterns = [
     
     path("logout/", custom_logout, name="logout"),
     path("login/", custom_login, name="login"),
+    path('logup/', custom_logup, name='logup'),
+
 
 
     # المحتوى الديناميكي (يجب أن يكون آخر مسار)

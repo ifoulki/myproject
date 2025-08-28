@@ -1,0 +1,229 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="index, follow">
+
+    <link rel="stylesheet" href="{% static 'bootstrap-5.3.7-dist/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'icons-1.13.1/font/bootstrap-icons.css' %}">
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'tifinar/css/style-mobile.css' %}">
+    <link rel="stylesheet" href="{% static 'tifinar/css/main.css' %}">
+
+    <link rel="icon" href="{% static 'tifinar/assets/siteicon.ico' %}">
+
+    <meta property="og:image" content="{% static 'tifinar/assets/tifinar.webp' %}">
+    <meta property="og:title" content="تسجيل العضوية | مجلة تيفيناغ">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://tifinar.net/register">    
+    <meta property="og:description" content="انضم إلى عائلة تيفيناغ.كوم وساهم في تطوير المحتوى العربي على الإنترنت بنشر مقالاتك وأخبارك ودروسك في مجلتنا. تجد أيضًا مكتبة كبيرة من الكتب والمجلات والمواد المدرسية لتقديم قيمة مفيدة لزوارنا.">
+
+    <meta name="description" content="انضم إلى عائلة تيفيناغ.كوم وساهم في تطوير المحتوى العربي على الإنترنت بنشر مقالاتك وأخبارك ودروسك في مجلتنا. تجد أيضًا مكتبة كبيرة من الكتب والمجلات والمواد المدرسية لتقديم قيمة مفيدة لزوارنا.">
+
+    <title>تسجيل العضوية | مجلة تيفيناغ</title>
+
+    <style>
+        .gender-container {
+            display: flex;
+            gap: 20px; 
+            align-items: center;
+        }
+        .gender-container label {
+            display: flex;
+            align-items: center;
+            gap: 8px; 
+            font-size: 16px; 
+            cursor: pointer;
+        }
+        .gender-container input[type="radio"] {
+            margin: 0;
+        }
+        .errorlist {
+            color: red;
+            list-style: none;
+            padding: 0;
+            margin: 5px 0 0 0;
+        }
+    </style>
+</head>
+<body>
+
+     <div class="logo-mobile">
+        <a href="/">
+            <img src="{% static 'tifinar/assets/tifinar.webp' %}" alt="الصفحة الرئيسية" title="الصفحة الرئيسية" width="80%">
+        </a>
+    </div>
+    <nav class="navbar nav Topmenu navbar-expand-lg navbar-light" dir="rtl">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                        <li class="nav-item dropdown">
+                            <a class="dropdown-item" href="{% url 'login' %}">
+                                  إذا كان لك حساب بالفعل، أنقر هنا للدخول لحسابك 
+                                 _<i class="fas fa-sign-in-alt"></i>
+                            </a>
+                        </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="header">
+            <div class="logo">
+                <img src="{% static 'tifinar/assets/tifinar.webp' %}" alt="الصفحة الرئيسية" title="الصفحة الرئيسية" style="cursor: pointer;">
+            </div>
+
+            <div class="pub-and-menu">
+                <div class="pub">
+                    <a target="_blank" href="https://hostinger.ae?REFERRALCODE=1HAMID718">
+                        <img src="https://tifinar.net/assets/hostinger.webp">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="content">
+        <div class="container">
+            <div class="row justify-content-center mt-5">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header text-center bg-primary">
+                            <h2 class="text-white"><i class="fas fa-user-plus"></i> تسجيل العضوية:</h2>
+                        </div>
+                        <div class="card-body">
+
+                            <form method="POST">
+                                {% csrf_token %}
+                                
+                                <div class="mb-3">
+                                    <label for="id_username" class="form-label"><i class="fas fa-user"></i> اسم المستخدم</label>
+                                    <input type="text" class="form-control" name="username" id="id_username" placeholder="أدخل اسم المستخدم ..." value="{{ form.username.value|default:'' }}">
+                                    {{ form.username.errors }}
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="id_first_name" class="form-label"><i class="fas fa-user"></i> الاسم الشخصي</label>
+                                    <input type="text" class="form-control" name="first_name" id="id_first_name" placeholder=" أدخل الاسم الشخصي ... " value="{{ form.first_name.value|default:'' }}">
+                                    {{ form.first_name.errors }}
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="id_last_name" class="form-label"><i class="fas fa-user"></i> الاسم العائلي</label>
+                                    <input type="text" class="form-control" name="last_name" id="id_last_name" placeholder="أدخل الاسم العائلي ... " value="{{ form.last_name.value|default:'' }}">
+                                    {{ form.last_name.errors }}
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="id_email" class="form-label"><i class="fas fa-envelope"></i> البريد الإلكتروني</label>
+                                    <input type="email" class="form-control" name="email" id="id_email" placeholder="أدخل بريدك الإلكتروني" value="{{ form.email.value|default:'' }}">
+                                    {{ form.email.errors }}
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="id_educational_level" class="form-label"><i class="fas fa-graduation-cap"></i> المستوى التعليمي</label>
+                                    <select class="form-control" name="educational_level" id="id_educational_level">
+                                        <option value="Unknown" disabled selected>اختر مستواك التعليمي</option>
+                                        <optgroup label="المستويات غير المدرسية">
+                                            <option value="Illiterate Person" {% if form.educational_level.value == 'Illiterate Person' %}selected{% endif %}>غير متعلم في المدرسة</option>
+                                            <option value="Preschool" {% if form.educational_level.value == 'Preschool' %}selected{% endif %}>روضة الأطفال</option>
+                                        </optgroup>
+                                        <optgroup label="التعليم الابتدائي">
+                                            <option value="1st Year of Primary School" {% if form.educational_level.value == '1st Year of Primary School' %}selected{% endif %}>السنة الأولى ابتدائي</option>
+                                            <option value="2nd Year of Primary School" {% if form.educational_level.value == '2nd Year of Primary School' %}selected{% endif %}>السنة الثانية ابتدائي</option>
+                                            <option value="3rd Year of Primary School" {% if form.educational_level.value == '3rd Year of Primary School' %}selected{% endif %}>السنة الثالثة ابتدائي</option>
+                                            <option value="4th Year of Primary School" {% if form.educational_level.value == '4th Year of Primary School' %}selected{% endif %}>السنة الرابعة ابتدائي</option>
+                                            <option value="5th Year of Primary School" {% if form.educational_level.value == '5th Year of Primary School' %}selected{% endif %}>السنة الخامسة ابتدائي</option>
+                                            <option value="6th Year of Primary School" {% if form.educational_level.value == '6th Year of Primary School' %}selected{% endif %}>السنة السادسة ابتدائي</option>
+                                        </optgroup>
+                                        <optgroup label="التعليم الإعدادي">
+                                            <option value="1st Year of Middle School" {% if form.educational_level.value == '1st Year of Middle School' %}selected{% endif %}>السنة الأولى إعدادي</option>
+                                            <option value="2nd Year of Middle School" {% if form.educational_level.value == '2nd Year of Middle School' %}selected{% endif %}>السنة الثانية إعدادي</option>
+                                            <option value="3rd Year of Middle School" {% if form.educational_level.value == '3rd Year of Middle School' %}selected{% endif %}>السنة الثالثة إعدادي</option>
+                                        </optgroup>
+                                        <optgroup label="التعليم الثانوي">
+                                            <option value="Common Core" {% if form.educational_level.value == 'Common Core' %}selected{% endif %}>المسلك المشترك</option>
+                                            <option value="1st Year of Baccalaureate" {% if form.educational_level.value == '1st Year of Baccalaureate' %}selected{% endif %}>السنة الأولى بكالوريا</option>
+                                            <option value="2nd Year of Baccalaureate" {% if form.educational_level.value == '2nd Year of Baccalaureate' %}selected{% endif %}>السنة الثانية بكالوريا</option>
+                                        </optgroup>
+                                        <optgroup label="التعليم العالي">
+                                            <option value="Post-Baccalaureate" {% if form.educational_level.value == 'Post-Baccalaureate' %}selected{% endif %}>التعليم العالي</option>
+                                        </optgroup>
+                                    </select>
+                                    {{ form.educational_level.errors }}
+                                </div>
+
+                                <div class="mb-3 position-relative">
+                                    <label for="id_password1" class="form-label"><i class="fas fa-lock"></i> كلمة المرور</label>
+                                    <input type="password" class="form-control" name="password1" id="id_password1" placeholder="أدخل كلمة المرور">
+                                    <span class="eye-icon position-absolute top-50 end-0 translate-middle-y pe-2" onclick="togglePassword('id_password1')">
+                                        <i id="eye-icon-password" class="fas fa-eye"></i>
+                                    </span>
+                                    {{ form.password1.errors }}
+                                </div>
+
+                                <div class="mb-3 position-relative">
+                                    <label for="id_password2" class="form-label"><i class="fas fa-lock"></i> تأكيد كلمة المرور</label>
+                                    <input type="password" class="form-control" name="password2" id="id_password2" placeholder="أعد كتابة كلمة المرور">
+                                    <span class="eye-icon position-absolute top-50 end-0 translate-middle-y pe-2" onclick="togglePassword('id_password2')">
+                                        <i id="eye-icon-confirm" class="fas fa-eye"></i>
+                                    </span>
+                                    {{ form.password2.errors }}
+                                </div>
+
+                                <div class="mb-3 position-relative gender-container">
+                                    <label class="form-label">
+                                        <input type="radio" value="Male" name="gender" {% if form.gender.value == 'Male' %}checked{% endif %}>
+                                        ذكر ♂️
+                                    </label>
+                                    <label class="form-label">
+                                        <input type="radio" value="Female" name="gender" {% if form.gender.value == 'Female' %}checked{% endif %}>
+                                        أنثى ♀️
+                                    </label>
+                                    <label class="form-label">
+                                        <input type="radio" value="Other" name="gender" {% if form.gender.value == 'Other' %}checked{% endif %}>
+                                         آخر <i class="fas fa-transgender-alt"></i>
+                                    </label>
+                                    {{ form.gender.errors }}
+                                </div>
+
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-success"><i class="fas fa-user-check"></i> تسجيل</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="card-footer text-center">
+                            <small>لديك حساب بالفعل؟ <a href="/login" class="text-primary"><i class="fas fa-sign-in-alt"></i> تسجيل الدخول</a></small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function togglePassword(fieldId) {
+                const passwordInput = document.getElementById(fieldId);
+                const eyeIcon = fieldId === 'id_password1' ? document.getElementById("eye-icon-password") : document.getElementById("eye-icon-confirm");
+
+                if (passwordInput.type === "password") {
+                    passwordInput.type = "text";
+                    eyeIcon.classList.replace("fa-eye", "fa-eye-slash");
+                } else {
+                    passwordInput.type = "password";
+                    eyeIcon.classList.replace("fa-eye-slash", "fa-eye");
+                }
+            }
+        </script>
+    </section>
+
+</body>
+{% include "tifinar/footer.html" %}
+</html>
