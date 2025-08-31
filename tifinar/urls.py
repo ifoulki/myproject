@@ -134,8 +134,8 @@ urlpatterns = [
     path('profile/<int:user_id>/', show_user, name='user_profile'),
     # مسار خاص بـ cours قبل المسار العام
     
-    path('exam/<path:exam_slug>/', exam_view, name='exam_view'),
     path('exam/store-answer/', store_answer, name='store_answer'),
+    path('exam/<path:exam_slug>/', exam_view, name='exam_view'),
     
     path("logout/", custom_logout, name="logout"),
     path("login/", custom_login, name="login"),

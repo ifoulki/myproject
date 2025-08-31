@@ -5,6 +5,17 @@ import random
 
 register = template.Library()
 
+@register.filter
+def clean_float(value):
+    try:
+        num = float(value)
+        if num.is_integer():
+            return str(int(num))
+        else:
+            # عرض منزلتين عشريتين فقط إذا كانت هناك حاجة
+            return f"{num:.2f}".rstrip('0').rstrip('.')
+    except (ValueError, TypeError):
+        return str(value)
 # فلتر get_item
 @register.filter
 def get_item(dictionary, key):

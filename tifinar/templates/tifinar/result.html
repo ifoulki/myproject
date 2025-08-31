@@ -1,3 +1,4 @@
+{% load custom_filters %}
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -13,10 +14,33 @@
                 <h2 class="text-center">نتيجة الاختبار: {{ exam_title }}</h2>
             </div>
             <div class="card-body">
-                <div class="alert alert-info text-center">
-                    <h3>النتيجة: {{ total_marks }} من {{ max_marks }}</h3>
-                    <h4>النسبة: {% widthratio total_marks max_marks 100 %}%</h4>
+                {% widthratio total_marks max_marks 100 as raw_percentage %}
+                
+                {% if raw_percentage >= 90 %}
+                <div class="alert alert-success text-center">
+                    <h3>🎉 ممتاز!</h3>
+                    <h4>النتيجة: {{ total_marks|clean_float }} من {{ max_marks|clean_float }} ({{ raw_percentage|clean_float }}%)</h4>
+                    <p>أداء رائع! أنت على مستوى عالٍ من المعرفة.</p>
                 </div>
+                {% elif raw_percentage >= 75 %}
+                <div class="alert alert-info text-center">
+                    <h3>👍 جيد جداً!</h3>
+                    <h4>النتيجة: {{ total_marks|clean_float }} من {{ max_marks|clean_float }} ({{ raw_percentage|clean_float }}%)</h4>
+                    <p>نتيجة جيدة، يمكنك التحسين أكثر.</p>
+                </div>
+                {% elif raw_percentage >= 50 %}
+                <div class="alert alert-warning text-center">
+                    <h3>👌 متوسط</h3>
+                    <h4>النتيجة: {{ total_marks|clean_float }} من {{ max_marks|clean_float }} ({{ raw_percentage|clean_float }}%)</h4>
+                    <p>ليس سيئاً، ولكن تحتاج إلى مزيد من الجهد.</p>
+                </div>
+                {% else %}
+                <div class="alert alert-danger text-center">
+                    <h3>💪 تحتاج تحسين</h3>
+                    <h4>النتيجة: {{ total_marks|clean_float }} من {{ max_marks|clean_float }} ({{ raw_percentage|clean_float }}%)</h4>
+                    <p>اجتهد أكثر في المرة القادمة، يمكنك تحقيق نتائج أفضل!</p>
+                </div>
+                {% endif %}
                 
                 <h4 class="mb-3">تفاصيل الإجابات:</h4>
                 
@@ -24,22 +48,22 @@
                     <div class="card mb-3 {% if answer.is_correct %}border-success{% else %}border-danger{% endif %}" dir="{{ answer.dir }}">
                         <div class="card-header {% if answer.is_correct %}bg-success text-white{% else %}bg-danger text-white{% endif %}">
                             السؤال {{ answer.qsts_id }}: {{ answer.qst_1st_line }}
-                            <span class="badge bg-light text-dark">العلامة: {{ answer.mark_obtained }}/{{ answer.mark }}</span>
+                            <span class="badge bg-light text-dark">العلامة: {{ answer.mark_obtained|clean_float }}/{{ answer.mark|clean_float }}</span>
                         </div>
                         <div class="card-body">
                             <p><strong>إجابتك:</strong> {{ answer.user_answer }}</p>
-                            <p><strong>الإجابة الصحيحة:</strong> {{ answer.correct_answer }}</p>
                             
                             {% if answer.is_correct %}
                                 <div class="alert alert-success">
-                                    <strong>إجابة صحيحة!</strong>
+                                    <strong>✓ إجابة صحيحة!</strong>
                                     {% if answer.if_choising_correct %}
-                                        <p>{{ answer.if_choising_correct }}</p>
+                                        <p class="mt-2">{{ answer.if_choising_correct }}</p>
                                     {% endif %}
                                 </div>
                             {% else %}
                                 <div class="alert alert-danger">
-                                    <strong>إجابة خاطئة!</strong>
+                                    <strong>✗ إجابة خاطئة!</strong>
+                                    <p class="mt-2"><strong>الإجابة الصحيحة:</strong> {{ answer.correct_answer }}</p>
                                 </div>
                             {% endif %}
                         </div>
