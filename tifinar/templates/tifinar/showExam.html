@@ -31,7 +31,7 @@
             <form action="/exam/store-answer/" method="POST">
                 {% csrf_token %}
                 <input type="hidden" name="exam_id" value="{{ exam_id }}">
-                <input type="hidden" name="exam_title" value="{{ title }}">
+                <input type="hidden" name="title" value="{{ title }}">
                 <input type="hidden" name="exam_link" value="{{ request.build_absolute_uri }}">
                 
                 {% if messages %}

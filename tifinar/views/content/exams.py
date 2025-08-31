@@ -47,8 +47,8 @@ def store_answer(request):
     
     try:
         exam_id = request.POST.get('exam_id')
-        exam_title = request.POST.get('exam_title')
-        print(f"DEBUG: exam_id = {exam_id}, exam_title = {exam_title}")
+        title = request.POST.get('title')
+        print(f"DEBUG: exam_id = {exam_id}, exam_title = {title}")
         
         if not exam_id:
             return HttpResponse("خطأ: معرف الاختبار مفقود", status=400)
@@ -122,7 +122,7 @@ def store_answer(request):
         # حفظ في قاعدة البيانات
         Results.objects.create(
             name=user_name,
-            exam_title=exam_title,
+            exam_title=title,
             exam_link=request.build_absolute_uri(),
             result=total_marks,
             created_at=datetime.datetime.now(),
@@ -134,11 +134,12 @@ def store_answer(request):
             'total_marks': total_marks,
             'max_marks': max_marks,
             'user_answers': user_answers,
-            'exam_title': exam_title,
-            'user_name': user_name,
+            'title': title,
+            'user_name': user_name,'dir': questions[0].dir if questions else 'rtl'
         }
         
         print("DEBUG: Rendering result page...")
+        
         return render(request, 'tifinar/result.html', context)
         
     except Exception as e:
