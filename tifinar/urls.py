@@ -19,6 +19,7 @@ from tifinar.views.members.show_member import member_profile_view, edit_member_p
 from tifinar.views.contacts.show_contact import contact_view,edit_contact, delete_contact, manage_contact_relations, update_contact_image
 from tifinar.views.content_manager.create_contents import create_content 
 from tifinar.views.content_manager.edit_contents import edit_content
+from tifinar.views.content.exams import exam_view, store_answer
 from .logout import custom_logout
 from .login import custom_login
 from .logup import custom_logup
@@ -132,7 +133,9 @@ urlpatterns = [
     path('exams/edit/<path:slug>/', edit_content, {'content_type': 'exams'}, name='edit_exam'), 
     path('profile/<int:user_id>/', show_user, name='user_profile'),
     # مسار خاص بـ cours قبل المسار العام
-    path('cours/<path:slug>/', show_cours, name='show_cours'),
+    
+    path('exam/<path:exam_slug>/', exam_view, name='exam_view'),
+    path('exam/store-answer/', store_answer, name='store_answer'),
     
     path("logout/", custom_logout, name="logout"),
     path("login/", custom_login, name="login"),

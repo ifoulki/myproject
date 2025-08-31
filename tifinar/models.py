@@ -10,6 +10,7 @@ from django.utils import timezone
 from django.utils.text import slugify
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.utils.translation import gettext_lazy as _
+import random
 
 class AdminArticles(models.Model):
     adm_art_id = models.IntegerField(primary_key=True)
@@ -505,7 +506,22 @@ class Examitems(models.Model):
     class Meta:
         managed = False
         db_table = 'examitems'
-
+        
+    def get_shuffled_choices(self):
+            choices = []
+            if self.choice1:
+                choices.append(self.choice1)
+            if self.choice2:
+                choices.append(self.choice2)
+            if self.choice3:
+                choices.append(self.choice3)
+            if self.correct_answer:
+                choices.append(self.correct_answer)
+            
+            # تصفية الخيارات الفارغة وخلطها
+            choices = [choice for choice in choices if choice]
+            random.shuffle(choices)
+            return choices
 
 class exams(models.Model):
     exam_id = models.AutoField(primary_key=True)
