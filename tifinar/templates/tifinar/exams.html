@@ -9,7 +9,7 @@
         {{ title }}
         _<i class="fas fa-newspaper"></i>
     </h1>
-    <p>عدد المقالات: {{ articles|length }} مقال{% if articles|length != 1 %}ات{% endif %}</p>
+    <p>عدد الاختبارات: {{ articles|length }} اختبار{% if articles|length != 1 %}ات{% endif %}</p>
 
     <div class="filter mt-4 p-4 border rounded shadow-sm bg-light">
         <form method="GET" action="{{ request.path }}" class="d-flex flex-column flex-md-row align-items-md-center mb-3">
@@ -25,11 +25,39 @@
 
         <form method="GET" action="{{ request.path }}" class="d-flex flex-column flex-md-row align-items-md-center">
             <div class="input-group border rounded flex-grow-1 d-flex">
-                <select class="form-select border-0 flex-grow-1" name="the_type" id="the_type">
+                <select class="form-control form-select" name="the_type">
                     <option value="" disabled {% if not request.GET.the_type %}selected{% endif %}>اختر نوع المنشور</option>
-                    {% for item in types_list %}
-                        <option value="{{ item }}" {% if request.GET.the_type == item %}selected{% endif %}>{{ item }}</option>
-                    {% endfor %}
+                    <option value="أديان" {% if request.GET.the_type == "أديان" %}selected{% endif %}>التربية الإسلامية</option>
+
+                        <option value='فلسفة' {% if request.GET.the_type == 'فلسفة' %}selected{% endif %}>فلسفة</option>
+
+                    <optgroup label="اللغات">
+                        <option value="الأمازيغية" {% if request.GET.the_type == 'الأمازيغية' %}selected{% endif %}>تعلم الأمازيغية</option>
+                        <option value="العربية" {% if request.GET.the_type == 'العربية' %}selected{% endif %}>تعلم العربية</option>
+                        <option value="الفرنسية" {% if request.GET.the_type == 'الفرنسية' %}selected{% endif %}>تعلم الفرنسية</option>
+                        <option value="الإنجليزية" {% if request.GET.the_type == 'الإنجليزية' %}selected{% endif %}>تعلم الإنجليزية</option>
+                    </optgroup>
+
+                    <optgroup label="العلوم">
+                        <option value="رياضيات" {% if request.GET.the_type == 'رياضيات' %}selected{% endif %}> رياضيات</option>
+                        
+                        
+                        <option value="الفزياء والكمياء" {% if request.GET.the_type == 'الفزياء والكمياء' %}selected{% endif %}>الفزياء والكمياء</option>
+                       
+                        <option value="علوم الحياة والأرض" {% if request.GET.the_type == 'علوم الحياة والأرض' %}selected{% endif %}>علوم الحياة والأرض</option>
+                    </optgroup>
+
+                    <optgroup label="مواضيع أخرى">
+                        <option value="صحة وحياة" {% if request.GET.the_type == 'صحة وحياة' %}selected{% endif %}>صحة وحياة</option>
+                        <option value="علوم الحاسوب" {% if request.GET.the_type == 'علوم الحاسوب' %}selected{% endif %}>علوم الحاسوب</option>
+
+                        @if ($userAge >=12)
+                            <option value="حقوق الإنسان" {% if request.GET.the_type == 'حقوق الإنسان' %}selected{% endif %}>القانون وحقوق الإنسان</option>
+                        @endif
+
+                        <option value="الثقافة العامة" {% if request.GET.the_type == 'الثقافة العامة' %}selected{% endif %}>الثقافة العامة</option>
+                        <option value="أصناف أخرى" {% if request.GET.the_type == 'أصناف أخرى' %}selected{% endif %}>أصناف أخرى</option>
+                    </optgroup>
                 </select>
                 <button type="submit" class="btn btn-outline-success search-btn flex-shrink-0" style="width: 50px;">
                     <i class="bi bi-search"></i>
@@ -45,7 +73,7 @@
         {% for article in articles %}
             <div class="listes-contenu" dir="{{ dir }}">
                 <div class="image-caption">
-                    <a href="/{{ article.slug  }}">
+                    <a href="/exam/{{ article.slug  }}">
                         {% if article.images %}
                             <img src="{% static 'tifinar/images/' %}{{ table_name }}/{{ article.images.0 }}" 
                                  alt="{{ title }}" class="article-image">
@@ -54,7 +82,7 @@
                 </div>
 
                 <div class="listes-contenu-art">
-                    <a href="/{{ article.slug }}">
+                    <a href="/exam/{{ article.slug }}">
                         <div class="listes-title-contenu">
                             <h2>{{ article.title }}</h2>
                             <p style="color:black; text-align:justify">
@@ -62,9 +90,9 @@
                             </p>
                         </div>
                         {% if dir == 'rtl' %}
-                            <div class="read-more">إقرأ المزيد</div>
+                            <div class="read-more">بدء الإختبار</div>
                         {% else %}
-                            <div class="read-more">Lire la suite</div>
+                            <div class="read-more">commencer le test</div>
                         {% endif %}
                     </a>
                 </div>
@@ -72,7 +100,7 @@
             <hr>
         {% endfor %}
     {% else %}
-        <p style="text-align:center; color: gray;">لا توجد مقالات متاحة</p>
+        <p style="text-align:center; color: gray;">لا توجد اختبارات متاحة</p>
     {% endif %}
 
     

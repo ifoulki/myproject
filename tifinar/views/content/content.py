@@ -29,7 +29,7 @@ def contents(request):
         model = exams
         title = "اختبارات"
         description = "اختبارات تفاعلية لتقييم المستوى في اللغة الأمازيغية"
-        template_name = "tifinar/contents.html"
+        template_name = "tifinar/exams.html"
     elif path == "مكتبة_تيفيناغ":
         model = books
         title = "مكتبة تيفيناغ"

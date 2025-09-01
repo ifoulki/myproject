@@ -58,16 +58,21 @@
                                 <p class="qst_2part text-muted">{{ answer.qsts }}</p>
                             {% endif %}
                             
-                            {% if answer.user_answer == 'لم تجب عن هذا السؤال' or answer.user_answer == '(لم تكتب أي إجابة لهذا السؤال)' %}
+                            {% if answer.user_answer == 0 %}
                                 <p class="choice-label text-danger">لم تتم الإجابة عليه</p>
                                 <p class="choice-label"><strong>الإجابة الصحيحة:</strong> {{ answer.correct_answer }}</p>
-                            {% else %}
+                                <p class="text-info mt-2"><strong>التعليق:</strong> {{ answer.if_its_wrong_answer }}</p>
+                                
+                            {% else %}                                    
                                 <p><strong>إجابتك :</strong> {{ answer.user_answer }}</p>
                                 {% if answer.is_correct %}
                                     <p class="choice-label text-success">{{ answer.if_choising_correct|default:"إجابة صحيحة" }}, حصلت على: {{ answer.mark_obtained|clean_float }}</p>
                                 {% else %}
                                     <p class="label text-danger">إجابتك خاطئة!</p>
                                     <p class="choice-label"><strong>الإجابة الصحيحة:</strong> {{ answer.correct_answer }}</p>
+                                    {% if answer.if_its_wrong_answer %}
+                                        <p class="text-info mt-2"><strong>التعليق:</strong> {{ answer.if_its_wrong_answer }}</p>
+                                    {% endif %}
                                 {% endif %}
                             {% endif %}
                         </div>
@@ -80,13 +85,13 @@
                     <div class="mb-4">
                         <div class="question-container border rounded p-3 bg-white shadow-sm" dir="{{ answer.dir }}">
                             <h4 class="qst text-primary">
-                                <strong>La question:</strong> {{ answer.qst_1st_line }}
+                                <strong>Question {{ answer.qsts_id }} :</strong> {{ answer.qst_1st_line }}
                             </h4>
                             {% if answer.qsts %}
                                 <p class="qst_2part text-muted">{{ answer.qsts }}</p>
                             {% endif %}
                             
-                            {% if answer.user_answer == 'لم تجب عن هذا السؤال' or answer.user_answer == '(لم تكتب أي إجابة لهذا السؤال)' %}
+                            {% if answer.user_answer == 0 %}
                                 <p class="choice-label text-danger">Tu n'as pas répondu.</p>
                                 <p class="choice-label"><strong>Bonne réponse :</strong> {{ answer.correct_answer }}</p>
                             {% else %}
@@ -96,6 +101,9 @@
                                 {% else %}
                                     <p class="label text-danger">Dommage, ce n'est pas la bonne réponse !</p>
                                     <p class="choice-label"><strong>Bonne réponse :</strong> {{ answer.correct_answer }}</p>
+                                    {% if answer.if_its_wrong_answer %}
+                                        <p class="text-info mt-2"><strong>Commentaire:</strong> {{ answer.if_its_wrong_answer }}</p>
+                                    {% endif %}
                                 {% endif %}
                             {% endif %}
                         </div>
@@ -115,5 +123,4 @@
             </div>
         </div>
     </div>
-</body>
-</html>
+{% include "tifinar/footer.html" %}
