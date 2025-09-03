@@ -131,31 +131,30 @@
                                 <div class="mb-3">
                                     <label for="id_educational_level" class="form-label"><i class="fas fa-graduation-cap"></i> المستوى التعليمي</label>
                                     <select class="form-control" name="educational_level" id="id_educational_level">
-                                        <option value="Unknown" disabled selected>اختر مستواك التعليمي</option>
+                                        <option value="0" disabled selected>اختر مستواك التعليمي</option>
                                         <optgroup label="المستويات غير المدرسية">
-                                            <option value="Illiterate Person" {% if form.educational_level.value == 'Illiterate Person' %}selected{% endif %}>غير متعلم في المدرسة</option>
-                                            <option value="Preschool" {% if form.educational_level.value == 'Preschool' %}selected{% endif %}>روضة الأطفال</option>
+                                            <option value="0" {% if form.educational_level.value == '0' %}selected{% endif %}>غير متعلم في المدرسة / روضة الأطفال</option>
                                         </optgroup>
                                         <optgroup label="التعليم الابتدائي">
-                                            <option value="1st Year of Primary School" {% if form.educational_level.value == '1st Year of Primary School' %}selected{% endif %}>السنة الأولى ابتدائي</option>
-                                            <option value="2nd Year of Primary School" {% if form.educational_level.value == '2nd Year of Primary School' %}selected{% endif %}>السنة الثانية ابتدائي</option>
-                                            <option value="3rd Year of Primary School" {% if form.educational_level.value == '3rd Year of Primary School' %}selected{% endif %}>السنة الثالثة ابتدائي</option>
-                                            <option value="4th Year of Primary School" {% if form.educational_level.value == '4th Year of Primary School' %}selected{% endif %}>السنة الرابعة ابتدائي</option>
-                                            <option value="5th Year of Primary School" {% if form.educational_level.value == '5th Year of Primary School' %}selected{% endif %}>السنة الخامسة ابتدائي</option>
-                                            <option value="6th Year of Primary School" {% if form.educational_level.value == '6th Year of Primary School' %}selected{% endif %}>السنة السادسة ابتدائي</option>
+                                            <option value="1" {% if form.educational_level.value == '1' %}selected{% endif %}>السنة الأولى ابتدائي</option>
+                                            <option value="2" {% if form.educational_level.value == '2' %}selected{% endif %}>السنة الثانية ابتدائي</option>
+                                            <option value="3" {% if form.educational_level.value == '3' %}selected{% endif %}>السنة الثالثة ابتدائي</option>
+                                            <option value="4" {% if form.educational_level.value == '4' %}selected{% endif %}>السنة الرابعة ابتدائي</option>
+                                            <option value="5" {% if form.educational_level.value == '5' %}selected{% endif %}>السنة الخامسة ابتدائي</option>
+                                            <option value="6" {% if form.educational_level.value == '6' %}selected{% endif %}>السنة السادسة ابتدائي</option>
                                         </optgroup>
                                         <optgroup label="التعليم الإعدادي">
-                                            <option value="1st Year of Middle School" {% if form.educational_level.value == '1st Year of Middle School' %}selected{% endif %}>السنة الأولى إعدادي</option>
-                                            <option value="2nd Year of Middle School" {% if form.educational_level.value == '2nd Year of Middle School' %}selected{% endif %}>السنة الثانية إعدادي</option>
-                                            <option value="3rd Year of Middle School" {% if form.educational_level.value == '3rd Year of Middle School' %}selected{% endif %}>السنة الثالثة إعدادي</option>
+                                            <option value="7" {% if form.educational_level.value == '7' %}selected{% endif %}>السنة الأولى إعدادي</option>
+                                            <option value="8" {% if form.educational_level.value == '8' %}selected{% endif %}>السنة الثانية إعدادي</option>
+                                            <option value="9" {% if form.educational_level.value == '9' %}selected{% endif %}>السنة الثالثة إعدادي</option>
                                         </optgroup>
                                         <optgroup label="التعليم الثانوي">
-                                            <option value="Common Core" {% if form.educational_level.value == 'Common Core' %}selected{% endif %}>المسلك المشترك</option>
-                                            <option value="1st Year of Baccalaureate" {% if form.educational_level.value == '1st Year of Baccalaureate' %}selected{% endif %}>السنة الأولى بكالوريا</option>
-                                            <option value="2nd Year of Baccalaureate" {% if form.educational_level.value == '2nd Year of Baccalaureate' %}selected{% endif %}>السنة الثانية بكالوريا</option>
+                                            <option value="10" {% if form.educational_level.value == '10' %}selected{% endif %}>المسلك المشترك</option>
+                                            <option value="11" {% if form.educational_level.value == '11' %}selected{% endif %}>السنة الأولى بكالوريا</option>
+                                            <option value="12" {% if form.educational_level.value == '12' %}selected{% endif %}>السنة الثانية بكالوريا</option>
                                         </optgroup>
                                         <optgroup label="التعليم العالي">
-                                            <option value="Post-Baccalaureate" {% if form.educational_level.value == 'Post-Baccalaureate' %}selected{% endif %}>التعليم العالي</option>
+                                            <option value="13" {% if form.educational_level.value == '13' %}selected{% endif %}>التعليم العالي</option>
                                         </optgroup>
                                     </select>
                                     {{ form.educational_level.errors }}

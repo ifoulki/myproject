@@ -152,17 +152,21 @@ class AuthUser(AbstractBaseUser, PermissionsMixin):
     )
     
     class EducationalLevel(models.TextChoices):
-        UNKNOWN = 'Unknown', _('Unknown')
-        ILLITERATE = 'Illiterate Person', _('Illiterate Person')
-        PRESCHOOL = 'Preschool', _('Preschool')
-        PRIMARY = 'Primary School', _('Primary School')
-        MIDDLE = 'Middle School', _('Middle School')
-        HIGH = 'High School', _('High School')
-        BACHELOR = 'Bachelor', _('Bachelor')
-        MASTER = 'Master', _('Master')
-        PHD = 'PhD', _('PhD')
-        OTHER = 'Other', _('Other')
-    
+        UNKNOWN = '0', _('غير محدد')
+        ILLITERATE = '1', _('السنة الأولى ابتدائي')
+        PRESCHOOL = '2', _('السنة الثانية ابتدائي')
+        PRIMARY = '3', _('السنة الثالثة ابتدائي')
+        MIDDLE = '4', _('السنة الرابعة ابتدائي')
+        HIGH = '5', _('السنة الخامسة ابتدائي')
+        BACHELOR = '6', _('السنة السادسة ابتدائي')
+        MASTER = '7', _('السنة الأولى إعدادي')
+        PHD = '8', _('السنة الثانية إعدادي')
+        OTHER_9 = '9', _('السنة الثالثة إعدادي')
+        OTHER_10 = '10', _('الجدع المشترك')
+        OTHER_11 = '11', _('السنة الأولى بكالوريا')
+        OTHER_12 = '12', _('السنة الثانية بكالورية')
+        OTHER_13 = '13', _('التعليم العالي')
+
     educational_level = models.CharField(
         _('Educational Level'),
         max_length=20,
@@ -226,7 +230,7 @@ class AuthUser(AbstractBaseUser, PermissionsMixin):
     name_in_arabic = models.CharField(_('Name in Arabic'), max_length=255, null=True, blank=True)
     cousins = models.TextField(_('Cousins'), null=True, blank=True)
     nieces_nephews = models.TextField(_('nieces_nephews'), null=True, blank=True)
-    language = models.CharField(_('Language'), max_length=50, null=True, blank=True)
+    language = models.CharField(_('Language'), max_length=50, default='Ar', null=True, blank=True)
     
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email']

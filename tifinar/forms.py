@@ -8,7 +8,56 @@ User = get_user_model()
 from django.contrib.auth.forms import UserCreationForm
 import os
 
+def get_educational_level_mapping():
+    """تعيين القيم الرقمية من النموذج إلى القيم الوصفية في النماذج"""
+    return {
+        '0': 'Unknown',
+        '1': '1st Year of Primary School',
+        '2': '2nd Year of Primary School',
+        '3': '3rd Year of Primary School',
+        '4': '4th Year of Primary School',
+        '5': '5th Year of Primary School',
+        '6': '6th Year of Primary School',
+        '7': '1st Year of Middle School',
+        '8': '2nd Year of Middle School',
+        '9': '3rd Year of Middle School',
+        '10': 'Common Core',
+        '11': '1st Year of Baccalaureate',
+        '12': '2nd Year of Baccalaureate',
+        '13': 'Post-Baccalaureate'
+    }
+
+def get_reverse_educational_level_mapping():
+    """تعيين القيم الوصفية من النماذج إلى القيم الرقمية في النموذج"""
+    mapping = get_educational_level_mapping()
+    return {v: k for k, v in mapping.items()}
+
 class AuthUserCreationForm(UserCreationForm):
+    EDUCATIONAL_LEVEL_CHOICES = [
+        ('0', 'غير محدد'),
+        ('1', 'السنة الأولى ابتدائي'),
+        ('2', 'السنة الثانية ابتدائي'),
+        ('3', 'السنة الثالثة ابتدائي'),
+        ('4', 'السنة الرابعة ابتدائي'),
+        ('5', 'السنة الخامسة ابتدائي'),
+        ('6', 'السنة السادسة ابتدائي'),
+        ('7', 'السنة الأولى إعدادي'),
+        ('8', 'السنة الثانية إعدادي'),
+        ('9', 'السنة الثالثة إعدادي'),
+        ('10', 'الجدع المشترك'),
+        ('11', 'السنة الأولى بكالوريا'),
+        ('12', 'السنة الثانية بكالورية'),
+        ('13', 'التعليم العالي')
+    ]
+    
+    educational_level = forms.ChoiceField(
+        choices=EDUCATIONAL_LEVEL_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-select'}),
+        label=_('المستوى التعليمي'),
+        required=False,
+        initial='0'
+    )
+    
     class Meta:
         model = AuthUser
         fields = ('username', 'first_name', 'last_name', 'email', 'educational_level', 'gender', 'password1', 'password2')
@@ -35,27 +84,27 @@ class MultipleFileField(forms.FileField):
 class ContactForm(forms.ModelForm):
     EDUCATIONAL_LEVEL_CHOICES = [
         ('', 'اختر المستوى التعليمي'),
-        ('Unknown', 'لا، المقال مناسب للجميع'),
+        ('0', 'لا، المقال مناسب للجميع'),
         ('الإبتدائي :', [
-            ('1st Year of Primary School', 'السنة الأولى ابتدائي'),
-            ('2nd Year of Primary School', 'السنة الثانية ابتدائي'),
-            ('3rd Year of Primary School', 'السنة الثالثة ابتدائي'),
-            ('4th Year of Primary School', 'السنة الرابعة ابتدائي'),
-            ('5th Year of Primary School', 'السنة الخامسة ابتدائي'),
-            ('6th Year of Primary School', 'السنة السادسة ابتدائي'),
+            ('1', 'السنة الأولى ابتدائي'),
+            ('2', 'السنة الثانية ابتدائي'),
+            ('3', 'السنة الثالثة ابتدائي'),
+            ('4', 'السنة الرابعة ابتدائي'),
+            ('5', 'السنة الخامسة ابتدائي'),
+            ('6', 'السنة السادسة ابتدائي'),
         ]),
         ('الإعدادي :', [
-            ('1st Year of Middle School', 'السنة الأولى إعدادي'),
-            ('2nd Year of Middle School', 'السنة الثانية إعدادي'),
-            ('3rd Year of Middle School', 'السنة الثالثة إعدادي'),
+            ('7', 'السنة الأولى إعدادي'),
+            ('8', 'السنة الثانية إعدادي'),
+            ('9', 'السنة الثالثة إعدادي'),
         ]),
         ('الثانوي :', [
-            ('Common Core', 'المشترك العلمي'),
-            ('1st Year of Baccalaureate', 'السنة الأولى من البكالوريا (تخصص علوم تجريبية)'),
-            ('2nd Year of Baccalaureate', 'السنة الثانية من البكالوريا (تخصص علوم فيزيائية)'),
+            ('10', 'المشترك العلمي'),
+            ('11', 'السنة الأولى من البكالوريا (تخصص علوم تجريبية)'),
+            ('12', 'السنة الثانية من البكالوريا (تخصص علوم فيزيائية)'),
         ]),
         ('ما بعد الثانوي :', [
-            ('Post-Baccalaureate', 'الدراسة بعد البكالوريا'),
+            ('13', 'الدراسة بعد البكالوريا'),
         ])
     ]
     
@@ -88,7 +137,7 @@ class ContactForm(forms.ModelForm):
         label=_('المستوى التعليمي'),
         required=False
     )
-    
+        
     gender = forms.ChoiceField(
         choices=GENDER_CHOICES,
         widget=forms.Select(attrs={'class': 'form-select'}),
@@ -231,27 +280,27 @@ class ContactForm(forms.ModelForm):
 
 class UserEditForm(forms.ModelForm):
     EDUCATIONAL_LEVEL_CHOICES = [
-        ('Unknown', 'لا، المقال مناسب للجميع'),
+        ('0', 'لا، المقال مناسب للجميع'),
         ('الإبتدائي :', [
-            ('1st Year of Primary School', 'السنة الأولى ابتدائي'),
-            ('2nd Year of Primary School', 'السنة الثانية ابتدائي'),
-            ('3rd Year of Primary School', 'السنة الثالثة ابتدائي'),
-            ('4th Year of Primary School', 'السنة الرابعة ابتدائي'),
-            ('5th Year of Primary School', 'السنة الخامسة ابتدائي'),
-            ('6th Year of Primary School', 'السنة السادسة ابتدائي'),
+            ('1', 'السنة الأولى ابتدائي'),
+            ('2', 'السنة الثانية ابتدائي'),
+            ('3', 'السنة الثالثة ابتدائي'),
+            ('4', 'السنة الرابعة ابتدائي'),
+            ('5', 'السنة الخامسة ابتدائي'),
+            ('6', 'السنة السادسة ابتدائي'),
         ]),
         ('الإعدادي :', [
-            ('1st Year of Middle School', 'السنة الأولى إعدادي'),
-            ('2nd Year of Middle School', 'السنة الثانية إعدادي'),
-            ('3rd Year of Middle School', 'السنة الثالثة إعدادي'),
+            ('7', 'السنة الأولى إعدادي'),
+            ('8', 'السنة الثانية إعدادي'),
+            ('9', 'السنة الثالثة إعدادي'),
         ]),
         ('الثانوي :', [
-            ('Common Core', 'المشترك العلمي'),
-            ('1st Year of Baccalaureate', 'السنة الأولى من البكالوريا (تخصص علوم تجريبية)'),
-            ('2nd Year of Baccalaureate', 'السنة الثانية من البكالوريا (تخصص علوم فيزيائية)'),
+            ('10', 'المشترك العلمي'),
+            ('11', 'السنة الأولى من البكالوريا (تخصص علوم تجريبية)'),
+            ('12', 'السنة الثانية من البكالوريا (تخصص علوم فيزيائية)'),
         ]),
         ('ما بعد الثانوي :', [
-            ('Post-Baccalaureate', 'الدراسة بعد البكالوريا'),
+            ('13', 'الدراسة بعد البكالوريا'),
         ])
     ]
 
@@ -303,6 +352,10 @@ class UserEditForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         if self.instance.pk:
             self.fields['password'].help_text = _("اتركه فارغاً للحفاظ على كلمة المرور الحالية")
+            
+        # تعيين القيمة الافتراضية بناءً على البيانات الحالية
+        if self.instance and self.instance.educational_level:
+            self.fields['educational_level'].initial = self.instance.educational_level
 
     def clean(self):
         cleaned_data = super().clean()
@@ -339,7 +392,6 @@ class UserEditForm(forms.ModelForm):
         if commit:
             user.save()
         return user
-
 
 class CommentForm(forms.ModelForm):
     class Meta:
@@ -414,29 +466,29 @@ class BaseContentForm(forms.ModelForm):
         ('female', 'للإناث فقط'),
         ('all', 'للجميع'),
     ]
-    
+     
     EDUCATIONAL_LEVEL_CHOICES = [
-        ('Unknown', 'لا، المقال مناسب للجميع'),
+        ('0', 'لا، المقال مناسب للجميع'),
         ('الإبتدائي :', [
-            ('1st Year of Primary School', 'السنة الأولى ابتدائي'),
-            ('2nd Year of Primary School', 'السنة الثانية ابتدائي'),
-            ('3rd Year of Primary School', 'السنة الثالثة ابتدائي'),
-            ('4th Year of Primary School', 'السنة الرابعة ابتدائي'),
-            ('5th Year of Primary School', 'السنة الخامسة ابتدائي'),
-            ('6th Year of Primary School', 'السنة السادسة ابتدائي'),
+            ('1', 'السنة الأولى ابتدائي'),
+            ('2', 'السنة الثانية ابتدائي'),
+            ('3', 'السنة الثالثة ابتدائي'),
+            ('4', 'السنة الرابعة ابتدائي'),
+            ('5', 'السنة الخامسة ابتدائي'),
+            ('6', 'السنة السادسة ابتدائي'),
         ]),
         ('الإعدادي :', [
-            ('1st Year of Middle School', 'السنة الأولى إعدادي'),
-            ('2nd Year of Middle School', 'السنة الثانية إعدادي'),
-            ('3rd Year of Middle School', 'السنة الثالثة إعدادي'),
+            ('7', 'السنة الأولى إعدادي'),
+            ('8', 'السنة الثانية إعدادي'),
+            ('9', 'السنة الثالثة إعدادي'),
         ]),
         ('الثانوي :', [
-            ('Common Core', 'المشترك العلمي'),
-            ('1st Year of Baccalaureate', 'السنة الأولى من البكالوريا (تخصص علوم تجريبية)'),
-            ('2nd Year of Baccalaureate', 'السنة الثانية من البكالوريا (تخصص علوم فيزيائية)'),
+            ('10', 'المشترك العلمي'),
+            ('11', 'السنة الأولى من البكالوريا (تخصص علوم تجريبية)'),
+            ('12', 'السنة الثانية من البكالوريا (تخصص علوم فيزيائية)'),
         ]),
         ('ما بعد الثانوي :', [
-            ('Post-Baccalaureate', 'الدراسة بعد البكالوريا'),
+            ('13', 'الدراسة بعد البكالوريا'),
         ])
     ]
     
