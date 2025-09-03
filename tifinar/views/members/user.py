@@ -29,8 +29,9 @@ def edit_user(request):
             if 'clear_image' in request.POST:
                 request.user.profile_image.delete()
             form.save()
+            
             messages.success(request, 'تم تحديث البيانات بنجاح')
-            return redirect('profile')
+            return redirect('show_user')
     else:
         form = UserEditForm(instance=request.user)
     

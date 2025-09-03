@@ -11,6 +11,12 @@ SECRET_KEY = 'django-insecure-t=+h^h+f=mxi!&hq^^fw2f-_*28g5a4ieva$tv26r^v9%m-$#8
 DEBUG = True
 ALLOWED_HOSTS = []
 AUTH_USER_MODEL = 'tifinar.AuthUser'
+
+# إعدادات المصادقة المضافة
+LOGIN_URL = '/login/'  # مسار تسجيل الدخول
+LOGIN_REDIRECT_URL = '/profile/'  # بعد تسجيل الدخول الناجح
+LOGOUT_REDIRECT_URL = '/'  # بعد تسجيل الخروج
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -90,6 +96,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'tifinar/static').replace('\\', '/'),
     os.path.join(BASE_DIR, 'myproject/static')
 ]
+
 # Media files settings
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -113,3 +120,7 @@ LOGGING = {
 # Ensure static files are served during development
 if DEBUG:
     STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Crispy Forms settings
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
