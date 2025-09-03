@@ -1,6 +1,8 @@
+# C:\Users\khalid\Documents\myproject\tifinar\views\content_manager\show_create_contents.py
+
 from django.shortcuts import render, redirect
-from tifinar.models import articles, books, exams, videos, cours
-from tifinar.forms import ArticleForm, BookForm, ExamForm, CoursForm, VideoForm
+from tifinar.models import books, exams, videos, cours
+from tifinar.forms import BookForm, ExamForm, CoursForm, VideoForm
 from django.utils import timezone
 import logging
 logger = logging.getLogger(__name__)
@@ -31,12 +33,9 @@ def generate_chart_image(fig):
     buffer.close()
     return base64.b64encode(image_png).decode('utf-8')
 
-def create_content(request, content_type):
-    if content_type == 'articles':
-        FormClass = ArticleForm
-        template = 'tifinar/auth/articles/create_article.html'
-        redirect_view = 'tifinar:edit_article'
-    elif content_type == 'books':
+def show_create_content(request, content_type):
+    # إزالة المقالات من هذا الملف
+    if content_type == 'books':
         FormClass = BookForm
         template = 'tifinar/auth/books/create_book.html'
         redirect_view = 'tifinar:edit_book'
@@ -76,4 +75,3 @@ def create_content(request, content_type):
         form = FormClass()
 
     return render(request, template, {'form': form})
-

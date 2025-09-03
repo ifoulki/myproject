@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import comments, msgs, articles, books, videos, exams, cours
+from .models import comments, msgs, books, videos, exams, cours
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
@@ -218,109 +218,6 @@ class BaseContentForm(forms.ModelForm):
             instance.save()
         return instance
 
-class ArticleForm(BaseContentForm):
-    
-    TYPE_CHOICES = [
-        ('الأمازيغية', 'الأمازيغية'),
-        ('تربية وتعليم', 'تربية وتعليم'),
-        ('الثقافة العامة', 'الثقافة العامة'),
-        ('علوم', 'علوم'),
-        ('القانون وحقوق الإنسان', 'القانون وحقوق الإنسان'),
-    ]
-    
-    the_type = forms.ChoiceField(
-        choices=TYPE_CHOICES,
-        widget=forms.Select(attrs={
-            'class': 'form-control form-select'
-        }),
-        label='نوع المنشور',
-        required=False  # أو True إذا كان الحقل مطلوباً
-    )
-   
-    class Meta(BaseContentForm.Meta):
-        model = articles
-        fields = [
-            'title', 'slug', 'mysubject', 'mydescription', 
-            'keywords', 'author', 'myimage', 'autre', 'gender',
-            'the_type', 'educational_level', 'min_age', 'max_age'
-        ]
-        widgets = {
-            'title': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'عنوان المنشور ...',
-                'minlength': '7',
-                'required': True
-            }),
-            'mysubject': forms.Textarea(attrs={
-                'class': 'mysubject',
-                'minlength': '100',
-                'required': True
-            }),
-            'mydescription': forms.Textarea(attrs={
-                'class': 'description',
-                'placeholder': 'أكتب وصفًا لمنشورك ...'
-            }),
-            'keywords': forms.Textarea(attrs={
-                'class': 'keywords',
-                'placeholder': 'الكلمات المفتاحية ...'
-            }),
-            'author': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'اسم الكاتب ...',
-                'minlength': '5',
-                'maxlength': '50'
-            }),
-            'the_type': forms.Select(attrs={
-                'class': 'form-control form-select'
-            }),
-            'educational_level': forms.Select(attrs={
-                'class': 'form-select'
-            }),
-            'gender': forms.Select(attrs={
-                'class': 'form-control form-select'
-            }),
-            'min_age': forms.NumberInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'الحد الأدنى',
-                'min': '2',
-                'max': '75'
-            }),
-            'max_age': forms.NumberInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'الحد الأقصى',
-                'min': '2',
-                'max': '75'
-            }),
-            'myimage': forms.FileInput(attrs={
-                'class': 'form-control',
-                'id': 'formFile1'
-            }),
-            'autre': forms.FileInput(attrs={
-                'class': 'form-control',
-                'id': 'formFile2'
-            }),
-        }
-        labels = {
-            'title': 'عنوان المقال',
-            'author': 'اسم الكاتب',
-            'mysubject': 'نص المقال',
-            'mydescription': 'وصف المنشور',
-            'keywords': 'الكلمات المفتاحية',
-            'the_type': 'نوع المنشور',
-            'gender': 'المقال موجه',
-            'educational_level': 'المستوى الدراسي',
-            'min_age': 'الحد الأدنى للعمر',
-            'max_age': 'الحد الأقصى للعمر',
-            'myimage': 'الصورة الرئيسية',
-            'autre': 'مرفقات إضافية'
-        }
-
-
-    def clean_mysubject(self):
-        mysubject = self.cleaned_data.get('mysubject')
-        if not mysubject or len(mysubject.strip()) < 100:
-            raise forms.ValidationError('يجب أن لا يقل نص المقال عن 100 حرف.')
-        return mysubject
 class BookForm(BaseContentForm):
     
     TYPE_CHOICES = [

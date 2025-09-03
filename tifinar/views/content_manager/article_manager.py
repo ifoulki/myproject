@@ -1,0 +1,80 @@
+from django.shortcuts import render, redirect
+from tifinar.myForms.article.create_article_form import ArticleForm  # المسار الصحيح
+from django.utils import timezone
+from django.core.files.storage import FileSystemStorage
+import re
+import os
+import unicodedata
+
+def sanitize_file_name(file_name):
+    """تنظيف اسم الملف من الأحرف غير المرغوبة"""
+    normalized = unicodedata.normalize('NFKD', file_name)
+    ascii_text = normalized.encode('ascii', 'ignore').decode('ascii')
+    clean_name = re.sub(r'[^A-Za-z0-9_\-]', '', ascii_text)
+    return clean_name.lower()
+
+def generate_file_name(title_slug, index, extension, prefix):
+    """إنشاء اسم ملف وفق القواعد المطلوبة"""
+    if prefix == 'autre':
+        return f"image_de_{title_slug}_{index + 1}.{extension}"
+    else:
+        return f"{title_slug}_{index + 1}.{extension}"
+
+def handle_uploaded_files(request, field_name, title_slug):
+    """معالجة الملفات المحملة"""
+    paths = []
+    
+    if field_name in request.FILES:
+        files = request.FILES.getlist(field_name)
+        
+        for index, file in enumerate(files):
+            sanitized_title_slug = sanitize_file_name(title_slug)
+            extension = file.name.split('.')[-1].lower()
+            file_name = generate_file_name(sanitized_title_slug, index, extension, field_name)
+            
+            fs = FileSystemStorage()
+            if field_name == 'myimage':
+                file_path = f'articles/images/{file_name}'
+            else:
+                file_path = f'articles/attachments/{file_name}'
+            
+            filename = fs.save(file_path, file)
+            paths.append(filename)
+    
+    return ','.join(paths) if paths else ''
+
+def create_article(request):
+    """
+    دالة مخصصة لإنشاء المقالات فقط
+    """
+    if request.method == 'POST':
+        form = ArticleForm(request.POST, request.FILES)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            
+            # إنشاء slug من العنوان
+            title = form.cleaned_data['title']
+            clean = re.sub(r'[^\w\s-]', '', title)
+            clean = clean.replace(' ', '_')
+            obj.slug = slugify(clean, allow_unicode=True)
+            
+            # معالجة الملفات
+            if 'myimage' in request.FILES:
+                image_path = handle_uploaded_files(request, 'myimage', obj.slug)
+                obj.myimage = image_path
+            
+            if 'autre' in request.FILES:
+                attachment_path = handle_uploaded_files(request, 'autre', obj.slug)
+                obj.autre = attachment_path
+            
+            # تعيين القيم الافتراضية
+            obj.visibility_status = 'under_review'
+            obj.created_at = timezone.now()
+            obj.updated_at = timezone.now()
+            
+            obj.save()
+            return redirect('tifinar:edit_article', slug=obj.slug)
+    else:
+        form = ArticleForm()
+    
+    return render(request, 'tifinar/auth/articles/create_article.html', {'form': form})

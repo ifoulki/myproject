@@ -17,7 +17,9 @@ from tifinar.views.contacts.create_contact import contact_create
 from tifinar.views.members.user import edit_user 
 from tifinar.views.members.show_member import member_profile_view, edit_member_profile, delete_member_profile, manage_member_relations, update_profile_image
 from tifinar.views.contacts.show_contact import contact_view,edit_contact, delete_contact, manage_contact_relations, update_contact_image
-from tifinar.views.content_manager.create_contents import create_content 
+from tifinar.views.content_manager.show_create_contents import show_create_content
+from tifinar.views.content_manager.article_manager import create_article
+
 from tifinar.views.content_manager.edit_contents import edit_content
 from tifinar.views.content.exams import exam_view, store_answer
 from .logout import custom_logout
@@ -117,11 +119,12 @@ urlpatterns = [
     path('contacts/<int:contacts_id>/update-image/', update_contact_image, name='update_contact_image'),
 
     #  إنشاء المحتوى
-    path('articles/create/', create_content, {'content_type': 'articles'}, name='create_article'),
-    path('videos/create/', create_content, {'content_type': 'videos'}, name='create_video'),
-    path('books/create/', create_content, {'content_type': 'books'}, name='create_book'),
-    path('cours/create/', create_content, {'content_type': 'cours'}, name='create_cours'),
-    path('exams/create/', create_content, {'content_type': 'exams'}, name='create_exam'),
+    path('articles/create/', create_article, name='create_article'),
+
+    path('videos/create/', show_create_content, {'content_type': 'videos'}, name='create_video'),
+    path('books/create/', show_create_content, {'content_type': 'books'}, name='create_book'),
+    path('cours/create/', show_create_content, {'content_type': 'cours'}, name='create_cours'),
+    path('exams/create/', show_create_content, {'content_type': 'exams'}, name='create_exam'),
 
     #  تعديل المحتوى المحتوى
     path('articles/edit/<path:slug>/', edit_content, {'content_type': 'articles'}, name='edit_article'),

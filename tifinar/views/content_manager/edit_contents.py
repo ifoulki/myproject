@@ -1,11 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseNotFound
+
 from tifinar.models import articles, books, exams, videos, cours
-from tifinar.forms import ArticleForm, BookForm, ExamForm, CoursForm, VideoForm
+from tifinar.myForms.article.create_article_form import ArticleForm
+from tifinar.forms import BookForm, ExamForm, CoursForm, VideoForm  # إذا كانت موجودة في forms.py
+
 from django.contrib import messages
 import os
 from django.conf import settings
-
 import logging
 logger = logging.getLogger(__name__)
 
