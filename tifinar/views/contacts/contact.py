@@ -4,7 +4,7 @@ import logging
 logger = logging.getLogger(__name__)
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from tifinar.forms import UserEditForm
+from tifinar.myForms.user.UserEditForm import UserEditForm
 
 @login_required
 def show_user(request, user_id=None):

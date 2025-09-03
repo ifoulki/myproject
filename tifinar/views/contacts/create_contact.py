@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from tifinar.models import Contacts
-from tifinar.forms import ContactForm
+from tifinar.myForms.contact.ContactForm import ContactForm
 import os
 from django.conf import settings
 
@@ -46,7 +45,7 @@ def contact_create(request):
             contact.save()
             
             messages.success(request, 'تم تسجيل العضو بنجاح!')
-            return redirect('contacts:show', pk=contact.pk)
+            return redirect('contact_view', contacts_id=contact.pk)
     else:
         form = ContactForm(initial={'Author': request.user.id})
     
