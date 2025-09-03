@@ -112,9 +112,7 @@ urlpatterns = [
     path('contacts/<int:contacts_id>/', contact_view, name='contact_view'),  # لملف شخصي معين
     path('contacts/<int:contacts_id>/edit/', edit_contact, name='edit_contact'),  # لتعديل ملف معين (للمسؤولين)
     path('contacts/create/', contact_create, name='contact_create'),
-    
-    # لتعديل ملف معين (للمسؤولين)
-    path('contacts/<int:contacts_id>/delete/', delete_contact, name='delete_contact'),
+        path('contacts/<int:contacts_id>/delete/', delete_contact, name='delete_contact'),
     path('contacts/<int:contacts_id>/manage-relations/', manage_contact_relations, name='manage_contact_relations'),
     path('contacts/<int:contacts_id>/update-image/', update_contact_image, name='update_contact_image'),
 

@@ -115,7 +115,8 @@ def delete_contact(request, contacts_id):
     """
     if request.user.role != "admin":
         messages.error(request, "ليس لديك صلاحية لحذف المستخدمين")
-        return redirect('home')
+        return redirect('show_contact', contacts_id=contacts_id)
+
     
     contact = get_object_or_404(Contacts, contacts_id=contacts_id)
     try:
@@ -125,7 +126,7 @@ def delete_contact(request, contacts_id):
     except Exception as e:
         messages.error(request, f"حدث خطأ أثناء الحذف: {str(e)}")
     
-    return redirect('contacts_list')
+    return redirect('contacts')
 
 @login_required
 def manage_contact_relations(request, contacts_id):

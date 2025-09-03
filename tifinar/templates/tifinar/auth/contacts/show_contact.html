@@ -186,9 +186,12 @@
 
     <div class="d-flex gap-2 mb-4">
         {% if user.role == "admin" %}
-            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
-                <i class="fas fa-trash-alt"></i> حذف العضو
-            </button>
+            <form action="{% url 'delete_contact' contact.contacts_id %}" method="POST" id="deleteForm" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger" onclick="return confirmDelete(event, '{{ contact.prenom }} {{ contact.nom }}');">
+                    <i class="fas fa-trash-alt"></i> حذف العضو
+                </button>
+            </form>
         {% endif %}
 
         {% if contact.contacts_id == user.id or user.role == "admin" %}
@@ -196,40 +199,39 @@
                 {% if contact.path %}
                     <img src="{% static 'tifinar/images/contacts/'%}{{ contact.path|split:','|first }}" alt="لوحة التحكم" class="img-profile rounded-circle" width="30" height="30">
                 {% endif %}
-                <i class="fas fa-arrow-left"></i> تعديل أو إضافة تفاصيل أخرى
+                <i class="fas fa-edit"></i> تعديل أو إضافة تفاصيل أخرى
             </a>
         {% endif %}
     </div>
     
-    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">
+    <a href="{{ request.META.HTTP_REFERER|default:'/' }}" class="btn btn-secondary">
         <i class="fas fa-arrow-left"></i> العودة للصفحة السابقة
     </a>
-
-    {% if request.contact.role == "admin" %}
-        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteModalLabel"><i class="fas fa-exclamation-triangle text-danger"></i> تأكيد الحذف</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        هل أنت متأكد من أنك تريد حذف هذا العضو؟
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إلغاء</button>
-                        <form action="{% url 'delete_contact' contact.contacts_id %}" method="POST">
-                            {% csrf_token %}
-                            <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit" class="btn btn-danger">
-                                <i class="fas fa-trash-alt"></i> نعم، احذف
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endif %}
 </div>
+
+<script>
+function confirmDelete(event, fullName) {
+    // منع الإرسال التلقائي للنموذج
+    event.preventDefault();
+    
+    // عرض نافذة التأكيد
+    const isConfirmed = confirm(`هل أنت متأكد من أنك تريد حذف العضو:\n\n"${fullName}"\n\n⚠️ هذا الإجراء لا يمكن التراجع عنه!`);
+    
+    if (isConfirmed) {
+        // إذا تم التأكيد، قم بإرسال النموذج يدوياً
+        document.getElementById('deleteForm').submit();
+    }
+    
+    // إرجاع false لمنع الإرسال الافتراضي
+    return false;
+}
+
+// منع الإرسال المزدوج
+document.getElementById('deleteForm').addEventListener('submit', function(e) {
+    const submitBtn = this.querySelector('button[type="submit"]');
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحذف...';
+});
+</script>
 
 {% include "tifinar/adm_footer.html" %}
