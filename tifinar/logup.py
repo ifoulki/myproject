@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
-from tifinar.forms import AuthUserCreationForm
+from tifinar.myForms.user.logUpForm import AuthUserCreationForm
 
 def custom_logup(request):
     if request.method == 'POST':
