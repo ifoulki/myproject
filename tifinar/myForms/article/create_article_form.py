@@ -70,8 +70,9 @@ class BaseContentForm(forms.ModelForm):
             'placeholder': 'اختر اللغة'
         }),
         label=' موجز الكتاب مكتوب بأي لغة؟',
-        required=True,
         initial='',
+        required=False
+
     )
 
     educational_level = forms.ChoiceField(
@@ -179,10 +180,11 @@ class ArticleForm(BaseContentForm):
    
     class Meta(BaseContentForm.Meta):
         model = articles
+        
         fields = [
             'title', 'slug', 'mysubject', 'mydescription', 
             'keywords', 'author', 'myimage', 'autre', 'gender',
-            'the_type', 'educational_level', 'min_age', 'max_age'
+            'the_type', 'educational_level', 'min_age', 'max_age', 'dir'
         ]
         widgets = {
             'title': forms.TextInput(attrs={

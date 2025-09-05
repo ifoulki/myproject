@@ -2,6 +2,31 @@
 {% include "tifinar/adm_header.html" %}
 {% now "Y" as current_year %}
 
+<!-- في create_article.html، أضف هذا في الأعلى -->
+{% if errors %}
+<div class="alert alert-danger">
+    <strong>حدثت الأخطاء التالية:</strong>
+    <ul>
+    {% for field, error_list in errors.items %}
+        {% for error in error_list %}
+            <li>{{ field }}: {{ error }}</li>
+        {% endfor %}
+    {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+{% if form.non_field_errors %}
+<div class="alert alert-danger">
+    <strong>أخطاء عامة:</strong>
+    <ul>
+    {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+    {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
 <div class="content">
     <h1><i class="fas fa-edit"></i> نشر مقال جديد</h1>
     

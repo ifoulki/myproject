@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
-from tifinar.myForms.article.create_article_form import ArticleForm  # المسار الصحيح
+from tifinar.myForms.article.create_article_form import ArticleForm
 from django.utils import timezone
 from django.core.files.storage import FileSystemStorage
+from django.conf import settings  # أضف هذا
+from django.utils.text import slugify  # أضف هذا
 import re
 import os
 import unicodedata
@@ -41,22 +43,27 @@ def handle_uploaded_files(request, field_name, title_slug):
             filename = fs.save(file_path, file)
             paths.append(filename)
     
-    return ','.join(paths) if paths else ''
+    return ','.join(paths) if paths else None
 
 def create_article(request):
     """
     دالة مخصصة لإنشاء المقالات فقط
     """
+    # إنشاء المجلدات داخل الدالة
+    os.makedirs(os.path.join(settings.MEDIA_ROOT, 'articles/images'), exist_ok=True)
+    os.makedirs(os.path.join(settings.MEDIA_ROOT, 'articles/attachments'), exist_ok=True)
+    
     if request.method == 'POST':
         form = ArticleForm(request.POST, request.FILES)
         if form.is_valid():
             obj = form.save(commit=False)
             
-            # إنشاء slug من العنوان
+            # إنشاء slug من العنوان (مرة واحدة فقط)
             title = form.cleaned_data['title']
-            clean = re.sub(r'[^\w\s-]', '', title)
-            clean = clean.replace(' ', '_')
-            obj.slug = slugify(clean, allow_unicode=True)
+            if title:
+                clean = re.sub(r'[^\w\s-]', '', title)
+                clean = clean.replace(' ', '_')
+                obj.slug = slugify(clean, allow_unicode=True)
             
             # معالجة الملفات
             if 'myimage' in request.FILES:
@@ -73,7 +80,17 @@ def create_article(request):
             obj.updated_at = timezone.now()
             
             obj.save()
-            return redirect('tifinar:edit_article', slug=obj.slug)
+            return redirect('edit_article', slug=obj.slug) 
+
+        else:
+            # أضف هذا لرؤية الأخطاء في الكونسول
+            print("Form errors:", form.errors)
+            print("Form non-field errors:", form.non_field_errors())
+            # أضف هذا لعرض الأخطاء في القالب أيضاً
+            return render(request, 'tifinar/auth/articles/create_article.html', {
+                'form': form,
+                'errors': form.errors
+            })
     else:
         form = ArticleForm()
     
