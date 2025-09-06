@@ -44,18 +44,26 @@ class articles(models.Model):
     myimage = models.CharField(db_column='myimage', max_length=255, blank=True, null=True)  # Field name made lowercase.
     autre = models.CharField(max_length=255, blank=True, null=True)
     the_type = models.CharField(max_length=255, blank=True, null=True)
-    visibility_status = models.CharField(max_length=12)
-    updated_at = models.DateTimeField()
-    created_at = models.DateTimeField()
+    visibility_status = models.CharField(
+        max_length=15,
+        choices=[
+            ('public', 'عام'),
+            ('under_review', 'قيد المراجعة'),
+            ('restricted', 'مقيد')
+        ],
+        default='under_review'
+    )
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
     educational_level = models.CharField(max_length=26)
     gender = models.CharField(
-        max_length=10,  # حجم كافي لجميع الخيارات
+        max_length=10,
         choices=[
-            ('male', 'ذكر'),
-            ('female', 'أنثى'),
-            ('unknown', 'غير محدد')
+            ('Male', 'ذكر'),
+            ('Female', 'أنثى'),
+            ('all', 'جميع')
         ],
-        default='unknown'
+        default='all'
     )
     min_age = models.IntegerField()
     max_age = models.IntegerField()

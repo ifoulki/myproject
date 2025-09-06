@@ -8,6 +8,51 @@ import re
 import os
 import unicodedata
 
+import shutil
+
+def handle_uploaded_files(request, field_name, title_slug):
+    """معالجة الملفات المحملة وحفظها في المجلد الثابت"""
+    paths = []
+    
+    if field_name in request.FILES:
+        files = request.FILES.getlist(field_name)
+        
+        for index, file in enumerate(files):
+            sanitized_title_slug = sanitize_file_name(title_slug)
+            extension = file.name.split('.')[-1].lower()
+            file_name = generate_file_name(sanitized_title_slug, index, extension, field_name)
+            
+            # المسار الجديد في المجلد الثابت
+            if field_name == 'myimage':
+                target_dir = os.path.join(settings.BASE_DIR, 'tifinar', 'static', 'tifinar', 'images', 'articles')
+
+            else:
+                target_dir = os.path.join(settings.BASE_DIR, 'tifinar', 'static', 'tifinar', 'attachments', 'articles')
+            
+            # تأكد من وجود المجلد
+            os.makedirs(target_dir, exist_ok=True)
+            
+            # المسار الكامل للملف
+            file_path = os.path.join(target_dir, file_name)
+            
+            print(f"سيتم حفظ الملف في: {file_path}")  # للتصحيح
+            
+            # حفظ الملف
+            with open(file_path, 'wb+') as destination:
+                for chunk in file.chunks():
+                    destination.write(chunk)
+            
+            # تخزين المسار النسبي للعرض في القالب
+            if field_name == 'myimage':
+                relative_path = f'tifinar/images/articles/{file_name}'
+            else:
+                relative_path = f'tifinar/attachments/articles/{file_name}'
+            
+            paths.append(relative_path)
+
+    
+    return ','.join(paths) if paths else None
+
 def sanitize_file_name(file_name):
     """تنظيف اسم الملف من الأحرف غير المرغوبة"""
     normalized = unicodedata.normalize('NFKD', file_name)
@@ -21,29 +66,6 @@ def generate_file_name(title_slug, index, extension, prefix):
         return f"image_de_{title_slug}_{index + 1}.{extension}"
     else:
         return f"{title_slug}_{index + 1}.{extension}"
-
-def handle_uploaded_files(request, field_name, title_slug):
-    """معالجة الملفات المحملة"""
-    paths = []
-    
-    if field_name in request.FILES:
-        files = request.FILES.getlist(field_name)
-        
-        for index, file in enumerate(files):
-            sanitized_title_slug = sanitize_file_name(title_slug)
-            extension = file.name.split('.')[-1].lower()
-            file_name = generate_file_name(sanitized_title_slug, index, extension, field_name)
-            
-            fs = FileSystemStorage()
-            if field_name == 'myimage':
-                file_path = f'articles/images/{file_name}'
-            else:
-                file_path = f'articles/attachments/{file_name}'
-            
-            filename = fs.save(file_path, file)
-            paths.append(filename)
-    
-    return ','.join(paths) if paths else None
 
 def create_article(request):
     """

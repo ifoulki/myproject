@@ -3,6 +3,7 @@ from django.http import Http404
 from importlib import import_module
 from django.db import connection
 from tifinar.models import articles, videos, cours, books, exams, Visitors, AuthUser
+from tifinar.views.content.articles import article_detail
 from tifinar.views.content.content import contents
 from tifinar.views.dashboard.dashboard import dashboard_view
 from tifinar.views.content.eddit_index import index_eddit
@@ -40,6 +41,7 @@ CONTENT_TYPES = [
     ('visitors', Visitors, 'tifinar.views.dashboard.dashboard.dashboard_view'),
     ('user', AuthUser, 'tifinar.views.users.user.show_user'),
     ('edit_user', AuthUser, 'tifinar.views.users.user.edit_user'),
+
 ]
 
 def get_view(view_path):
@@ -51,36 +53,6 @@ def get_view(view_path):
     except (ImportError, AttributeError) as e:
         print(f"خطأ في تحميل العرض: {e}")
         return None
-
-def content_router(request, slug):
-    """موجه المحتوى الديناميكي"""
-    print(f"البحث عن slug: {slug}")  # للتصحيح
-    
-    try:
-        if table_exists(cours._meta.db_table):
-            cour = cours.objects.filter(slug=slug).first()
-            print(f"نتيجة البحث في جدول cours: {cour}")  # للتصحيح
-            if cour:
-                return show_cours(request, slug)
-    except Exception as e:
-        print(f"خطأ في البحث في جدول cours: {str(e)}")
-
-    # إذا لم يوجد في cours، ابحث في بقية الجداول
-    for content_type, model, view_path in CONTENT_TYPES:
-        try:
-            if not table_exists(model._meta.db_table):
-                continue
-                
-            obj = model.objects.filter(slug=slug).first()
-            if obj:
-                view = get_view(view_path)
-                if view:
-                    return view(request, slug)
-        except Exception as e:
-            print(f"خطأ في البحث عن {content_type}: {str(e)}")
-            continue
-    
-    raise Http404("المحتوى غير موجود")
 
 # مسارات التطبيق
 urlpatterns = [
@@ -101,39 +73,37 @@ urlpatterns = [
     path('profile/edit/', edit_user, name='edit_user'),
     path('profile/', show_user, name='show_user'),
     
-        # مسارات المستخدمين
+    # مسارات المستخدمين
     path('contacts/', contacts_index, name='contacts'),
     path('users/', members_index, name='users'),
     
-    path('users/<int:user_id>/', member_profile_view, name='member_profile_view'),  # لملف شخصي معين
-    path('users/<int:user_id>/edit/', edit_member_profile, name='edit_member_profile'),  # لتعديل ملف معين (للمسؤولين)
+    path('users/<int:user_id>/', member_profile_view, name='member_profile_view'),
+    path('users/<int:user_id>/edit/', edit_member_profile, name='edit_member_profile'),
     path('users/<int:user_id>/delete/', delete_member_profile, name='delete_member_profile'),
     path('users/<int:user_id>/manage-relations/', manage_member_relations, name='manage_member_relations'),
     path('users/<int:user_id>/update-image/', update_profile_image, name='update_profile_image'),
     
-    path('contacts/<int:contacts_id>/', contact_view, name='contact_view'),  # لملف شخصي معين
-    path('contacts/<int:contacts_id>/edit/', edit_contact, name='edit_contact'),  # لتعديل ملف معين (للمسؤولين)
+    path('contacts/<int:contacts_id>/', contact_view, name='contact_view'),
+    path('contacts/<int:contacts_id>/edit/', edit_contact, name='edit_contact'),
     path('contacts/create/', contact_create, name='contact_create'),
-        path('contacts/<int:contacts_id>/delete/', delete_contact, name='delete_contact'),
+    path('contacts/<int:contacts_id>/delete/', delete_contact, name='delete_contact'),
     path('contacts/<int:contacts_id>/manage-relations/', manage_contact_relations, name='manage_contact_relations'),
     path('contacts/<int:contacts_id>/update-image/', update_contact_image, name='update_contact_image'),
 
-    #  إنشاء المحتوى
+    # إنشاء المحتوى
     path('articles/create/', create_article, name='create_article'),
-
     path('videos/create/', show_create_content, {'content_type': 'videos'}, name='create_video'),
     path('books/create/', show_create_content, {'content_type': 'books'}, name='create_book'),
     path('cours/create/', show_create_content, {'content_type': 'cours'}, name='create_cours'),
     path('exams/create/', show_create_content, {'content_type': 'exams'}, name='create_exam'),
 
-    #  تعديل المحتوى المحتوى
+    # تعديل المحتوى
     path('articles/edit/<path:slug>/', edit_content, {'content_type': 'articles'}, name='edit_article'),
     path('videos/edit/<path:slug>/', edit_content, {'content_type': 'videos'}, name='edit_video'),
     path('books/edit/<path:slug>/', edit_content, {'content_type': 'books'}, name='edit_book'),
     path('cours/edit/<path:slug>/', edit_content, {'content_type': 'cours'}, name='edit_cours'),
     path('exams/edit/<path:slug>/', edit_content, {'content_type': 'exams'}, name='edit_exam'), 
     path('profile/<int:user_id>/', show_user, name='user_profile'),
-    # مسار خاص بـ cours قبل المسار العام
     
     path('exam/store-answer/', store_answer, name='store_answer'),
     path('exam/<path:exam_slug>/', exam_view, name='exam_view'),
@@ -142,9 +112,7 @@ urlpatterns = [
     path("login/", custom_login, name="login"),
     path('logup/', custom_logup, name='logup'),
 
-
-
     # المحتوى الديناميكي (يجب أن يكون آخر مسار)
-    path('<str:slug>/', content_router, name='dynamic_content'),
+    path('<str:slug>/', article_detail, name='dynamic_content'),
     path('', welcome, name='welcome'),
 ]

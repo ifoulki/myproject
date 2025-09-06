@@ -30,6 +30,21 @@
 <div class="content">
     <h1><i class="fas fa-edit"></i> نشر مقال جديد</h1>
     
+    <!-- معاينة الملفات المحفوظة -->
+    {% if obj.myimage %}
+    <div class="mb-3">
+        <img src="{% static obj.myimage %}" alt="صورة المقال" class="img-preview">
+    </div>
+    {% endif %}
+
+    {% if obj.autre %}
+    <div class="mb-3">
+        <a href="{% static obj.autre %}" download class="btn btn-secondary">
+            <i class="fas fa-download"></i> تحميل المرفق
+        </a>
+    </div>
+    {% endif %}
+    
     <form method="POST" enctype="multipart/form-data" action="">
         {% csrf_token %}
         
@@ -51,6 +66,17 @@
             {{ form.title.errors }}
         </div>
 
+
+        <hr>
+            
+        <div class="form">
+            <label class="label">
+                <i class="fas fa-language"></i> {{ form.dir.label }}
+            </label>
+                {{ form.dir }}
+                {{ form.dir.errors }}
+        </div>
+        
         <hr>
         
         <div class="form">

@@ -6,14 +6,6 @@
     <article>
         <h1>{{ title|safe }}</h1>
 
-        {# عرض الصورة إذا لم يكن المحتوى فيديو #}
-        {% if folder != 'videos' %}
-            {% if  myimage %}
-                <img src="{% static 'tifinar/images/' %}{{ folder }}/{{  myimage }}" 
-                     alt="{{  title }}" class="article-image">
-            {% endif %}
-        {% endif %}
-
         <div class="Author">
             {{  author|safe }}
         </div>
@@ -21,57 +13,15 @@
         <div class="date">
             {{  updated_at }}
         </div>
+                    <img src="{% static 'tifinar/images/articles/' %}{{ myimage }}" alt="{{  title }}" width="100%">
 
-            {# عرض محتوى الفيديو لو كان الفيديو هو المحتوى #}
-            {% if folder == 'videos' %}
-                {% if "youtube.com" in subject or "youtu.be" in subject %}
-                    <div {% if direction %}dir="{{ direction }}"{% endif %} style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-                        <iframe 
-                            style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-                            src="{{ subject }}" 
-                            title="YouTube video player" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                            allowfullscreen
-                        ></iframe>
-                    </div>
-                {% elif subject|slice:"-4:" == ".mp4" %}
-                    <div {% if direction %}dir="{{ direction }}"{% endif %} style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
-                        <video controls style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-                            <source src="/media/videos_mp4/{{ subject }}" type="video/mp4">
-                            متصفحك لا يدعم تشغيل الفيديو.
-                        </video>
-                    </div>
-                {% else %}
-                    {# عرض نص الموضوع أو شيء آخر لو لم يكن فيديو YouTube أو mp4 #}
-                    <div {% if direction %}dir="{{ direction }}"{% endif %}>
-                        {{ subject|safe }}
-                    </div>
-                {% endif %}
-            {% else %}
-                {# لو المحتوى ليس فيديو، عرض النص العادي #}
-                <div {% if direction %}dir="{{ direction }}"{% endif %}>
-                    {{ subject|safe }}
-                </div>
-            {% endif %}
-                
-        {# عرض إضافات أخرى حسب نوع المحتوى #}
         <div {% if  dir %} dir="{{  dir }}" {% endif %}>
-            {% if folder == 'articles' %}
+
                 {{  subject | safe }}
                 {% if autre %}
                     <img src="{% static 'tifinar/images/articles/' %}{{ autre }}" alt="{{  title }}" width="100%">
                 {% endif %}
-            {% elif folder == 'books' %}
-                {{  subject | safe }}<br>
-                {% if  dir == 'rtl' %}
-                    رابط تحميل كتاب :
-                        <a target="_blank" href="/files/{{ autre}}">{{ title}}</a>                    
-                {% else %}
-                    📖 Download the book:
-                        <a target="_blank" href="/files/{{ autre}}">{{ title}}</a>                    
-                {% endif %}
-            {% endif %}
+
         </div>
                 <script>
                     function convertSpacesToUnderscores(url) {

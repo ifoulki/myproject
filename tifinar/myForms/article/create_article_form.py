@@ -82,7 +82,7 @@ class BaseContentForm(forms.ModelForm):
         required=False
     )
     
-    gender = forms.ChoiceField(
+    forms.ChoiceField(
         choices=GENDER_CHOICES,
         widget=forms.Select(attrs={'class': 'form-control form-select'}),
         label='موجه لـ',
