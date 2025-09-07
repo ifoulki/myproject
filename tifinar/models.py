@@ -11,6 +11,7 @@ from django.utils.text import slugify
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.utils.translation import gettext_lazy as _
 import random
+from django.contrib.auth.models import User
 
 class AdminArticles(models.Model):
     adm_art_id = models.IntegerField(primary_key=True)
@@ -339,20 +340,33 @@ class CartItems(models.Model):
 User = get_user_model()
 
 class comments(models.Model):
+    VISIBILITY_CHOICES = [
+        ('public', 'عام'),
+        ('under_review', 'قيد المراجعة'),
+        ('restricted', 'مقيد'),
+    ]
+    
     cmt_id = models.AutoField(primary_key=True)
     page_title = models.CharField(max_length=255, blank=True, null=True)
     author_name = models.CharField(max_length=255, blank=True, null=True)
     cmt_subject = models.TextField(blank=True, null=True)
     author_email = models.CharField(max_length=255, blank=True, null=True)
-    visibility_status = models.CharField(max_length=12, default='visible')
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    normalized_title = models.CharField(max_length=500, default='temp_default_value')
+    visibility_status = models.CharField(
+        max_length=15, 
+        choices=VISIBILITY_CHOICES, 
+        default='under_review'
+    )
+    created_at = models.DateTimeField()
+    updated_at = models.DateTimeField()
    
     class Meta:
         db_table = 'comments'
         verbose_name = 'Comment'
         verbose_name_plural = 'comments'
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.author_name} - {self.page_title}"
 
     @property
     def time_text(self):
@@ -376,6 +390,9 @@ class comments(models.Model):
         else:
             return "الآن"
 
+    @property
+    def is_visible(self):
+        return self.visibility_status == 'public'
 
 class Contacts(models.Model):
     contacts_id = models.SmallAutoField(primary_key=True)
@@ -805,17 +822,29 @@ class Users(models.Model):
 
 
 class ArticleReaction(models.Model):
+    REACTION_CHOICES = [
+        ('love', '❤️ حب'),
+        ('like', '👍 إعجاب'),
+        ('dislike', '👎 عدم إعجاب'),
+        ('sad', '😢 حزن'),
+        ('funny', '😂 مضحك'),
+        ('angry', '😤 غضب'),
+    ]
+    
     id = models.BigAutoField(primary_key=True)
     ip_or_name = models.CharField(max_length=255)
     page_title = models.CharField(max_length=255)
     device_type = models.CharField(max_length=100)
     liked_at = models.DateTimeField(blank=True, null=True)
-    reaction_type = models.CharField(max_length=20, blank=True, null=True)
+    reaction_type = models.CharField(max_length=20, choices=REACTION_CHOICES, blank=True, null=True)
     created_at = models.DateTimeField()
 
     class Meta:
         managed = False
         db_table = 'users_likes'
+
+    def __str__(self):
+        return f"{self.ip_or_name} - {self.reaction_type}"    
 
 
 class videos(models.Model):

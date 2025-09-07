@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_filters %}  {# تأكد من تحميل الـ filter #}
 
 {% if success_message %}
     <div class="alert alert-success mb-4">
@@ -440,31 +441,36 @@
 </script>
 
 
-<!-- استبدال جزء التعليقات بالكود التالي -->
 <div id="comments-section">
     <hr>
     <h2><b>التعليقات:</b></h2>
-    {% if not comments %}
+    
+    {% if not comments_with_images %}
         <p>لا توجد تعليقات بعد. كن أول من يعلق!</p>
     {% else %}
         <ul class="comments-list">
-            {% for comment in comments %}
+            {% for comment_data in comments_with_images %}
                 <li class="comment-item">
                     <div class="comment-header">
-                        {% if comment.user.profile.image %}
-                            <img src="{{ comment.user.profile.image.url }}" 
-                                 class="comment-avatar">
+                        {# الحل البسيط والمباشر #}
+                        {% if comment_data.profile_image and comment_data.profile_image != "None" %}
+                            <img src="/static/tifinar/{{ comment_data.profile_image }}" 
+                                 class="img-profile rounded-circle" 
+                                 width="40"
+                                 height="40"
+                                 alt="{{ comment_data.display_name }}">
                         {% else %}
                             <i class="fas fa-user-circle comment-icon"></i>
                         {% endif %}
-                        <span class="comment-author">{{ comment.author_name }}</span>
+                        
+                        <span class="comment-author">{{ comment_data.display_name }}</span>
                         <span class="comment-date">
                             <i class="fas fa-clock"></i>
-                            {{ comment.created_at|date:"Y-m-d H:i" }}
+                            {{ comment_data.comment.created_at|date:"Y-m-d H:i" }}
                         </span>
                     </div>
                     <div class="comment-body">
-                        {{ comment.cmt_subject|linebreaks }}
+                        {{ comment_data.comment.cmt_subject|linebreaks }}
                     </div>
                 </li>
                 {% if not forloop.last %}<hr>{% endif %}

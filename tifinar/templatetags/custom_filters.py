@@ -2,7 +2,48 @@ from django import template
 from django.conf import settings
 import re
 import random
+register = template.Library()
+# custom_filters.py
+from django import template
+from django.contrib.auth.models import User
 
+register = template.Library()
+
+@register.filter
+def get_user_by_email(email):
+    try:
+        return User.objects.filter(email=email).first()
+    except:
+        return None
+
+# يمكنك إضافة هذه الدوال أيضاً إذا احتجتها
+@register.filter
+def get_user_images(email):
+    try:
+        user = User.objects.filter(email=email).first()
+        if user:
+            return getattr(user, 'images', '❌ فارغ')
+        return '❌ مستخدم غير موجود'
+    except:
+        return '❌ خطأ'
+
+@register.filter
+def get_user_path(email):
+    try:
+        user = User.objects.filter(email=email).first()
+        if user:
+            return getattr(user, 'path', '❌ فارغ')
+        return '❌ مستخدم غير موجود'
+    except:
+        return '❌ خطأ'
+    
+@register.filter
+def get_user_by_email(email):
+    try:
+        return User.objects.filter(email=email).first()
+    except:
+        return None
+    
 register = template.Library()
 
 @register.filter
