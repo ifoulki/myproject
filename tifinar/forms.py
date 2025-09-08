@@ -3,6 +3,7 @@ from django.core.exceptions import ValidationError
 from .models import comments, msgs, books, videos, exams, cours
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
+from django.utils import timezone
 
 User = get_user_model()
 import os
@@ -26,7 +27,7 @@ class MultipleFileField(forms.FileField):
 class CommentForm(forms.ModelForm):
     class Meta:
         model = comments
-        fields = ['page_title', 'author_name', 'author_email', 'cmt_subject']
+        fields = ['page_title', 'author_name', 'author_email', 'cmt_subject','visibility_status']
         widgets = {
             'page_title': forms.HiddenInput(),
             'author_name': forms.TextInput(attrs={
@@ -46,12 +47,23 @@ class CommentForm(forms.ModelForm):
                 'placeholder': _('اكتب تعليقك هنا ...'),
                 'required': True
             }),
+            'visibility_status': forms.RadioSelect(choices=comments.VISIBILITY_CHOICES),
         }
         labels = {
             'author_name': _('الاسم'),
             'author_email': _('البريد الإلكتروني'),
             'cmt_subject': _('التعليق')
         }
+
+    
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        # تحديث وقت التعديل
+        instance.updated_at = timezone.now()
+        if commit:
+            instance.save()
+        return instance
+        
 class MsgForm(forms.ModelForm):
     class Meta:
         model = msgs

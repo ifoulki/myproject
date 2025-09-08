@@ -9,6 +9,13 @@ register = template.Library()
 def my_custom_filter(value):
     return value.upper()
 
+from django import template
+
+register = template.Library()
+
+@register.simple_tag
+def define(val=None):
+    return val
 
 register = template.Library()
 @register.filter

@@ -1,3 +1,5 @@
+from django.contrib import admin
+from django.urls import path, include
 from django.urls import path
 from django.http import Http404
 from importlib import import_module
@@ -28,9 +30,11 @@ from .logout import custom_logout
 from .login import custom_login
 from .logup import custom_logup
 
+
 def table_exists(table_name):
     """للتحقق من وجود الجدول في قاعدة البيانات"""
     return table_name in connection.introspection.table_names()
+
 
 # تعريف أنواع المحتوى المتاحة في النظام
 CONTENT_TYPES = [
@@ -57,6 +61,9 @@ def get_view(view_path):
 
 # مسارات التطبيق
 urlpatterns = [
+    
+    path('admin/', admin.site.urls),
+    
     # الصفحات الرئيسية
     path('مقالات/', contents, name='articles'),
     path('اختبارات/', contents, name='exams'),
@@ -98,18 +105,20 @@ urlpatterns = [
     path('cours/create/', show_create_content, {'content_type': 'cours'}, name='create_cours'),
     path('exams/create/', show_create_content, {'content_type': 'exams'}, name='create_exam'),
 
-    # تعديل المحتوى
-    path('articles/edit/<path:slug>/', edit_content, {'content_type': 'articles'}, name='edit_article'),
+    # حدف المحتوى
     path('articles/delete/<path:slug>/', delete_content, name='delete_article'),
     path('exams/delete/<path:slug>/', delete_content, name='delete_books'),
     path('books/delete/<path:slug>/', delete_content, name='delete_exams'),
     path('cours/delete/<path:slug>/', delete_content, name='delete_cours'),
     path('videos/delete/<path:slug>/', delete_content, name='delete_videos'),
 
+    # تعديل المحتوى
+    path('articles/edit/<path:slug>/', edit_content, {'content_type': 'articles'}, name='edit_article'),
     path('videos/edit/<path:slug>/', edit_content, {'content_type': 'videos'}, name='edit_video'),
     path('books/edit/<path:slug>/', edit_content, {'content_type': 'books'}, name='edit_book'),
-    path('cours/edit/<path:slug>/', edit_content, {'content_type': 'cours'}, name='edit_cours'),
+    path('cours/edit/<path:slug>/', edit_content, {'content_type': 'cours'}, name='edit_cour'),
     path('exams/edit/<path:slug>/', edit_content, {'content_type': 'exams'}, name='edit_exam'), 
+    
     path('profile/<int:user_id>/', show_user, name='user_profile'),
     
     path('exam/store-answer/', store_answer, name='store_answer'),
@@ -125,4 +134,5 @@ urlpatterns = [
     path('books/<str:slug>/', book_detail, name='dynamic_content'),
     path('cours/<str:slug>/', show_cours, name='dynamic_content'),
     path('', welcome, name='welcome'),
+    
 ]
