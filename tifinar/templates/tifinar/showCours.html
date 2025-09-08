@@ -133,7 +133,65 @@
     </script>
     {% endif %}
 
-    <hr />
+    <hr>
+
+            <div class="reaction-container">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'error' %}alert-danger{% else %}alert-success{% endif %}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %} 
+
+            <h2 class="reaction-feedback" id="reaction-feedback">
+                {% if reaction_type == 'love' %}
+                    شكرا <b>{{ user.get_full_name|default:user.username }}</b> على تفاعلك ❤️
+                {% elif reaction_type == 'like' %}
+                    شكرا <b>{{ user.get_full_name|default:user.username }}</b> على تفاعلك 👍
+                {% elif reaction_type == 'sad' %}
+                    هذا محزن! 😢
+                {% elif reaction_type == 'angry' %}
+                    أغضبك هذا 😤
+                {% elif reaction_type == 'funny' %}
+                    هذا مضحك! 😂
+                {% elif reaction_type == 'dislike' %}
+                    لم يعجبك هذا! 👎🏻
+                {% else %}
+                    تفاعل مع المنشور هنا 👇
+                {% endif %}
+            </h2>
+        
+            <div class="reaction-btn-container">
+                                
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="page_title" value="{{  title }}">
+        
+                    <button class="reaction-btn btn-love {% if reactions.love %}selected{% endif %}" type="submit" name="reaction_type" value="love">
+                        ❤️ <span class="reaction-count">{{ reactions.love|default:"" }}</span>
+                    </button>
+        
+                    <button class="reaction-btn btn-like {% if reactions.like %}selected{% endif %}" type="submit" name="reaction_type" value="like">
+                        👍🏻 <span class="reaction-count">{{ reactions.like|default:"" }}</span>
+                    </button>
+        
+                    <button class="reaction-btn btn-dislike {% if reactions.dislike %}selected{% endif %}" type="submit" name="reaction_type" value="dislike">
+                        👎🏻 <span class="reaction-count">{{ reactions.dislike|default:"" }}</span>
+                    </button>
+        
+                    <button class="reaction-btn btn-sad {% if reactions.sad %}selected{% endif %}" type="submit" name="reaction_type" value="sad">
+                        😢 <span class="reaction-count">{{ reactions.sad|default:"" }}</span>
+                    </button>
+        
+                    <button class="reaction-btn btn-funny {% if reactions.funny %}selected{% endif %}" type="submit" name="reaction_type" value="funny">
+                        😂 <span class="reaction-count">{{ reactions.funny|default:"" }}</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+        
+        <hr>
 
     {% include "tifinar/comments/article_comments.html" %}
   </article>
