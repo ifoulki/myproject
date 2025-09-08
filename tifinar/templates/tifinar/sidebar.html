@@ -9,7 +9,7 @@
 
     {% if next_obj %}
         <div class="aside-bar">
-            <a class="dynamic-link" href="/{{ next_obj.slug }}">
+            <a class="dynamic-link" href="/{{ folder}}/{{ next_obj.slug }}">
                 <div class="aside-content">
                     <figure class="flex-100">
                         <img src="{% static 'tifinar/images/' %}{{ folder}}/{{ next_obj.myimage }}" 
@@ -25,7 +25,7 @@
 
     {% for article in related_articles %}
         <div class="aside-bar">
-            <a class="Top-menu-btn dynamic-link" href="/{{ article.slug }}">
+            <a class="Top-menu-btn dynamic-link" href="/{{ folder}}/{{ article.slug }}">
                 <div class="aside-content">
                     <figure class="flex-100">
                         <img src="{% static 'tifinar/images/' %}{{ folder}}/{{ article.myimage }}" 

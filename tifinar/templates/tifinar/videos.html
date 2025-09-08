@@ -70,7 +70,7 @@
     {% if articles %}
         {% for article in articles %}
             <div class="video" dir="{{ article.dir  }}">
-                <a href="/{{ article.slug  }}">
+                <a href="/videos/{{ article.slug  }}">
                     <figure>
                         {% if article.images %}
                             <img src="{% static 'tifinar/images/' %}{{ table_name }}/{{ article.images.0 }}" 

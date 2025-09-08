@@ -4,6 +4,8 @@ from importlib import import_module
 from django.db import connection
 from tifinar.models import articles, videos, cours, books, exams, Visitors, AuthUser
 from tifinar.views.content.articles import article_detail
+from tifinar.views.content.videos import video_detail
+from tifinar.views.content.books import book_detail
 from tifinar.views.content.content import contents
 from tifinar.views.dashboard.dashboard import dashboard_view
 from tifinar.views.content.eddit_index import index_eddit
@@ -113,6 +115,9 @@ urlpatterns = [
     path('logup/', custom_logup, name='logup'),
 
     # المحتوى الديناميكي (يجب أن يكون آخر مسار)
-    path('<str:slug>/', article_detail, name='dynamic_content'),
+    path('articles/<str:slug>/', article_detail, name='dynamic_content'),
+    path('videos/<str:slug>/', video_detail, name='dynamic_content'),
+    path('books/<str:slug>/', book_detail, name='dynamic_content'),
+    path('cours/<str:slug>/', show_cours, name='dynamic_content'),
     path('', welcome, name='welcome'),
 ]
