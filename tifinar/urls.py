@@ -24,6 +24,7 @@ from tifinar.views.members.show_member import member_profile_view, edit_member_p
 from tifinar.views.contacts.show_contact import contact_view,edit_contact, delete_contact, manage_contact_relations, update_contact_image
 from tifinar.views.content_manager.show_create_contents import show_create_content
 from tifinar.views.content_manager.article_manager import create_article
+from tifinar.views.content_manager.video_manager import create_video
 from tifinar.views.content_manager.edit_contents import edit_content
 from tifinar.views.content.exams import exam_view, store_answer
 from .logout import custom_logout
@@ -100,6 +101,7 @@ urlpatterns = [
 
     # إنشاء المحتوى
     path('articles/create/', create_article, name='create_article'),
+    path('videos/create/', create_video, name='create_video'),
     path('videos/create/', show_create_content, {'content_type': 'videos'}, name='create_video'),
     path('books/create/', show_create_content, {'content_type': 'books'}, name='create_book'),
     path('cours/create/', show_create_content, {'content_type': 'cours'}, name='create_cours'),

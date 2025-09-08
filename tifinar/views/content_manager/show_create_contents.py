@@ -1,4 +1,3 @@
-# C:\Users\khalid\Documents\myproject\tifinar\views\content_manager\show_create_contents.py
 
 from django.shortcuts import render, redirect
 from tifinar.models import books, exams, videos, cours

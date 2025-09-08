@@ -50,16 +50,21 @@
                     
             <div class="form">
                 <label class="label">
-                    <i class="fas fa-paperclip"></i> رابط الفيديو:
-                </label><br>
-                        <input
-                    name="mysubject"
-                            id="video_url"
-                            placeholder="أدخل رابط يوتيوب هنا"
-                            class="form-control"
-                            value="{{ form.mysubject.value }}"
-                        >
-                
+                    <i class="fas fa-paperclip"></i> {{ form.mysubject.label }}
+                </label>
+                {{ form.mysubject }}
+                {{ form.mysubject.errors }}
+                <div id="videoPreview" style="margin-top: 10px;"></div>
+            </div>
+            
+            <hr>
+
+            <div class="form">
+                <label class="label">
+                    <i class="fas fa-paperclip"></i> {{ form.mysubject.label }}
+                </label>
+                {{ form.mysubject }}
+                {{ form.mysubject.errors }}
                 <div id="videoPreview" style="margin-top: 10px;"></div>
             </div>
 
@@ -93,10 +98,18 @@
             </div>
 
             <hr>
+
+            <div class="form">
+                <label class="label">
+                    <i class="fas fa-gender"></i>{{ form.gender.label }}
+                </label>
+                    {{ form.gender }}
+                    {{ form.gender.errors }}
+            </div>
                 
             <div class="form-row form">
                 <label class="label">
-                    <i class="fas fa-hourglass-start"></i>  يجب أن يكون عمر الزائر:
+                    <i class="fas fa-hourglass-start"></i>  يجب أن يكون عمر المشاهد:
                 </label>
 
                 <div class="form">
