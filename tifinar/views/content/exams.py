@@ -2,17 +2,239 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Sum
-from tifinar.models import exams, Examitems, Results
 from difflib import SequenceMatcher
 from django.http import HttpResponse
 
 import datetime
+
+from django.db.models import Count, Sum
+from tifinar.models import exams, Examitems, Results, ArticleReaction, comments, AuthUser
+from django.utils.timezone import now
+def encode_arabic_path(path):
+    """
+    ترميز المسارات العربية لتجنب مشاكل Unicode
+    """
+    try:
+        if isinstance(path, str):
+            parts = path.split('/')
+            encoded_parts = []
+            for part in parts:
+                if any(ord(c) > 127 for c in part):
+                    encoded_parts.append(urllib.parse.quote(part))
+                else:
+                    encoded_parts.append(part)
+            return '/'.join(encoded_parts)
+        return path
+    except Exception as e:
+        print(f"Error encoding path {path}: {e}")
+        return path
+
+def get_user_profile_image(email):
+    """
+    الحصول على صورة المستخدم من خلال البريد الإلكتروني
+    """
+    try:
+        user = AuthUser.objects.filter(email=email).first()
+        if not user:
+            return None
+            
+        # البحث في الحقول المباشرة في نموذج AuthUser
+        if hasattr(user, 'images') and user.images:
+            images_list = [img.strip() for img in user.images.split(',') if img.strip()]
+            if images_list:
+                first_image = images_list[0]
+                
+                # استخدام المسار من حقل path إذا كان موجوداً
+                if hasattr(user, 'path') and user.path:
+                    path_list = [p.strip() for p in user.path.split(',') if p.strip()]
+                    for image_path in path_list:
+                        if first_image in image_path:
+                            return image_path
+                
+                # بناء المسار افتراضياً
+                default_path = f"images/users/{user.id}/{first_image}"
+                
+                # التحقق من وجود الملف فعلياً
+                static_path = os.path.join(settings.STATIC_ROOT, default_path)
+                media_path = os.path.join(settings.MEDIA_ROOT, default_path)
+                
+                if os.path.exists(static_path):
+                    return f"/static/{default_path}"
+                elif os.path.exists(media_path):
+                    return f"/media/{default_path}"
+        
+        return None
+        
+    except Exception as e:
+        print(f"Error in get_user_profile_image: {e}")
+        return None
+
+def get_user_display_name(email):
+    """
+    الحصول على اسم العرض للمستخدم
+    """
+    try:
+        user = AuthUser.objects.filter(email=email).first()
+        if user:
+            full_name = f"{user.first_name} {user.last_name}".strip()
+            return full_name if full_name else user.username
+    except Exception:
+        pass
+    
+    return None
+
+def get_user_identifier(request):
+    """الحصول على معرف المستخدم"""
+    if request.user.is_authenticated:
+        return request.user.username
+    else:
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
 
 def exam_view(request, exam_slug):
     try:
         exam = exams.objects.get(slug=exam_slug)
         questions = Examitems.objects.filter(exam_number=exam.exam_id).order_by('qsts_id')
         
+        # الحصول على معرف المستخدم
+        user_identifier = get_user_identifier(request)
+        
+        # معالجة طلبات POST (التفاعلات والتعليقات)
+        if request.method == 'POST':
+            # معالجة التفاعلات
+            if 'reaction_type' in request.POST:
+                reaction_type = request.POST.get('reaction_type')
+                if reaction_type in ['love', 'like', 'dislike', 'sad', 'funny', 'angry']:
+                    existing_reaction = ArticleReaction.objects.filter(
+                        ip_or_name=user_identifier,
+                        page_title=exam.title
+                    ).first()
+                    
+                    if existing_reaction:
+                        if existing_reaction.reaction_type == reaction_type:
+                            existing_reaction.delete()
+                            messages.success(request, 'تم إلغاء تفاعلك بنجاح')
+                        else:
+                            existing_reaction.reaction_type = reaction_type
+                            existing_reaction.liked_at = now()
+                            existing_reaction.save()
+                            messages.success(request, 'تم تحديث تفاعلك بنجاح')
+                    else:
+                        ArticleReaction.objects.create(
+                            ip_or_name=user_identifier,
+                            page_title=exam.title,
+                            device_type=request.META.get('HTTP_USER_AGENT', 'Unknown')[:100],
+                            reaction_type=reaction_type,
+                            liked_at=now(),
+                            created_at=now()
+                        )
+                        messages.success(request, 'شكراً على تفاعلك!')
+            
+            # معالجة التعليقات
+            elif 'cmt_subject' in request.POST:
+                cmt_subject = request.POST.get('cmt_subject', '').strip()
+                author_name = request.POST.get('author_name', '').strip()
+                author_email = request.POST.get('author_email', '').strip()
+                
+                if cmt_subject and author_name:
+                    if request.user.is_authenticated and (request.user.is_staff or request.user.is_superuser):
+                        visibility_status = 'public'
+                    else:
+                        visibility_status = 'under_review'
+                    
+                    try:
+                        comment = comments.objects.create(
+                            page_title=exam.title,
+                            author_name=author_name,
+                            cmt_subject=cmt_subject,
+                            author_email=author_email if author_email else None,
+                            visibility_status=visibility_status,
+                            created_at=now(),
+                            updated_at=now()
+                        )
+                        
+                        messages.success(request, 
+                            'شكراً على تعليقك! ' + 
+                            ('سيظهر بعد المراجعة.' if visibility_status == 'under_review' else 'تم نشر تعليقك.')
+                        )
+                    except Exception as e:
+                        messages.error(request, f'حدث خطأ أثناء إضافة التعليق: {str(e)}')
+                else:
+                    messages.error(request, 'يرجى ملء جميع الحقول المطلوبة')
+        
+        # الحصول على تفاعل المستخدم الحالي
+        user_reaction = None
+        if user_identifier:
+            try:
+                user_reaction = ArticleReaction.objects.filter(
+                    ip_or_name=user_identifier,
+                    page_title=exam.title
+                ).first()
+            except:
+                pass
+        
+        # حساب عدد التفاعلات
+        try:
+            reactions_count = ArticleReaction.objects.filter(page_title=exam.title).values(
+                'reaction_type'
+            ).annotate(count=Count('id'))
+            reactions_dict = {item['reaction_type']: item['count'] for item in reactions_count}
+        except:
+            reactions_dict = {}
+        
+        # الحصول على التعليقات وإضافة معلومات الصور
+        try:
+            if request.user.is_authenticated and (request.user.is_staff or request.user.is_superuser):
+                exam_comments = comments.objects.filter(page_title=exam.title).order_by('-created_at')
+            else:
+                exam_comments = comments.objects.filter(
+                    page_title=exam.title, 
+                    visibility_status='public'
+                ).order_by('-created_at')
+            
+            comments_with_images = []
+            user_auth_data = []
+            
+            for comment in exam_comments:
+                profile_image = None
+                display_name = comment.author_name
+                
+                if comment.author_email:
+                    user = AuthUser.objects.filter(email=comment.author_email).first()
+                    if user:
+                        # جمع بيانات auth_user للعرض في القالب
+                        user_auth_data.append({
+                            'email': user.email,
+                            'username': user.username,
+                            'user_id': user.id,
+                            'images': getattr(user, 'images', '❌ فارغ'),
+                            'path': getattr(user, 'path', '❌ فارغ')
+                        })
+                        
+                        # الحصول على الصورة
+                        profile_image = get_user_profile_image(comment.author_email)
+                        
+                        # الحصول على اسم العرض
+                        user_display_name = get_user_display_name(comment.author_email)
+                        if user_display_name:
+                            display_name = user_display_name
+                
+                comments_with_images.append({
+                    'comment': comment,
+                    'profile_image': profile_image,
+                    'display_name': display_name
+                })
+                
+        except Exception as e:
+            comments_with_images = []
+            user_auth_data = []
+            print(f"Error fetching comments: {e}")
+        
+        # إعداد السياق مع إضافة متغيرات التعليقات والتفاعلات
         context = {
             'exam': exam,
             'questions': questions,
@@ -21,14 +243,24 @@ def exam_view(request, exam_slug):
             'folder': 'exams',
             'image': exam.myimage,
             'exam_id': exam.exam_id,
+            # إضافة متغيرات التعليقات والتفاعلات
+            'reactions': reactions_dict,
+            'reaction_type': user_reaction.reaction_type if user_reaction else None,
+            'comments': exam_comments,
+            'comments_with_images': comments_with_images,
+            'comments_count': exam_comments.count() if 'exam_comments' in locals() else 0,
+            'user_auth_data': user_auth_data,
         }
+        
         return render(request, 'tifinar/showExam.html', context)
+        
     except exams.DoesNotExist:
         # بدلاً من redirect، نعرض خطأ في الصفحة نفسها
         return render(request, 'tifinar/showExam.html', {
             'error': 'الاختبار غير موجود',
             'error_message': f'لا يوجد اختبار بالرابط: {exam_slug}'
         })
+
 
 def clean_choice_text(choice):
     """تنظيف نص الخيار من البادئات correct:/wrong:"""
