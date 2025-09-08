@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404
 from tifinar.myForms.article.create_article_form import ArticleForm
 from django.utils import timezone
 from django.core.files.storage import FileSystemStorage
@@ -6,8 +6,9 @@ from django.conf import settings  # أضف هذا
 from django.utils.text import slugify  # أضف هذا
 import re
 import os
+from django.contrib import messages
+from django.http import HttpResponseForbidden
 import unicodedata
-
 import shutil
 
 def handle_uploaded_files(request, field_name, title_slug):

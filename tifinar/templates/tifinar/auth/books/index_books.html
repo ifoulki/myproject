@@ -82,13 +82,14 @@
                     </figure>
                 </a>
                 <div class="listes-contenu-VD">
-                        <a title="معاينة الكتاب" href="/{{ article.slug }}" class="btn btn-primary">
+                        <a title="معاينة الكتاب" href="/books/{{ article.slug }}" class="btn btn-primary">
                             <i class="fas fa-play-circle"></i>
                         </a>
 
-                        <form action="" method="POST" style="display:inline;">
-                            <button class="btn btn-danger" title="حدف الكتاب">
-                                <i class="fas fa-trash-alt"></i>
+                        <form action="{% url 'delete_books' article.slug %}" method="POST" class="delete-form" style="margin: 0;">
+                            {% csrf_token %}
+                            <button type="submit" title="حدف الكتاب" class="btn btn-danger" onclick="return confirmDelete(event)">
+                                <i class="fas fa-trash-alt"></i> 
                             </button>
                         </form>
 
@@ -104,9 +105,19 @@
         <p style="text-align:center; color: gray;">لا توجد فيديوهات متاحة</p>
     {% endif %}
 
-    {% include "tifinar/pagination.html" %}
+    {% include "tifinar/adm_pagination.html" %}
       
   </div>
+
+        <script>
+            function confirmDelete(event) {
+                if (!confirm("هل أنت متأكد من أنك تريد حذف هذا المقال؟ هذا الإجراء لا يمكن التراجع عنه.")) {
+                    event.preventDefault();
+                    return false;
+                }
+                return true;
+            }
+        </script>
 
       {% include "tifinar/adm_footer.html" %}
 

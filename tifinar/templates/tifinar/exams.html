@@ -73,7 +73,7 @@
         {% for article in articles %}
             <div class="listes-contenu" dir="{{ dir }}">
                 <div class="image-caption">
-                    <a href="/exam/{{ article.slug  }}">
+                    <a href="/{{ table_name }}/{{ article.slug  }}">
                         {% if article.images %}
                             <img src="{% static 'tifinar/images/' %}{{ table_name }}/{{ article.images.0 }}" 
                                  alt="{{ title }}" class="article-image">
@@ -82,7 +82,7 @@
                 </div>
 
                 <div class="listes-contenu-art">
-                    <a href="/exam/{{ article.slug }}">
+                    <a href="/{{ table_name }}/{{ article.slug }}">
                         <div class="listes-title-contenu">
                             <h2>{{ article.title }}</h2>
                             <p style="color:black; text-align:justify">

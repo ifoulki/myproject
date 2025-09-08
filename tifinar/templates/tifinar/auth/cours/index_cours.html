@@ -38,7 +38,7 @@
                             </a>
                         </div>
                         <div class="listes-contenu-art">
-                            <a href="/{{ article.slug }}">
+                            <a href="/cours/{{ article.slug }}">
                                 <div class="listes-title-contenu">
                                     <h2>{{ article.title }}</h2>
                                     <p style="color:black; text-align:justify">
@@ -61,7 +61,7 @@
                                     </button>
                                 </form>
 
-                                <a href="/{{ article.slug }}" class="btn btn-secondary">
+                                <a href="/cours/{{ article.slug }}" class="btn btn-secondary">
                                     <i class="fas fa-book-open" ></i>
                                     معاينة المنشور 
                                 </a>
@@ -79,6 +79,6 @@
             <p style="text-align:center; color: gray;">لا توجد منشورات متاحة</p>
         {% endif %}
 
-        {% include "tifinar/pagination.html" %}
+        {% include "tifinar/adm_pagination.html" %}
     </div>
 {% include "tifinar/adm_footer.html" %}

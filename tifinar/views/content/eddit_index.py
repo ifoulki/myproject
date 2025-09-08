@@ -2,6 +2,12 @@ from django.shortcuts import render, get_object_or_404
 from django.db.models import Q, Case, When, IntegerField
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from tifinar.models import articles, videos, cours, books, exams
+from django.shortcuts import render, redirect,get_object_or_404
+from django.conf import settings  # أضف هذا
+from django.utils.text import slugify  # أضف هذا
+import os
+from django.contrib import messages
+from django.http import HttpResponseForbidden
 
 def index_eddit(request):
     # معالجة معلمات البحث والتصفية
@@ -13,28 +19,33 @@ def index_eddit(request):
     if path == "videos_edit":
         model = videos
         title = "فيديوهات"
+        order_field = "-vd_id"  # استخدام الحقل الصحيح للترتيب
         description = "مجلة تيفيناغ الثقافية تضم سلسلات كثيرة ومتنوعة لفيديوهات ثقافية، تربوية وتعليمية ... إلخ، يمكتكم متابعتها والاستفادة منها مجانا"
     elif path == "cours_edit":
         model = cours
-        title = "قواميس بصرية"
+        title = "قواميس بصرية"  
+        order_field = "-cours_id"  # استخدام الحقل الصحيح للترتيب
         description = "موقع تيفيناغ يقدم لكم مجموعة من القواميس البصرية لأجل مساعدة الراغبين في إغناء رصيدهم اللغوي، بطريقة سهلة ومبسطة بالصوت والصورة"
     elif path == "articles_edit":
         model = articles
         title = "مقالات"
+        order_field = "-art_id"  # استخدام الحقل الصحيح للترتيب
         description = "مجلة تيفيناغ تقترح عليكم مجموعة من المقالات في مختلف المجالات العلمية والثقافية والتربوية، ويمكن للزوار أيضا إغناء الموقع بمشاركاتهم في النشر عبر مشاركة مواضيغهم معنا"
     elif path == "exams_edit":
         model = exams
         title = "اختبارات"
+        order_field = "-exam_id"  # استخدام الحقل الصحيح للترتيب (افتراضي)
         description = "موقع مجلة تيفيناغ يعد منصة رائعة للراغبين في الإستعداد الجيد للإمتحانات، حيث يمكن من خلاله للزوار اجتياز اختبارات تجريبية online  وتظهر لهم النتيجة مباشرة بعد نهاية الاختبار، وذلك يساعدهم على تتبع مستواهم أثناء الاستعداد للإمتحانات"
     elif path == "books_edit":
         model = books
         title = "مكتبة تيفيناغ"
-        description='في مكتبة تيفيناغ يمكن تحميل كتب متنوعة مجانا، بما فيها الكتب المدرسية ونماذج امتحانات وفروض لتدريب التلاميذ وإعدادهم للاختبارات المدرسية'
+        order_field = "-books_id"  # استخدام الحقل الصحيح للترتيب
+        description = 'في مكتبة تيفيناغ يمكن تحميل كتب متنوعة مجانا، بما فيها الكتب المدرسية ونماذج امتحانات وفروض لتدريب التلاميذ وإعدادهم للاختبارات المدرسية'
     else:
         return render(request, 'tifinar/404.html', status=404)
 
-    # استعلام قاعدة البيانات
-    queryset = model.objects.all()
+    # استعلام قاعدة البيانات - إضافة شرط استبعاد السجلات ذات slug فارغ
+    queryset = model.objects.exclude(slug__isnull=True).exclude(slug__exact='')
 
     # تطبيق عوامل التصفية
     if the_type:
@@ -60,6 +71,9 @@ def index_eddit(request):
                 output_field=IntegerField(),
             )
         ).order_by('relevance')
+    else:
+        # الترتيب حسب الحقل المناسب لكل نموذج
+        queryset = queryset.order_by(order_field)
 
     # معالجة الصور للمحتوى
     for item in queryset:
@@ -77,17 +91,16 @@ def index_eddit(request):
         'القانون وحقوق الإنسان'
     ]
 
-    # التقسيم إلى صفحات
-    items_per_page = 11 if path in ["فيديوهات", "مكتبة_تيفيناغ"] else 5
-    paginator = Paginator(queryset, items_per_page)
-    page_number = request.GET.get('page')
+    # إضافة Pagination
+    paginator = Paginator(queryset, 10)  # 10 عناصر لكل صفحة
+    page = request.GET.get('page')
     
     try:
-        page_obj = paginator.page(page_number)
+        items = paginator.page(page)
     except PageNotAnInteger:
-        page_obj = paginator.page(1)
+        items = paginator.page(1)
     except EmptyPage:
-        page_obj = paginator.page(paginator.num_pages)
+        items = paginator.page(paginator.num_pages)
 
     # إعداد بيانات القالب
     context = {
@@ -95,12 +108,9 @@ def index_eddit(request):
         'description': description,
         'title': title,
         'dir': 'rtl',
-        'articles': page_obj,
+        'articles': items,
         'types_list': types_list,
         'table_name': model._meta.db_table,
-        'paginator': paginator,
-        'search_query': search,
-        'selected_type': the_type,
     }
 
     if model == videos:
@@ -115,3 +125,54 @@ def index_eddit(request):
         return render(request, "tifinar/auth/cours/index_cours.html", context)
     else:
         return 0
+    
+def delete_content(request, slug):
+    if request.method == 'POST':
+        try:
+            # تحديد النموذج بناءً على المسار
+            path = request.path
+            if 'articles/delete' in path:
+                model = articles
+            elif 'videos/delete' in path:
+                model = videos
+            elif 'cours/delete' in path:
+                model = cours
+            elif 'books/delete' in path:
+                model = books
+            elif 'exams/delete' in path:
+                model = exams
+            else:
+                messages.error(request, 'نوع المحتوى غير معروف.')
+                return redirect(request.META.get('HTTP_REFERER', '/'))
+            
+            # استخدام get_object_or_404 مع النموذج المناسب
+            item = get_object_or_404(model, slug=slug)
+            
+            # حذف الملفات المرتبطة بالمحتوى إذا وجدت
+            if hasattr(item, 'myimage') and item.myimage:
+                image_paths = item.myimage.split(',')
+                for path in image_paths:
+                    full_path = os.path.join(settings.BASE_DIR, path.strip())
+                    if os.path.exists(full_path):
+                        os.remove(full_path)
+            
+            if hasattr(item, 'autre') and item.autre:
+                attachment_paths = item.autre.split(',')
+                for path in attachment_paths:
+                    full_path = os.path.join(settings.BASE_DIR, path.strip())
+                    if os.path.exists(full_path):
+                        os.remove(full_path)
+            
+            # حذف المحتوى من قاعدة البيانات
+            item.delete()
+            
+            messages.success(request, 'تم حذف المنشور بنجاح.')
+            return redirect(request.META.get('HTTP_REFERER', '/'))            
+        except Http404:
+            messages.error(request, 'المنشور المطلوب غير موجود.')
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+        except Exception as e:
+            messages.error(request, f'حدث خطأ أثناء حذف المنشور: {str(e)}')
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+    
+    return HttpResponseForbidden()

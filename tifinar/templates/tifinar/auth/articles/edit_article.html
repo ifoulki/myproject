@@ -16,7 +16,7 @@
                 {% with images=article.myimage|split:"," %}
                     {% for image in images %}
                         {% if image %}
-                        <img src="{% static 'tifinar/images/articles/' %}{{ image }}" class="image-preview old-image" id="oldImage{{ forloop.counter }}">
+                        <img src="{% static image %}" class="image-preview old-image" id="oldImage{{ forloop.counter }}">
                         {% endif %}
                     {% endfor %}
                 {% endwith %}
@@ -85,7 +85,7 @@
             <hr>
             
             <div>
-                <img id="imagePreview2" src="{% static 'tifinar/images/articles' %}/{{ article.autre }}" class="image-preview2" alt="معاينة الصورة">
+                <img id="imagePreview2" src="{% static article.autre %}" class="image-preview2" alt="معاينة الصورة">
                 <img id="imagePreview2_new" class="image-preview2" alt="معاينة الصورة" style="display: none;"><br>
                 <label class="label">
                     <i class="fas fa-upload"></i> تحميل صورة أخرى تظهر أسفل المقال:

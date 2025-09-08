@@ -1,0 +1,47 @@
+{% if articles.has_other_pages %}
+<nav aria-label="Page navigation example" class="pagination-wrapper">
+    <ul class="pagination justify-content-center">
+    
+        {# زر الصفحة السابقة #}
+        {% if articles.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ articles.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search|urlencode }}{% endif %}{% if request.GET.the_type %}&the_type={{ request.GET.the_type|urlencode }}{% endif %}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="visually-hidden">الصفحة السابقة</span>
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link" aria-hidden="true">&laquo;</span>
+            </li>
+        {% endif %}
+    
+        {# عرض أرقام الصفحات مع تحديد الصفحة الحالية #}
+        {% for num in articles.paginator.page_range %}
+            {% if num == articles.number %}
+                <li class="page-item active" aria-current="page">
+                    <span class="page-link">{{ num }}</span>
+                </li>
+            {% elif num >= articles.number|add:'-2' and num <= articles.number|add:'2' %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ num }}{% if request.GET.search %}&search={{ request.GET.search|urlencode }}{% endif %}{% if request.GET.the_type %}&the_type={{ request.GET.the_type|urlencode }}{% endif %}">{{ num }}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    
+        {# زر الصفحة التالية #}
+        {% if articles.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ articles.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search|urlencode }}{% endif %}{% if request.GET.the_type %}&the_type={{ request.GET.the_type|urlencode }}{% endif %}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="visually-hidden">الصفحة التالية</span>
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item disabled">
+                <span class="page-link" aria-hidden="true">&raquo;</span>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+{% endif %}

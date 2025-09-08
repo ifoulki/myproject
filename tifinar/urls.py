@@ -8,7 +8,7 @@ from tifinar.views.content.videos import video_detail
 from tifinar.views.content.books import book_detail
 from tifinar.views.content.content import contents
 from tifinar.views.dashboard.dashboard import dashboard_view
-from tifinar.views.content.eddit_index import index_eddit
+from tifinar.views.content.eddit_index import index_eddit, delete_content
 from tifinar.views.content.welcome import welcome
 from tifinar.views.games.rock_paper_scissors import rps_game
 from tifinar.views.audience.msgs import send_message
@@ -22,7 +22,6 @@ from tifinar.views.members.show_member import member_profile_view, edit_member_p
 from tifinar.views.contacts.show_contact import contact_view,edit_contact, delete_contact, manage_contact_relations, update_contact_image
 from tifinar.views.content_manager.show_create_contents import show_create_content
 from tifinar.views.content_manager.article_manager import create_article
-
 from tifinar.views.content_manager.edit_contents import edit_content
 from tifinar.views.content.exams import exam_view, store_answer
 from .logout import custom_logout
@@ -101,6 +100,12 @@ urlpatterns = [
 
     # تعديل المحتوى
     path('articles/edit/<path:slug>/', edit_content, {'content_type': 'articles'}, name='edit_article'),
+    path('articles/delete/<path:slug>/', delete_content, name='delete_article'),
+    path('exams/delete/<path:slug>/', delete_content, name='delete_books'),
+    path('books/delete/<path:slug>/', delete_content, name='delete_exams'),
+    path('cours/delete/<path:slug>/', delete_content, name='delete_cours'),
+    path('videos/delete/<path:slug>/', delete_content, name='delete_videos'),
+
     path('videos/edit/<path:slug>/', edit_content, {'content_type': 'videos'}, name='edit_video'),
     path('books/edit/<path:slug>/', edit_content, {'content_type': 'books'}, name='edit_book'),
     path('cours/edit/<path:slug>/', edit_content, {'content_type': 'cours'}, name='edit_cours'),
