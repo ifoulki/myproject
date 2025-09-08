@@ -282,47 +282,62 @@ class AuthUserUserPermissions(models.Model):
         db_table = 'auth_user_user_permissions'
         unique_together = (('user', 'permission'),)
 
-
-
 class books(models.Model):
     books_id = models.AutoField(primary_key=True)
-    myimage = models.TextField(db_column='myimage', unique=True, blank=True, null=True)  # Field name made lowercase.
+    myimage = models.TextField(db_column='myimage', unique=True, blank=True, null=True)
     title = models.TextField(unique=True, blank=True, null=True)
-    slug = models.SlugField( max_length=255, blank=True, null=True, allow_unicode=True, unique=True )
-    mysubject = models.TextField(db_column='Mysubject', unique=True, blank=True, null=True)  # Field name made lowercase.
-    mydescription = models.TextField(db_column='Mydescription', blank=True, null=True)  # Field name made lowercase.    keywords = models.TextField(blank=True, null=True)
+    slug = models.SlugField(max_length=255, blank=True, null=True, allow_unicode=True, unique=True)
+    mysubject = models.TextField(db_column='Mysubject', unique=True, blank=True, null=True)
+    mydescription = models.TextField(db_column='Mydescription', blank=True, null=True)
     keywords = models.TextField(blank=True, null=True)
-    author = models.TextField(db_column='Author', blank=True, null=True)  # Field name made lowercase.
+    author = models.TextField(db_column='Author', blank=True, null=True)
     autre = models.CharField(max_length=255, blank=True, null=True)
     the_type = models.CharField(max_length=255, blank=True, null=True)
     dir = models.CharField(max_length=3, blank=True, null=True)
     language = models.CharField(max_length=255, blank=True, null=True)
-    visibility_status = models.CharField(max_length=12)
-    updated_at = models.DateTimeField()
-    created_at = models.DateTimeField()
-    educational_level = models.CharField(max_length=26)
-    gender = models.CharField(max_length=6)
-    min_age = models.IntegerField()
-    max_age = models.IntegerField()
+    visibility_status = models.CharField(max_length=12, default='visible')
+    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    educational_level = models.CharField(max_length=26, default='0')
+    gender = models.CharField(max_length=6, default='all')
+    min_age = models.IntegerField(default=2)
+    max_age = models.IntegerField(default=75)
 
     class Meta:
         managed = False
         db_table = 'books'
+        verbose_name = 'كتاب'
+        verbose_name_plural = 'الكتب'
+
+    def __str__(self):
+        return self.title or 'بدون عنوان'
+
+    def save(self, *args, **kwargs):
+        if not self.slug and self.title:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+
     @property
     def get_title(self):
-        return self.title
+        return self.title or 'بدون عنوان'
+
+    def clean(self):
+        if self.min_age and self.max_age and self.min_age > self.max_age:
+            raise ValidationError('الحد الأدنى للعمر يجب أن يكون أقل من الحد الأقصى')
 
 
 class Cache(models.Model):
     id = models.CharField(primary_key=True, max_length=255)
     value = models.TextField()
     expiration = models.PositiveIntegerField()
-    created_at = models.DateField()
-    update_at = models.DateField()
+    created_at = models.DateField(auto_now_add=True)
+    update_at = models.DateField(auto_now=True)
 
     class Meta:
         managed = False
         db_table = 'cache'
+        verbose_name = 'كاش'
+        verbose_name_plural = 'الكاش'
 
 
 class CartItems(models.Model):

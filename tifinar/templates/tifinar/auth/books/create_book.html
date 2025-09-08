@@ -1,162 +1,262 @@
-
 {% load static tz customtags custom_filters %}
 {% include "tifinar/adm_header.html" %}
 {% now "Y" as current_year %}
 
-        <div class="content">
-            <h1> <i class="fas fa-video"></i> نشر كتاب جديد</h1>
+<div class="content">
+    <h1><i class="fas fa-book"></i> نشر كتاب جديد</h1>
 
-            <form method="POST" enctype="multipart/form-data" action="">
-                {% csrf_token %}
+    <form method="POST" enctype="multipart/form-data" action="" class="needs-validation" novalidate>
+        {% csrf_token %}
 
-                <div class="mb-3 form">
-                    <label class="label">
-                        <i class="fas fa-upload"></i> {{ form.myimage.label }}
-                    </label>
-                    {{ form.myimage }}
-                    <img id="imagePreview1" class="image-preview" alt="معاينة الصورة" style="display: none;">
+        {% if form.non_field_errors %}
+        <div class="alert alert-danger">
+            {% for error in form.non_field_errors %}
+                {{ error }}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- صورة الكتاب -->
+        <div class="mb-3 form-group">
+            <label for="{{ form.myimage.id_for_label }}" class="form-label">
+                <i class="fas fa-upload"></i> {{ form.myimage.label }}
+            </label>
+            {{ form.myimage }}
+            {% if form.myimage.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.myimage.errors|join:", " }}
                 </div>
+            {% endif %}
+            <div class="form-text">الصيغ المسموحة: JPEG, PNG, JPG, GIF, SVG, WebP (الحد الأقصى: 5MB)</div>
+            <img id="imagePreview1" class="image-preview mt-2" alt="معاينة الصورة" style="display: none; max-width: 200px;">
+        </div>
 
-                <hr>
+        <hr>
 
-                <div class="form">
-                    <label class="label">
-                        <i class="fas fa-heading"></i> {{ form.title.label }}
-                    </label>
-                    {{ form.title }}
-                    {{ form.title.errors }}
+        <!-- عنوان الكتاب -->
+        <div class="form-group">
+            <label for="{{ form.title.id_for_label }}" class="form-label">
+                <i class="fas fa-heading"></i> {{ form.title.label }}
+            </label>
+            {{ form.title }}
+            {% if form.title.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.title.errors|join:", " }}
                 </div>
+            {% endif %}
+        </div>
 
-                <hr>
+        <hr>
 
-                <div class="form">
-                    <label class="label">
-                        <i class="fas fa-user"></i> {{ form.author.label }}
-                    </label>
-                    {{ form.author }}
-                    {{ form.author.errors }}
+        <!-- المؤلف -->
+        <div class="form-group">
+            <label for="{{ form.author.id_for_label }}" class="form-label">
+                <i class="fas fa-user"></i> {{ form.author.label }}
+            </label>
+            {{ form.author }}
+            {% if form.author.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.author.errors|join:", " }}
                 </div>
-            
-                <hr>
-    
-                <div class="form">
-                    <label class="label">
-                        <i class="fas fa-align-left"></i> {{ form.mysubject.label }}
-                    </label>
-                        {{ form.mysubject }}
-                        {{ form.mysubject.errors }}
+            {% endif %}
+        </div>
+
+        <hr>
+
+        <!-- الوصف المختصر -->
+        <div class="form-group">
+            <label for="{{ form.mysubject.id_for_label }}" class="form-label">
+                <i class="fas fa-align-left"></i> {{ form.mysubject.label }}
+            </label>
+            {{ form.mysubject }}
+            {% if form.mysubject.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.mysubject.errors|join:", " }}
                 </div>
+            {% endif %}
+        </div>
 
-                <hr>
+        <hr>
 
-                <div class="form">
-                    <i class="fas fa-language"></i>{{ form.dir.label_tag }}
-                    {{ form.dir }}
-                    {% if form.dir.errors %}
-                        <div class="invalid-feedback">
-                            {{ form.dir.errors|join:", " }}
+        <!-- لغة الكتاب -->
+        <div class="form-group">
+            <label for="{{ form.dir.id_for_label }}" class="form-label">
+                <i class="fas fa-language"></i> {{ form.dir.label }}
+            </label>
+            {{ form.dir }}
+            {% if form.dir.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.dir.errors|join:", " }}
+                </div>
+            {% endif %}
+        </div>
+
+        <hr>
+
+        <!-- المرفقات -->
+        <div class="form-group">
+            <label for="{{ form.autre.id_for_label }}" class="form-label">
+                <i class="fas fa-paperclip"></i> {{ form.autre.label }}
+            </label>
+            {{ form.autre }}
+            {% if form.autre.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.autre.errors|join:", " }}
+                </div>
+            {% endif %}
+            <div class="form-text">الصيغ المسموحة: PDF, DOC, DOCX, PPT, PPTX, ZIP, RAR (الحد الأقصى: 10MB)</div>
+        </div>
+
+        <hr>
+
+        <!-- نوع الكتاب -->
+        <div class="form-group">
+            <label for="{{ form.the_type.id_for_label }}" class="form-label">
+                <i class="fas fa-list"></i> {{ form.the_type.label }}
+            </label>
+            {{ form.the_type }}
+            {% if form.the_type.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.the_type.errors|join:", " }}
+                </div>
+            {% endif %}
+        </div>
+
+        <hr>
+
+        <!-- المستوى الدراسي -->
+        <div class="form-group">
+            <label for="{{ form.educational_level.id_for_label }}" class="form-label">
+                <i class="fas fa-graduation-cap"></i> {{ form.educational_level.label }}
+            </label>
+            {{ form.educational_level }}
+            {% if form.educational_level.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.educational_level.errors|join:", " }}
+                </div>
+            {% endif %}
+        </div>
+
+        <hr>
+
+        <!-- الفئة العمرية -->
+        <div class="form-group">
+            <label class="form-label">
+                <i class="fas fa-hourglass-start"></i> الفئة العمرية المستهدفة
+            </label>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="{{ form.min_age.id_for_label }}" class="form-label">الحد الأدنى للعمر</label>
+                    {{ form.min_age }}
+                    {% if form.min_age.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.min_age.errors|join:", " }}
                         </div>
                     {% endif %}
                 </div>
-
-                <hr>
-                
-                <div class="form">
-                    <label class="label">
-                        <i class="fas fa-upload"></i> {{ form.autre.label }}
-                    </label>
-                    {{ form.autre }}
-                    {{ form.autre.errors }}
+                <div class="col-md-6">
+                    <label for="{{ form.max_age.id_for_label }}" class="form-label">الحد الأقصى للعمر</label>
+                    {{ form.max_age }}
+                    {% if form.max_age.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.max_age.errors|join:", " }}
+                        </div>
+                    {% endif %}
                 </div>
-    
-                <hr>
-
-                <div class="form">
-                    <label class="label">
-                        <i class="fas fa-list"></i>{{ form.the_type.label }}
-                    </label>
-                        {{ form.the_type }}
-                        {{ form.the_type.errors }}
-                </div>
-
-                <hr>
-               
-                <div class="mb-3 form">
-                    <label for="{{ form.educational_level.id_for_label }}" class="form-label">
-                        <i class="fas fa-graduation-cap"></i> هل يجب أن يكون للقراء مستوى دراسي محدد؟
-                    </label>
-                        {{ form.educational_level }}
-                </div>
-
-                <hr>
-
-                <div class="form-row form">
-                    <label class="label">
-                        <i class="fas fa-hourglass-start"></i>  يجب أن يكون عمر الزائر:
-                    </label>                
-                    <div class="form">
-                        <label class="label">
-                            <i class="fas fa-user"></i> {{ form.min_age.label }}
-                        </label>
-                        {{ form.min_age }}
-                        {{ form.min_age.errors }}
-
-                        <hr>
-
-                        <label class="label">
-                            <i class="fas fa-user"></i> {{ form.max_age.label }}
-                        </label>
-                        {{ form.max_age }}
-                        {{ form.max_age.errors }}
-                    </div>
-    
-                    
-                </div>
-                
-                <hr>
-    
-                <div class="form">
-                    <label class="label">
-                        <i class="fas fa-info-circle"></i> {{ form.mydescription.label }}
-                    </label>
-                    {{ form.mydescription }}
-                    {{ form.mydescription.errors }}
-                </div>
-    
-                <hr>
-
-                <div class="form">
-                    <label class="label">
-                        <i class="fas fa-key"></i> {{ form.keywords.label }}
-                    </label>
-                    {{ form.keywords }}
-                    {{ form.keywords.errors }}
-                </div>
-    
-                <button class="add_btn btn btn-primary" type="submit">
-                    <i class="fas fa-paper-plane"></i> نشر الكتاب
-                </button>
-                
-            </form>
+            </div>
         </div>
-    
-    <script>
-        document.getElementById('formFile').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            const preview = document.getElementById('imagePreview');
 
+        <hr>
+
+        <!-- الجنس -->
+        <div class="form-group">
+            <label for="{{ form.gender.id_for_label }}" class="form-label">
+                <i class="fas fa-venus-mars"></i> {{ form.gender.label }}
+            </label>
+            {{ form.gender }}
+            {% if form.gender.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.gender.errors|join:", " }}
+                </div>
+            {% endif %}
+        </div>
+
+        <hr>
+
+        <!-- الوصف التفصيلي -->
+        <div class="form-group">
+            <label for="{{ form.mydescription.id_for_label }}" class="form-label">
+                <i class="fas fa-info-circle"></i> {{ form.mydescription.label }}
+            </label>
+            {{ form.mydescription }}
+            {% if form.mydescription.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.mydescription.errors|join:", " }}
+                </div>
+            {% endif %}
+        </div>
+
+        <hr>
+
+        <!-- الكلمات المفتاحية -->
+        <div class="form-group">
+            <label for="{{ form.keywords.id_for_label }}" class="form-label">
+                <i class="fas fa-key"></i> {{ form.keywords.label }}
+            </label>
+            {{ form.keywords }}
+            {% if form.keywords.errors %}
+                <div class="invalid-feedback d-block">
+                    {{ form.keywords.errors|join:", " }}
+                </div>
+            {% endif %}
+            <div class="form-text">افصل بين الكلمات بفواصل</div>
+        </div>
+
+        <button class="add_btn btn btn-primary mt-4" type="submit">
+            <i class="fas fa-paper-plane"></i> نشر الكتاب
+        </button>
+        
+    </form>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // معاينة الصورة
+    const imageInput = document.getElementById('{{ form.myimage.id_for_label }}');
+    const imagePreview = document.getElementById('imagePreview1');
+    
+    if (imageInput) {
+        imageInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            
             if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
                 }
                 reader.readAsDataURL(file);
             } else {
-                preview.src = '';
-                preview.style.display = 'none';
+                imagePreview.src = '';
+                imagePreview.style.display = 'none';
             }
         });
-    </script>
+    }
+    
+    // التحقق من صحة النموذج
+    const forms = document.querySelectorAll('.needs-validation');
+    
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
+            
+            form.classList.add('was-validated');
+        }, false);
+    });
+});
+</script>
 
-    {% include "tifinar/adm_footer.html" %}
+{% include "tifinar/adm_footer.html" %}
