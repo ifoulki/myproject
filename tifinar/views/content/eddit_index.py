@@ -4,7 +4,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from tifinar.models import articles, videos, cours, books, exams
 from django.shortcuts import render, redirect,get_object_or_404
 from django.conf import settings  # أضف هذا
-from django.utils.text import slugify  # أضف هذا
 import os
 from django.contrib import messages
 from django.http import HttpResponseForbidden

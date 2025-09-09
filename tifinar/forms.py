@@ -4,6 +4,7 @@ from .models import comments, msgs, books, videos, exams, cours
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
+from django.utils.text import slugify
 
 User = get_user_model()
 import os

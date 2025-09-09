@@ -1,32 +1,30 @@
-from django.shortcuts import render, redirect,get_object_or_404
+from django.shortcuts import render, redirect
 from tifinar.myForms.book.create_book_form import BookForm
 from django.utils import timezone
 from django.core.files.storage import FileSystemStorage
-from django.conf import settings  # أضف هذا
-from django.utils.text import slugify  # أضف هذا
+from django.conf import settings
 import re
 import os
 from django.contrib import messages
 from django.http import HttpResponseForbidden
 import unicodedata
 import shutil
+from django.core.exceptions import ValidationError
 
-def handle_uploaded_files(request, field_name, title_slug):
-    """معالجة الملفات المحملة وحفظها في المجلد الثابت"""
-    paths = []
-    
+def handle_uploaded_file(request, field_name, title_slug):
+    """معالجة ملف محمل وحفظه في المجلد الثابت"""
     if field_name in request.FILES:
-        files = request.FILES.getlist(field_name)
+        file = request.FILES[field_name]
         
-        for index, file in enumerate(files):
+        # تحقق إذا كان file كائن ملف حقيقي
+        if hasattr(file, 'name') and hasattr(file, 'size'):
             sanitized_title_slug = sanitize_file_name(title_slug)
-            extension = file.name.split('.')[-1].lower()
-            file_name = generate_file_name(sanitized_title_slug, index, extension, field_name)
+            extension = file.name.split('.')[-1].lower() if '.' in file.name else ''
+            file_name = generate_file_name(sanitized_title_slug, 0, extension, field_name)
             
             # المسار الجديد في المجلد الثابت
             if field_name == 'myimage':
                 target_dir = os.path.join(settings.BASE_DIR, 'tifinar', 'static', 'tifinar', 'images', 'books')
-
             else:
                 target_dir = os.path.join(settings.BASE_DIR, 'tifinar', 'static', 'tifinar', 'attachments', 'books')
             
@@ -36,7 +34,7 @@ def handle_uploaded_files(request, field_name, title_slug):
             # المسار الكامل للملف
             file_path = os.path.join(target_dir, file_name)
             
-            print(f"سيتم حفظ الملف في: {file_path}")  # للتصحيح
+            print(f"سيتم حفظ الملف في: {file_path}")
             
             # حفظ الملف
             with open(file_path, 'wb+') as destination:
@@ -45,14 +43,11 @@ def handle_uploaded_files(request, field_name, title_slug):
             
             # تخزين المسار النسبي للعرض في القالب
             if field_name == 'myimage':
-                relative_path = f'tifinar/images/books/{file_name}'
+                return f'tifinar/images/books/{file_name}'
             else:
-                relative_path = f'tifinar/attachments/books/{file_name}'
-            
-            paths.append(relative_path)
-
+                return f'tifinar/attachments/books/{file_name}'
     
-    return ','.join(paths) if paths else None
+    return None
 
 def sanitize_file_name(file_name):
     """تنظيف اسم الملف من الأحرف غير المرغوبة"""
@@ -69,52 +64,28 @@ def generate_file_name(title_slug, index, extension, prefix):
         return f"{title_slug}_{index + 1}.{extension}"
 
 def create_book(request):
-    """
-    دالة مخصصة لإنشاء الكتب فقط
-    """
-    # إنشاء المجلدات داخل الدالة
-    os.makedirs(os.path.join(settings.MEDIA_ROOT, 'books/images'), exist_ok=True)
-    os.makedirs(os.path.join(settings.MEDIA_ROOT, 'books/attachments'), exist_ok=True)
-    
-    if request.method == 'POST':
-        form = BookForm(request.POST, request.FILES)
-        if form.is_valid():
-            obj = form.save(commit=False)
+    try:
+        if request.method == 'POST':
+            form = BookForm(request.POST, request.FILES)
+            if form.is_valid():
+                try:
+                    obj = form.save()
+                    return redirect('edit_article', slug=obj.slug)
+                except ValidationError as e:
+                    # إضافة الخطأ إلى النموذج لعرضه للمستخدم
+                    form.add_error(None, e)
             
-            # إنشاء slug من العنوان (مرة واحدة فقط)
-            title = form.cleaned_data['title']
-            if title:
-                clean = re.sub(r'[^\w\s-]', '', title)
-                clean = clean.replace(' ', '_')
-                obj.slug = slugify(clean, allow_unicode=True)
-            
-            # معالجة الملفات
-            if 'myimage' in request.FILES:
-                image_path = handle_uploaded_files(request, 'myimage', obj.slug)
-                obj.myimage = image_path
-            
-            if 'autre' in request.FILES:
-                attachment_path = handle_uploaded_files(request, 'autre', obj.slug)
-                obj.autre = attachment_path
-            
-            # تعيين القيم الافتراضية
-            obj.visibility_status = 'under_review'
-            obj.created_at = timezone.now()
-            obj.updated_at = timezone.now()
-            
-            obj.save()
-            return redirect('edit_article', slug=obj.slug) 
-
+            return render(request, 'tifinar/auth/books/create_book.html', {'form': form})
+        
         else:
-            # أضف هذا لرؤية الأخطاء في الكونسول
-            print("Form errors:", form.errors)
-            print("Form non-field errors:", form.non_field_errors())
-            # أضف هذا لعرض الأخطاء في القالب أيضاً
-            return render(request, 'tifinar/auth/books/create_book.html', {
-                'form': form,
-                'errors': form.errors
-            })
-    else:
+            form = BookForm()
+            return render(request, 'tifinar/auth/books/create_book.html', {'form': form})
+            
+    except Exception as e:
+        # في حالة أي خطأ غير متوقع، نعود برسالة واضحة
         form = BookForm()
-    
-    return render(request, 'tifinar/auth/books/create_book.html', {'form': form})
+        form.add_error(None, "حدث خطأ غير متوقع في النظام. يرجى المحاولة مرة أخرى.")
+        return render(request, 'tifinar/auth/books/create_book.html', {
+            'form': form,
+            'error_message': "عذراً، حدث خطأ في النظام. تم إبلاغ الفنيين بهذه المشكلة."
+        })

@@ -9,7 +9,6 @@ import os
 from django.contrib import messages
 from django.http import HttpResponseForbidden
 import unicodedata
-import shutil
 
 def handle_uploaded_files(request, field_name, title_slug):
     """معالجة الملفات المحملة وحفظها في المجلد الثابت"""

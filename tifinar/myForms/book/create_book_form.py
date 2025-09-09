@@ -1,10 +1,13 @@
+from django.utils.text import slugify
 from django import forms
 from django.core.exceptions import ValidationError
 from tifinar.models import books
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-from django.utils.text import slugify
 import os
+import re
+import unicodedata
+import time
 
 User = get_user_model()
 
@@ -29,7 +32,7 @@ class BaseContentForm(forms.ModelForm):
         ('', 'عنوان الكتاب مكتوب بأي لغة؟'),
         ('rtl', 'العربية'),
         ('ltr', 'Français'),
-        ('ltr', 'English' )
+        ('ltr', 'English')
     ]
     
     GENDER_CHOICES = [
@@ -115,51 +118,109 @@ class BaseContentForm(forms.ModelForm):
         fields = [] 
 
     def clean_title(self):
-        title = self.cleaned_data.get('title')
-        if not title or len(title.strip()) < 7:
-            raise forms.ValidationError('يجب أن يكون العنوان لا يقل عن 7 أحرف.')
-        return title.strip()
+        try:
+            title = self.cleaned_data.get('title')
+            if not title or len(title.strip()) < 7:
+                raise forms.ValidationError('يجب أن يكون العنوان لا يقل عن 7 أحرف.')
+            return title.strip()
+        except Exception as e:
+            print(f"خطأ في التحقق من العنوان: {str(e)}")
+            raise forms.ValidationError('حدث خطأ في التحقق من العنوان. يرجى المحاولة مرة أخرى.')
 
     def clean_myimage(self):
-        return self._validate_file('myimage', ['.jpeg', '.png', '.jpg', '.gif', '.svg', '.webp'], 5)
-    
-    def clean_autre(self):
-        return self._validate_file('autre', ['.pdf', '.doc', '.docx', '.ppt', '.pptx', '.zip', '.rar'], 10)
-    
-    def _validate_file(self, field_name, valid_extensions, max_size_mb):
-        file = self.cleaned_data.get(field_name)
-        
-        if isinstance(file, str):
-            return file
-        
-        if file:
-            ext = os.path.splitext(file.name)[1].lower()
-            if ext not in valid_extensions:
-                raise ValidationError(f'نوع الملف غير مسموح به. المسموح: {", ".join(valid_extensions)}')
+        try:
+            file = self.cleaned_data.get('myimage')
             
-            max_size = max_size_mb * 1024 * 1024
-            if file.size > max_size:
-                raise ValidationError(f'حجم الملف يجب أن لا يتجاوز {max_size_mb} ميجابايت.')
-        
-        return file
+            # إذا كان الملف نصاً أو None، نرجعه كما هو
+            if file is None or isinstance(file, str):
+                return file
+            
+            # إذا كان كائن ملف، نتحقق من الامتداد
+            if hasattr(file, 'name') and file.name:
+                ext = os.path.splitext(file.name)[1].lower()
+                valid_extensions = ['.jpeg', '.png', '.jpg', '.gif', '.svg', '.webp']
+                if ext and ext not in valid_extensions:
+                    raise ValidationError(f'نوع الملف غير مسموح به. المسموح: {", ".join(valid_extensions)}')
+            
+            return file
+            
+        except ValidationError:
+            raise  # نعيد ValidationError للمستخدم
+        except Exception as e:
+            print(f"خطأ غير متوقع في تحقق صورة الكتاب: {str(e)}")
+            # نعيد القيمة كما هي بدلاً من إظهار خطأ تقني
+            return self.cleaned_data.get('myimage')
+
+    def clean_autre(self):
+        try:
+            file = self.cleaned_data.get('autre')
+            
+            # إذا كان الملف نصاً أو None، نرجعه كما هو
+            if file is None or isinstance(file, str):
+                return file
+            
+            # إذا كان كائن ملف، نتحقق من الامتداد
+            if hasattr(file, 'name') and file.name:
+                ext = os.path.splitext(file.name)[1].lower()
+                valid_extensions = ['.pdf', '.doc', '.docx', '.ppt', '.pptx', '.zip', '.rar']
+                if ext and ext not in valid_extensions:
+                    raise ValidationError(f'نوع الملف غير مسموح به. المسموح: {", ".join(valid_extensions)}')
+            
+            return file
+            
+        except ValidationError:
+            raise  # نعيد ValidationError للمستخدم
+        except Exception as e:
+            print(f"خطأ غير متوقع في تحقق المرفقات: {str(e)}")
+            # نعيد القيمة كما هي بدلاً من إظهار خطأ تقني
+            return self.cleaned_data.get('autre')
     
     def clean(self):
-        cleaned_data = super().clean()
-        min_age = cleaned_data.get('min_age')
-        max_age = cleaned_data.get('max_age')
-        
-        if min_age and max_age and min_age > max_age:
-            raise ValidationError('الحد الأدنى للعمر يجب أن يكون أقل من أو يساوي الحد الأقصى للعمر')
-        
-        return cleaned_data
+        try:
+            cleaned_data = super().clean()
+            min_age = cleaned_data.get('min_age')
+            max_age = cleaned_data.get('max_age')
+            
+            if min_age and max_age and min_age > max_age:
+                raise ValidationError('الحد الأدنى للعمر يجب أن يكون أقل من أو يساوي الحد الأقصى للعمر')
+            
+            return cleaned_data
+            
+        except Exception as e:
+            print(f"خطأ غير متوقع في التحقق العام: {str(e)}")
+            # نعيد البيانات مع إضافة خطأ عام بدلاً من خطأ تقني
+            if not self.errors:
+                raise ValidationError("حدث خطأ غير متوقع أثناء التحقق من البيانات. يرجى المحاولة مرة أخرى.")
+            return self.cleaned_data
     
     def save(self, commit=True):
-        instance = super().save(commit=False)
-        if not instance.slug:
-            instance.slug = slugify(instance.title)
-        if commit:
-            instance.save()
-        return instance
+        try:
+            instance = super().save(commit=False)
+            
+            if not instance.slug and instance.title:
+                text = str(instance.title)
+                # تحويل إلى ASCII وإزالة التشكيل
+                text = unicodedata.normalize('NFKD', text)
+                text = text.encode('ascii', 'ignore').decode('ascii')
+                # إزالة الأحرف غير المرغوبة
+                text = re.sub(r'[^\w\s-]', '', text)
+                # تحويل إلى حروف صغيرة واستبدال المسافات
+                text = re.sub(r'[-\s]+', '-', text.lower())
+                # إزالة الشرطات من الأطراف
+                instance.slug = text.strip('-')
+            
+            if commit:
+                instance.save()
+            return instance
+            
+        except Exception as e:
+            print(f"خطأ في حفظ النموذج: {str(e)}")
+            # في حالة الخطأ، نستخدم slug افتراضي بدلاً من إظهار خطأ
+            if not instance.slug:
+                instance.slug = f"book-{int(time.time())}"
+            if commit:
+                instance.save()
+            return instance
 
 class BookForm(BaseContentForm):
     

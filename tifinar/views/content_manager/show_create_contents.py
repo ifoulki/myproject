@@ -37,19 +37,19 @@ def show_create_content(request, content_type):
     if content_type == 'books':
         FormClass = BookForm
         template = 'tifinar/auth/books/create_book.html'
-        redirect_view = 'tifinar:edit_book'
+        redirect_view = 'edit_book'
     elif content_type == 'cours':
         FormClass = CoursForm
         template = 'tifinar/auth/cours/create_cours.html'
-        redirect_view = 'tifinar:edit_cours'
+        redirect_view = 'edit_cours'
     elif content_type == 'videos':
         FormClass = VideoForm
         template = 'tifinar/auth/videos/create_video.html'
-        redirect_view = 'tifinar:edit_video'
+        redirect_view = 'edit_video'
     elif content_type == 'exams':
         FormClass = ExamForm
         template = 'tifinar/auth/exams/create_exam.html'
-        redirect_view = 'tifinar:edit_exam'
+        redirect_view = 'edit_exam'
     else:
         return render(request, '404.html', status=404)
 

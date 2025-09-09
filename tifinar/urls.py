@@ -109,8 +109,8 @@ urlpatterns = [
 
     # حدف المحتوى
     path('articles/delete/<path:slug>/', delete_content, name='delete_article'),
-    path('exams/delete/<path:slug>/', delete_content, name='delete_books'),
-    path('books/delete/<path:slug>/', delete_content, name='delete_exams'),
+    path('books/delete/<path:slug>/', delete_content, name='delete_books'),
+    path('exams/delete/<path:slug>/', delete_content, name='delete_exams'),
     path('cours/delete/<path:slug>/', delete_content, name='delete_cours'),
     path('videos/delete/<path:slug>/', delete_content, name='delete_videos'),
 

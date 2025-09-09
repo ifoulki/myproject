@@ -12,6 +12,8 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 from django.utils.translation import gettext_lazy as _
 import random
 from django.contrib.auth.models import User
+from django.utils.text import slugify
+from django.core.exceptions import ValidationError
 
 class AdminArticles(models.Model):
     adm_art_id = models.IntegerField(primary_key=True)
@@ -162,19 +164,19 @@ class AuthUser(AbstractBaseUser, PermissionsMixin):
     
     class EducationalLevel(models.TextChoices):
         UNKNOWN = '0', _('غير محدد')
-        ILLITERATE = '1', _('السنة الأولى ابتدائي')
-        PRESCHOOL = '2', _('السنة الثانية ابتدائي')
-        PRIMARY = '3', _('السنة الثالثة ابتدائي')
-        MIDDLE = '4', _('السنة الرابعة ابتدائي')
-        HIGH = '5', _('السنة الخامسة ابتدائي')
-        BACHELOR = '6', _('السنة السادسة ابتدائي')
-        MASTER = '7', _('السنة الأولى إعدادي')
-        PHD = '8', _('السنة الثانية إعدادي')
-        OTHER_9 = '9', _('السنة الثالثة إعدادي')
-        OTHER_10 = '10', _('الجدع المشترك')
-        OTHER_11 = '11', _('السنة الأولى بكالوريا')
-        OTHER_12 = '12', _('السنة الثانية بكالورية')
-        OTHER_13 = '13', _('التعليم العالي')
+        PRIMARY_1 = '1', _('السنة الأولى ابتدائي')
+        PRIMARY_2 = '2', _('السنة الثانية ابتدائي')
+        PRIMARY_3 = '3', _('السنة الثالثة ابتدائي')
+        PRIMARY_4 = '4', _('السنة الرابعة ابتدائي')
+        PRIMARY_5 = '5', _('السنة الخامسة ابتدائي')
+        PRIMARY_6 = '6', _('السنة السادسة ابتدائي')
+        MIDDLE_1 = '7', _('السنة الأولى إعدادي')
+        MIDDLE_2 = '8', _('السنة الثانية إعدادي')
+        MIDDLE_3 = '9', _('السنة الثالثة إعدادي')
+        COMMON_CORE = '10', _('الجدع المشترك')
+        BAC_1 = '11', _('السنة الأولى بكالوريا')
+        BAC_2 = '12', _('السنة الثانية بكالوريا')
+        POST_BAC = '13', _('التعليم العالي')
 
     educational_level = models.CharField(
         _('Educational Level'),
@@ -282,9 +284,40 @@ class AuthUserUserPermissions(models.Model):
         db_table = 'auth_user_user_permissions'
         unique_together = (('user', 'permission'),)
 
+
+class EducationalLevel(models.TextChoices):
+    UNKNOWN = '0', _('غير محدد')
+    PRIMARY_1 = '1', _('السنة الأولى ابتدائي')
+    PRIMARY_2 = '2', _('السنة الثانية ابتدائي')
+    PRIMARY_3 = '3', _('السنة الثالثة ابتدائي')
+    PRIMARY_4 = '4', _('السنة الرابعة ابتدائي')
+    PRIMARY_5 = '5', _('السنة الخامسة ابتدائي')
+    PRIMARY_6 = '6', _('السنة السادسة ابتدائي')
+    MIDDLE_1 = '7', _('السنة الأولى إعدادي')
+    MIDDLE_2 = '8', _('السنة الثانية إعدادي')
+    MIDDLE_3 = '9', _('السنة الثالثة إعدادي')
+    COMMON_CORE = '10', _('الجدع المشترك')
+    BAC_1 = '11', _('السنة الأولى بكالوريا')
+    BAC_2 = '12', _('السنة الثانية بكالوريا')
+    POST_BAC = '13', _('التعليم العالي')
+
+class Gender(models.TextChoices):
+    MALE = 'Male', _('ذكر')
+    FEMALE = 'Female', _('أنثى')
+    ALL = 'all', _('للجميع')
+
+class VisibilityStatus(models.TextChoices):
+    PUBLIC = 'public', _('عام')
+    UNDER_REVIEW = 'under_review', _('قيد المراجعة')
+    RESTRICTED = 'restricted', _('مقيد')
+
+class Dir(models.TextChoices):
+    RTL = 'rtl', _('من اليمين لليسار (العربية)')
+    LTR = 'ltr', _('من اليسار لليمين (الفرنسية/الإنجليزية)')
+
 class books(models.Model):
     books_id = models.AutoField(primary_key=True)
-    myimage = models.TextField(db_column='myimage', unique=True, blank=True, null=True)
+    myimage = models.TextField(db_column='Myimage', blank=True, null=True)
     title = models.TextField(unique=True, blank=True, null=True)
     slug = models.SlugField(max_length=255, blank=True, null=True, allow_unicode=True, unique=True)
     mysubject = models.TextField(db_column='Mysubject', unique=True, blank=True, null=True)
@@ -293,15 +326,34 @@ class books(models.Model):
     author = models.TextField(db_column='Author', blank=True, null=True)
     autre = models.CharField(max_length=255, blank=True, null=True)
     the_type = models.CharField(max_length=255, blank=True, null=True)
-    dir = models.CharField(max_length=3, blank=True, null=True)
+    dir = models.CharField(
+        max_length=3,
+        choices=Dir.choices,
+        default=Dir.LTR,
+        blank=True,
+        null=True
+    )
     language = models.CharField(max_length=255, blank=True, null=True)
-    visibility_status = models.CharField(max_length=12, default='visible')
+    visibility_status = models.CharField(
+        max_length=12,
+        choices=VisibilityStatus.choices,
+        default=VisibilityStatus.UNDER_REVIEW
+    )
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    educational_level = models.CharField(max_length=26, default='0')
-    gender = models.CharField(max_length=6, default='all')
+    gender = models.CharField(
+        max_length=6,
+        choices=Gender.choices,
+        default=Gender.ALL
+    )
     min_age = models.IntegerField(default=2)
     max_age = models.IntegerField(default=75)
+    educational_level_backup = models.CharField(max_length=255, blank=True, null=True)
+    educational_level = models.CharField(
+        max_length=2,
+        choices=EducationalLevel.choices,
+        default=EducationalLevel.UNKNOWN
+    )
 
     class Meta:
         managed = False
@@ -314,7 +366,7 @@ class books(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug and self.title:
-            self.slug = slugify(self.title)
+            self.slug = slugify(self.title, allow_unicode=True)
         super().save(*args, **kwargs)
 
     @property
@@ -324,8 +376,29 @@ class books(models.Model):
     def clean(self):
         if self.min_age and self.max_age and self.min_age > self.max_age:
             raise ValidationError('الحد الأدنى للعمر يجب أن يكون أقل من الحد الأقصى')
+        
+        if self.min_age < 2 or self.min_age > 75:
+            raise ValidationError('الحد الأدنى للعمر يجب أن يكون بين 2 و 75')
+        
+        if self.max_age < 2 or self.max_age > 75:
+            raise ValidationError('الحد الأقصى للعمر يجب أن يكون بين 2 و 75')
 
+    def get_educational_level_display(self):
+        """عرض قيمة educational_level بشكل مقروء"""
+        return dict(EducationalLevel.choices).get(self.educational_level, 'غير معروف')
 
+    def get_gender_display(self):
+        """عرض قيمة gender بشكل مقروء"""
+        return dict(Gender.choices).get(self.gender, 'غير معروف')
+
+    def get_visibility_status_display(self):
+        """عرض قيمة visibility_status بشكل مقروء"""
+        return dict(VisibilityStatus.choices).get(self.visibility_status, 'غير معروف')
+
+    def get_dir_display(self):
+        """عرض قيمة dir بشكل مقروء"""
+        return dict(Dir.choices).get(self.dir, 'غير معروف')
+    
 class Cache(models.Model):
     id = models.CharField(primary_key=True, max_length=255)
     value = models.TextField()
