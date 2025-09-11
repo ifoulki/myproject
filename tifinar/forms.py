@@ -197,32 +197,6 @@ class BaseContentForm(forms.ModelForm):
             raise forms.ValidationError('يجب أن يكون الحد الأدنى للعمر أصغر من الحد الأقصى.')
         return cleaned_data
 
-    def clean_myimage(self):
-        return self._validate_file('myimage', ['.jpeg', '.png', '.jpg', '.gif', '.svg', '.webp'], 5)
-    
-    def clean_autre(self):
-        return self._validate_file('autre', ['.pdf', '.doc', '.docx', '.ppt', '.pptx', '.zip', '.rar'], 10)
-    
-    def _validate_file_extension(self, field_name):
-        file = self.cleaned_data.get(field_name)
-        if file:
-            valid_extensions = ['.jpeg', '.png', '.jpg', '.gif', '.svg', '.webp']
-            if not any(file.name.lower().endswith(ext) for ext in valid_extensions):
-                raise forms.ValidationError('الملف يجب أن يكون صورة بصيغة صحيحة.')
-        return file
-    
-    def _validate_file(self, field_name, valid_extensions, max_size_mb):
-        file = self.cleaned_data.get(field_name)
-        if file:
-            # التحقق من الامتداد
-            ext = os.path.splitext(file.name)[1].lower()
-            if ext not in valid_extensions:
-                raise ValidationError(f'نوع الملف غير مسموح به. المسموح: {", ".join(valid_extensions)}')
-            max_size = max_size_mb * 1024 * 1024
-            if file.size > max_size:
-                raise ValidationError(f'حجم الملف يجب أن لا يتجاوز {max_size_mb} ميجابايت.')
-        return file
-    
     def save(self, commit=True):
         instance = super().save(commit=False)
         if not hasattr(instance, 'slug') or not instance.slug:

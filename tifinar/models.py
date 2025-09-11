@@ -62,8 +62,8 @@ class articles(models.Model):
     gender = models.CharField(
         max_length=10,
         choices=[
-            ('Male', 'ذكر'),
-            ('Female', 'أنثى'),
+            ('male', 'ذكر'),
+            ('female', 'أنثى'),
             ('all', 'جميع')
         ],
         default='all'
@@ -209,16 +209,15 @@ class AuthUser(AbstractBaseUser, PermissionsMixin):
     social_media = models.TextField(_('Social Media'), null=True, blank=True)
     
     class Gender(models.TextChoices):
-        MALE = 'Male', _('Male')
-        FEMALE = 'Female', _('Female')
-        OTHER = 'Other', _('Other')
-        UNKNOWN = 'Unknown', _('Unknown')
+        MALE = 'male', _('male')
+        FEMALE = 'female', _('female')
+        ALL = 'all', _('all')
+    
     
     gender = models.CharField(
         _('Gender'),
         max_length=10,
         choices=Gender.choices,
-        default=Gender.UNKNOWN,
         null=True,
         blank=True
     )
@@ -302,8 +301,8 @@ class EducationalLevel(models.TextChoices):
     POST_BAC = '13', _('التعليم العالي')
 
 class Gender(models.TextChoices):
-    MALE = 'Male', _('ذكر')
-    FEMALE = 'Female', _('أنثى')
+    MALE = 'male', _('ذكر')
+    FEMALE = 'female', _('أنثى')
     ALL = 'all', _('للجميع')
 
 class VisibilityStatus(models.TextChoices):
@@ -857,7 +856,7 @@ class synonym_terms(models.Model):
     term = models.CharField(max_length=255)
     synonyms = models.TextField(blank=True, null=True)
     contact_field = models.CharField(max_length=64)  # هذا يجب أن يكون موجودًا
-    target_gender = models.CharField(max_length=6, choices=[('Male','Male'),('Female','Female')], blank=True, null=True)
+    target_gender = models.CharField(max_length=6, choices=[('male','male'),('female','female')], blank=True, null=True)
     ignore_terms = models.CharField(max_length=255, blank=True, null=True)
     
     class Meta:
