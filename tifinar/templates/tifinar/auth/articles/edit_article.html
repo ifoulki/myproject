@@ -106,42 +106,101 @@
                 <select id="educational_level" name="educational_level" class="form-select">
                     <option value="Unknown" {% if form.educational_level.value == 'Unknown' or article.educational_level == 'Unknown' %}selected{% endif %}>لا، المقال مناسب للجميع</option>
                     <optgroup label="الإبتدائي :">
-                        <option value="1st Year of Primary School" {% if form.educational_level.value == '1st Year of Primary School' or article.educational_level == '1st Year of Primary School' %}selected{% endif %}>السنة الأولى ابتدائي</option>
-                        <option value="2nd Year of Primary School" {% if form.educational_level.value == '2nd Year of Primary School' or article.educational_level == '2nd Year of Primary School' %}selected{% endif %}>السنة الثانية ابتدائي</option>
-                        <option value="3rd Year of Primary School" {% if form.educational_level.value == '3rd Year of Primary School' or article.educational_level == '3rd Year of Primary School' %}selected{% endif %}>السنة الثالثة ابتدائي</option>
-                        <option value="4th Year of Primary School" {% if form.educational_level.value == '4th Year of Primary School' or article.educational_level == '4th Year of Primary School' %}selected{% endif %}>السنة الرابعة ابتدائي</option>
-                        <option value="5th Year of Primary School" {% if form.educational_level.value == '5th Year of Primary School' or article.educational_level == '5th Year of Primary School' %}selected{% endif %}>السنة الخامسة ابتدائي</option>
-                        <option value="6th Year of Primary School" {% if form.educational_level.value == '6th Year of Primary School' or article.educational_level == '6th Year of Primary School' %}selected{% endif %}>السنة السادسة ابتدائي</option>
+                        <option value="1" {% if form.educational_level.value == '1' or article.educational_level == '1' %}selected{% endif %}>السنة الأولى ابتدائي</option>
+                        <option value="2" {% if form.educational_level.value == '2' or article.educational_level == '2' %}selected{% endif %}>السنة الثانية ابتدائي</option>
+                        <option value="3" {% if form.educational_level.value == '3' or article.educational_level == '3' %}selected{% endif %}>السنة الثالثة ابتدائي</option>
+                        <option value="4" {% if form.educational_level.value == '4' or article.educational_level == '4' %}selected{% endif %}>السنة الرابعة ابتدائي</option>
+                        <option value="5" {% if form.educational_level.value == '5' or article.educational_level == '5' %}selected{% endif %}>السنة الخامسة ابتدائي</option>
+                        <option value="6" {% if form.educational_level.value == '6' or article.educational_level == '6' %}selected{% endif %}>السنة السادسة ابتدائي</option>
                     </optgroup>
                     <optgroup label="الثانوي الإعدادي :">
-                        <option value="1st Year of Middle School" {% if form.educational_level.value == '1st Year of Middle School' or article.educational_level == '1st Year of Middle School' %}selected{% endif %}>السنة الأولى إعدادي</option>
-                        <option value="2nd Year of Middle School" {% if form.educational_level.value == '2nd Year of Middle School' or article.educational_level == '2nd Year of Middle School' %}selected{% endif %}>السنة الثانية إعدادي</option>
-                        <option value="3rd Year of Middle School" {% if form.educational_level.value == '3rd Year of Middle School' or article.educational_level == '3rd Year of Middle School' %}selected{% endif %}>السنة الثالثة إعدادي</option>
+                        <option value="7" {% if form.educational_level.value == '7' or article.educational_level == '7' %}selected{% endif %}>السنة الأولى إعدادي</option>
+                        <option value="8" {% if form.educational_level.value == '8' or article.educational_level == '8' %}selected{% endif %}>السنة الثانية إعدادي</option>
+                        <option value="9" {% if form.educational_level.value == '9' or article.educational_level == '9' %}selected{% endif %}>السنة الثالثة إعدادي</option>
                     </optgroup>
                     <optgroup label="الثانوي الثأهيلي :">
-                        <option value="Common Core" {% if form.educational_level.value == 'Common Core' or article.educational_level == 'Common Core' %}selected{% endif %}>المشترك العلمي</option>
-                        <option value="1st Year of Baccalaureate" {% if form.educational_level.value == '1st Year of Baccalaureate' or article.educational_level == '1st Year of Baccalaureate' %}selected{% endif %}>السنة الأولى من البكالوريا (تخصص علوم تجريبية)</option>
-                        <option value="2nd Year of Baccalaureate" {% if form.educational_level.value == '2nd Year of Baccalaureate' or article.educational_level == '2nd Year of Baccalaureate' %}selected{% endif %}>السنة الثانية من البكالوريا (تخصص علوم فيزيائية)</option>
+                        <option value="10" {% if form.educational_level.value == '10' or article.educational_level == '10' %}selected{% endif %}>المشترك العلمي</option>
+                        <option value="11" {% if form.educational_level.value == '11' or article.educational_level == '11' %}selected{% endif %}>السنة الأولى من البكالوريا (تخصص علوم تجريبية)</option>
+                        <option value="12" {% if form.educational_level.value == '12' or article.educational_level == '12' %}selected{% endif %}>السنة الثانية من البكالوريا (تخصص علوم فيزيائية)</option>
                     </optgroup>
                     <optgroup label="التعليم العالي">
-                        <option value="Post-Baccalaureate" {% if form.educational_level.value == 'Post-Baccalaureate' or article.educational_level == 'Post-Baccalaureate' %}selected{% endif %}>الدراسة بعد البكالوريا</option>
+                        <option value="13" {% if form.educational_level.value == '13' or article.educational_level == '13' %}selected{% endif %}>الدراسة بعد البكالوريا</option>
                     </optgroup>
                 </select>
                 {% if form.educational_level.errors %}
                     <small class="text-danger">{{ form.educational_level.errors }}</small>
                 {% endif %}
             </div>
+            
+            <hr>
+            
+            <!-- العمر الأدنى -->
+            <div class="mb-3">
+                    <label for="min_age" class="form-label">
+                        <i class="fas fa-child"></i> الحد الأدنى للعمر:
+                    </label>
+                    {{ form.min_age }}
+                    {% if form.min_age.errors %}
+                        <div class="text-danger small">{{ form.min_age.errors }}</div>
+                    {% endif %}
+            </div>
+
+                    <!-- العمر الأقصى -->
+            <div class="mb-3">
+                    <label for="max_age" class="form-label">
+                        <i class="fas fa-user"></i> الحد الأقصى للعمر:
+                    </label>
+                    {{ form.max_age }}
+                    {% if form.max_age.errors %}
+                        <div class="text-danger small">{{ form.max_age.errors }}</div>
+                    {% endif %}
+            </div>
+
+            <hr>
+                <div class="form-group">
+                <label class="label" for="gender">
+                    <i class="fas fa-tag"></i>  
+                     المقال موجه ل :
+                </label>
+                <select class="form-control form-select" id="gender" name="gender">
+                    <option value="all" {% if article.gender == 'all' %}selected{% endif %}>المقال مناسب للجميع</option>
+                    <option value="male" {% if article.gender == 'male' %}selected{% endif %}>الدكور فقط</option>
+                    <option value="female" {% if article.gender == 'female' %}selected{% endif %}>اللإناث فقط</option>
+                </select>
+            
             <hr>
 
             <div class="form-group">
-                <label class="label " for="the_type"><i class="fas fa-tag"></i> نوع المنشور:</label>
-                <select class="form-control form-select" id="the_type" name="the_type" >
-                    <option value="" disabled selected>اختر نوع المنشور</option>
-                        <option value=" item " > item </option>
+                <label class="label" for="the_type">
+                    <i class="fas fa-tag"></i>  
+                    صنف المقال :
+                </label>
+                <select class="form-control form-select" id="the_type" name="the_type">
+                    <option value="" disabled {% if article.the_type == '' %}selected{% endif %}>اختر صنف المقال...</option>
+            
+                    <optgroup label="اللغات:">
+                        <option value="الأمازيغية" {% if article.the_type == 'الأمازيغية' %}selected{% endif %}>تعلم الأمازيغية</option>
+                        <option value="العربية" {% if article.the_type == 'العربية' %}selected{% endif %}>تعلم العربية</option>
+                        <option value="الفرنسية" {% if article.the_type == 'الفرنسية' %}selected{% endif %}>تعلم الفرنسية</option>
+                        <option value="الإنجليزية" {% if article.the_type == 'الإنجليزية' %}selected{% endif %}>تعلم الإنجليزية</option>
+                    </optgroup>
+            
+                    <optgroup label="العلوم:">
+                        <option value="علوم Apprendre les maths" {% if article.the_type == 'علوم Apprendre les maths' %}selected{% endif %}>تعلم الرياضيات</option>
+                        <option value="الفزياء" {% if article.the_type == 'الفزياء' %}selected{% endif %}>الفزياء</option>
+                        <option value="الكمياء" {% if article.the_type == 'الكمياء' %}selected{% endif %}>الكمياء</option>
+                        <option value="علوم الحياة والأرض SVT" {% if article.the_type == 'علوم الحياة والأرض SVT' %}selected{% endif %}>علوم الحياة والأرض</option>
+                    </optgroup>
+            
+                    <optgroup label="مواضيع أخرى:">
+                        <option value="صحة وحياة" {% if article.the_type == 'صحة وحياة' %}selected{% endif %}>صحة وحياة</option>
+                        <option value="Computer Science علوم الحاسوب" {% if article.the_type == 'Computer Science علوم الحاسوب' %}selected{% endif %}>علوم الحاسوب</option>
+                        <option value="القانون وحقوق الإنسان" {% if article.the_type == 'القانون وحقوق الإنسان' %}selected{% endif %}>القانون وحقوق الإنسان</option>
+                        <option value="الثقافة العامة" {% if article.the_type == 'الثقافة العامة' %}selected{% endif %}>الثقافة العامة</option>
+                        <option value="تربية وتعليم" {% if article.the_type == 'تربية وتعليم' %}selected{% endif %}>تربية وتعليم</option>
+                        <option value="أصناف أخرى" {% if article.the_type == 'أصناف أخرى' %}selected{% endif %}>أصناف أخرى</option>
+                    </optgroup>
                 </select>
-                {% if form.the_type.errors %}
-                    <small class="text-danger">{{ form.the_type.errors }}</small>
-                {% endif %}
             </div>
             
             <hr>
@@ -183,7 +242,7 @@
             </div>
         </form>
 
-            {% include "tifinar/adm_comments.html" %}
+            {% include "tifinar/auth/articles/adm_comments.html" %}
 
     </article>
 </section>

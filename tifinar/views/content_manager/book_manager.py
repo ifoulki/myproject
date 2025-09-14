@@ -76,13 +76,11 @@ def handle_uploaded_file(request, field_name, title_slug):
         file_name = f"{clean_name}_{unique_id}.{extension}"
         print(f"📝 الاسم الجديد: {file_name}")
         
-        # المسار المستهدف
+        # المسار المستهدف (لكن نخزن غير اسم الملف في قاعدة البيانات)
         if field_name == 'myimage':
             target_dir = os.path.join(settings.BASE_DIR, 'tifinar', 'static', 'tifinar', 'images', 'books')
-            return_path = f'tifinar/images/books/{file_name}'
         else:
             target_dir = os.path.join(settings.BASE_DIR, 'tifinar', 'static', 'tifinar', 'ebookZone')
-            return_path = f'tifinar/ebookZone/{file_name}'
         
         os.makedirs(target_dir, exist_ok=True)
         
@@ -92,24 +90,10 @@ def handle_uploaded_file(request, field_name, title_slug):
             for chunk in file.chunks():
                 destination.write(chunk)
         
-        print(f"✅ تم حفظ الملف: {return_path}")
-        return return_path
+        print(f"✅ تم حفظ الملف فعلياً: {file_path}")
+        return file_name  # ✅ نرجع غير الاسم + الامتداد
     
     return None
-
-def generate_unique_file_name(title_slug, extension, prefix, unique_id):
-    """إنشاء اسم ملف فريد وفق القواعد المطلوبة"""
-    if prefix == 'autre':
-        return f"image_de_{title_slug}_{unique_id}.{extension}"
-    else:
-        return f"{title_slug}_{unique_id}.{extension}"
-
-def sanitize_file_name(file_name):
-    """تنظيف اسم الملف من الأحرف غير المرغوبة"""
-    normalized = unicodedata.normalize('NFKD', file_name)
-    ascii_text = normalized.encode('ascii', 'ignore').decode('ascii')
-    clean_name = re.sub(r'[^A-Za-z0-9_\-]', '', ascii_text)
-    return clean_name.lower()
 
 def create_book(request):
     try:
@@ -141,9 +125,9 @@ def create_book(request):
                         if 'myimage' in form.cleaned_data:
                             del form.cleaned_data['myimage']
                         
-                        image_path = handle_uploaded_file(request, 'myimage', obj.slug)
-                        if image_path:
-                            obj.myimage = image_path
+                        image_file_name = handle_uploaded_file(request, 'myimage', obj.slug)
+                        if image_file_name:
+                            obj.myimage = image_file_name  # ✅ فقط الاسم
                             print(f"✅ تم تعيين myimage: {obj.myimage}")
                         else:
                             print("❌ فشل معالجة الصورة")
@@ -154,9 +138,9 @@ def create_book(request):
                         if 'autre' in form.cleaned_data:
                             del form.cleaned_data['autre']
                         
-                        attachment_path = handle_uploaded_file(request, 'autre', obj.slug)
-                        if attachment_path:
-                            obj.autre = attachment_path
+                        attachment_file_name = handle_uploaded_file(request, 'autre', obj.slug)
+                        if attachment_file_name:
+                            obj.autre = attachment_file_name  # ✅ فقط الاسم
                             print(f"✅ تم تعيين autre: {obj.autre}")
                         else:
                             print("❌ فشل معالجة المرفق")

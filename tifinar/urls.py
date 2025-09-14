@@ -27,6 +27,7 @@ from tifinar.views.content_manager.article_manager import create_article
 from tifinar.views.content_manager.book_manager import create_book
 from tifinar.views.content_manager.video_manager import create_video
 from tifinar.views.content_manager.edit_contents import edit_content
+from tifinar.views.content_manager.edit_books import edit_book
 from tifinar.views.content.exams import exam_view, store_answer
 from .logout import custom_logout
 from .login import custom_login
@@ -117,7 +118,7 @@ urlpatterns = [
     # تعديل المحتوى
     path('articles/edit/<path:slug>/', edit_content, {'content_type': 'articles'}, name='edit_article'),
     path('videos/edit/<path:slug>/', edit_content, {'content_type': 'videos'}, name='edit_video'),
-    path('books/edit/<path:slug>/', edit_content, {'content_type': 'books'}, name='edit_book'),
+    path('books/edit/<path:slug>/', edit_book, {'content_type': 'books'}, name='edit_book'),
     path('cours/edit/<path:slug>/', edit_content, {'content_type': 'cours'}, name='edit_cour'),
     path('exams/edit/<path:slug>/', edit_content, {'content_type': 'exams'}, name='edit_exam'), 
     
