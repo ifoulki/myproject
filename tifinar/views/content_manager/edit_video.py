@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseNotFound
-from tifinar.models import books, comments
-from tifinar.forms import BookForm, CommentForm
+from tifinar.models import videos, comments
+from tifinar.forms import VideoForm, CommentForm
 from django.contrib import messages
 import os
 from django.conf import settings
@@ -48,19 +48,22 @@ def normalize_text(text):
     return text
 
 CONTENT_TYPES = {
-    'books': {
-        'model': books,
-        'id_field': 'book_id',
+    'videos': {
+        'model': videos,
+        'id_field': 'vd_id',
         'subject_field': 'mysubject',
-        'template': 'edit_book.html',
-        'redirect_name': 'show_book',
-        'form_class': BookForm,
+        'template': 'edit_video.html',
+        'redirect_name': 'show_video',
+        'form_class': VideoForm,
         'types': ['أدب', 'علوم', 'تاريخ', 'فلسفة']
     },
 }
-
-def edit_book(request, content_type, slug):
+    
+def edit_video(request, slug):
+    # تحديد نوع المحتوى مباشرة داخل الدالة
+    content_type = 'videos'
     config = CONTENT_TYPES.get(content_type)
+    
     if not config:
         return HttpResponseNotFound("نوع المحتوى غير موجود")
 
@@ -71,14 +74,14 @@ def edit_book(request, content_type, slug):
     content_comments = []
     comment_forms = []
 
-    if content_type == 'books':
+    if content_type == 'videos':
         print(f"=== بدء التحقق من التعليقات ===")
         print(f"عنوان الكتاب: '{content.title}'")
         print(f"slug الكتاب: '{slug}'")
         
         # تطبيع العناوين للمقارنة
-        normalized_book_title = normalize_text(content.title)
-        print(f"العنوان بعد التطبيع: '{normalized_book_title}'")
+        normalized_video_title = normalize_text(content.title)
+        print(f"العنوان بعد التطبيع: '{normalized_video_title}'")
         
         # جلب جميع التعليقات غير NULL
         all_comments = comments.objects.filter(page_title__isnull=False)
@@ -89,7 +92,7 @@ def edit_book(request, content_type, slug):
             normalized_comment_title = normalize_text(comment.page_title)
             
             # التطابق الكامل فقط - تم إزالة التطابق الجزئي
-            exact_match = normalized_comment_title == normalized_book_title
+            exact_match = normalized_comment_title == normalized_video_title
             
             print(f"التعليق {comment.cmt_id}: '{comment.page_title}'")
             print(f"  تطبيع: '{normalized_comment_title}'")
@@ -184,20 +187,20 @@ def edit_book(request, content_type, slug):
         form = config['form_class'](instance=content)
 
     # إذا لم تكن هناك نماذج تعليقات، أنشئها
-    if not comment_forms and content_type == 'books':
+    if not comment_forms and content_type == 'videos':
         for comment in content_comments:
             comment_forms.append(CommentForm(instance=comment))
 
     context = {
-        'book': content,
+        'video': content,
         'form': form,
         'content_types': config['types'],
-        'comments': zip(content_comments, comment_forms) if content_type == 'books' else [],
-        'comment_count': len(content_comments) if content_type == 'books' else 0
+        'comments': zip(content_comments, comment_forms) if content_type == 'videos' else [],
+        'comment_count': len(content_comments) if content_type == 'videos' else 0
     }
 
     print(f"تم تحضير context مع {len(content_comments)} تعليقات")
-    return render(request, f'tifinar/auth/{content_type}/{config["template"]}', context)
+    return render(request, f'tifinar/auth/videos/edit_video.html', context)
 
 def handle_uploaded_images(new_images, existing_images, slug, image_type):
     image_names = []

@@ -193,10 +193,6 @@ class VideoForm(BaseContentForm):
                 'minlength': '2',
                 'required': True
             }),
-            'mysubject': forms.Textarea(attrs={
-                'class': 'mysubject',
-                'required': True
-            }),
             'mydescription': forms.Textarea(attrs={
                 'class': 'description',
                 'placeholder': 'أكتب وصفًا لمحتوى الفيديو ...'
@@ -236,12 +232,7 @@ class VideoForm(BaseContentForm):
                 'class': 'form-control',
                 'id': 'formFile2'
             }),
-            'mysubject': forms.TextInput(attrs={
-                'class': 'form-control',
-                'id':"video_url",
-                'required': True,
-                'placeholder': 'أدخل رابط يوتيوب هنا'  # أضف هذا
-            }),
+          
                     }
         labels = {
             'title': 'عنوان الفيديو',
