@@ -38,7 +38,7 @@ class BaseContentForm(forms.ModelForm):
     GENDER_CHOICES = [
         ('male', 'للدكور فقط'),
         ('female', 'للإناث فقط'),
-        ('all', 'للجميع'),
+        ('all', 'لل الجميع'),
     ]
      
     EDUCATIONAL_LEVEL_CHOICES = [
@@ -197,17 +197,8 @@ class BaseContentForm(forms.ModelForm):
         try:
             instance = super().save(commit=False)
             
-            if not instance.slug and instance.title:
-                text = str(instance.title)
-                # تحويل إلى ASCII وإزالة التشكيل
-                text = unicodedata.normalize('NFKD', text)
-                text = text.encode('ascii', 'ignore').decode('ascii')
-                # إزالة الأحرف غير المرغوبة
-                text = re.sub(r'[^\w\s-]', '', text)
-                # تحويل إلى حروف صغيرة واستبدال المسافات
-                text = re.sub(r'[-\s]+', '-', text.lower())
-                # إزالة الشرطات من الأطراف
-                instance.slug = text.strip('-')
+            # تم إزالة إنشاء الـ slug هنا لمنع التعارض مع الـ view
+            # الـ view سيقوم بإنشاء الـ slug الآن
             
             if commit:
                 instance.save()

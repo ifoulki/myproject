@@ -221,11 +221,11 @@
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // معاينة الصورة
+    // معاينة الصورة - مع التحقق من وجود العناصر
     const imageInput = document.getElementById('{{ form.myimage.id_for_label }}');
     const imagePreview = document.getElementById('imagePreview1');
     
-    if (imageInput) {
+    if (imageInput && imagePreview) {
         imageInput.addEventListener('change', function(event) {
             const file = event.target.files[0];
             
@@ -241,21 +241,27 @@ document.addEventListener('DOMContentLoaded', function() {
                 imagePreview.style.display = 'none';
             }
         });
+    } else {
+        console.log('عناصر معاينة الصورة غير موجودة');
     }
     
-    // التحقق من صحة النموذج
+    // التحقق من صحة النموذج - مع التحقق من وجود العناصر
     const forms = document.querySelectorAll('.needs-validation');
     
-    Array.from(forms).forEach(form => {
-        form.addEventListener('submit', event => {
-            if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
-            
-            form.classList.add('was-validated');
-        }, false);
-    });
+    if (forms.length > 0) {
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.preventDefault();
+                    event.stopPropagation();
+                }
+                
+                form.classList.add('was-validated');
+            }, false);
+        });
+    } else {
+        console.log('النموذج غير موجود');
+    }
 });
 </script>
 

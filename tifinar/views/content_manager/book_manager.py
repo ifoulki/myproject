@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 from tifinar.myForms.book.create_book_form import BookForm
 from django.utils import timezone
-from django.core.files.storage import FileSystemStorage
 from django.conf import settings
 import re
 import os
@@ -10,44 +9,100 @@ from django.http import HttpResponseForbidden
 import unicodedata
 import shutil
 from django.core.exceptions import ValidationError
+import random
+import time
+
+def simple_unique_id(length=4):
+    """مولد ID قصير وبسيط (مثلاً 4 أرقام)"""
+    return str(random.randint(10**(length-1), 10**length - 1))
+
+def advanced_transliterator(text):
+    """
+    تحويل النص إلى slug واضح ومقروء
+    """
+    if not text:
+        return ""
+
+    # تحويل النص إلى حروف صغيرة
+    text = text.lower().strip()
+
+    # استبدالات أقرب للنطق
+    replacements = {
+        'ء': '', 'آ': 'a', 'أ': 'a', 'إ': 'i', 'ئ': 'i', 'ؤ': 'o', 'ة': 'a',
+        'ى': 'a', 'ٱ': 'a', 'ق': 'q', 'ك': 'k', 'ج': 'j', 'ش': 'sh', 'غ': 'gh',
+        'ع': 'a', 'خ': 'kh', 'ح': 'h', 'ث': 'th', 'ص': 's', 'ض': 'd', 'ط': 't',
+        'ظ': 'z', 'ذ': 'dh', 'ز': 'z', 'ر': 'r', 'د': 'd', 'س': 's', 'ب': 'b',
+        'م': 'm', 'و': 'w', 'ت': 't', 'ن': 'n', 'ل': 'l', 'ف': 'f', 'ي': 'y',
+        ' ': '_', '_': '_',
+
+        # الفرنسية والرموز
+        'é': 'e', 'è': 'e', 'ê': 'e', 'ë': 'e', 'à': 'a', 'â': 'a', 'ä': 'a',
+        'î': 'i', 'ï': 'i', 'ô': 'o', 'ö': 'o', 'ù': 'u', 'û': 'u', 'ü': 'u',
+        'ç': 'c', 'œ': 'oe', 'æ': 'ae',
+        '/': '_', '\\': '_', ':': '_', ',': '_', '!': '', '?': '', '؟': '',
+        '،': '_', '؛': '_', '"': '', "'": '', '«': '', '»': ''
+    }
+
+    for char, repl in replacements.items():
+        text = text.replace(char, repl)
+
+    # إزالة التشكيل
+    text = unicodedata.normalize('NFKD', text)
+    text = ''.join([c for c in text if not unicodedata.combining(c)])
+
+    # السماح فقط بـ a-z و 0-9 و "_"
+    text = re.sub(r'[^a-z0-9_]', '', text)
+
+    # تقليل الشرطات/underscores
+    text = re.sub(r'_+', '_', text).strip('_')
+
+    return text
 
 def handle_uploaded_file(request, field_name, title_slug):
     """معالجة ملف محمل وحفظه في المجلد الثابت"""
+    print(f"📁 بدء معالجة الملف: {field_name}, slug: {title_slug}")
+    
     if field_name in request.FILES:
         file = request.FILES[field_name]
+        print(f"📄 الملف الأصلي: {file.name}")
         
-        # تحقق إذا كان file كائن ملف حقيقي
-        if hasattr(file, 'name') and hasattr(file, 'size'):
-            sanitized_title_slug = sanitize_file_name(title_slug)
-            extension = file.name.split('.')[-1].lower() if '.' in file.name else ''
-            file_name = generate_file_name(sanitized_title_slug, 0, extension, field_name)
-            
-            # المسار الجديد في المجلد الثابت
-            if field_name == 'myimage':
-                target_dir = os.path.join(settings.BASE_DIR, 'tifinar', 'static', 'tifinar', 'images', 'books')
-            else:
-                target_dir = os.path.join(settings.BASE_DIR, 'tifinar', 'static', 'tifinar', 'attachments', 'books')
-            
-            # تأكد من وجود المجلد
-            os.makedirs(target_dir, exist_ok=True)
-            
-            # المسار الكامل للملف
-            file_path = os.path.join(target_dir, file_name)
-            
-            print(f"سيتم حفظ الملف في: {file_path}")
-            
-            # حفظ الملف
-            with open(file_path, 'wb+') as destination:
-                for chunk in file.chunks():
-                    destination.write(chunk)
-            
-            # تخزين المسار النسبي للعرض في القالب
-            if field_name == 'myimage':
-                return f'tifinar/images/books/{file_name}'
-            else:
-                return f'tifinar/attachments/books/{file_name}'
+        # إنشاء اسم فريد قصير
+        unique_id = simple_unique_id(4)
+        extension = file.name.split('.')[-1].lower() if '.' in file.name else 'file'
+        
+        # استخدام الـ slug المعدل أو اسم افتراضي
+        clean_name = title_slug if title_slug and len(title_slug) > 2 else "book"
+        
+        file_name = f"{clean_name}_{unique_id}.{extension}"
+        print(f"📝 الاسم الجديد: {file_name}")
+        
+        # المسار المستهدف
+        if field_name == 'myimage':
+            target_dir = os.path.join(settings.BASE_DIR, 'tifinar', 'static', 'tifinar', 'images', 'books')
+            return_path = f'tifinar/images/books/{file_name}'
+        else:
+            target_dir = os.path.join(settings.BASE_DIR, 'tifinar', 'static', 'tifinar', 'ebookZone')
+            return_path = f'tifinar/ebookZone/{file_name}'
+        
+        os.makedirs(target_dir, exist_ok=True)
+        
+        # حفظ الملف
+        file_path = os.path.join(target_dir, file_name)
+        with open(file_path, 'wb+') as destination:
+            for chunk in file.chunks():
+                destination.write(chunk)
+        
+        print(f"✅ تم حفظ الملف: {return_path}")
+        return return_path
     
     return None
+
+def generate_unique_file_name(title_slug, extension, prefix, unique_id):
+    """إنشاء اسم ملف فريد وفق القواعد المطلوبة"""
+    if prefix == 'autre':
+        return f"image_de_{title_slug}_{unique_id}.{extension}"
+    else:
+        return f"{title_slug}_{unique_id}.{extension}"
 
 def sanitize_file_name(file_name):
     """تنظيف اسم الملف من الأحرف غير المرغوبة"""
@@ -56,24 +111,70 @@ def sanitize_file_name(file_name):
     clean_name = re.sub(r'[^A-Za-z0-9_\-]', '', ascii_text)
     return clean_name.lower()
 
-def generate_file_name(title_slug, index, extension, prefix):
-    """إنشاء اسم ملف وفق القواعد المطلوبة"""
-    if prefix == 'autre':
-        return f"image_de_{title_slug}_{index + 1}.{extension}"
-    else:
-        return f"{title_slug}_{index + 1}.{extension}"
-
 def create_book(request):
     try:
+        # إنشاء المجلدات
+        os.makedirs(os.path.join(settings.BASE_DIR, 'tifinar', 'static', 'tifinar', 'images', 'books'), exist_ok=True)
+        os.makedirs(os.path.join(settings.BASE_DIR, 'tifinar', 'static', 'tifinar', 'ebookZone'), exist_ok=True)
+        
         if request.method == 'POST':
             form = BookForm(request.POST, request.FILES)
             if form.is_valid():
                 try:
-                    obj = form.save()
-                    return redirect('edit_article', slug=obj.slug)
+                    obj = form.save(commit=False)  # لا تحفظ مباشرة
+                    
+                    # إنشاء slug من العنوان
+                    if not obj.slug:
+                        title = form.cleaned_data['title']
+                        if title:
+                            obj.slug = advanced_transliterator(title)
+                            print(f"📝 العنوان الأصلي: {title}")
+                            print(f"✅ الـ slug النهائي: {obj.slug}")
+                            
+                            # إذا كان قصير جداً
+                            if len(obj.slug) < 3:
+                                obj.slug = f"book_{int(time.time())}"
+                                print(f"⚠️ تم استخدام slug بديل: {obj.slug}")
+                    
+                    # معالجة الملفات
+                    if 'myimage' in request.FILES:
+                        if 'myimage' in form.cleaned_data:
+                            del form.cleaned_data['myimage']
+                        
+                        image_path = handle_uploaded_file(request, 'myimage', obj.slug)
+                        if image_path:
+                            obj.myimage = image_path
+                            print(f"✅ تم تعيين myimage: {obj.myimage}")
+                        else:
+                            print("❌ فشل معالجة الصورة")
+                    else:
+                        print("⚠️ لم يتم رفع أي صورة")
+                    
+                    if 'autre' in request.FILES:
+                        if 'autre' in form.cleaned_data:
+                            del form.cleaned_data['autre']
+                        
+                        attachment_path = handle_uploaded_file(request, 'autre', obj.slug)
+                        if attachment_path:
+                            obj.autre = attachment_path
+                            print(f"✅ تم تعيين autre: {obj.autre}")
+                        else:
+                            print("❌ فشل معالجة المرفق")
+                    
+                    # تعيين القيم الافتراضية
+                    obj.created_at = timezone.now()
+                    obj.updated_at = timezone.now()
+                    
+                    obj.save()  # حفظ الكائن
+                    print("✅ تم حفظ الكائن بنجاح")
+                    
+                    return redirect('edit_book', slug=obj.slug)
                 except ValidationError as e:
-                    # إضافة الخطأ إلى النموذج لعرضه للمستخدم
                     form.add_error(None, e)
+                    print(f"❌ خطأ في التحقق: {e}")
+                except Exception as e:
+                    form.add_error(None, f"حدث خطأ أثناء معالجة البيانات: {str(e)}")
+                    print(f"❌ خطأ غير متوقع: {str(e)}")
             
             return render(request, 'tifinar/auth/books/create_book.html', {'form': form})
         
@@ -82,9 +183,9 @@ def create_book(request):
             return render(request, 'tifinar/auth/books/create_book.html', {'form': form})
             
     except Exception as e:
-        # في حالة أي خطأ غير متوقع، نعود برسالة واضحة
         form = BookForm()
-        form.add_error(None, "حدث خطأ غير متوقع في النظام. يرجى المحاولة مرة أخرى.")
+        form.add_error(None, f"حدث خطأ غير متوقع في النظام: {str(e)}. يرجى المحاولة مرة أخرى.")
+        print(f"❌ خطأ في الدالة الرئيسية: {str(e)}")
         return render(request, 'tifinar/auth/books/create_book.html', {
             'form': form,
             'error_message': "عذراً، حدث خطأ في النظام. تم إبلاغ الفنيين بهذه المشكلة."

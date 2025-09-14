@@ -316,7 +316,7 @@ class Dir(models.TextChoices):
 
 class books(models.Model):
     books_id = models.AutoField(primary_key=True)
-    myimage = models.TextField(db_column='Myimage', blank=True, null=True)
+    myimage = models.CharField(max_length=500, db_column='Myimage', blank=True, null=True)
     title = models.TextField(unique=True, blank=True, null=True)
     slug = models.SlugField(max_length=255, blank=True, null=True, allow_unicode=True, unique=True)
     mysubject = models.TextField(db_column='Mysubject', unique=True, blank=True, null=True)
@@ -347,7 +347,6 @@ class books(models.Model):
     )
     min_age = models.IntegerField(default=2)
     max_age = models.IntegerField(default=75)
-    educational_level_backup = models.CharField(max_length=255, blank=True, null=True)
     educational_level = models.CharField(
         max_length=2,
         choices=EducationalLevel.choices,
@@ -523,7 +522,7 @@ class cours(models.Model):
     cours_id = models.SmallAutoField(primary_key=True)
     title = models.TextField(unique=True, blank=True, null=True)
     slug = models.SlugField( max_length=255, blank=True, null=True, allow_unicode=True, unique=True )
-    myimage = models.TextField(db_column='myimage', unique=True, blank=True, null=True)  # Field name made lowercase.
+    myimage = models.TextField(db_column='myimage', blank=True, null=True)  # Field name made lowercase.
     mydescription = models.TextField(db_column='Mydescription', blank=True, null=True)  # Field name made lowercase.    keywords = models.TextField(blank=True, null=True)
     keywords = models.TextField(blank=True, null=True)
     author = models.TextField(db_column='Author', blank=True, null=True)  # Field name made lowercase.
