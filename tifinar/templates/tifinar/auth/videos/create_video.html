@@ -13,7 +13,9 @@
                     <i class="fas fa-upload"></i> {{ form.myimage.label }}
                 </label>
                 {{ form.myimage }}
-                <img id="imagePreview1" class="image-preview" alt="معاينة الصورة" style="display: none;">
+                <div id="imagePreviewContainer1">
+                <img id="imagePreview1" class="image-preview" alt="معاينة الصورة" style="display: none; max-width: 300px; max-height: 200px;">
+            </div>
             </div>
 
             <hr>
@@ -52,20 +54,18 @@
                 <label class="label">
                     <i class="fas fa-paperclip"></i> {{ form.mysubject.label }}
                 </label>
-                {{ form.mysubject }}
-                {{ form.mysubject.errors }}
-                <div id="videoPreview" style="margin-top: 10px;"></div>
-            </div>
-            
-            <hr>
 
-            <div class="form">
-                <label class="label">
-                    <i class="fas fa-paperclip"></i> {{ form.mysubject.label }}
-                </label>
-                {{ form.mysubject }}
-                {{ form.mysubject.errors }}
-                <div id="videoPreview" style="margin-top: 10px;"></div>
+                    <input class="form-control" 
+                            type="text" 
+                            id="videoInput" 
+                            name="mysubject" 
+                            placeholder="ألصق رابط فيديو YouTube هنا">
+
+                    {% if video.mysubject and 'youtube.com' in video.mysubject or 'youtu.be' in video.mysubject %}
+                        <iframe id="videoPreview" class="video-preview" src="{{ video.mysubject }}" allowfullscreen></iframe>
+                    {% else %}
+                        <iframe id="videoPreview" class="video-preview" style="display: none;" allowfullscreen></iframe>
+                    {% endif %}
             </div>
 
             <hr>
@@ -160,60 +160,67 @@
         
 
 <script>
-    document.getElementById('video_url').addEventListener('input', function() {
-    var videoUrl = this.value.trim();
-    var videoPreview = document.getElementById('videoPreview');
+         document.getElementById('videoInput').addEventListener('input', function(event) {
+            const videoUrl = event.target.value.trim();
+            const videoElement = document.getElementById('videoPreview');
 
-    var fileFormatRegex = /^[\wÀ-ž\s-]+\.(mp4|mp3|avi|mkv|mov|flv|wmv)$/i;
+            if (videoUrl !== '') {
+                const embedUrl = convertToEmbedUrl(videoUrl);
+                if (embedUrl) {
+                    videoElement.src = embedUrl;
+                    videoElement.style.display = 'block';
+                } else {
+                    alert('الرجاء إدخال رابط YouTube صحيح.');
+                }
+            } else {
+                videoElement.src = '';
+                videoElement.style.display = 'none';
+            }
+        });
 
-    if (fileFormatRegex.test(videoUrl)) {
-        videoPreview.innerHTML = `<p style="color:green;">تم إدخال ملف فيديو: ${videoUrl}</p>`;
-        return; // إنهاء العملية هنا دون محاولة تحويل الرابط
-    }
+        function convertToEmbedUrl(url) {
+            const watchRegex = /https?:\/\/(www\.)?youtube\.com\/watch\?v=([^&]+)/;
+            const match = url.match(watchRegex);
+            if (match) {
+                return `https://www.youtube.com/embed/${match[2]}`;
+            }
 
-    var youtubeRegex = /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?v=|embed\/|v\/)|youtu\.be\/)([\w\-]+)/;
-    var match = videoUrl.match(youtubeRegex);
+            const shortRegex = /https?:\/\/youtu\.be\/([^?]+)/;
+            const shortMatch = url.match(shortRegex);
+            if (shortMatch) {
+                return `https://www.youtube.com/embed/${shortMatch[1]}`;
+            }
 
-    if (match) {
-        var videoId = match[1];
-        var iframe = `<iframe width="560" height="315" src="https://www.youtube.com/embed/${videoId}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`;
-        videoPreview.innerHTML = iframe;
-    } else {
-        videoPreview.innerHTML = '<p style="color:red;">الرابط غير صالح. يرجى إدخال رابط يوتيوب صحيح أو اسم ملف فيديو صالح.</p>';
-    }
-});
+            return null;
+        }
 
-
+    document.getElementById('formFile1').addEventListener('change', function(event) {
+        const files = event.target.files;
+        const preview = document.getElementById('imagePreview1');
         
-    document.getElementById('formFile').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        const preview = document.getElementById('imagePreview');
-
-        if (file) {
+        // إخفاء جميع الصور القديمة
+        const oldImages = document.querySelectorAll('.old-image');
+        oldImages.forEach(img => {
+            img.style.display = 'none';
+        });
+        
+        if (files && files[0]) {
             const reader = new FileReader();
             reader.onload = function(e) {
                 preview.src = e.target.result;
                 preview.style.display = 'block';
             }
-            reader.readAsDataURL(file);
+            reader.readAsDataURL(files[0]);
         } else {
             preview.src = '';
             preview.style.display = 'none';
+            // إظهار الصور القديمة إذا لم يتم اختيار صورة جديدة
+            oldImages.forEach(img => {
+                img.style.display = 'block';
+            });
         }
     });
 
-        document.getElementById('video_url').addEventListener('input', function () {
-            var url = this.value;
-    
-        var invalidYouTubeRegex = /^(https?:\/\/)?(www\.)?youtube\.com\/watch\?v=([^&]+)&?/;
-        
-        if (invalidYouTubeRegex.test(url)) {
-            var videoId = url.match(invalidYouTubeRegex)[3];
-            var validUrl = "https://www.youtube.com/embed/" + videoId;
-            
-            this.value = validUrl;
-        }
-    });
 </script>
 
 </div>

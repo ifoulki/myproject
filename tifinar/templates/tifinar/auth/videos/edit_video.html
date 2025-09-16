@@ -18,7 +18,7 @@
             <div>
                 {% with images=video.myimage|split:"," %}
                     {% for image in images %}
-                    <img src="{% static 'tifinar/images/videos/' %}{{ image }}" class="image-preview old-image" id="oldImage{{ forloop.counter }}">
+                    <img src="{% static '' %}{{ image }}" class="image-preview old-image" id="oldImage{{ forloop.counter }}">
                     {% endfor %}
                 {% endwith %}
                 <img id="imagePreview1" class="image-preview" alt="معاينة الصورة" style="display: none;">
@@ -94,7 +94,12 @@
                 </label>
 
                 <div class="mb-3">
-                    <input class="form-control" value="{{ form.mysubject.value|default:video.mysubject }}" type="text" id="videoInput" name="mysubject" placeholder="ألصق رابط فيديو YouTube هنا">
+                    <input class="form-control" 
+                            value="{{ form.mysubject.value|default:video.mysubject }}" 
+                            type="text" 
+                            id="videoInput" 
+                            name="mysubject" 
+                            placeholder="ألصق رابط فيديو YouTube هنا">
                 </div>
 
                 {% if video.mysubject and 'youtube.com' in video.mysubject or 'youtu.be' in video.mysubject %}
@@ -189,6 +194,34 @@
                 {% if form.mydescription.errors %}
                     <small class="text-danger">{{ form.mydescription.errors }}</small>
                 {% endif %}
+            </div>
+
+            <hr>
+
+            <div class="form-row form">
+                <label class="label">
+                    <i class="fas fa-hourglass-start"></i>  يجب أن يكون عمر المشاهد:
+                </label>
+
+                <div class="form">
+
+                    <label class="label">
+                        <i class="fas fa-user"></i> {{ form.min_age.label }}
+                    </label>
+
+                    {{ form.min_age }}
+                    {{ form.min_age.errors }}
+            
+                    <hr>
+
+                    <label class="label">
+                        <i class="fas fa-user"></i> {{ form.max_age.label }}
+                    </label>
+
+                    {{ form.max_age }}
+                    {{ form.max_age.errors }}
+
+                </div>
             </div>
 
             <hr>

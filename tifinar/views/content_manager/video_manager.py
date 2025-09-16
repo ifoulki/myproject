@@ -68,6 +68,39 @@ def generate_file_name(title_slug, index, extension, prefix):
     else:
         return f"{title_slug}_{index + 1}.{extension}"
 
+from django.shortcuts import render, redirect,get_object_or_404
+from tifinar.myForms.video.create_video_form import VideoForm
+from django.utils import timezone
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
+from django.utils.text import slugify
+import re
+import os
+from django.contrib import messages
+from django.http import HttpResponseForbidden
+import unicodedata
+import shutil
+
+def convert_to_embed_url(url):
+    """تحويل رابط YouTube إلى تنسيق embed"""
+    if not url:
+        return url
+    
+    # تحويل روابط youtu.be
+    if 'youtu.be' in url:
+        video_id = url.split('/')[-1].split('?')[0]
+        return f'https://www.youtube.com/embed/{video_id}'
+    
+    # تحويل روابط youtube.com
+    if 'youtube.com' in url:
+        match = re.search(r'(?:v=|\/)([0-9A-Za-z_-]{11}).*', url)
+        if match:
+            video_id = match.group(1)
+            return f'https://www.youtube.com/embed/{video_id}'
+    
+    # إذا كان الرابط بالفعل بتنسيق embed أو غير معروف
+    return url
+
 def create_video(request):
     """
     دالة مخصصة لإنشاء الفيديوهات فقط
@@ -80,6 +113,10 @@ def create_video(request):
         form = VideoForm(request.POST, request.FILES)
         if form.is_valid():
             obj = form.save(commit=False)
+            
+            # تحويل رابط YouTube إلى تنسيق embed إذا كان موجوداً
+            if 'mysubject' in form.cleaned_data and form.cleaned_data['mysubject']:
+                obj.mysubject = convert_to_embed_url(form.cleaned_data['mysubject'])
             
             # إنشاء slug من العنوان (مرة واحدة فقط)
             title = form.cleaned_data['title']
@@ -103,7 +140,7 @@ def create_video(request):
             obj.updated_at = timezone.now()
             
             obj.save()
-            return redirect('edit_article', slug=obj.slug) 
+            return redirect('edit_video', slug=obj.slug) 
 
         else:
             # أضف هذا لرؤية الأخطاء في الكونسول
@@ -118,3 +155,4 @@ def create_video(request):
         form = VideoForm()
     
     return render(request, 'tifinar/auth/videos/create_video.html', {'form': form})
+

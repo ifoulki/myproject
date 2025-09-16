@@ -197,6 +197,11 @@ class VideoForm(BaseContentForm):
                 'class': 'description',
                 'placeholder': 'أكتب وصفًا لمحتوى الفيديو ...'
             }),
+            'mydescription': forms.TextInput(attrs={
+                'class': 'form-control',
+                'id':'videoInput',
+                'placeholder': 'أكتب وصفًا لمحتوى الفيديو ...'
+            }),
             'keywords': forms.Textarea(attrs={
                 'class': 'keywords',
                 'placeholder': 'الكلمات المفتاحية ...'
