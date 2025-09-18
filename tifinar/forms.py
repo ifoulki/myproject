@@ -561,12 +561,18 @@ class CoursForm(BaseContentForm):
                 'minlength': '7',
                 'required': True
             }),
+            'exams_link': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'حقل اختياري* : أضف رابط الاختبار فقط في حالة إذا كان هناك اختبار يجتازه الزرائر',
+                'minlength': '7',
+                'required': False
+            }),
             'author': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'اسم الكاتب ...',
                 'maxlength': '50'
             }),
-            'myfile': forms.Textarea(attrs={
+            'myfile': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'اسم المجلد الدي تخزن فيه صور القاموس',
                 'required': True
@@ -615,4 +621,5 @@ class CoursForm(BaseContentForm):
             'min_age': 'العمر الأدنى',
             'max_age': 'العمر الأقصى',
             'myimage': 'غلاف الكتاب',
+            'exams_link': 'حقل اختياري* : أضف رابط الاختبار فقط في حالة إذا كان هناك اختبار يجتازه الزرائر',
         }

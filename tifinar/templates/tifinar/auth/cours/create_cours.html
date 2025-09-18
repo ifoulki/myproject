@@ -139,18 +139,15 @@
 
             <hr>
 
-                <div class="form">
-                    <label class="label">
-                        <i class="fas fa-link"></i> إذا كان هناك اختبار تريد أن يجتازه الشخص بعد نهاية الدرس ضع رابطه هنا 👇  :
-                    </label>
-                    <input
-                        name="exams_link"
-                        placeholder="حقل اختياري* : أضف رابط الاختبار فقط في حالة إذا كان هناك اختبار يجتازه الزرائر"
-                        type="text"
-                        class="description"
-                        value="{{ form.exams_link.value }}">
-                </div>
+            <div class="form">
+                <label class="label">
+                    <i class="fas fa-key"></i> {{ form.exams_link.label }}
+                </label>
+                {{ form.exams_link }}
+                {{ form.exams_link.errors }}
+            </div>
 
+                
                 <button class="add_btn btn btn-primary" type="submit">
                     <i class="fas fa-paper-plane"></i> نشر الدرس
                 </button>
