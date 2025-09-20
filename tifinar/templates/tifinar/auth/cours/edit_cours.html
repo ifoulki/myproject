@@ -1,12 +1,10 @@
-<!-- tifinar/templates/tifinar/auth/cours/edit_cours.html -->
-{% load static tz customtags custom_filters  %}
+{% load static tz customtags  %}
 {% include "tifinar/adm_header.html" %}
 {% now "Y" as current_year %}
 
 <div class="content">
     <h1><i class="fas fa-edit"></i> تعديل درس: {{ cour.title }}</h1>
 
-    <!-- في مكان مناسب في القالب -->
     {% if form.non_field_errors %}
         <div class="alert alert-danger">
             {% for error in form.non_field_errors %}
@@ -112,75 +110,79 @@
         <hr>
 
         <div class="form">
-                <label class="label">
-                    <i class="fas fas fa-key"></i> {{ form.myfile.label }}
-                </label>
-                {{ form.myfile }}
-                {{ form.myfile.errors }}
+            <label class="label">
+                <i class="fas fas fa-key"></i> {{ form.myfile.label }}
+            </label>
+            {{ form.myfile }}
+            {{ form.myfile.errors }}
         </div>
         
         <hr>
 
-            <div class="form">
-                <label class="label">
-                    <i class="fas fa-link"></i> الصور الحالية:
-                </label>
-                
-                {% if cour.images %}
-                    <div class="current-images mb-3">
-                        <p>الصور المخزنة حالياً:</p>
-                        {% for image in cour.images.split %}
-                            <div class="image-item d-inline-block me-2 mb-2">
-                                <img src="{% static 'tifinar/images/cours/' %}{{ form.myfile.value }}/{{ image }}" 
-                                     alt="{{ image }}" style="max-width: 100px;">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="delete_images" value="{{ image }}" id="delete_{{ forloop.counter }}">
-                                    <label class="form-check-label small" for="delete_{{ forloop.counter }}">حذف</label>
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
-
-                <label class="label mt-3">
-                    <i class="fas fa-plus"></i> إضافة صور جديدة:
-                </label>
-
-                <div id="image-fields-container">
-                    <div class="image-field">
-                        <input class="form-control image-file" type="file" name="images[]" accept="image/*">
-                        <input class="form-control" type="text" name="image_names" placeholder="اسم الصورة">
-                        <img class="image-preview" style="display: none; max-width: 100px; margin-top: 10px;" />
-                        <br><hr>
-                    </div>
-                </div>
-
-                <button type="button" id="add-image-field" class="btn btn-secondary mt-2">
-                    إضافة صورة أخرى
-                </button>
-            </div>
-
-            <hr>
-        
-            <div class="form-group">
-                <label for="{{ form.gender.id_for_label }}" class="form-label">
-                    <i class="fas fa-venus-mars"></i> {{ form.gender.label }}
-                </label>
-                {{ form.gender }}
-                {% if form.gender.errors %}
-                <div class="invalid-feedback d-block">
-                    {{ form.gender.errors|join:", " }}
-                </div>
-                {% endif %}
-            </div>
+        <div class="form">
+            <label class="label">
+                <i class="fas fa-link"></i> الصور الحالية:
+            </label>
             
-        <hr>
-            <div class="mb-3 form">
-                <label for="{{ form.educational_level.id_for_label }}" class="form-label">
-                    <i class="fas fa-graduation-cap"></i> المستوى الدراسي المطلوب
-                </label>
-                {{ form.educational_level }}
+            {% if cour.images %}
+                <div class="current-images mb-3">
+                    <p>الصور المخزنة حالياً:</p>
+                    {% for image in cour.images|split:',' %}
+                        <div class="image-item d-inline-block me-2 mb-2">
+                            <img src="{% static 'tifinar/images/cours/the_house/' %}{{ image }}" 
+                                 alt="{{ image }}" style="max-width: 100px;">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="delete_images" value="{{ image }}" id="delete_{{ forloop.counter }}">
+                                <label class="form-check-label small" for="delete_{{ forloop.counter }}">حذف</label>
+                            </div>
+                        </div>
+                        <hr>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>لا توجد صور مخزنة حالياً.</p>
+            {% endif %}
+
+
+            <label class="label mt-3">
+                <i class="fas fa-plus"></i> إضافة صور جديدة:
+            </label>
+
+            <div id="image-fields-container">
+                <div class="image-field">
+                    <input class="form-control image-file" type="file" name="images[]" accept="image/*">
+                    <input class="form-control" type="text" name="image_names" placeholder="اسم الصورة">
+                    <img class="image-preview" style="display: none; max-width: 100px; margin-top: 10px;" />
+                    <br><hr>
+                </div>
             </div>
+
+            <button type="button" id="add-image-field" class="btn btn-secondary mt-2">
+                إضافة صورة أخرى
+            </button>
+        </div>
+
+        <hr>
+    
+        <div class="form-group">
+            <label for="{{ form.gender.id_for_label }}" class="form-label">
+                <i class="fas fa-venus-mars"></i> {{ form.gender.label }}
+            </label>
+            {{ form.gender }}
+            {% if form.gender.errors %}
+            <div class="invalid-feedback d-block">
+                {{ form.gender.errors|join:", " }}
+            </div>
+            {% endif %}
+        </div>
+        
+        <hr>
+        <div class="mb-3 form">
+            <label for="{{ form.educational_level.id_for_label }}" class="form-label">
+                <i class="fas fa-graduation-cap"></i> المستوى الدراسي المطلوب
+            </label>
+            {{ form.educational_level }}
+        </div>
         <hr>
 
         <div class="form-row form">
@@ -189,11 +191,9 @@
             </label>
 
             <div class="form">
-
                 <label class="label">
                     <i class="fas fa-user"></i> {{ form.min_age.label }}
                 </label>
-
                 {{ form.min_age }}
                 {{ form.min_age.errors }}
         
@@ -202,10 +202,8 @@
                 <label class="label">
                     <i class="fas fa-user"></i> {{ form.max_age.label }}
                 </label>
-
                 {{ form.max_age }}
                 {{ form.max_age.errors }}
-
             </div>
         </div>
 
@@ -229,43 +227,38 @@
             {{ form.exams_link.errors }}
         </div>
 
+        <hr>
 
-         <hr>
+        <div class="form-group">
+            <label>الحالة:</label>
+            <div style="display: flex; gap: 15px; font-size: 1.2em;">
+                <label>
+                    <input type="radio" name="visibility_status" value="public" {% if article.visibility_status == 'public' %}checked{% endif %} onchange="updateStatusColor(this)"> 
+                    <span style="color: #4CAF50;"><i class="fas fa-globe"></i> عام</span>
+                </label>
+                <label>
+                    <input type="radio" name="visibility_status" value="under_review" {% if article.visibility_status == 'under_review' %}checked{% endif %} onchange="updateStatusColor(this)"> 
+                    <span style="color: #FFC107;"><i class="fas fa-eye-slash"></i> قيد المراجعة</span>
+                </label>
+                <label>
+                    <input type="radio" name="visibility_status" value="restricted" {% if article.visibility_status == 'restricted' %}checked{% endif %} onchange="updateStatusColor(this)"> 
+                    <span style="color: #F44336;"><i class="fas fa-lock"></i> مقيد</span>
+                </label>
+            </div>
+        </div>
+        
+        <button class="add_btn btn btn-primary" type="submit">
+            <i class="fas fa-save"></i> حفظ التعديلات
+        </button>
+        <a href="{% url 'cours_edit' %}" class="btn btn-secondary">
+            <i class="fas fa-times"></i> إلغاء
+        </a>
+    </form>
 
-                 <div class="form-group">
-                    <label>الحالة:</label>
-                    <div style="display: flex; gap: 15px; font-size: 1.2em;">
-                        <label>
-                            <input type="radio" name="visibility_status" value="public" {% if article.visibility_status == 'public' %}checked{% endif %} onchange="updateStatusColor(this)"> 
-                            <span style="color: #4CAF50;"><i class="fas fa-globe"></i> عام</span>
-                        </label>
-                        <label>
-                            <input type="radio" name="visibility_status" value="under_review" {% if article.visibility_status == 'under_review' %}checked{% endif %} onchange="updateStatusColor(this)"> 
-                            <span style="color: #FFC107;"><i class="fas fa-eye-slash"></i> قيد المراجعة</span>
-                        </label>
-                        <label>
-                            <input type="radio" name="visibility_status" value="restricted" {% if article.visibility_status == 'restricted' %}checked{% endif %} onchange="updateStatusColor(this)"> 
-                            <span style="color: #F44336;"><i class="fas fa-lock"></i> مقيد</span>
-                        </label>
-                    </div>
-                </div>
+    {% include "tifinar/auth/books/adm_comments.html" %}
+</div>
 
-                
-                
-                <button class="add_btn btn btn-primary" type="submit">
-                    <i class="fas fa-save"></i> حفظ التعديلات
-                </button>
-            <a href="{% url 'cours_edit' %}" class="btn btn-secondary">
-                <i class="fas fa-times"></i> إلغاء
-            </a>
-            
-        </form>
-
-        {% include "tifinar/auth/books/adm_comments.html" %}
-
-    </div>
-    
-    <hr>
+<hr>
 
 <script>
 // معاينة الصورة الرئيسية

@@ -21,8 +21,24 @@ logger = logging.getLogger(__name__)
 def edit_course_view(request, slug):
     logger.info(f"بدء عملية تعديل درس: {slug}")
     
-    # الحصول على الكائن المطلوب تعديله
     cour = get_object_or_404(cours, slug=slug)
+    
+    # تسجيل مفصل للتحقق من القيم
+    logger.info(f"cour.images: {repr(cour.images)}")
+    logger.info(f"نوع cour.images: {type(cour.images)}")
+    
+    # إنشاء images_list بشكل صحيح - الإصلاح هنا
+    images_list = []
+    if cour.images:
+        if isinstance(cour.images, str):
+            # تقسيم السلسلة وإزالة القيم الفارغة
+            images_list = [img.strip() for img in cour.images.split(',') if img.strip()]
+            logger.info(f"images_list بعد الإنشاء: {images_list}")
+            logger.info(f"طول images_list: {len(images_list)}")
+        else:
+            logger.warning(f"cour.images ليس نصاً: {type(cour.images)}")
+    else:
+        logger.info("cour.images فارغ")
     
     try:
         if request.method == 'POST':
@@ -73,11 +89,8 @@ def edit_course_view(request, slug):
                 
                 logger.info(f"اسم المجلد بعد التنظيف: {folder_name}")
                 
-                saved_images = []
-                
-                # إذا كان هناك صور حالية، نبدأ منها
-                if obj.images:
-                    saved_images = [img.strip() for img in obj.images.split(',')]
+                # البدء بالصور الحالية
+                saved_images = images_list.copy()
                 
                 # إضافة الصور الجديدة
                 for i, (image_file, image_name) in enumerate(zip(images_files, image_names)):
@@ -114,13 +127,23 @@ def edit_course_view(request, slug):
                 return redirect('cours_edit')
             else:
                 logger.error(f"أخطاء النموذج: {form.errors}")
+                    
                 messages.error(request, 'حدث خطأ في تحديث البيانات. يرجى تصحيح الأخطاء أدناه.')
-                return render(request, 'tifinar/auth/cours/edit_cours.html', {'form': form, 'cour': cour})
+                return render(request, 'tifinar/auth/cours/edit_cours.html', {
+                    'form': form, 
+                    'cour': cour,
+                    'images_list': images_list
+                })
         else:
             # عرض النموذج مع البيانات الحالية
             form = CoursForm(instance=cour)
             logger.info("طلب GET، عرض نموذج التعديل")
-            return render(request, 'tifinar/auth/cours/edit_cours.html', {'form': form, 'cour': cour})
+            
+            return render(request, 'tifinar/auth/cours/edit_cours.html', {
+                'form': form, 
+                'cour': cour,
+                'images_list': images_list
+            })
             
     except Exception as e:
         logger.error(f"حدث خطأ في تعديل الدرس: {str(e)}", exc_info=True)
@@ -128,10 +151,12 @@ def edit_course_view(request, slug):
         form = CoursForm(request.POST or None, request.FILES or None, instance=cour)
         
         error_msg = f"حدث خطأ غير متوقع في النظام: {str(e)}. يرجى المحاولة مرة أخرى."
+        
         messages.error(request, error_msg)
         
         return render(request, 'tifinar/auth/cours/edit_cours.html', {
-            'form': form,
+            'form': form, 
             'cour': cour,
+            'images_list': images_list,
             'error_message': error_msg
         })

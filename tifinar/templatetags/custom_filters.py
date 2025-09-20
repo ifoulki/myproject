@@ -8,6 +8,16 @@ from django import template
 from django.contrib.auth.models import User
 
 register = template.Library()
+from django import template
+
+register = template.Library()
+
+@register.filter
+def split_string(value, delimiter=','):
+    """يقسم السلسلة بناء على محدد معين"""
+    if value and isinstance(value, str):
+        return [item.strip() for item in value.split(delimiter) if item.strip()]
+    return []
 
 @register.filter
 def get_user_by_email(email):
@@ -16,7 +26,6 @@ def get_user_by_email(email):
     except:
         return None
 
-# يمكنك إضافة هذه الدوال أيضاً إذا احتجتها
 @register.filter
 def get_user_images(email):
     try:

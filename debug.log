@@ -61480,3 +61480,1696 @@ django.template.base.VariableDoesNotExist: Failed lookup for key [comments] in [
             WHERE table_schema = DATABASE()
             ; args=None; alias=default
 (0.001) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+(0.003) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+(0.001) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+(0.003) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-09-20 16:32:32.504576' AND `django_session`.`session_key` = 'kp3au0dhvwer5yo43ezdueats6ea5wj3') LIMIT 21; args=('2025-09-20 16:32:32.504576', 'kp3au0dhvwer5yo43ezdueats6ea5wj3'); alias=default
+(0.010) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+(0.002) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE `cours`.`slug` = 'house_in_english' LIMIT 21; args=('house_in_english',); alias=default
+Exception while resolving variable 'author' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'author'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'author'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'author'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [author] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x00000187C74C6D40>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'description' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'description'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'description'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'description'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [description] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x00000187C74C6D40>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'image' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'image'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'image'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'image'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [image] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x00000187C74C6D40>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'title' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'title'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'title'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'title'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [title] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x00000187C74C6D40>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'current_url' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'current_url'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'current_url'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'current_url'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [current_url] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x00000187C74C6D40>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'description' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'description'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'description'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'description'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [description] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x00000187C74C6D40>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'title' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'title'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'title'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'title'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [title] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x00000187C74C6D40>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'user_full_name' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'user_full_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'user_full_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'user_full_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [user_full_name] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x00000187C74C6D40>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'user_full_name' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'user_full_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'user_full_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'user_full_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [user_full_name] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x00000187C74C6D40>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'article' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [article] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: 'jXF9F68oD3xz4av5bniZyQK2XWo9ctDVx43kCHNCSKHxLVONgp22bJ3r9MOw5efX'>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=False, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>, 'current_year': '2025'}]
+Exception while resolving variable 'article' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [article] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: 'jXF9F68oD3xz4av5bniZyQK2XWo9ctDVx43kCHNCSKHxLVONgp22bJ3r9MOw5efX'>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=False, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>, 'current_year': '2025'}]
+Exception while resolving variable 'article' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [article] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: 'jXF9F68oD3xz4av5bniZyQK2XWo9ctDVx43kCHNCSKHxLVONgp22bJ3r9MOw5efX'>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=False, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>, 'current_year': '2025'}]
+Exception while resolving variable 'comment_count' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'comment_count'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'comment_count'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'comment_count'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [comment_count] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: 'jXF9F68oD3xz4av5bniZyQK2XWo9ctDVx43kCHNCSKHxLVONgp22bJ3r9MOw5efX'>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=False, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>, 'current_year': '2025'}, {}]
+Exception while resolving variable 'comments' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'comments'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'comments'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'comments'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [comments] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: 'jXF9F68oD3xz4av5bniZyQK2XWo9ctDVx43kCHNCSKHxLVONgp22bJ3r9MOw5efX'>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=False, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>, 'current_year': '2025'}, {}]
+"GET /cours/edit/house_in_english/ HTTP/1.1" 200 27381
+"GET /static/tifinar/images/cours/the_house/1a.png,2a.png,3a.png,4a.png,5a.png,6a.png HTTP/1.1" 404 2030
+(0.002) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+(0.001) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+(0.022) 
+            SELECT
+                table_name,
+                table_type,
+                table_comment
+            FROM information_schema.tables
+            WHERE table_schema = DATABASE()
+            ; args=None; alias=default
+(0.005) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+Not Found: /favicon.ico/
+"GET /favicon.ico/ HTTP/1.1" 404 17370
+(0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+(0.001) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+(0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-09-20 17:43:09.889200' AND `django_session`.`session_key` = 'kp3au0dhvwer5yo43ezdueats6ea5wj3') LIMIT 21; args=('2025-09-20 17:43:09.889200', 'kp3au0dhvwer5yo43ezdueats6ea5wj3'); alias=default
+(0.002) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+(0.001) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE `cours`.`slug` = 'house_in_english' LIMIT 21; args=('house_in_english',); alias=default
+Exception while resolving variable 'author' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'author'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'author'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'author'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [author] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x0000022E64F17F60>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'description' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'description'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'description'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'description'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [description] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x0000022E64F17F60>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'image' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'image'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'image'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'image'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [image] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x0000022E64F17F60>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'title' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'title'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'title'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'title'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [title] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x0000022E64F17F60>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'current_url' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'current_url'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'current_url'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'current_url'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [current_url] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x0000022E64F17F60>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'description' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'description'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'description'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'description'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [description] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x0000022E64F17F60>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'title' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'title'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'title'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'title'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [title] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x0000022E64F17F60>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'user_full_name' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'user_full_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'user_full_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'user_full_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [user_full_name] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x0000022E64F17F60>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'user_full_name' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'user_full_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'user_full_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'user_full_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [user_full_name] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x0000022E64F17F60>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'article' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [article] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: '8nlV4j9IKymtALPfmpSMr290mSBZa7ZxmuJ61UOWZfwrhw8XrrCP4VspyI1m3SBz'>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=False, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>, 'current_year': '2025'}]
+Exception while resolving variable 'article' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [article] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: '8nlV4j9IKymtALPfmpSMr290mSBZa7ZxmuJ61UOWZfwrhw8XrrCP4VspyI1m3SBz'>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=False, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>, 'current_year': '2025'}]
+Exception while resolving variable 'article' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [article] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: '8nlV4j9IKymtALPfmpSMr290mSBZa7ZxmuJ61UOWZfwrhw8XrrCP4VspyI1m3SBz'>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=False, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>, 'current_year': '2025'}]
+Exception while resolving variable 'comment_count' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'comment_count'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'comment_count'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'comment_count'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [comment_count] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: '8nlV4j9IKymtALPfmpSMr290mSBZa7ZxmuJ61UOWZfwrhw8XrrCP4VspyI1m3SBz'>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=False, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>, 'current_year': '2025'}, {}]
+Exception while resolving variable 'comments' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'comments'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'comments'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'comments'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [comments] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: '8nlV4j9IKymtALPfmpSMr290mSBZa7ZxmuJ61UOWZfwrhw8XrrCP4VspyI1m3SBz'>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=False, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>, 'current_year': '2025'}, {}]
+"GET /cours/edit/house_in_english/ HTTP/1.1" 200 27381
+"GET /static/tifinar/images/cours/house_in_english_8372.png HTTP/1.1" 304 0
+"GET /static/tifinar/images/cours/the_house/1a.png,2a.png,3a.png,4a.png,5a.png,6a.png HTTP/1.1" 404 2030
+(0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+(0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-09-20 17:43:22.768192' AND `django_session`.`session_key` = 'kp3au0dhvwer5yo43ezdueats6ea5wj3') LIMIT 21; args=('2025-09-20 17:43:22.768192', 'kp3au0dhvwer5yo43ezdueats6ea5wj3'); alias=default
+(0.004) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+(0.003) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE `cours`.`slug` = 'house_in_english' LIMIT 21; args=('house_in_english',); alias=default
+Exception while resolving variable 'author' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'author'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'author'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'author'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [author] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x0000022E63B86660>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'description' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'description'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'description'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'description'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [description] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x0000022E63B86660>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'image' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'image'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'image'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'image'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [image] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x0000022E63B86660>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'title' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'title'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'title'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'title'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [title] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x0000022E63B86660>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'current_url' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'current_url'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'current_url'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'current_url'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [current_url] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x0000022E63B86660>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'description' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'description'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'description'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'description'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [description] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x0000022E63B86660>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'title' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'title'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'title'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'title'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [title] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x0000022E63B86660>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'user_full_name' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'user_full_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'user_full_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'user_full_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [user_full_name] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x0000022E63B86660>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'user_full_name' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'user_full_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'user_full_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'user_full_name'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [user_full_name] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: <function csrf.<locals>._get_val at 0x0000022E63B86660>>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=Unknown, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>}, {}]
+Exception while resolving variable 'article' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [article] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: 'KUjmTJfuCH1WdShZPYxEdz5ouwDqrpnCY1HxQkUIRobUUDAHU0hHQsoNGm3NkaZE'>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=False, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>, 'current_year': '2025'}]
+Exception while resolving variable 'article' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [article] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: 'KUjmTJfuCH1WdShZPYxEdz5ouwDqrpnCY1HxQkUIRobUUDAHU0hHQsoNGm3NkaZE'>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=False, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>, 'current_year': '2025'}]
+Exception while resolving variable 'article' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'article'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [article] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: 'KUjmTJfuCH1WdShZPYxEdz5ouwDqrpnCY1HxQkUIRobUUDAHU0hHQsoNGm3NkaZE'>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=False, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>, 'current_year': '2025'}]
+Exception while resolving variable 'comment_count' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'comment_count'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'comment_count'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'comment_count'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [comment_count] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: 'KUjmTJfuCH1WdShZPYxEdz5ouwDqrpnCY1HxQkUIRobUUDAHU0hHQsoNGm3NkaZE'>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=False, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>, 'current_year': '2025'}, {}]
+Exception while resolving variable 'comments' in template 'tifinar/auth/cours/edit_cours.html'.
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 891, in _resolve_lookup
+    current = current[bit]
+              ~~~~~~~^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\context.py", line 88, in __getitem__
+    raise KeyError(key)
+KeyError: 'comments'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 897, in _resolve_lookup
+    if isinstance(current, BaseContext) and getattr(
+                                            ~~~~~~~^
+        type(current), bit
+        ^^^^^^^^^^^^^^^^^^
+    ):
+    ^
+AttributeError: type object 'RequestContext' has no attribute 'comments'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 907, in _resolve_lookup
+    current = current[int(bit)]
+                      ~~~^^^^^
+ValueError: invalid literal for int() with base 10: 'comments'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 914, in _resolve_lookup
+    raise VariableDoesNotExist(
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+    )  # missing attribute
+    ^
+django.template.base.VariableDoesNotExist: Failed lookup for key [comments] in [{'True': True, 'False': False, 'None': None}, {'csrf_token': <SimpleLazyObject: 'KUjmTJfuCH1WdShZPYxEdz5ouwDqrpnCY1HxQkUIRobUUDAHU0hHQsoNGm3NkaZE'>, 'request': <WSGIRequest: GET '/cours/edit/house_in_english/'>, 'user': <SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>, 'perms': PermWrapper(<SimpleLazyObject: <AuthUser: hbialouan@gmail.com>>), 'messages': <FallbackStorage: request=<WSGIRequest: GET '/cours/edit/house_in_english/'>>, 'DEFAULT_MESSAGE_LEVELS': {'DEBUG': 10, 'INFO': 20, 'SUCCESS': 25, 'WARNING': 30, 'ERROR': 40}, 'user_first_image': 'images/users/1/hamid.webp'}, {}, {'form': <CoursForm bound=False, valid=False, fields=(title;myfile;mydescription;keywords;cours_contents;images;exams_link;author;myimage;intro;the_type;educational_level;min_age;max_age;dir;gender)>, 'cour': <cours: cours object (39)>, 'current_year': '2025'}, {}]
+"GET /cours/edit/house_in_english/ HTTP/1.1" 200 27381
+"GET /static/tifinar/images/cours/the_house/1a.png,2a.png,3a.png,4a.png,5a.png,6a.png HTTP/1.1" 404 2030
