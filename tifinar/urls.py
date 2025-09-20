@@ -26,9 +26,11 @@ from tifinar.views.content_manager.show_create_contents import show_create_conte
 from tifinar.views.content_manager.article_manager import create_article
 from tifinar.views.content_manager.book_manager import create_book
 from tifinar.views.content_manager.video_manager import create_video
+from tifinar.views.content_manager.create_cours import create_cours
 from tifinar.views.content_manager.edit_contents import edit_content
 from tifinar.views.content_manager.edit_books import edit_book
 from tifinar.views.content_manager.edit_video import edit_video
+# from tifinar.views.content_manager.edit_cours import edit_cours
 from tifinar.views.content.exams import exam_view, store_answer
 from .logout import custom_logout
 from .login import custom_login
@@ -106,7 +108,7 @@ urlpatterns = [
     path('articles/create/', create_article, name='create_article'),
     path('books/create/', create_book, name='create_book'),
     path('videos/create/', create_video, name='create_video'),
-    path('cours/create/', show_create_content, {'content_type': 'cours'}, name='create_cours'),
+    path('cours/create/', create_cours, name='create_cours'),
     path('exams/create/', show_create_content, {'content_type': 'exams'}, name='create_exam'),
 
     # حدف المحتوى
@@ -120,7 +122,7 @@ urlpatterns = [
     path('articles/edit/<path:slug>/', edit_content, {'content_type': 'articles'}, name='edit_article'),
     path('videos/edit/<path:slug>/', edit_video, name='edit_video'),
     path('books/edit/<path:slug>/', edit_book, {'content_type': 'books'}, name='edit_book'),
-    path('cours/edit/<path:slug>/', edit_content, {'content_type': 'cours'}, name='edit_cour'),
+    # path('cours/edit/<path:slug>/', edit_cours, {'content_type': 'cours'}, name='edit_cours'),
     path('exams/edit/<path:slug>/', edit_content, {'content_type': 'exams'}, name='edit_exam'), 
     
     path('profile/<int:user_id>/', show_user, name='user_profile'),

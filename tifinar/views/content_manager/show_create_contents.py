@@ -1,7 +1,8 @@
 
 from django.shortcuts import render, redirect
 from tifinar.models import books, exams, videos, cours
-from tifinar.forms import BookForm, ExamForm, CoursForm, VideoForm
+from tifinar.forms import BookForm, ExamForm, VideoForm
+from tifinar.myForms.cours.create_cours_form import CoursForm
 from django.utils import timezone
 import logging
 logger = logging.getLogger(__name__)

@@ -3,7 +3,8 @@ from django.core.exceptions import ValidationError
 from tifinar.models import cours
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-import os
+import os 
+import re  # أضف هذا السطر
 import time
 
 User = get_user_model()
@@ -191,8 +192,33 @@ class BaseContentForm(forms.ModelForm):
 
 class CoursForm(BaseContentForm):
     TYPE_CHOICES = [
-        ('على شكل شاشة وأزرار', 'with a board'),
-        ('صور مع أسماء', 'without a board'),
+        ('with_board', 'على شكل شاشة وأزرار'),
+        ('without_board','صور مع أسماء'),
+    ]
+    
+    EDUCATIONAL_LEVEL_CHOICES = [
+        ('0', 'لا، المقال مناسب للجميع'),
+        ('الإبتدائي :', [
+            ('1', 'السنة الأولى ابتدائي'),
+            ('2', 'السنة الثانية ابتدائي'),
+            ('3', 'السنة الثالثة ابتدائي'),
+            ('4', 'السنة الرابعة ابتدائي'),
+            ('5', 'السنة الخامسة ابتدائي'),
+            ('6', 'السنة السادسة ابتدائي'),
+        ]),
+        ('الإعدادي :', [
+            ('7', 'السنة الأولى إعدادي'),
+            ('8', 'السنة الثانية إعدادي'),
+            ('9', 'السنة الثالثة إعدادي'),
+        ]),
+        ('الثانوي :', [
+            ('10', 'المشترك العلمي'),
+            ('11', 'السنة الأولى من البكالوريا (تخصص علوم تجريبية)'),
+            ('12', 'السنة الثانية من البكالوريا (تخصص علوم فيزيائية)'),
+        ]),
+        ('ما بعد الثانوي :', [
+            ('13', 'الدراسة بعد البكالوريا'),
+        ])
     ]
 
     the_type = forms.ChoiceField(
@@ -272,11 +298,20 @@ class CoursForm(BaseContentForm):
             'mydescription': 'وصف يظهر في محركات البحث لتشجيع الناس على زيارة الصفحة ...',
             'intro': 'وصف يظهر أعلى الصفحة يشرح للزائر كيفية التعامل مع الصفحة ...',
             'keywords': 'الكلمات المفتاحية',
-            'the_type': 'صنف الكتاب',
+            'the_type': 'صنف الدرس',
             'dir': 'لغة الموجز',
             'educational_level': 'المستوى الدراسي',
             'min_age': 'العمر الأدنى',
             'max_age': 'العمر الأقصى',
-            'myimage': 'غلاف الكتاب',
+            'myimage': 'غلاف الدرس',
+            'gender': 'موجه لـ',
             'exams_link': ' أضف رابط الاختبار في حالة إذا كان هناك اختبار يجتازه الزرائر',
         }
+        
+    def clean_myfile(self):
+            myfile = self.cleaned_data.get('myfile')
+            if myfile:
+                # التحقق من أن اسم المجلد يحتوي على أحرف مسموحة فقط
+                if not re.match(r'^[a-zA-Z0-9_-]+$', myfile):
+                    raise ValidationError('اسم المجلد يمكن أن يحتوي فقط على أحرف وأرقام وشرطات وشرطات سفلية.')
+            return myfile

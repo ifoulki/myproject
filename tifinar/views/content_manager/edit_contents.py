@@ -2,7 +2,8 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseNotFound
 from tifinar.models import articles, books, exams, videos, cours, comments
 from tifinar.myForms.article.create_article_form import ArticleForm
-from tifinar.forms import BookForm, ExamForm, CoursForm, VideoForm, CommentForm
+from tifinar.forms import BookForm, ExamForm, VideoForm, CommentForm
+from tifinar.myForms.cours.create_cours_form import CoursForm
 from django.contrib import messages
 import os
 from django.conf import settings
