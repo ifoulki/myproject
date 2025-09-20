@@ -7,7 +7,6 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.forms.utils import ErrorDict
-
 from tifinar.myForms.cours.create_cours_form import CoursForm
 from tifinar.models import cours
 
@@ -64,6 +63,15 @@ def handle_uploaded_file(file, folder_name, title_slug, is_main_image=False):
     if not file:
         return None
     
+    # تنظيف اسم المجلد من الأحرف غير المسموحة
+    if folder_name:
+        # إزالة أي مسارات أو أحرف خطرة
+        folder_name = re.sub(r'[^a-zA-Z0-9_-]', '', folder_name)
+        if not folder_name:  # إذا أصبح فارغاً بعد التنظيف
+            folder_name = "default_folder"
+    else:
+        folder_name = "default_folder"
+    
     # إنشاء اسم فريد قصير
     unique_id = simple_unique_id(4)
     extension = file.name.split('.')[-1].lower() if '.' in file.name else 'file'
@@ -79,16 +87,21 @@ def handle_uploaded_file(file, folder_name, title_slug, is_main_image=False):
     else:
         target_dir = os.path.join(settings.BASE_DIR, 'tifinar', 'static', 'tifinar', 'images', 'cours', folder_name)
     
+    # التأكد من وجود المجلد
     os.makedirs(target_dir, exist_ok=True)
     
     # حفظ الملف
     file_path = os.path.join(target_dir, file_name)
-    with open(file_path, 'wb+') as destination:
-        for chunk in file.chunks():
-            destination.write(chunk)
-    
-    return file_name
-
+    try:
+        with open(file_path, 'wb+') as destination:
+            for chunk in file.chunks():
+                destination.write(chunk)
+        
+        logger.info(f"تم حفظ الملف: {file_path}")
+        return file_name
+    except Exception as e:
+        logger.error(f"خطأ في حفظ الملف {file_path}: {str(e)}")
+        return None
 def create_cours(request):
     logger.info("بدء عملية إنشاء درس جديد")
     
@@ -130,23 +143,41 @@ def create_cours(request):
                 logger.info(f"عدد الصور المرفوعة: {len(images_files)}")
                 logger.info(f"أسماء الصور: {image_names}")
                 
-                saved_images = []
+                # الحصول على اسم المجلد وتنظيفه
                 folder_name = form.cleaned_data.get('myfile', 'default_folder')
-                logger.info(f"اسم المجلد: {folder_name}")
+                if folder_name:
+                    folder_name = re.sub(r'[^a-zA-Z0-9_-]', '', folder_name)
+                    if not folder_name:
+                        folder_name = 'default_folder'
+                else:
+                    folder_name = 'default_folder'
+                
+                logger.info(f"اسم المجلد بعد التنظيف: {folder_name}")
+                
+                saved_images = []
                 
                 for i, (image_file, image_name) in enumerate(zip(images_files, image_names)):
                     if image_file:
                         # استخدام الاسم المقدم أو إنشاء اسم افتراضي
                         custom_name = image_name.strip() if image_name else f"image_{i+1}"
-                        file_name = handle_uploaded_file(image_file, folder_name, custom_name)
+                        # تنظيف الاسم من الأحرف غير المسموحة
+                        custom_name = re.sub(r'[^a-zA-Z0-9_-]', '', custom_name)
+                        if not custom_name:
+                            custom_name = f"image_{i+1}"
+                        
+                        file_name = handle_uploaded_file(image_file, folder_name, custom_name, is_main_image=False)
                         if file_name:
                             saved_images.append(file_name)
                             logger.info(f"تم حفظ الصورة: {file_name}")
+                        else:
+                            logger.error(f"فشل في حفظ الصورة: {image_file.name}")
                 
                 # حفظ أسماء الصور في حقل images كسلسلة مفصولة بفواصل
                 if saved_images:
                     obj.images = ", ".join(saved_images)
                     logger.info(f"أسماء الصور المحفوظة: {obj.images}")
+                else:
+                    logger.warning("لم يتم حفظ أي صور إضافية")
                 
                 # تعيين القيم الافتراضية
                 obj.visibility_status = 'under_review'
@@ -157,10 +188,9 @@ def create_cours(request):
                 obj.save()
                 logger.info("تم حفظ الكائن بنجاح")
                 
-                return redirect('cours_edit', slug=obj.slug)
+                return redirect('cours_edit')
             else:
                 logger.error(f"أخطاء النموذج: {form.errors}")
-                # نعرض النموذج مع الأخطاء مباشرة
                 return render(request, 'tifinar/auth/cours/create_cours.html', {'form': form})
         else:
             form = CoursForm()
@@ -170,13 +200,10 @@ def create_cours(request):
     except Exception as e:
         logger.error(f"حدث خطأ: {str(e)}", exc_info=True)
         
-        # نعيد إنشاء النموذج مع البيانات التي تم إدخالها
         form = CoursForm(request.POST or None, request.FILES or None)
         
-        # نضيف الخطأ إلى النموذج بطريقة آمنة
         error_msg = f"حدث خطأ غير متوقع في النظام: {str(e)}. يرجى المحاولة مرة أخرى."
         
-        # بدلاً من استخدام add_error، ننشئ قائمة أخطاء جديدة
         if not form._errors:
             form._errors = ErrorDict()
         
@@ -210,3 +237,14 @@ def test_form_validation():
         print(f"أخطاء النموذج: {form.errors}")
     
     return form.is_valid()
+
+def check_saved_images():
+    """للتحقق من وجود الصور المحفوظة"""
+    base_dir = os.path.join(settings.BASE_DIR, 'tifinar', 'static', 'tifinar', 'images', 'cours')
+    
+    print("المجلدات الموجودة:")
+    for item in os.listdir(base_dir):
+        item_path = os.path.join(base_dir, item)
+        if os.path.isdir(item_path):
+            print(f"المجلد: {item}")
+            print(f"  الملفات: {os.listdir(item_path)}")
