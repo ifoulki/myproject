@@ -101,6 +101,16 @@
 
         <div class="form">
             <label class="label">
+                <i class="fas fa-align-left"></i> {{ form.mydescription.label }}
+            </label>
+            {{ form.mydescription }}
+            {{ form.mydescription.errors }}
+        </div>
+
+        <hr>
+
+        <div class="form">
+            <label class="label">
                 <i class="fas  fa-language"></i> {{ form.dir.label }}
             </label>
             {{ form.dir }}
@@ -233,15 +243,15 @@
             <label>الحالة:</label>
             <div style="display: flex; gap: 15px; font-size: 1.2em;">
                 <label>
-                    <input type="radio" name="visibility_status" value="public" {% if article.visibility_status == 'public' %}checked{% endif %} onchange="updateStatusColor(this)"> 
+                    <input type="radio" name="visibility_status" value="public" {% if cour.visibility_status == 'public' %}checked{% endif %} onchange="updateStatusColor(this)"> 
                     <span style="color: #4CAF50;"><i class="fas fa-globe"></i> عام</span>
                 </label>
                 <label>
-                    <input type="radio" name="visibility_status" value="under_review" {% if article.visibility_status == 'under_review' %}checked{% endif %} onchange="updateStatusColor(this)"> 
+                    <input type="radio" name="visibility_status" value="under_review" {% if cour.visibility_status == 'under_review' %}checked{% endif %} onchange="updateStatusColor(this)"> 
                     <span style="color: #FFC107;"><i class="fas fa-eye-slash"></i> قيد المراجعة</span>
                 </label>
                 <label>
-                    <input type="radio" name="visibility_status" value="restricted" {% if article.visibility_status == 'restricted' %}checked{% endif %} onchange="updateStatusColor(this)"> 
+                    <input type="radio" name="visibility_status" value="restricted" {% if cour.visibility_status == 'restricted' %}checked{% endif %} onchange="updateStatusColor(this)"> 
                     <span style="color: #F44336;"><i class="fas fa-lock"></i> مقيد</span>
                 </label>
             </div>
@@ -255,7 +265,7 @@
         </a>
     </form>
 
-    {% include "tifinar/auth/books/adm_comments.html" %}
+    {% include "tifinar/auth/cours/adm_comments.html" %}
 </div>
 
 <hr>

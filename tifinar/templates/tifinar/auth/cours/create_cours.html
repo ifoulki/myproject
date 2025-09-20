@@ -97,6 +97,16 @@
 
             <div class="form">
                 <label class="label">
+                    <i class="fas fa-align-left"></i> {{ form.mydescription.label }}
+                </label>
+                {{ form.mydescription }}
+                {{ form.mydescription.errors }}
+            </div>
+
+            <hr>
+
+            <div class="form">
+                <label class="label">
                     <i class="fas  fa-language"></i> {{ form.dir.label }}
                 </label>
                 {{ form.dir }}
