@@ -30,7 +30,7 @@ from tifinar.views.content_manager.create_cours import create_cours
 from tifinar.views.content_manager.edit_contents import edit_content
 from tifinar.views.content_manager.edit_books import edit_book
 from tifinar.views.content_manager.edit_video import edit_video
-# from tifinar.views.content_manager.edit_cours import edit_cours
+from tifinar.views.content_manager.edit_cours import edit_course_view
 from tifinar.views.content.exams import exam_view, store_answer
 from .logout import custom_logout
 from .login import custom_login
@@ -69,7 +69,6 @@ def get_view(view_path):
 urlpatterns = [
     
     path('admin/', admin.site.urls),
-    
     # الصفحات الرئيسية
     path('مقالات/', contents, name='articles'),
     path('اختبارات/', contents, name='exams'),
@@ -122,8 +121,8 @@ urlpatterns = [
     path('articles/edit/<path:slug>/', edit_content, {'content_type': 'articles'}, name='edit_article'),
     path('videos/edit/<path:slug>/', edit_video, name='edit_video'),
     path('books/edit/<path:slug>/', edit_book, {'content_type': 'books'}, name='edit_book'),
-    # path('cours/edit/<path:slug>/', edit_cours, {'content_type': 'cours'}, name='edit_cours'),
     path('exams/edit/<path:slug>/', edit_content, {'content_type': 'exams'}, name='edit_exam'), 
+    path('cours/edit/<path:slug>/', edit_course_view, name='edit_cours'), 
     
     path('profile/<int:user_id>/', show_user, name='user_profile'),
     path('exam/store-answer/', store_answer, name='store_answer'),

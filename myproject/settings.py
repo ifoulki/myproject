@@ -45,7 +45,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': True,
+        'APP_DIRS': False,  # تغيير من True إلى False
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
@@ -53,6 +53,12 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'tifinar.context_processors.user_profile_context',
             ],
+            # إضافة الـ loaders يدوياً
+            'loaders': [
+                'django.template.loaders.filesystem.Loader',
+                'django.template.loaders.app_directories.Loader',
+            ],
+            'debug': DEBUG,
         },
     },
 ]
