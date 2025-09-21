@@ -15,7 +15,7 @@
                 {% if exam.myimage %}
                 {% with images=exam.myimage.split %}
                     {% for image in images reversed %}
-                    <img src="{% static 'tifinar/images/exams/' %}{{ image }}" class="image-preview">
+                    <img src="{{ image }}" class="image-preview">
                     {% endfor %}
                 {% endwith %}
                     <img id="imagePreview1" class="image-preview1" alt="معاينة الصورة" style="display: none;">

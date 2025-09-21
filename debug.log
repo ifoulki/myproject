@@ -109260,3 +109260,269 @@ DEBUG 2025-09-21 17:46:09,779 utils (0.003)
             WHERE table_schema = DATABASE()
             ; args=None; alias=default
 DEBUG 2025-09-21 17:46:09,789 utils (0.002) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+DEBUG 2025-09-21 17:46:14,491 utils (0.002) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-09-21 17:46:14,494 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-09-21 17:46:14,495 utils (0.001) SELECT `exams`.`exam_id`, `exams`.`title`, `exams`.`slug`, `exams`.`Mydescription`, `exams`.`myimage`, `exams`.`keywords`, `exams`.`the_type`, `exams`.`Author`, `exams`.`dir`, `exams`.`visibility_status`, `exams`.`educational_level`, `exams`.`gender`, `exams`.`created_at`, `exams`.`updated_at`, `exams`.`min_age`, `exams`.`max_age` FROM `exams` WHERE `exams`.`slug` = 'ja_mn_ly' LIMIT 21; args=('ja_mn_ly',); alias=default
+DEBUG 2025-09-21 17:46:14,556 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-09-21 16:46:14.554427' AND `django_session`.`session_key` = 'kp3au0dhvwer5yo43ezdueats6ea5wj3') LIMIT 21; args=('2025-09-21 16:46:14.554427', 'kp3au0dhvwer5yo43ezdueats6ea5wj3'); alias=default
+DEBUG 2025-09-21 17:46:14,559 utils (0.001) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+ERROR 2025-09-21 17:46:14,637 log Internal Server Error: /exams/edit/ja_mn_ly/
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khalid\Documents\myproject\tifinar\views\content_manager\create_exam.py", line 349, in edit_exam
+    return render(request, 'tifinar/auth/exams/edit_exam.html', {
+        'form': form,
+        'exam': exam
+    })
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'edit_exam' with arguments '('',)' not found. 1 pattern(s) tried: ['exams/edit/(?P<slug>[-a-zA-Z0-9_]+)/\\Z']
+ERROR 2025-09-21 17:46:14,652 basehttp "GET /exams/edit/ja_mn_ly/ HTTP/1.1" 500 129344
+DEBUG 2025-09-21 17:48:22,875 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-09-21 17:48:22,876 utils (0.001) SELECT `exams`.`exam_id`, `exams`.`title`, `exams`.`slug`, `exams`.`Mydescription`, `exams`.`myimage`, `exams`.`keywords`, `exams`.`the_type`, `exams`.`Author`, `exams`.`dir`, `exams`.`visibility_status`, `exams`.`educational_level`, `exams`.`gender`, `exams`.`created_at`, `exams`.`updated_at`, `exams`.`min_age`, `exams`.`max_age` FROM `exams` WHERE `exams`.`slug` = 'ja_mn_ly' LIMIT 21; args=('ja_mn_ly',); alias=default
+DEBUG 2025-09-21 17:48:22,897 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-09-21 16:48:22.896193' AND `django_session`.`session_key` = 'kp3au0dhvwer5yo43ezdueats6ea5wj3') LIMIT 21; args=('2025-09-21 16:48:22.896193', 'kp3au0dhvwer5yo43ezdueats6ea5wj3'); alias=default
+DEBUG 2025-09-21 17:48:22,902 utils (0.002) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+ERROR 2025-09-21 17:48:22,979 log Internal Server Error: /exams/edit/ja_mn_ly/
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khalid\Documents\myproject\tifinar\views\content_manager\create_exam.py", line 349, in edit_exam
+    return render(request, 'tifinar/auth/exams/edit_exam.html', {
+        'form': form,
+        'exam': exam
+    })
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'edit_exam' with arguments '('',)' not found. 1 pattern(s) tried: ['exams/edit/(?P<slug>[-a-zA-Z0-9_]+)/\\Z']
+ERROR 2025-09-21 17:48:22,994 basehttp "GET /exams/edit/ja_mn_ly/ HTTP/1.1" 500 129344
+DEBUG 2025-09-21 17:49:07,845 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-09-21 17:49:07,846 utils (0.001) SELECT `exams`.`exam_id`, `exams`.`title`, `exams`.`slug`, `exams`.`Mydescription`, `exams`.`myimage`, `exams`.`keywords`, `exams`.`the_type`, `exams`.`Author`, `exams`.`dir`, `exams`.`visibility_status`, `exams`.`educational_level`, `exams`.`gender`, `exams`.`created_at`, `exams`.`updated_at`, `exams`.`min_age`, `exams`.`max_age` FROM `exams` WHERE `exams`.`slug` = 'ja_mn_ly' LIMIT 21; args=('ja_mn_ly',); alias=default
+DEBUG 2025-09-21 17:49:07,943 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-09-21 16:49:07.941486' AND `django_session`.`session_key` = 'kp3au0dhvwer5yo43ezdueats6ea5wj3') LIMIT 21; args=('2025-09-21 16:49:07.941486', 'kp3au0dhvwer5yo43ezdueats6ea5wj3'); alias=default
+DEBUG 2025-09-21 17:49:07,949 utils (0.002) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+ERROR 2025-09-21 17:49:08,035 log Internal Server Error: /exams/edit/ja_mn_ly/
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khalid\Documents\myproject\tifinar\views\content_manager\create_exam.py", line 349, in edit_exam
+    return render(request, 'tifinar/auth/exams/edit_exam.html', {
+        'form': form,
+        'exam': exam
+    })
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\defaulttags.py", line 480, in render
+    url = reverse(view_name, args=args, kwargs=kwargs, current_app=current_app)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\urls\base.py", line 98, in reverse
+    resolved_url = resolver._reverse_with_prefix(view, prefix, *args, **kwargs)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\urls\resolvers.py", line 831, in _reverse_with_prefix
+    raise NoReverseMatch(msg)
+django.urls.exceptions.NoReverseMatch: Reverse for 'edit_exam' with arguments '('',)' not found. 1 pattern(s) tried: ['exams/edit/(?P<slug>[-a-zA-Z0-9_]+)/\\Z']
+ERROR 2025-09-21 17:49:08,050 basehttp "GET /exams/edit/ja_mn_ly/ HTTP/1.1" 500 129355
+DEBUG 2025-09-21 17:49:52,718 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-09-21 17:49:52,721 utils (0.002) SELECT `exams`.`exam_id`, `exams`.`title`, `exams`.`slug`, `exams`.`Mydescription`, `exams`.`myimage`, `exams`.`keywords`, `exams`.`the_type`, `exams`.`Author`, `exams`.`dir`, `exams`.`visibility_status`, `exams`.`educational_level`, `exams`.`gender`, `exams`.`created_at`, `exams`.`updated_at`, `exams`.`min_age`, `exams`.`max_age` FROM `exams` WHERE `exams`.`slug` = 'ja_mn_ly' LIMIT 21; args=('ja_mn_ly',); alias=default
+DEBUG 2025-09-21 17:49:52,805 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-09-21 16:49:52.804435' AND `django_session`.`session_key` = 'kp3au0dhvwer5yo43ezdueats6ea5wj3') LIMIT 21; args=('2025-09-21 16:49:52.804435', 'kp3au0dhvwer5yo43ezdueats6ea5wj3'); alias=default
+DEBUG 2025-09-21 17:49:52,812 utils (0.002) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+INFO 2025-09-21 17:49:52,865 basehttp "GET /exams/edit/ja_mn_ly/ HTTP/1.1" 200 25382
+WARNING 2025-09-21 17:49:52,937 basehttp "GET /static/tifinar/images/exams/tifinar/static/tifinar/images/exams/ja_mn_ly_ebf.webp HTTP/1.1" 404 2149
+INFO 2025-09-21 19:00:11,308 autoreload Watching for file changes with StatReloader
+DEBUG 2025-09-21 19:00:13,413 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-09-21 19:00:13,417 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-09-21 19:00:13,423 utils (0.005) 
+            SELECT
+                table_name,
+                table_type,
+                table_comment
+            FROM information_schema.tables
+            WHERE table_schema = DATABASE()
+            ; args=None; alias=default
+DEBUG 2025-09-21 19:00:13,448 utils (0.002) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+WARNING 2025-09-21 19:01:01,045 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-21 19:01:01,199 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 17997
+DEBUG 2025-09-21 19:01:50,292 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-09-21 19:01:50,294 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-09-21 19:01:50,296 utils (0.001) SELECT `exams`.`exam_id`, `exams`.`title`, `exams`.`slug`, `exams`.`Mydescription`, `exams`.`myimage`, `exams`.`keywords`, `exams`.`the_type`, `exams`.`Author`, `exams`.`dir`, `exams`.`visibility_status`, `exams`.`educational_level`, `exams`.`gender`, `exams`.`created_at`, `exams`.`updated_at`, `exams`.`min_age`, `exams`.`max_age` FROM `exams` WHERE `exams`.`slug` = 'ja_mn_ly' LIMIT 21; args=('ja_mn_ly',); alias=default
+DEBUG 2025-09-21 19:01:50,925 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-09-21 18:01:50.922629' AND `django_session`.`session_key` = 'kp3au0dhvwer5yo43ezdueats6ea5wj3') LIMIT 21; args=('2025-09-21 18:01:50.922629', 'kp3au0dhvwer5yo43ezdueats6ea5wj3'); alias=default
+DEBUG 2025-09-21 19:01:50,931 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+INFO 2025-09-21 19:01:51,024 basehttp "GET /exams/edit/ja_mn_ly/ HTTP/1.1" 200 25361
+WARNING 2025-09-21 19:01:51,173 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-21 19:01:51,184 basehttp "GET /static/tifinar/static/tifinar/images/exams/ja_mn_ly_ebf.webp HTTP/1.1" 404 2086
+WARNING 2025-09-21 19:01:51,185 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 17997
+DEBUG 2025-09-21 19:02:07,324 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-09-21 19:02:07,327 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-09-21 19:02:07,329 utils (0.001) SELECT `exams`.`exam_id`, `exams`.`title`, `exams`.`slug`, `exams`.`Mydescription`, `exams`.`myimage`, `exams`.`keywords`, `exams`.`the_type`, `exams`.`Author`, `exams`.`dir`, `exams`.`visibility_status`, `exams`.`educational_level`, `exams`.`gender`, `exams`.`created_at`, `exams`.`updated_at`, `exams`.`min_age`, `exams`.`max_age` FROM `exams` WHERE `exams`.`slug` = 'ja_mn_ly' LIMIT 21; args=('ja_mn_ly',); alias=default
+DEBUG 2025-09-21 19:02:07,352 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-09-21 18:02:07.350905' AND `django_session`.`session_key` = 'kp3au0dhvwer5yo43ezdueats6ea5wj3') LIMIT 21; args=('2025-09-21 18:02:07.350905', 'kp3au0dhvwer5yo43ezdueats6ea5wj3'); alias=default
+DEBUG 2025-09-21 19:02:07,361 utils (0.004) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+INFO 2025-09-21 19:02:07,385 basehttp "GET /exams/edit/ja_mn_ly/ HTTP/1.1" 200 25361
+WARNING 2025-09-21 19:02:07,461 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-21 19:02:07,472 basehttp "GET /static/tifinar/static/tifinar/images/exams/ja_mn_ly_ebf.webp HTTP/1.1" 404 2086
+WARNING 2025-09-21 19:02:07,476 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 17997
+INFO 2025-09-21 19:02:50,198 autoreload Watching for file changes with StatReloader
+DEBUG 2025-09-21 19:02:52,160 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-09-21 19:02:52,163 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-09-21 19:02:52,168 utils (0.004) 
+            SELECT
+                table_name,
+                table_type,
+                table_comment
+            FROM information_schema.tables
+            WHERE table_schema = DATABASE()
+            ; args=None; alias=default
+DEBUG 2025-09-21 19:02:52,187 utils (0.002) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+DEBUG 2025-09-21 19:02:57,849 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-09-21 19:02:57,850 utils (0.001) SELECT `exams`.`exam_id`, `exams`.`title`, `exams`.`slug`, `exams`.`Mydescription`, `exams`.`myimage`, `exams`.`keywords`, `exams`.`the_type`, `exams`.`Author`, `exams`.`dir`, `exams`.`visibility_status`, `exams`.`educational_level`, `exams`.`gender`, `exams`.`created_at`, `exams`.`updated_at`, `exams`.`min_age`, `exams`.`max_age` FROM `exams` WHERE `exams`.`slug` = 'ja_mn_ly' LIMIT 21; args=('ja_mn_ly',); alias=default
+DEBUG 2025-09-21 19:02:57,863 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-09-21 18:02:57.861849' AND `django_session`.`session_key` = 'kp3au0dhvwer5yo43ezdueats6ea5wj3') LIMIT 21; args=('2025-09-21 18:02:57.861849', 'kp3au0dhvwer5yo43ezdueats6ea5wj3'); alias=default
+DEBUG 2025-09-21 19:02:57,867 utils (0.002) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+INFO 2025-09-21 19:02:57,885 basehttp "GET /exams/edit/ja_mn_ly/ HTTP/1.1" 200 25361
+WARNING 2025-09-21 19:02:57,943 basehttp "GET /static/tifinar/static/tifinar/images/exams/ja_mn_ly_ebf.webp HTTP/1.1" 404 2086
+WARNING 2025-09-21 19:03:03,829 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-21 19:03:03,835 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 17997
+DEBUG 2025-09-21 19:03:39,306 utils (0.004) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-09-21 19:03:39,314 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-09-21 19:03:39,317 utils (0.002) SELECT `exams`.`exam_id`, `exams`.`title`, `exams`.`slug`, `exams`.`Mydescription`, `exams`.`myimage`, `exams`.`keywords`, `exams`.`the_type`, `exams`.`Author`, `exams`.`dir`, `exams`.`visibility_status`, `exams`.`educational_level`, `exams`.`gender`, `exams`.`created_at`, `exams`.`updated_at`, `exams`.`min_age`, `exams`.`max_age` FROM `exams` WHERE `exams`.`slug` = 'ja_mn_ly' LIMIT 21; args=('ja_mn_ly',); alias=default
+DEBUG 2025-09-21 19:03:39,336 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-09-21 18:03:39.334838' AND `django_session`.`session_key` = 'kp3au0dhvwer5yo43ezdueats6ea5wj3') LIMIT 21; args=('2025-09-21 18:03:39.334838', 'kp3au0dhvwer5yo43ezdueats6ea5wj3'); alias=default
+DEBUG 2025-09-21 19:03:39,342 utils (0.002) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+INFO 2025-09-21 19:03:39,363 basehttp "GET /exams/edit/ja_mn_ly/ HTTP/1.1" 200 25361
+WARNING 2025-09-21 19:03:39,445 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-21 19:03:39,458 basehttp "GET /static/tifinar/static/tifinar/images/exams/ja_mn_ly_ebf.webp HTTP/1.1" 404 2086
+WARNING 2025-09-21 19:03:39,468 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 17997
+DEBUG 2025-09-21 19:03:51,308 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-09-21 19:03:51,312 utils (0.002) SELECT `exams`.`exam_id`, `exams`.`title`, `exams`.`slug`, `exams`.`Mydescription`, `exams`.`myimage`, `exams`.`keywords`, `exams`.`the_type`, `exams`.`Author`, `exams`.`dir`, `exams`.`visibility_status`, `exams`.`educational_level`, `exams`.`gender`, `exams`.`created_at`, `exams`.`updated_at`, `exams`.`min_age`, `exams`.`max_age` FROM `exams` WHERE `exams`.`slug` = 'ja_mn_ly' LIMIT 21; args=('ja_mn_ly',); alias=default
+DEBUG 2025-09-21 19:03:51,339 utils (0.002) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-09-21 18:03:51.336793' AND `django_session`.`session_key` = 'kp3au0dhvwer5yo43ezdueats6ea5wj3') LIMIT 21; args=('2025-09-21 18:03:51.336793', 'kp3au0dhvwer5yo43ezdueats6ea5wj3'); alias=default
+DEBUG 2025-09-21 19:03:51,350 utils (0.005) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+INFO 2025-09-21 19:03:51,385 basehttp "GET /exams/edit/ja_mn_ly/ HTTP/1.1" 200 25361
+WARNING 2025-09-21 19:03:51,482 basehttp "GET /static/tifinar/static/tifinar/images/exams/ja_mn_ly_ebf.webp HTTP/1.1" 404 2086
+WARNING 2025-09-21 19:03:51,508 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-09-21 19:03:51,511 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 17997
+INFO 2025-09-21 19:04:52,479 autoreload Watching for file changes with StatReloader
+DEBUG 2025-09-21 19:04:54,663 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-09-21 19:04:54,665 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-09-21 19:04:54,670 utils (0.004) 
+            SELECT
+                table_name,
+                table_type,
+                table_comment
+            FROM information_schema.tables
+            WHERE table_schema = DATABASE()
+            ; args=None; alias=default
+DEBUG 2025-09-21 19:04:54,681 utils (0.002) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
