@@ -131,16 +131,20 @@
                     
                     {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link" href=""><i class="fas fa-user-friends me-2"></i> لائحة الأصدقاء</a>
+                        <a class="nav-link" href="/users"><i class="fas fa-user-friends me-2"></i> لائحة الأصدقاء</a>
                     </li>
     
                     <li class="nav-item position-relative">
-                        <a href="" class="nav-link">
-                            <i class="fas fa-envelope"></i> لديك رسالة جديدة
-                            <span class="badge bg-danger position-absolute custom-badge">
-                                3
-                                <span class="visually-hidden">رسائل جديدة</span>
-                            </span>
+                        <a href="/msgs_edit" class="nav-link">
+                           {% if new_messages_count > 0 %}
+                                <i class="fas fa-envelope"></i> لديك رسالة جديدة
+                                <span class="badge bg-danger position-absolute custom-badge">
+                                     {{ new_messages_count }}
+                                    <span class="visually-hidden">رسائل جديدة</span>
+                                </span>
+                           {% else %}
+                                <i class="fas fa-envelope"></i> قراءة الرسائل
+                            {% endif %} 
                         </a>
                     </li>
     

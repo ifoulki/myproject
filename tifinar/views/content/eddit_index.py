@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404
+from django.http import Http404  # أضف هذا الاستيراد
 from django.db.models import Q, Case, When, IntegerField
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from tifinar.models import articles, videos, cours, books, exams
+from tifinar.models import articles, videos, cours, books, exams,msgs
 from django.shortcuts import render, redirect,get_object_or_404
 from django.conf import settings  # أضف هذا
 import os
@@ -18,33 +19,48 @@ def index_eddit(request):
     if path == "videos_edit":
         model = videos
         title = "فيديوهات"
-        order_field = "-vd_id"  # استخدام الحقل الصحيح للترتيب
+        order_field = "-vd_id"
         description = "مجلة تيفيناغ الثقافية تضم سلسلات كثيرة ومتنوعة لفيديوهات ثقافية، تربوية وتعليمية ... إلخ، يمكتكم متابعتها والاستفادة منها مجانا"
+        has_slug = True
     elif path == "cours_edit":
         model = cours
         title = "قواميس بصرية"  
-        order_field = "-cours_id"  # استخدام الحقل الصحيح للترتيب
+        order_field = "-cours_id"
         description = "موقع تيفيناغ يقدم لكم مجموعة من القواميس البصرية لأجل مساعدة الراغبين في إغناء رصيدهم اللغوي، بطريقة سهلة ومبسطة بالصوت والصورة"
+        has_slug = True
+    elif path == "msgs_edit":
+        model = msgs
+        title = "قراءة الرسائل"  
+        order_field = "-msg_id"
+        description = "تواصل مع أصدقائك في أي وقت، باستخدام رسائل تفيناغ"
+        has_slug = False  # msgs ليس لديه slug
     elif path == "articles_edit":
         model = articles
         title = "مقالات"
-        order_field = "-art_id"  # استخدام الحقل الصحيح للترتيب
+        order_field = "-art_id"
         description = "مجلة تيفيناغ تقترح عليكم مجموعة من المقالات في مختلف المجالات العلمية والثقافية والتربوية، ويمكن للزوار أيضا إغناء الموقع بمشاركاتهم في النشر عبر مشاركة مواضيغهم معنا"
+        has_slug = True
     elif path == "exams_edit":
         model = exams
         title = "اختبارات"
-        order_field = "-exam_id"  # استخدام الحقل الصحيح للترتيب (افتراضي)
+        order_field = "-exam_id"
         description = "موقع مجلة تيفيناغ يعد منصة رائعة للراغبين في الإستعداد الجيد للإمتحانات، حيث يمكن من خلاله للزوار اجتياز اختبارات تجريبية online  وتظهر لهم النتيجة مباشرة بعد نهاية الاختبار، وذلك يساعدهم على تتبع مستواهم أثناء الاستعداد للإمتحانات"
+        has_slug = True
     elif path == "books_edit":
         model = books
         title = "مكتبة تيفيناغ"
-        order_field = "-books_id"  # استخدام الحقل الصحيح للترتيب
+        order_field = "-books_id"
         description = 'في مكتبة تيفيناغ يمكن تحميل كتب متنوعة مجانا، بما فيها الكتب المدرسية ونماذج امتحانات وفروض لتدريب التلاميذ وإعدادهم للاختبارات المدرسية'
+        has_slug = True
     else:
         return render(request, 'tifinar/404.html', status=404)
 
-    # استعلام قاعدة البيانات - إضافة شرط استبعاد السجلات ذات slug فارغ
-    queryset = model.objects.exclude(slug__isnull=True).exclude(slug__exact='')
+    # إنشاء queryset مع مراعاة وجود slug
+    if has_slug:
+        queryset = model.objects.exclude(slug__isnull=True).exclude(slug__exact='')
+    else:
+        # لـ msgs الذي لا يحتوي على slug
+        queryset = model.objects.all()
 
     # تطبيق عوامل التصفية
     if the_type:
@@ -52,27 +68,24 @@ def index_eddit(request):
 
     if search:
         # إنشاء شروط البحث
-        search_conditions = (
-            Q(title__icontains=search) |
-            Q(keywords__icontains=search) |
-            Q(the_type__icontains=search) |
-            Q(mysubject__icontains=search) |
-            Q(mydescription__icontains=search)
-        )
-        queryset = queryset.filter(search_conditions).annotate(
-            relevance=Case(
-                When(title__icontains=search, then=1),
-                When(keywords__icontains=search, then=2),
-                When(the_type__icontains=search, then=3),
-                When(mysubject__icontains=search, then=4),
-                When(mydescription__icontains=search, then=5),
-                default=6,
-                output_field=IntegerField(),
-            )
-        ).order_by('relevance')
-    else:
-        # الترتيب حسب الحقل المناسب لكل نموذج
-        queryset = queryset.order_by(order_field)
+        search_conditions = Q()
+        
+        # إضافة الحقول المتاحة بناءً على النموذج
+        if hasattr(model, 'title'):
+            search_conditions |= Q(title__icontains=search)
+        if hasattr(model, 'keywords'):
+            search_conditions |= Q(keywords__icontains=search)
+        if hasattr(model, 'the_type'):
+            search_conditions |= Q(the_type__icontains=search)
+        if hasattr(model, 'mysubject'):
+            search_conditions |= Q(mysubject__icontains=search)
+        if hasattr(model, 'mydescription'):
+            search_conditions |= Q(mydescription__icontains=search)
+        
+        queryset = queryset.filter(search_conditions)
+
+    # الترتيب حسب الحقل المناسب لكل نموذج
+    queryset = queryset.order_by(order_field)
 
     # معالجة الصور للمحتوى
     for item in queryset:
@@ -122,9 +135,11 @@ def index_eddit(request):
         return render(request, "tifinar/auth/exams/index_exams.html", context)
     elif model == cours:
         return render(request, "tifinar/auth/cours/index_cours.html", context)
+    elif model == msgs:
+        return render(request, "tifinar/auth/msgs/index_msgs.html", context)
     else:
-        return 0
-    
+        return render(request, 'tifinar/404.html', status=404)
+  
 def delete_content(request, slug):
     if request.method == 'POST':
         try:
@@ -132,33 +147,50 @@ def delete_content(request, slug):
             path = request.path
             if 'articles/delete' in path:
                 model = articles
+                lookup_field = 'slug'
             elif 'videos/delete' in path:
                 model = videos
+                lookup_field = 'slug'
             elif 'cours/delete' in path:
                 model = cours
+                lookup_field = 'slug'
             elif 'books/delete' in path:
                 model = books
+                lookup_field = 'slug'
             elif 'exams/delete' in path:
                 model = exams
+                lookup_field = 'slug'
+            elif 'msgs/delete' in path:
+                model = msgs
+                lookup_field = 'msg_id'
             else:
                 messages.error(request, 'نوع المحتوى غير معروف.')
                 return redirect(request.META.get('HTTP_REFERER', '/'))
             
-            # استخدام get_object_or_404 مع النموذج المناسب
-            item = get_object_or_404(model, slug=slug)
+            # استخدام get_object_or_404 مع الحقل المناسب
+            if lookup_field == 'slug':
+                item = get_object_or_404(model, slug=slug)
+            elif lookup_field == 'msg_id':
+                # تحويل slug إلى msg_id (افترض أن slug هو msg_id في حالة الرسائل)
+                try:
+                    msg_id = int(slug)
+                    item = get_object_or_404(model, msg_id=msg_id)
+                except (ValueError, TypeError):
+                    messages.error(request, 'معرف الرسالة غير صحيح.')
+                    return redirect(request.META.get('HTTP_REFERER', '/'))
             
             # حذف الملفات المرتبطة بالمحتوى إذا وجدت
             if hasattr(item, 'myimage') and item.myimage:
                 image_paths = item.myimage.split(',')
-                for path in image_paths:
-                    full_path = os.path.join(settings.BASE_DIR, path.strip())
+                for image_path in image_paths:
+                    full_path = os.path.join(settings.BASE_DIR, image_path.strip())
                     if os.path.exists(full_path):
                         os.remove(full_path)
             
             if hasattr(item, 'autre') and item.autre:
                 attachment_paths = item.autre.split(',')
-                for path in attachment_paths:
-                    full_path = os.path.join(settings.BASE_DIR, path.strip())
+                for attachment_path in attachment_paths:
+                    full_path = os.path.join(settings.BASE_DIR, attachment_path.strip())
                     if os.path.exists(full_path):
                         os.remove(full_path)
             
@@ -175,3 +207,37 @@ def delete_content(request, slug):
             return redirect(request.META.get('HTTP_REFERER', '/'))
     
     return HttpResponseForbidden()
+
+def delete_msg(request, msg_id):
+    """حذف رسالة باستخدام msg_id"""
+    if request.method == 'POST':
+        try:
+            # الحصول على الرسالة باستخدام msg_id
+            msg = get_object_or_404(msgs, msg_id=msg_id)
+            
+            # حذف الملفات المرتبطة إذا وجدت
+            if hasattr(msg, 'myimage') and msg.myimage:
+                image_paths = msg.myimage.split(',')
+                for image_path in image_paths:
+                    full_path = os.path.join(settings.BASE_DIR, image_path.strip())
+                    if os.path.exists(full_path):
+                        os.remove(full_path)
+            
+            if hasattr(msg, 'autre') and msg.autre:
+                attachment_paths = msg.autre.split(',')
+                for attachment_path in attachment_paths:
+                    full_path = os.path.join(settings.BASE_DIR, attachment_path.strip())
+                    if os.path.exists(full_path):
+                        os.remove(full_path)
+            
+            # حذف الرسالة من قاعدة البيانات
+            msg.delete()
+            
+            messages.success(request, 'تم حذف الرسالة بنجاح.')
+            
+        except Http404:
+            messages.error(request, 'الرسالة المطلوبة غير موجودة.')
+        except Exception as e:
+            messages.error(request, f'حدث خطأ أثناء حذف الرسالة: {str(e)}')
+    
+    return redirect(request.META.get('HTTP_REFERER', '/'))

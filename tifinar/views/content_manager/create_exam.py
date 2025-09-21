@@ -6,6 +6,8 @@ from django.http import JsonResponse
 from django.conf import settings
 from tifinar.myForms.exam.create_exam_form import ExamForm
 from tifinar.models import exams
+from tifinar.models import comments
+from tifinar.forms import CommentForm
 import os
 import re
 import unicodedata
@@ -292,60 +294,118 @@ def check_exam_slug(request):
     return JsonResponse({'error': 'طلب غير صالح'})
 
 
-
 def edit_exam(request, slug):
     """تعديل اختبار موجود"""
     exam = get_object_or_404(exams, slug=slug)
     
+    # جلب التعليقات المرتبطة بالاختبار
+    content_comments = []
+    comment_forms = []
+    
+    print(f"=== بدء التحقق من التعليقات ===")
+    print(f"عنوان الاختبار: '{exam.title}'")
+    
+    # جلب التعليقات التي تطابق عنوان الاختبار بالضبط
+    all_comments = comments.objects.filter(page_title__isnull=False)
+    print(f"عدد التعليقات (غير NULL): {all_comments.count()}")
+    
+    for comment in all_comments:
+        # المقارنة البسيطة بدون تطبيع مفرط
+        title_match = comment.page_title.strip() == exam.title.strip()
+        
+        print(f"التعليق {comment.cmt_id}: '{comment.page_title}'")
+        print(f"  تطابق مع '{exam.title}'؟ {title_match}")
+        
+        if title_match:
+            content_comments.append(comment)
+            print(f"  -> تمت الإضافة (تطابق تام)")
+    
+    print(f"عدد التعليقات المرتبطة: {len(content_comments)}")
+    
+    # إنشاء نماذج لكل تعليق
+    for comment in content_comments:
+        comment_forms.append(CommentForm(instance=comment))
+    
+    comment_count = len(content_comments)
+    
+    # تحويل zip إلى list
+    comments_list = list(zip(content_comments, comment_forms))
+    
     if request.method == 'POST':
-        form = ExamForm(request.POST, request.FILES, instance=exam)
-        if form.is_valid():
+        # التحقق مما إذا كان الطلب لتعديل اختبار أو تعليق
+        if 'comment_id' in request.POST:
+            comment_id = request.POST.get('comment_id')
             try:
-                updated_exam = form.save(commit=False)
+                comment_obj = comments.objects.get(cmt_id=comment_id)
                 
-                # معالجة الصورة إذا تم رفع جديدة
-                if 'myimage' in request.FILES:
-                    image_file = request.FILES['myimage']
-                    original_filename = image_file.name
-                    
-                    # إنشاء اسم جديد للصورة
-                    file_extension = os.path.splitext(original_filename)[1].lower()
-                    base_name = advanced_transliterator(updated_exam.title)
-                    
-                    if not base_name or len(base_name) < 3:
-                        base_name = f"exam_{int(timezone.now().timestamp())}"
-                    
-                    base_name = base_name.replace('-', '_')
-                    new_filename = f"{base_name}_{uuid.uuid4().hex[:4]}{file_extension}"
-                    
-                    # المسار الكامل للحفظ
-                    target_path = os.path.join('tifinar', 'static', 'tifinar', 'images', 'exams', new_filename)
-                    full_path = os.path.join(settings.BASE_DIR, target_path)
-                    
-                    # إنشاء المجلد إذا لم يكن موجوداً
-                    os.makedirs(os.path.dirname(full_path), exist_ok=True)
-                    
-                    # حفظ الصورة
-                    with open(full_path, 'wb+') as destination:
-                        for chunk in image_file.chunks():
-                            destination.write(chunk)
-                    
-                    updated_exam.myimage = new_filename
+                # تحديث الحقول يدوياً
+                comment_obj.author_name = request.POST.get('author_name')
+                comment_obj.author_email = request.POST.get('author_email')
+                comment_obj.cmt_subject = request.POST.get('cmt_subject')
+                comment_obj.visibility_status = request.POST.get('visibility_status')
+                comment_obj.updated_at = timezone.now()
                 
-                updated_exam.updated_at = timezone.now()
-                updated_exam.save()
-                
-                messages.success(request, '✅ تم تحديث الاختبار بنجاح!')
-                return redirect('edit_exam', slug=updated_exam.slug)
-                
+                comment_obj.save()
+                messages.success(request, 'تم تحديث التعليق بنجاح')
+                return redirect('edit_exam', slug=slug)
+
+            except comments.DoesNotExist:
+                messages.error(request, 'التعليق غير موجود')
             except Exception as e:
-                messages.error(request, f'❌ حدث خطأ أثناء التحديث: {str(e)}')
+                messages.error(request, f'حدث خطأ في تحديث التعليق: {str(e)}')
+                
         else:
-            messages.error(request, '❌ يرجى تصحيح الأخطاء في النموذج.')
+            # هذا طلب لتعديل الاختبار
+            form = ExamForm(request.POST, request.FILES, instance=exam)
+            if form.is_valid():
+                try:
+                    updated_exam = form.save(commit=False)
+                    
+                    # معالجة الصورة إذا تم رفع جديدة
+                    if 'myimage' in request.FILES:
+                        image_file = request.FILES['myimage']
+                        original_filename = image_file.name
+                        
+                        # إنشاء اسم جديد للصورة
+                        file_extension = os.path.splitext(original_filename)[1].lower()
+                        base_name = advanced_transliterator(updated_exam.title)
+                        
+                        if not base_name or len(base_name) < 3:
+                            base_name = f"exam_{int(timezone.now().timestamp())}"
+                        
+                        base_name = base_name.replace('-', '_')
+                        new_filename = f"{base_name}_{uuid.uuid4().hex[:4]}{file_extension}"
+                        
+                        # المسار الكامل للحفظ
+                        target_path = os.path.join('tifinar', 'static', 'tifinar', 'images', 'exams', new_filename)
+                        full_path = os.path.join(settings.BASE_DIR, target_path)
+                        
+                        # إنشاء المجلد إذا لم يكن موجوداً
+                        os.makedirs(os.path.dirname(full_path), exist_ok=True)
+                        
+                        # حفظ الصورة
+                        with open(full_path, 'wb+') as destination:
+                            for chunk in image_file.chunks():
+                                destination.write(chunk)
+                        
+                        updated_exam.myimage = new_filename
+                    
+                    updated_exam.updated_at = timezone.now()
+                    updated_exam.save()
+                    
+                    messages.success(request, '✅ تم تحديث الاختبار بنجاح!')
+                    return redirect('edit_exam', slug=updated_exam.slug)
+                    
+                except Exception as e:
+                    messages.error(request, f'❌ حدث خطأ أثناء التحديث: {str(e)}')
+            else:
+                messages.error(request, '❌ يرجى تصحيح الأخطاء في النموذج.')
     else:
         form = ExamForm(instance=exam)
     
     return render(request, 'tifinar/auth/exams/edit_exam.html', {
         'form': form,
-        'exam': exam
+        'exam': exam,
+        'comments': comments_list,  # إضافة التعليقات للقالب
+        'comment_count': comment_count  # إضافة عدد التعليقات
     })

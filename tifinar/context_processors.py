@@ -1,6 +1,20 @@
 import os
 from django.conf import settings
 
+from .models import msgs
+
+def messages_count(request):
+    """عداد الرسائل الجديدة للمستخدم"""
+    new_messages_count = 0
+    if request.user.is_authenticated:
+        # حساب الرسائل التي destinataire هو المستخدم الحالي ولم يتم قراءتها
+        new_messages_count = msgs.objects.filter(
+            recipient=request.user.id,
+            status='unread'  # أو أي حالة تشير إلى "غير مقروءة"
+        ).count()
+    
+    return {'new_messages_count': new_messages_count}
+
 def user_profile_context(request):
     context = {}
     if request.user.is_authenticated:

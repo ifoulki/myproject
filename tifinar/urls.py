@@ -10,7 +10,7 @@ from tifinar.views.content.videos import video_detail
 from tifinar.views.content.books import book_detail
 from tifinar.views.content.content import contents
 from tifinar.views.dashboard.dashboard import dashboard_view
-from tifinar.views.content.eddit_index import index_eddit, delete_content
+from tifinar.views.content.eddit_index import index_eddit, delete_content, delete_msg
 from tifinar.views.content.welcome import welcome
 from tifinar.views.games.rock_paper_scissors import rps_game
 from tifinar.views.audience.msgs import send_message
@@ -85,6 +85,7 @@ urlpatterns = [
     path('articles_edit/', index_eddit, name='articles_edit'),
     path('books_edit/', index_eddit, name='books_edit'),
     path('exams_edit/', index_eddit, name='exams_edit'),
+    path('msgs_edit/', index_eddit, name='msgs_edit'),
     path('adm/dashboard/', dashboard_view, name='dashboard'),
     path('rock_paper_scissors/', rps_game, name='rock_paper_scissors'),
     path('send_message/', send_message, name='send_message'),
@@ -121,6 +122,7 @@ urlpatterns = [
     path('exams/delete/<path:slug>/', delete_content, name='delete_exams'),
     path('cours/delete/<path:slug>/', delete_content, name='delete_cours'),
     path('videos/delete/<path:slug>/', delete_content, name='delete_videos'),
+    path('msgs/delete/<int:msg_id>/', delete_msg, name='delete_msg'),
 
     # تعديل المحتوى
     path('articles/edit/<path:slug>/', edit_content, {'content_type': 'articles'}, name='edit_article'),

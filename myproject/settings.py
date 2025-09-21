@@ -51,7 +51,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media',  # أضف هذا السطر
+                'django.template.context_processors.media',
+                'tifinar.context_processors.messages_count',# أضف هذا السطر
                 'tifinar.context_processors.user_profile_context',
             ],
             'loaders': [

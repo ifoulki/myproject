@@ -156,22 +156,21 @@
                         </a>
                     </li>
 
-                    {% if new_messages_count %}
+                    {% if request.user.is_authenticated %}  
                         <li class="nav-item position-relative">
-                            <a href="{% url 'msgs:index' %}" class="nav-link">
-                                {% if new_messages_count > 0 %}
+                            <a href="/msgs_edit" class="nav-link">
+                               {% if new_messages_count > 0 %}
                                     <i class="fas fa-envelope"></i> لديك رسالة جديدة
                                     <span class="badge bg-danger position-absolute custom-badge">
-                                        {{ new_messages_count }}
+                                         {{ new_messages_count }}
                                         <span class="visually-hidden">رسائل جديدة</span>
                                     </span>
-                                {% else %}
+                               {% else %}
                                     <i class="fas fa-envelope"></i> قراءة الرسائل
-                                {% endif %}
+                                {% endif %} 
                             </a>
                         </li>
-                    {% endif %}
-
+                    {% endif %} 
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="moreDropdown" role="button" data-bs-toggle="dropdown">
@@ -193,6 +192,13 @@
                                     <i class="fas fa-gamepad"></i> اللعب
                                 </a>
                             </li>
+                            
+                            {% if request.user.is_authenticated %}  
+                                <li>
+                                    <a class="dropdown-item" href="/users"><i class="fas fa-user-friends me-2"></i> لائحة الأصدقاء</a>
+                                </li>
+                            {% endif %}  
+
                             <li>
                                 <a class="dropdown-item dynamic-link" data-title="send_message">
                                     <i class="fas fa-envelope me-2"></i> اتصل بنا

@@ -3,87 +3,233 @@
 {% load crispy_forms_tags %}
 
 <section class="content">
-    <article>
-        <h1><i class="fas fa-pencil-alt"></i> كتابة رسالة:</h1>
-        <hr>
-
-        {% if messages %}
-            {% for message in messages %}
-                <div class="alert alert-{{ message.tags }}" role="alert">
-                    {% if message.tags == 'success' %}
-                        <i class="fas fa-check-circle"></i>
-                    {% else %}
-                        <i class="fas fa-exclamation-circle"></i>
-                    {% endif %}
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
-
-        {% if form.errors %}
-            <div class="alert alert-danger" role="alert">
-                <i class="fas fa-exclamation-circle"></i>
-                <ul>
-                    {% for field in form %}
-                        {% for error in field.errors %}
-                            <li><i class="fas fa-times-circle"></i> {{ error }}</li>
-                        {% endfor %}
+    <article class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <!-- الرسائل التنبيهية -->
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-4" role="alert">
+                            <div class="d-flex align-items-center">
+                                {% if message.tags == 'success' %}
+                                    <i class="fas fa-check-circle me-2"></i>
+                                {% else %}
+                                    <i class="fas fa-exclamation-circle me-2"></i>
+                                {% endif %}
+                                <span>{{ message }}</span>
+                            </div>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
                     {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
-
-        <form method="post" action="">
-            {% csrf_token %}
-
-            {% if not user.is_authenticated %}
-                <label class="label"><i class="fas fa-user"></i> الإسم الكامل:</label><br>
-                <input type="text" name="author" placeholder="الإسم الكامل ..." minlength="3" class="input" value="{{ request.POST.author }}">
-                <hr>
-
-                <label class="label"><i class="fas fa-envelope"></i> البريد الإلكتروني:</label><br>
-                <input type="email" name="email" placeholder="البريد الإلكتروني ..." minlength="7" class="input" value="{{ request.POST.email }}">
-                <hr>
-            {% else %}
-                <input type="hidden" name="author_id" value="{{ user.id }}">
-                <input type="hidden" name="author" value="{{ user.first_name }} {{ user.last_name }}">
-                <input type="hidden" name="email" value="{{ user.email }}">
-                {% if user_first_image %}
-                    <input type="hidden" name="author_img" value="{{ user_first_image }}">
                 {% endif %}
-            {% endif %}
 
-                <input type="hidden" name="recipient" value="{{ request.GET.user_id }}">
+                <!-- عرض معلومات المرسل إليه -->
+                {% if recipient_user %}
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header bg-gradient-primary text-white py-3">
+                        <h4 class="card-title mb-0 text-center">
+                            <i class="fas fa-paper-plane me-2"></i>إرسال رسالة إلى :
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <!-- صورة المستخدم -->
+                            <div class="flex-shrink-0 me-4">
+                                {% if recipient_user.images %}
+                                    <img src="{% static 'tifinar/images/users/' %}{{ recipient_user.id }}/{{ recipient_user.images }}" 
+                                         alt="{{ recipient_user.get_full_name }}" 
+                                         class="rounded-circle shadow" 
+                                         width="100" 
+                                         height="100"
+                                         style="object-fit: cover; border: 3px solid #e9ecef;">
+                                {% else %}
+                                    <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center shadow" 
+                                         style="width: 100px; height: 100px; border: 3px solid #e9ecef;">
+                                        <i class="fas fa-user text-white" style="font-size: 2.5rem;"></i>
+                                    </div>
+                                {% endif %}
+                            </div>
+                            
+                            <!-- معلومات المستخدم -->
+                            <div class="flex-grow-1">
+                                <h4 class="card-title text-primary mb-2">
+                                    &nbsp; 
+                                    {{ recipient_user.first_name }} {{ recipient_user.last_name }}
+                                </h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
 
-            {% if recipient_id == 14 or user.id == 1 or user.id == 14 %}
-                <label class="label"><i class="fas fa-sticky-note"></i> موضوع الرسالة:</label><br>
-                <input type="text" name="title" placeholder="موضوع الرسالة ..." class="input" value="{{ request.POST.title }}">
-                <hr>
-            {% else %}
-                <input type="hidden" name="title" value="standard">
-            {% endif %}
+                <!-- أخطاء النموذج -->
+                {% if form.errors %}
+                    <div class="alert alert-danger mb-4" role="alert">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <h5 class="mb-0">يوجد أخطاء في النموذج</h5>
+                        </div>
+                        <ul class="mb-0 ps-4">
+                            {% for field in form %}
+                                {% for error in field.errors %}
+                                    <li><i class="fas fa-times-circle text-danger me-2"></i> {{ error }}</li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
 
-            <label class="label"><i class="fas fa-comment-dots"></i> نص الرسالة:</label><br>
-            <textarea name="mysubject" placeholder="أكتب رسالتك هنا ..." class="mysubject">{{ request.POST.mysubject }}</textarea>
+                <!-- نموذج إرسال الرسالة -->
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <form method="post" action="">
+                            {% csrf_token %}
 
-            <button type="submit">
-                <i class="fas fa-paper-plane"></i>
-                إرسال الرسالة
-            </button>
-        </form>
+                            <!-- حقول المستخدم غير المسجل -->
+                            {% if not user.is_authenticated %}
+                                <div class="row mb-4">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold">
+                                            <i class="fas fa-user me-2 text-primary"></i>الإسم الكامل:
+                                        </label>
+                                        <input type="text" name="author" placeholder="الإسم الكامل ..." minlength="3" 
+                                               class="form-control form-control-lg" 
+                                               value="{{ request.POST.author }}">
+                                        <div class="form-text">أدخل اسمك الكامل من فضلك</div>
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label fw-bold">
+                                            <i class="fas fa-envelope me-2 text-primary"></i>البريد الإلكتروني:
+                                        </label>
+                                        <input type="email" name="email" placeholder="البريد الإلكتروني ..." minlength="7" 
+                                               class="form-control form-control-lg" 
+                                               value="{{ request.POST.email }}">
+                                        <div class="form-text">سنستخدم هذا البريد للرد عليك</div>
+                                    </div>
+                                </div>
+                            {% else %}
+                                <input type="hidden" name="author_id" value="{{ user.id }}">
+                                <input type="hidden" name="author" value="{{ user.first_name }} {{ user.last_name }}">
+                                <input type="hidden" name="email" value="{{ user.email }}">
+                                {% if user.author_img %}
+                                    <input type="hidden" name="author_img" value="{{ user.author_img.url }}">
+                                {% endif %}
+                            {% endif %}
+
+                            <input type="hidden" name="recipient" value="{{ recipient_id }}">
+
+                            <!-- حقل الموضوع للمستخدمين المميزين -->
+                            {% if recipient_id == 14 or user.id == 1 or user.id == 14 %}
+                                <div class="mb-4">
+                                    <label class="form-label fw-bold">
+                                        <i class="fas fa-sticky-note me-2 text-primary"></i>موضوع الرسالة:
+                                    </label>
+                                    <input type="text" name="title" placeholder="موضوع الرسالة ..." 
+                                           class="subject" 
+                                           value="{{ request.POST.title }}">
+                                    <div class="form-text">حدد موضوعاً واضحاً لرسالتك</div>
+                                </div>
+                            {% else %}
+                                <input type="hidden" name="title" value="standard">
+                            {% endif %}
+
+                            <!-- حقل نص الرسالة -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">
+                                    <i class="fas fa-comment-dots me-2 text-primary"></i>نص الرسالة:
+                                </label>
+                                <textarea name="mysubject" class="mysubject" 
+                                          placeholder="أكتب رسالتك هنا ..." 
+                                          rows="8"
+                                          style="min-height: 200px; resize: vertical;">{{ request.POST.mysubject }}</textarea>
+                            </div>
+
+                            <!-- أزرار الإرسال -->
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                    <i class="fas fa-paper-plane me-2"></i>
+                                    إرسال الرسالة
+                                </button>
+                                <button type="reset" class="btn btn-outline-secondary btn-lg px-4">
+                                    <i class="fas fa-eraser me-2"></i>
+                                    مسح المحتوى
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </article>
 </section>
-<script>
-    // الحصول على قيمة user_id من URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const userId = urlParams.get('user_id');
+
+<style>
+    .bg-gradient-primary {
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    }
     
-    // تعيين القيمة في الحقل المخفي
+    .card {
+        border: none;
+        border-radius: 15px;
+    }
+    
+    .form-control, .form-control-lg {
+        border-radius: 10px;
+        border: 2px solid #e9ecef;
+        transition: all 0.3s ease;
+    }
+    
+    .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        border: none;
+        border-radius: 10px;
+        padding: 12px 30px;
+    }
+    
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #0056b3 0%, #004085 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+    }
+    
+    .shadow-sm {
+        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.08) !important;
+    }
+    
+    .shadow {
+        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.12) !important;
+    }
+</style>
+
+<script>
+    // تأكيد تعيين قيمة recipient من JavaScript كنسخة احتياطية
     document.addEventListener('DOMContentLoaded', function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const userId = urlParams.get('user_id');
         const recipientInput = document.querySelector('input[name="recipient"]');
+        
         if (recipientInput && userId) {
             recipientInput.value = userId;
         }
+        
+        // إضافة تأثيرات للعناصر
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.style.transition = 'transform 0.3s ease';
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-5px)';
+            });
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
     });
 </script>
+
 {% include "tifinar/footer.html" %}
