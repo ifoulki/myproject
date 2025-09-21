@@ -45,15 +45,15 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [os.path.join(BASE_DIR, 'templates')],
-        'APP_DIRS': False,  # تغيير من True إلى False
+        'APP_DIRS': False,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',  # أضف هذا السطر
                 'tifinar.context_processors.user_profile_context',
             ],
-            # إضافة الـ loaders يدوياً
             'loaders': [
                 'django.template.loaders.filesystem.Loader',
                 'django.template.loaders.app_directories.Loader',
@@ -96,50 +96,62 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Static files settings
+# إعدادات الملفات الثابتة
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'tifinar/static').replace('\\', '/'),
-    os.path.join(BASE_DIR, 'myproject/static')
+    os.path.join(BASE_DIR, 'tifinar/static'),
+    os.path.join(BASE_DIR, 'static')
 ]
 
-# Media files settings
+# إعدادات ملفات الوسائط (المرفوعات)
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+# إنشاء المجلدات إذا لم تكن موجودة
+os.makedirs(MEDIA_ROOT, exist_ok=True)
+os.makedirs(os.path.join(BASE_DIR, 'static'), exist_ok=True)
 
-# Ensure static files are served during development
-if DEBUG:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Crispy Forms settings
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
 CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 # إعدادات لرفع ملفات كبيرة
-DATA_UPLOAD_MAX_MEMORY_SIZE = 104857600
-FILE_UPLOAD_MAX_MEMORY_SIZE = 104857600
-MAX_UPLOAD_SIZE = 104857600
+DATA_UPLOAD_MAX_MEMORY_SIZE = 104857600  # 100MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 104857600  # 100MB
+MAX_UPLOAD_SIZE = 104857600  # 100MB
+
+# إعدادات التخزين للملفات المرفوعة
+FILE_UPLOAD_PERMISSIONS = 0o644
+FILE_UPLOAD_DIRECTORY_PERMISSIONS = 0o755
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {message}',
+            'style': '{',
+        },
+    },
     'handlers': {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': os.path.join(BASE_DIR, 'debug.log'),
+            'formatter': 'verbose',
         },
         'console': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
         },
     },
     'loggers': {
         'django': {
             'handlers': ['file', 'console'],
-            'level': 'DEBUG',
+            'level': 'INFO',
             'propagate': True,
         },
         'tifinar': {
@@ -147,5 +159,15 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
+        'django.db.backends': {
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
     },
 }
+
+# إعدادات إضافية لأمان الملفات
+X_FRAME_OPTIONS = 'SAMEORIGIN'
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True

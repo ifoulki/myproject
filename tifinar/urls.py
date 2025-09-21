@@ -27,6 +27,7 @@ from tifinar.views.content_manager.article_manager import create_article
 from tifinar.views.content_manager.book_manager import create_book
 from tifinar.views.content_manager.video_manager import create_video
 from tifinar.views.content_manager.create_cours import create_cours
+from tifinar.views.content_manager.create_exam import create_exam, edit_exam
 from tifinar.views.content_manager.edit_contents import edit_content
 from tifinar.views.content_manager.edit_books import edit_book
 from tifinar.views.content_manager.edit_video import edit_video
@@ -35,6 +36,10 @@ from tifinar.views.content.exams import exam_view, store_answer
 from .logout import custom_logout
 from .login import custom_login
 from .logup import custom_logup
+
+# أضف هذه الاستيرادات
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 def table_exists(table_name):
@@ -108,7 +113,7 @@ urlpatterns = [
     path('books/create/', create_book, name='create_book'),
     path('videos/create/', create_video, name='create_video'),
     path('cours/create/', create_cours, name='create_cours'),
-    path('exams/create/', show_create_content, {'content_type': 'exams'}, name='create_exam'),
+    path('exams/create/', create_exam, name='create_exam'),
 
     # حدف المحتوى
     path('articles/delete/<path:slug>/', delete_content, name='delete_article'),
@@ -121,7 +126,7 @@ urlpatterns = [
     path('articles/edit/<path:slug>/', edit_content, {'content_type': 'articles'}, name='edit_article'),
     path('videos/edit/<path:slug>/', edit_video, name='edit_video'),
     path('books/edit/<path:slug>/', edit_book, {'content_type': 'books'}, name='edit_book'),
-    path('exams/edit/<path:slug>/', edit_content, {'content_type': 'exams'}, name='edit_exam'), 
+    path('exams/edit/<slug:slug>/', edit_exam, name='edit_exam'),
     path('cours/edit/<path:slug>/', edit_course_view, name='edit_cours'), 
     
     path('profile/<int:user_id>/', show_user, name='user_profile'),
@@ -140,3 +145,8 @@ urlpatterns = [
     path('', welcome, name='welcome'),
     
 ]
+
+# أضف هذا في النهاية - خدم ملفات الوسائط في وضع التطوير فقط
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

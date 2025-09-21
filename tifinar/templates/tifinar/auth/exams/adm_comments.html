@@ -9,13 +9,13 @@
             <li class="comment-item">
                 {% if comment.visibility_status == 'public' %}
                     <form style="border: solid 2px #4CAF50; padding:10px; background:#e7ffe7" 
-                          action="{% url 'edit_article' article.slug %}" method="POST" class="comment-form">
+                          action="{% url 'edit_exam' exam.slug %}" method="POST" class="comment-form">
                 {% elif comment.visibility_status == 'under_review' %}
                     <form style="border: solid 2px #FFC107; padding:10px; background:#fff9c4" 
-                          action="{% url 'edit_article' article.slug %}" method="POST" class="comment-form">
+                          action="{% url 'edit_exam' exam.slug %}" method="POST" class="comment-form">
                 {% elif comment.visibility_status == 'restricted' %}
                     <form style="border: solid 2px #F44336; padding:10px; background:#ffe0e0" 
-                          action="{% url 'edit_article' article.slug %}" method="POST" class="comment-form">
+                          action="{% url 'edit_exam' exam.slug %}" method="POST" class="comment-form">
                 {% endif %}
                 
                 {% csrf_token %}
