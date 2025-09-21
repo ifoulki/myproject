@@ -186,7 +186,7 @@ def create_exam(request):
                     print(f"✅ تم حفظ الصورة في: {full_path}")
                     
                     # حفظ المسار في قاعدة البيانات
-                    exam.myimage = target_path
+                    exam.myimage = new_filename
                     print(f"💾 تم حفظ في DB: {exam.myimage}")
                 else:
                     print("⚠️ لم يتم رفع أي صورة")
@@ -330,8 +330,7 @@ def edit_exam(request, slug):
                         for chunk in image_file.chunks():
                             destination.write(chunk)
                     
-                    # حفظ المسار في قاعدة البيانات
-                    updated_exam.myimage = target_path
+                    updated_exam.myimage = new_filename
                 
                 updated_exam.updated_at = timezone.now()
                 updated_exam.save()
