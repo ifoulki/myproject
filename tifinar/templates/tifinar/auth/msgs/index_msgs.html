@@ -5,32 +5,34 @@
 <div class="container-fluid py-4">
     <div class="row justify-content-center">
         <div class="col-lg-10 col-xl-8">
+
             <!-- العنوان الرئيسي -->
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h1 class="h2 text-primary mb-0">
-                    <i class="fas fa-envelope me-2"></i>📨 صندوق الرسائل
+                <h1 class="h2 text-primary fw-bold mb-0">
+                    <i class="fas fa-envelope me-2"></i> صندوق الوارد ✉️
                 </h1>
-                <span class="badge bg-info fs-6">
+                <span class="badge bg-gradient-info text-white fs-6 shadow-sm px-3 py-2 rounded-pill">
                     {{ articles.paginator.count }} رسالة
                 </span>
             </div>
 
             {% if articles %}
                 <!-- قائمة الرسائل -->
-                <div class="card shadow-sm">
+                <div class="card border-0 shadow-sm rounded-3">
                     <div class="card-body p-0">
                         {% for article in articles %}
                         <div class="message-item {% if article.status == 'unread' %}message-unread{% endif %} border-bottom">
                             <div class="row g-0 align-items-center">
+                                
                                 <!-- صورة المرسل -->
                                 <div class="col-auto">
                                     <div class="position-relative">
                                         {% with images=article.author_img|split:',' %}
                                         <img src="{% static images.0|default:'default-image.png' %}"
-                                             class="rounded-circle mx-3 my-2"
+                                             class="rounded-circle mx-3 my-2 shadow-sm"
                                              width="60" height="60"
                                              alt="{{ article.Author }}"
-                                             style="object-fit: cover; border: 3px solid {% if article.status == 'unread' %}#28a745{% else %}#6c757d{% endif %};">
+                                             style="object-fit: cover; border: 3px solid {% if article.status == 'unread' %}#28a745{% else %}#adb5bd{% endif %};">
                                         {% endwith %}
                                         
                                         <!-- حالة الرسالة -->
@@ -45,77 +47,71 @@
                                     <div class="p-3">
                                         <div class="d-flex justify-content-between align-items-start mb-2">
                                             <div>
-                                                <h5 class="mb-1 text-dark">
-                                                    <i class="fas fa-user"></i>
-                                                    {{ article.author }}
-                                                    <small class="text-muted ms-2">
-                                                        {% if article.author == user.Prenom|add:' '|add:user.Nom %}
-                                                            (أنت)
-                                                        {% endif %}
-                                                    </small>
-                                                </h5>
-                                                <p class="mb-1 text-muted small">
-                                                    <i class="fas fa-envelope me-1"></i>
-                                                    {{ article.email|default:"بريد إلكتروني غير متوفر" }}
-                                                </p>
-                                            </div>
-                                            <div class="text-end">
-                                                <small class="text-muted">
-                                                    <i class="fas fa-clock me-1"></i>
-                                                    {{ article.created_at|timesince }}
-                                                </small>
-                                                <br>
-                                                <span class="badge bg-{% if article.status == 'unread' %}success{% elif article.status == 'important' %}warning{% else %}secondary{% endif %}">
+                                                <a href="/send_message?user_id={{article.author_id}}" class="text-decoration-none">
+                                                    <h5 class="mb-1 text-dark fw-semibold">
+                                                        <i class="fas fa-user me-1 text-secondary"></i>
+                                                        {{ article.author }}
+                                                        <small class="text-muted ms-2">
+                                                            {% if article.author == user.Prenom|add:' '|add:user.Nom %}
+                                                                (أنا)
+                                                            {% endif %}
+                                                        </small>
+                                                    </h5>
+                                                </a>
+                                                <span class="badge bg-{% if article.status == 'unread' %}success{% elif article.status == 'important' %}warning text-dark{% else %}secondary{% endif %} shadow-sm">
                                                     {% if article.status == 'unread' %}
-                                                        <i class="fas fa-envelope"></i> جديدة
+                                                        <i class="fas fa-envelope"></i> غير مقروءة
                                                     {% elif article.status == 'read' %}
-                                                        <i class="fas fa-envelope-open"></i> مقروءة
+                                                        <i class="fas fa-envelope-open"></i> تمت قراءتها
                                                     {% elif article.status == 'important' %}
                                                         <i class="fas fa-star"></i> مهمة
                                                     {% else %}
                                                         {{ article.status }}
                                                     {% endif %}
                                                 </span>
+                                                <p class="mb-1 text-muted small">
+                                                    <i class="fas fa-clock me-1"></i>
+                                                    {{ article.created_at|timesince }} مضت
+                                                </p>
                                             </div>
                                         </div>
 
                                         <!-- عنوان ومحتوى الرسالة -->
-                                        <div class="mb-2">
-                                            <h6 class="text-primary mb-1">
-                                                <i class="fas fa-tag me-1"></i>
-                                                {{ article.title|default:"بدون عنوان" }}
-                                            </h6>
-                                            <p class="mb-2 text-dark" style="line-height: 1.5;">
-                                                {{ article.Mysubject|truncatewords:30 }}
-                                            </p>
-                                        </div>
+                                        <a href="/send_message?user_id={{article.author_id}}" class="text-decoration-none">
+                                            <div class="mb-2">
+                                                <h6 class="text-primary mb-1 fw-bold">
+                                                    <i class="fas fa-tag me-1"></i>
+                                                    {{ article.title|default:"بدون عنوان" }}
+                                                </h6>
+                                                <p class="mb-2 text-dark small" style="line-height: 1.6;">
+                                                    {{ article.Mysubject|truncatewords:30 }}
+                                                </p>
+                                            </div>
+                                        </a>
 
                                         <!-- أزرار الإجراءات -->
                                         <div class="d-flex gap-2 flex-wrap">
-                                            {% comment %} <a href="{% url 'msgs_show' article.msg_id %}" class="btn btn-sm btn-outline-primary"> {% endcomment %}
-                                            <a href="" class="btn btn-sm btn-outline-primary">
-                                                <i class="fas fa-eye me-1"></i> قراءة الرسالة
+                                            <a href="/send_message?user_id={{article.author_id}}" class="btn btn-sm btn-outline-primary rounded-pill">
+                                                <i class="fas fa-eye me-1"></i> عرض
                                             </a>
                                             
-                                            {% comment %} <button onclick="redirectToForm({{ article.author_id }})" class="btn btn-sm btn-outline-success"> {% endcomment %}
-                                            <a href="/send_message?user_id={{article.msg_id}}" class="btn btn-sm btn-outline-success">
+                                            <a href="/send_message?user_id={{article.author_id}}" class="btn btn-sm btn-outline-success rounded-pill">
                                                 <i class="fas fa-reply me-1"></i> رد
                                             </a>
                                             
                                             <form action="{% url 'delete_msg' article.msg_id %}" method="POST" class="d-inline">
                                                 {% csrf_token %}
-                                                <button type="submit" class="btn btn-sm btn-outline-danger" 
-                                                        onclick="return confirm('هل أنت متأكد من حذف هذه الرسالة؟')">
+                                                <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill" 
+                                                        onclick="return confirm('هل تريد بالتأكيد حذف هذه الرسالة؟')">
                                                     <i class="fas fa-trash me-1"></i> حذف
                                                 </button>
                                             </form>
 
                                             {% if article.status == 'unread' %}
-                                            {% comment %} <form action="{% url 'mark_as_read' article.msg_id %}" method="POST" class="d-inline"> {% endcomment %}
                                             <form action="" method="POST" class="d-inline">
                                                 {% csrf_token %}
-                                                <button type="submit" class="btn btn-sm btn-outline-secondary">
-                                                    <i class="fas fa-check me-1"></i> تم القراءة
+                                                <button type="submit" class="btn btn-sm btn-outline-secondary rounded-pill">
+                                                    <i class="fas fa-check me-1"></i> تعليم كمقروءة
                                                 </button>
                                             </form>
                                             {% endif %}
@@ -137,10 +133,10 @@
                 <!-- لا توجد رسائل -->
                 <div class="text-center py-5">
                     <div class="empty-state">
-                        <i class="fas fa-envelope-open-text fa-4x text-muted mb-3"></i>
-                        <h4 class="text-muted">صندوق الرسائل فارغ</h4>
-                        <p class="text-muted">ليس لديك أي رسائل واردة حالياً</p>
-                        <a href="/اتصل_بنا" class="btn btn-primary mt-2">
+                        <i class="fas fa-inbox fa-4x text-muted mb-3"></i>
+                        <h4 class="fw-bold text-muted">لا توجد رسائل بعد</h4>
+                        <p class="text-muted">صندوق الوارد الخاص بك فارغ حالياً</p>
+                        <a href="/اتصل_بنا" class="btn btn-primary mt-2 rounded-pill shadow-sm">
                             <i class="fas fa-plus me-1"></i> إنشاء رسالة جديدة
                         </a>
                     </div>
@@ -152,13 +148,13 @@
 
 <style>
 .message-unread {
-    background-color: #f8f9fa;
+    background-color: #fdfdfd;
     border-left: 4px solid #28a745 !important;
 }
 
 .message-item:hover {
-    background-color: #f0f8ff !important;
-    transition: background-color 0.2s ease;
+    background-color: #f8fbff !important;
+    transition: background-color 0.25s ease-in-out;
 }
 
 .empty-state {
@@ -167,21 +163,18 @@
 }
 
 .badge {
-    font-size: 0.75em;
+    font-size: 0.8em;
+    padding: 0.4rem 0.6rem;
 }
 
 .btn-sm {
-    padding: 0.25rem 0.5rem;
-    font-size: 0.875rem;
+    padding: 0.35rem 0.7rem;
+    font-size: 0.85rem;
+    font-weight: 500;
 }
 </style>
 
 <script>
-function redirectToForm(authorId) {
-    const url = `/اتصل_بنا?user_id=${authorId}`;
-    window.location.href = url;
-}
-
 // تحديث تلقائي للرسائل كل 30 ثانية
 setInterval(function() {
     window.location.reload();

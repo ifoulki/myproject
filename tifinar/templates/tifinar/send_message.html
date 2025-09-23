@@ -5,7 +5,7 @@
 <section class="content">
     <article class="container">
         <div class="row justify-content-center">
-            <div class="col-lg-8 col-md-10">
+            <div class="col-lg-10 col-md-12">
                 <!-- الرسائل التنبيهية -->
                 {% if messages %}
                     {% for message in messages %}
@@ -23,13 +23,21 @@
                     {% endfor %}
                 {% endif %}
 
-                <!-- عرض معلومات المرسل إليه -->
+                <!-- عرض معلومات المحادثة -->
                 {% if recipient_user %}
                 <div class="card mb-4 shadow-sm">
                     <div class="card-header bg-gradient-primary text-white py-3">
-                        <h4 class="card-title mb-0 text-center">
-                            <i class="fas fa-paper-plane me-2"></i>إرسال رسالة إلى :
-                        </h4>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h4 class="card-title mb-0">
+                                <i class="fas fa-comments me-2"></i>محادثة مع:
+                            </h4>
+                            <div class="d-flex align-items-center">
+                                <span class="me-3">{{ message_count }} رسالة</span>
+                                <button class="btn btn-light btn-sm" id="refreshBtn">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <div class="d-flex align-items-center">
@@ -39,13 +47,13 @@
                                     <img src="{% static 'tifinar/images/users/' %}{{ recipient_user.id }}/{{ recipient_user.images }}" 
                                          alt="{{ recipient_user.get_full_name }}" 
                                          class="rounded-circle shadow" 
-                                         width="100" 
-                                         height="100"
+                                         width="80" 
+                                         height="80"
                                          style="object-fit: cover; border: 3px solid #e9ecef;">
                                 {% else %}
                                     <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center shadow" 
-                                         style="width: 100px; height: 100px; border: 3px solid #e9ecef;">
-                                        <i class="fas fa-user text-white" style="font-size: 2.5rem;"></i>
+                                         style="width: 80px; height: 80px; border: 3px solid #e9ecef;">
+                                        <i class="fas fa-user text-white" style="font-size: 2rem;"></i>
                                     </div>
                                 {% endif %}
                             </div>
@@ -53,14 +61,89 @@
                             <!-- معلومات المستخدم -->
                             <div class="flex-grow-1">
                                 <h4 class="card-title text-primary mb-2">
-                                    &nbsp; 
                                     {{ recipient_user.first_name }} {{ recipient_user.last_name }}
                                 </h4>
+                                <p class="text-muted mb-0">
+                                    {% if recipient_user.is_online %}
+                                        <span class="text-success"><i class="fas fa-circle me-1"></i> متصل الآن</span>
+                                    {% else %}
+                                        <span class="text-muted"><i class="far fa-circle me-1"></i> غير متصل</span>
+                                    {% endif %}
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
                 {% endif %}
+
+                <!-- منطقة عرض الرسائل -->
+                <div class="card shadow-sm mb-4">
+                    <div class="card-body p-0">
+                        <div id="messagesContainer" class="messages-container">
+                            {% if conversation_messages %}
+                                {% for msg in conversation_messages %}
+                                    <div class="message {% if msg.author_id == user.id %}sent{% else %}received{% endif %}" data-msg-id="{{ msg.msg_id }}">
+                                        <div class="message-content">
+                                            <div class="message-header">
+                                                <div class="d-flex align-items-center">
+                                                    {% if msg.author_id == user.id %}
+                                                        <!-- صورة المرسل (المستخدم الحالي) -->
+                                                        <div class="user-avatar me-2">
+                                                            {% if user.images %}
+                                                                <img src="{% static 'tifinar/images/users/' %}{{ user.id }}/{{ user.images }}" 
+                                                                     alt="{{ user.get_full_name }}" 
+                                                                     class="rounded-circle" 
+                                                                     width="30" 
+                                                                     height="30">
+                                                            {% else %}
+                                                                <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center" 
+                                                                     style="width: 30px; height: 30px;">
+                                                                    <i class="fas fa-user text-white" style="font-size: 0.9rem;"></i>
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                        <span class="fw-bold">{{ msg.author }}</span>
+                                                    {% else %}
+                                                        <!-- صورة المرسل إليه -->
+                                                        <div class="user-avatar me-2">
+                                                            {% if recipient_user.images %}
+                                                                <img src="{% static 'tifinar/images/users/' %}{{ recipient_user.id }}/{{ recipient_user.images }}" 
+                                                                     alt="{{ recipient_user.get_full_name }}" 
+                                                                     class="rounded-circle" 
+                                                                     width="30" 
+                                                                     height="30">
+                                                            {% else %}
+                                                                <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center" 
+                                                                     style="width: 30px; height: 30px;">
+                                                                    <i class="fas fa-user text-white" style="font-size: 0.9rem;"></i>
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                        <span class="fw-bold">{{ msg.author }}</span>
+                                                    {% endif %}
+                                                </div>
+                                                <span class="message-time" data-timestamp="{{ msg.created_at|date:'U' }}" title="{{ msg.created_at|date:'Y/m/d H:i' }}">
+                                                    {{ msg.created_at|date:"H:i" }}
+                                                </span>
+                                            </div>
+                                            <div class="message-body">
+                                                {% if msg.title and msg.title != "standard" %}
+                                                    <h6 class="message-title">{{ msg.title }}</h6>
+                                                {% endif %}
+                                                <p class="message-text">{{ msg.mysubject }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="text-center py-5">
+                                    <i class="fas fa-comments text-muted mb-3" style="font-size: 3rem;"></i>
+                                    <p class="text-muted">لا توجد رسائل بعد. ابدأ المحادثة الآن!</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
 
                 <!-- أخطاء النموذج -->
                 {% if form.errors %}
@@ -82,7 +165,7 @@
                 <!-- نموذج إرسال الرسالة -->
                 <div class="card shadow-sm">
                     <div class="card-body">
-                        <form method="post" action="">
+                        <form method="post" action="" id="messageForm">
                             {% csrf_token %}
 
                             <!-- حقول المستخدم غير المسجل -->
@@ -126,7 +209,7 @@
                                         <i class="fas fa-sticky-note me-2 text-primary"></i>موضوع الرسالة:
                                     </label>
                                     <input type="text" name="title" placeholder="موضوع الرسالة ..." 
-                                           class="subject" 
+                                           class="form-control" 
                                            value="{{ request.POST.title }}">
                                     <div class="form-text">حدد موضوعاً واضحاً لرسالتك</div>
                                 </div>
@@ -139,15 +222,15 @@
                                 <label class="form-label fw-bold">
                                     <i class="fas fa-comment-dots me-2 text-primary"></i>نص الرسالة:
                                 </label>
-                                <textarea name="mysubject" class="mysubject" 
+                                <textarea name="mysubject" class="form-control" 
                                           placeholder="أكتب رسالتك هنا ..." 
-                                          rows="8"
-                                          style="min-height: 200px; resize: vertical;">{{ request.POST.mysubject }}</textarea>
+                                          rows="4"
+                                          style="resize: vertical;" id="messageTextarea">{{ request.POST.mysubject }}</textarea>
                             </div>
 
                             <!-- أزرار الإرسال -->
                             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                <button type="submit" class="btn btn-primary btn-lg px-5">
+                                <button type="submit" class="btn btn-primary btn-lg px-5" id="sendButton">
                                     <i class="fas fa-paper-plane me-2"></i>
                                     إرسال الرسالة
                                 </button>
@@ -205,10 +288,123 @@
     .shadow {
         box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.12) !important;
     }
+    
+    /* تنسيقات منطقة الرسائل */
+    .messages-container {
+        max-height: 500px;
+        overflow-y: auto;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 15px;
+    }
+    
+    .message {
+        margin-bottom: 20px;
+        display: flex;
+    }
+    
+    .message.sent {
+        justify-content: flex-end;
+    }
+    
+    .message.received {
+        justify-content: flex-start;
+    }
+    
+    .message-content {
+        max-width: 70%;
+        padding: 12px 16px;
+        border-radius: 18px;
+        position: relative;
+    }
+    
+    .message.sent .message-content {
+        background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+        color: white;
+        border-bottom-right-radius: 5px;
+    }
+    
+    .message.received .message-content {
+        background-color: white;
+        color: #333;
+        border-bottom-left-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .message-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 5px;
+        font-size: 0.85rem;
+    }
+    
+    .message.sent .message-header {
+        color: rgba(255,255,255,0.8);
+    }
+    
+    .message.received .message-header {
+        color: #6c757d;
+    }
+    
+    .message-time {
+        font-size: 0.75rem;
+        opacity: 0.8;
+        cursor: help;
+    }
+    
+    .message-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+        font-size: 0.9rem;
+    }
+    
+    .message.sent .message-title {
+        color: rgba(255,255,255,0.9);
+    }
+    
+    .message-text {
+        margin: 0;
+        line-height: 1.4;
+        word-wrap: break-word;
+    }
+    
+    .user-avatar img, .user-avatar div {
+        width: 30px;
+        height: 30px;
+    }
+    
+    /* تخصيص شريط التمرير */
+    .messages-container::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .messages-container::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+    
+    .messages-container::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 10px;
+    }
+    
+    .messages-container::-webkit-scrollbar-thumb:hover {
+        background: #a8a8a8;
+    }
+    
+    /* تأثيرات للرسائل الجديدة */
+    .message.new-message {
+        animation: fadeIn 0.5s ease-in;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 </style>
 
 <script>
-    // تأكيد تعيين قيمة recipient من JavaScript كنسخة احتياطية
     document.addEventListener('DOMContentLoaded', function() {
         const urlParams = new URLSearchParams(window.location.search);
         const userId = urlParams.get('user_id');
@@ -217,6 +413,65 @@
         if (recipientInput && userId) {
             recipientInput.value = userId;
         }
+        
+        // وظيفة تحويل الطابع الزمني إلى وقت مفهوم
+        function humanizeTime(timestamp) {
+            const now = Math.floor(Date.now() / 1000);
+            const diff = now - timestamp;
+            
+            if (diff < 60) {
+                return "الآن";
+            } else if (diff < 3600) {
+                const minutes = Math.floor(diff / 60);
+                return `منذ ${minutes} دقيقة`;
+            } else if (diff < 86400) {
+                const hours = Math.floor(diff / 3600);
+                if (hours === 1) return "منذ ساعة";
+                return `منذ ${hours} ساعات`;
+            } else if (diff < 604800) {
+                const days = Math.floor(diff / 86400);
+                if (days === 1) return "أمس";
+                if (days === 2) return "منذ يومين";
+                if (days > 2 && days < 11) return `منذ ${days} أيام`;
+                return `منذ ${days} يوم`;
+            } else if (diff < 2592000) {
+                const weeks = Math.floor(diff / 604800);
+                if (weeks === 1) return "منذ أسبوع";
+                if (weeks === 2) return "منذ أسبوعين";
+                return `منذ ${weeks} أسابيع`;
+            } else if (diff < 31536000) {
+                const months = Math.floor(diff / 2592000);
+                if (months === 1) return "منذ شهر";
+                if (months === 2) return "منذ شهرين";
+                if (months > 2 && months < 11) return `منذ ${months} أشهر`;
+                return `منذ ${months} شهر`;
+            } else {
+                const years = Math.floor(diff / 31536000);
+                if (years === 1) return "منذ سنة";
+                if (years === 2) return "منذ سنتين";
+                return `منذ ${years} سنوات`;
+            }
+        }
+        
+        // تحديث جميع أوقات الرسائل
+        function updateAllMessageTimes() {
+            const timeElements = document.querySelectorAll('.message-time[data-timestamp]');
+            
+            timeElements.forEach(element => {
+                const timestamp = parseInt(element.getAttribute('data-timestamp'));
+                const humanizedTime = humanizeTime(timestamp);
+                element.textContent = humanizedTime;
+            });
+        }
+        
+        // التمرير إلى أحدث رسالة
+        const messagesContainer = document.getElementById('messagesContainer');
+        if (messagesContainer) {
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        // تحديث الأوقات فور تحميل الصفحة
+        updateAllMessageTimes();
         
         // إضافة تأثيرات للعناصر
         const cards = document.querySelectorAll('.card');
@@ -229,6 +484,72 @@
                 card.style.transform = 'translateY(0)';
             });
         });
+        
+        // تحديث الرسائل تلقائياً كل 10 ثوانٍ
+        const refreshBtn = document.getElementById('refreshBtn');
+        let refreshInterval;
+        
+        function refreshMessages() {
+            // إضافة تأثير التحديث
+            if (refreshBtn) {
+                refreshBtn.classList.add('rotating');
+                setTimeout(() => {
+                    refreshBtn.classList.remove('rotating');
+                }, 1000);
+            }
+            
+            // هنا يمكنك إضافة كود AJAX لجلب الرسائل الجديدة
+            console.log('جارٍ تحديث الرسائل...');
+            
+            // بعد تحديث الرسائل، نحدث الأوقات أيضاً
+            setTimeout(updateAllMessageTimes, 100);
+        }
+        
+        // بدء التحديث التلقائي
+        refreshInterval = setInterval(refreshMessages, 10000);
+        
+        // إضافة حدث النقر على زر التحديث
+        if (refreshBtn) {
+            refreshBtn.addEventListener('click', refreshMessages);
+        }
+        
+        // تحديث الأوقات كل دقيقة
+        setInterval(updateAllMessageTimes, 60000);
+        
+        // إرسال النموذج باستخدام AJAX لمنع إعادة تحميل الصفحة
+        const messageForm = document.getElementById('messageForm');
+        if (messageForm) {
+            messageForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const formData = new FormData(this);
+                const sendButton = document.getElementById('sendButton');
+                
+                // تعطيل الزر أثناء الإرسال
+                if (sendButton) {
+                    sendButton.disabled = true;
+                    sendButton.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> جاري الإرسال...';
+                }
+                
+                // هنا يمكنك إضافة كود AJAX لإرسال الرسالة
+                // لمثالنا، سنقوم بإرسال النموذج بالطريقة التقليدية
+                this.submit();
+            });
+        }
+        
+        // إضافة تأثيرات CSS للزر الدوار
+        const style = document.createElement('style');
+        style.textContent = `
+            .rotating {
+                animation: rotate 1s linear infinite;
+            }
+            
+            @keyframes rotate {
+                from { transform: rotate(0deg); }
+                to { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
     });
 </script>
 

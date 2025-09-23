@@ -10,6 +10,82 @@ from django.contrib.auth.models import User
 register = template.Library()
 from django import template
 
+from django.utils import timezone
+from datetime import timedelta
+
+register = template.Library()
+
+@register.filter
+def humanize_time(value):
+    if not value:
+        return ""
+    
+    now = timezone.now()
+    diff = now - value
+    
+    # إذا كانت الرسالة من اليوم
+    if diff.days == 0:
+        if diff.seconds < 60:
+            return "الآن"
+        elif diff.seconds < 3600:
+            minutes = diff.seconds // 60
+            return f"منذ {minutes} دقيقة"
+        else:
+            hours = diff.seconds // 3600
+            return f"منذ {hours} ساعة"
+    
+    # إذا كانت الرسالة من الأمس
+    elif diff.days == 1:
+        return "أمس"
+    
+    # إذا كانت الرسالة من هذا الأسبوع
+    elif diff.days < 7:
+        return f"منذ {diff.days} أيام"
+    
+    # إذا كانت الرسالة من هذا الشهر
+    elif diff.days < 30:
+        weeks = diff.days // 7
+        if weeks == 1:
+            return "منذ أسبوع"
+        else:
+            return f"منذ {weeks} أسابيع"
+    
+    # إذا كانت الرسالة قديمة
+    else:
+        months = diff.days // 30
+        if months == 1:
+            return "منذ شهر"
+        elif months < 12:
+            return f"منذ {months} أشهر"
+        else:
+            years = diff.days // 365
+            if years == 1:
+                return "منذ سنة"
+            else:
+                return f"منذ {years} سنوات"
+
+@register.filter
+def message_date(value):
+    if not value:
+        return ""
+    
+    now = timezone.now()
+    diff = now - value
+    
+    # إذا كانت الرسالة من اليوم، نعرض الوقت فقط
+    if diff.days == 0:
+        return value.strftime("%H:%M")
+    
+    # إذا كانت الرسالة من الأمس أو هذا الأسبوع
+    elif diff.days < 7:
+        days_arabic = ["الإثنين", "الثلاثاء", "الأربعاء", "الخميس", "الجمعة", "السبت", "الأحد"]
+        day_name = days_arabic[value.weekday()]
+        return f"{day_name} {value.strftime('%H:%M')}"
+    
+    # إذا كانت الرسالة قديمة، نعرض التاريخ الكامل
+    else:
+        return value.strftime("%Y/%m/%d %H:%M")
+    
 register = template.Library()
 
 @register.filter

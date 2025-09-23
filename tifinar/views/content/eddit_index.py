@@ -1,10 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import Http404  # أضف هذا الاستيراد
+from django.http import Http404
 from django.db.models import Q, Case, When, IntegerField
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from tifinar.models import articles, videos, cours, books, exams,msgs
-from django.shortcuts import render, redirect,get_object_or_404
-from django.conf import settings  # أضف هذا
+from tifinar.models import articles, videos, cours, books, exams, msgs
+from django.shortcuts import render, redirect, get_object_or_404
+from django.conf import settings
 import os
 from django.contrib import messages
 from django.http import HttpResponseForbidden
@@ -28,12 +28,41 @@ def index_eddit(request):
         order_field = "-cours_id"
         description = "موقع تيفيناغ يقدم لكم مجموعة من القواميس البصرية لأجل مساعدة الراغبين في إغناء رصيدهم اللغوي، بطريقة سهلة ومبسطة بالصوت والصورة"
         has_slug = True
+    
     elif path == "msgs_edit":
         model = msgs
-        title = "قراءة الرسائل"  
+        title = "الرسائل الواردة"  
         order_field = "-msg_id"
-        description = "تواصل مع أصدقائك في أي وقت، باستخدام رسائل تفيناغ"
-        has_slug = False  # msgs ليس لديه slug
+        description = "رسائلك الواردة من المستخدمين الآخرين"
+        has_slug = False
+        
+        if request.user.is_authenticated:
+            user_id = request.user.id
+            
+            # جلب جميع الرسائل ثم التصفية يدوياً
+            all_messages = model.objects.all().order_by(order_field)
+            filtered_messages = []
+            
+            for msg in all_messages:
+                # التحقق بكل الطرق الممكنة
+                if str(msg.recipient) == str(user_id):
+                    filtered_messages.append(msg)
+                else:
+                    try:
+                        if int(msg.recipient) == user_id:
+                            filtered_messages.append(msg)
+                    except (ValueError, TypeError):
+                        continue
+            
+            # تحويل إلى queryset
+            from django.db.models.query import QuerySet
+            queryset = QuerySet(model=model)
+            queryset._result_cache = filtered_messages
+            queryset._prefetch_done = True
+            
+        else:
+            queryset = model.objects.none()
+            
     elif path == "articles_edit":
         model = articles
         title = "مقالات"
@@ -55,37 +84,52 @@ def index_eddit(request):
     else:
         return render(request, 'tifinar/404.html', status=404)
 
-    # إنشاء queryset مع مراعاة وجود slug
-    if has_slug:
-        queryset = model.objects.exclude(slug__isnull=True).exclude(slug__exact='')
-    else:
-        # لـ msgs الذي لا يحتوي على slug
-        queryset = model.objects.all()
+    # إنشاء queryset مع مراعاة وجود slug (لجميع النماذج ما عدا msgs)
+    if path != "msgs_edit":  # تم معالجة msgs بشكل منفصل أعلاه
+        if has_slug:
+            queryset = model.objects.exclude(slug__isnull=True).exclude(slug__exact='')
+        else:
+            queryset = model.objects.all()
 
-    # تطبيق عوامل التصفية
-    if the_type:
-        queryset = queryset.filter(the_type__icontains=the_type)
+    # تطبيق عوامل التصفية (لجميع النماذج ما عدا msgs)
+    if path != "msgs_edit":
+        if the_type:
+            queryset = queryset.filter(the_type__icontains=the_type)
 
-    if search:
-        # إنشاء شروط البحث
-        search_conditions = Q()
-        
-        # إضافة الحقول المتاحة بناءً على النموذج
-        if hasattr(model, 'title'):
-            search_conditions |= Q(title__icontains=search)
-        if hasattr(model, 'keywords'):
-            search_conditions |= Q(keywords__icontains=search)
-        if hasattr(model, 'the_type'):
-            search_conditions |= Q(the_type__icontains=search)
-        if hasattr(model, 'mysubject'):
+        if search:
+            # إنشاء شروط البحث
+            search_conditions = Q()
+            
+            # إضافة الحقول المتاحة بناءً على النموذج
+            if hasattr(model, 'title'):
+                search_conditions |= Q(title__icontains=search)
+            if hasattr(model, 'keywords'):
+                search_conditions |= Q(keywords__icontains=search)
+            if hasattr(model, 'the_type'):
+                search_conditions |= Q(the_type__icontains=search)
+            if hasattr(model, 'mysubject'):
+                search_conditions |= Q(mysubject__icontains=search)
+            if hasattr(model, 'mydescription'):
+                search_conditions |= Q(mydescription__icontains=search)
+            
+            queryset = queryset.filter(search_conditions)
+
+        # الترتيب حسب الحقل المناسب لكل نموذج
+        queryset = queryset.order_by(order_field)
+
+    # تطبيق البحث والتصفية لجدول msgs (بعد التصفية الأساسية)
+    if path == "msgs_edit" and request.user.is_authenticated:
+        if the_type:
+            queryset = queryset.filter(the_type__icontains=the_type)
+
+        if search:
+            search_conditions = Q()
             search_conditions |= Q(mysubject__icontains=search)
-        if hasattr(model, 'mydescription'):
-            search_conditions |= Q(mydescription__icontains=search)
-        
-        queryset = queryset.filter(search_conditions)
-
-    # الترتيب حسب الحقل المناسب لكل نموذج
-    queryset = queryset.order_by(order_field)
+            search_conditions |= Q(title__icontains=search)
+            search_conditions |= Q(author__icontains=search)
+            search_conditions |= Q(email__icontains=search)
+            
+            queryset = queryset.filter(search_conditions)
 
     # معالجة الصور للمحتوى
     for item in queryset:
@@ -136,10 +180,15 @@ def index_eddit(request):
     elif model == cours:
         return render(request, "tifinar/auth/cours/index_cours.html", context)
     elif model == msgs:
+        # إضافة معلومات إضافية للرسائل
+        context.update({
+            'user_messages_count': queryset.count() if request.user.is_authenticated else 0,
+            'is_inbox': True,  # للإشارة إلى أن هذه هي الرسائل الواردة
+        })
         return render(request, "tifinar/auth/msgs/index_msgs.html", context)
     else:
         return render(request, 'tifinar/404.html', status=404)
-  
+
 def delete_content(request, slug):
     if request.method == 'POST':
         try:
@@ -171,10 +220,18 @@ def delete_content(request, slug):
             if lookup_field == 'slug':
                 item = get_object_or_404(model, slug=slug)
             elif lookup_field == 'msg_id':
-                # تحويل slug إلى msg_id (افترض أن slug هو msg_id في حالة الرسائل)
+                # تحويل slug إلى msg_id
                 try:
                     msg_id = int(slug)
                     item = get_object_or_404(model, msg_id=msg_id)
+                    
+                    # التحقق من أن المستخدم مسموح له بحذف هذه الرسالة (يجب أن يكون مستقبلها)
+                    if model == msgs:
+                        user_id_str = str(request.user.id)
+                        if item.recipient != user_id_str:
+                            messages.error(request, 'ليس لديك صلاحية حذف هذه الرسالة.')
+                            return redirect(request.META.get('HTTP_REFERER', '/'))
+                            
                 except (ValueError, TypeError):
                     messages.error(request, 'معرف الرسالة غير صحيح.')
                     return redirect(request.META.get('HTTP_REFERER', '/'))
@@ -214,6 +271,12 @@ def delete_msg(request, msg_id):
         try:
             # الحصول على الرسالة باستخدام msg_id
             msg = get_object_or_404(msgs, msg_id=msg_id)
+            
+            # التحقق من أن المستخدم مسموح له بحذف هذه الرسالة (يجب أن يكون مستقبلها)
+            user_id_str = str(request.user.id)
+            if msg.recipient != user_id_str:
+                messages.error(request, 'ليس لديك صلاحية حذف هذه الرسالة.')
+                return redirect(request.META.get('HTTP_REFERER', '/'))
             
             # حذف الملفات المرتبطة إذا وجدت
             if hasattr(msg, 'myimage') and msg.myimage:
