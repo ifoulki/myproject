@@ -1,9 +1,9 @@
 from django.shortcuts import render
-from django.db.models import Q, Value, CharField
-from django.db.models.functions import Concat, Coalesce
+from django.db.models import Q
 from django.core.paginator import Paginator
 from tifinar.models import AuthUser, synonym_terms
 from django.contrib.auth.decorators import login_required
+from tifinar.views.members.friends_views import get_friendship_status  # تصحيح المسار
 import re
 
 @login_required
@@ -35,6 +35,10 @@ def members_index(request):
             # 2. البحث الذكي إذا لم توجد مرادفات
             members = smart_search(search_term, members)
     
+    # إضافة حالة الصداقة لكل عضو
+    for member in members:
+        member.friendship_status = get_friendship_status(request.user, member)
+    
     # التقسيم إلى صفحات
     paginator = Paginator(members, 20)
     page_number = request.GET.get('page')
@@ -45,7 +49,7 @@ def members_index(request):
         'search_term': search_term,
         'role': role
     })
-
+    
 def search_with_synonyms(search_term, queryset):
     """
     البحث باستخدام جدول المرادفات

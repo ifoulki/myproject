@@ -2,152 +2,600 @@
 {% load custom_filters %}
 {% include "tifinar/adm_header.html" %}
 
-<div class="content">
-    <h1>{{ title }}</h1>
+<style>
+:root {
+    --friends-color: #28a745;
+    --request-sent-color: #ffc107;
+    --request-received-color: #17a2b8;
+    --not-friends-color: #6c757d;
+    --message-color: #6f42c1;
+    --card-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
 
-    <div class="filter mt-4 p-4 border rounded shadow-sm bg-light">
-        <form method="GET" action="{% url 'users' %}" class="d-flex flex-column flex-md-row align-items-md-center mb-3">
-            <div class="input-group border rounded flex-grow-1 d-flex">
-                <input type="text" class="form-control search-input border-0 flex-grow-1" id="search" name="search" 
-                       placeholder="ابحث عن عضو" value="{{ request.GET.search }}">
-                <button type="submit" class="btn btn-outline-primary search-btn flex-shrink-0" style="width: 50px;">
-                    <i class="bi bi-search"></i>
-                </button>
-            </div>
+.social-layout {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.member-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--card-shadow);
+    border: 1px solid #f0f0f0;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.member-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+
+.member-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+}
+
+.member-card.friends::before { background: linear-gradient(to bottom, var(--friends-color), #20c997); }
+.member-card.request-sent::before { background: linear-gradient(to bottom, var(--request-sent-color), #fd7e14); }
+.member-card.request-received::before { background: linear-gradient(to bottom, var(--request-received-color), #0dcaf0); }
+.member-card.not-friends::before { background: linear-gradient(to bottom, var(--not-friends-color), #6c757d); }
+
+.member-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.member-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #fff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.member-avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.member-info {
+    flex: 1;
+    margin-left: 1.5rem;
+}
+
+.member-name {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2d3748;
+    margin-bottom: 0.25rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.member-name:hover {
+    color: #667eea;
+}
+
+.member-email {
+    color: #718096;
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.member-contacts {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #4a5568;
+    font-size: 0.9rem;
+}
+
+.contact-item i {
+    color: #667eea;
+}
+
+.friendship-status {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    backdrop-filter: blur(10px);
+}
+
+.status-friends {
+    background: linear-gradient(45deg, rgba(40, 167, 69, 0.1), rgba(32, 201, 151, 0.1));
+    color: var(--friends-color);
+    border: 1px solid rgba(40, 167, 69, 0.3);
+}
+
+.status-request-sent {
+    background: linear-gradient(45deg, rgba(255, 193, 7, 0.1), rgba(253, 126, 20, 0.1));
+    color: #b36b00;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.status-request-received {
+    background: linear-gradient(45deg, rgba(23, 162, 184, 0.1), rgba(13, 202, 240, 0.1));
+    color: var(--request-received-color);
+    border: 1px solid rgba(23, 162, 184, 0.3);
+}
+
+.status-not-friends {
+    background: linear-gradient(45deg, rgba(108, 117, 125, 0.1), rgba(108, 117, 125, 0.1));
+    color: var(--not-friends-color);
+    border: 1px solid rgba(108, 117, 125, 0.3);
+}
+
+.actions-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    margin-top: 1rem;
+}
+
+.action-btn {
+    position: relative;
+    overflow: hidden;
+    border: none;
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.action-btn::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    transition: all 0.6s ease;
+    transform: translate(-50%, -50%);
+}
+
+.action-btn:hover::before {
+    width: 300px;
+    height: 300px;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.btn-primary { background: linear-gradient(45deg, #667eea, #764ba2); color: white; }
+.btn-warning { background: linear-gradient(45deg, #ffc107, #fd7e14); color: black; }
+.btn-success { background: linear-gradient(45deg, #28a745, #20c997); color: white; }
+.btn-danger { background: linear-gradient(45deg, #dc3545, #c82333); color: white; }
+.btn-info { background: linear-gradient(45deg, var(--message-color), #5a2d9c); color: white; }
+.btn-secondary { background: linear-gradient(45deg, #6c757d, #5a6268); color: white; }
+
+/* تصميم البحث */
+.search-hero {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 20px;
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+    color: white;
+    text-align: center;
+}
+
+.search-hero h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.search-hero p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-bottom: 1.5rem;
+}
+
+.search-form {
+    display: flex;
+    gap: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.search-input {
+    flex: 1;
+    border: none;
+    border-radius: 50px;
+    padding: 1rem 1.5rem;
+    font-size: 1rem;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.search-input:focus {
+    outline: none;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+/* حالة عدم وجود أعضاء */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #718096;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+    opacity: 0.5;
+}
+
+/* التصفح */
+.pagination-modern {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-top: 3rem;
+}
+
+.page-modern {
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+    background: white;
+    border: 1px solid #e2e8f0;
+    color: #4a5568;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.page-modern:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.page-modern.active {
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    color: white;
+    border-color: #667eea;
+}
+
+/* تأثيرات الدخول */
+.fade-in-up {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* خط فاصل جميل */
+.member-divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, #e2e8f0, transparent);
+    margin: 1.5rem 0;
+}
+
+/* تصميم متجاوب */
+@media (max-width: 768px) {
+    .social-layout {
+        padding: 0 1rem;
+    }
+    
+    .member-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .member-info {
+        margin-left: 0;
+        margin-top: 1rem;
+    }
+    
+    .member-avatar {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .actions-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .search-form {
+        flex-direction: column;
+    }
+    
+    .search-hero {
+        padding: 2rem 1rem;
+        border-radius: 15px;
+    }
+    
+    .search-hero h1 {
+        font-size: 2rem;
+    }
+}
+
+/* تأثيرات النقر */
+.action-btn:active {
+    transform: scale(0.98);
+}
+
+/* شريط التقدم */
+.loading-bar {
+    height: 3px;
+    background: linear-gradient(45deg, #667eea, #764ba2);
+    width: 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    transition: width 0.3s ease;
+}
+</style>
+
+<div class="loading-bar" id="loadingBar"></div>
+
+<div class="social-layout">
+    <!-- قسم البحث -->
+    <div class="search-hero fade-in-up">
+        <h1>👥 مجتمع الأعضاء</h1>
+        <p>ادارة علاقات الصداقة والتفاعل بين الأعضاء</p>
+        
+        <form method="GET" action="{% url 'users' %}" class="search-form">
+            <input type="text" class="search-input" name="search" 
+                   placeholder="🔍 ابحث عن عضو بالاسم أو البريد الإلكتروني..." 
+                   value="{{ request.GET.search }}">
+            <button type="submit" class="btn btn-light rounded-pill px-4">
+                <i class="bi bi-search me-2"></i>بحث
+            </button>
         </form>
     </div>
-    
+
+    <!-- لائحة الأعضاء -->
     {% if not members %}
-        <p>لا توجد بيانات للعرض.</p>
+        <div class="empty-state fade-in-up">
+            <i class="bi bi-people"></i>
+            <h3>لا توجد أعضاء للعرض</h3>
+            <p>لم يتم العثور على أعضاء مطابقين لبحثك</p>
+        </div>
     {% else %}
-        <div class="container mt-5">
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th class="img-contacnt">ID</th>
-                            <th class="img-contacnt">الصورة</th>
-                            <th>الاسم</th>
-                            <th>Tel</th>
-                            <th>التحكم</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for member in members %}
-                            {% if member.id != request.user.id %}
-                                {% with member.path|split as paths %}
-                                    {% with paths|shuffle as shuffled_paths %}
-                                        {% with shuffled_paths.0 as first_path %}
-                                            <tr>
-                                                <td><a href="{% url 'member_profile_view' user.id %}">{{ user.id }}</a></td>
-                                                <td class="img-contacnt">
-                                                    {% if first_path %}
-                                                        <a href="{{ first_path|media_url }}" data-lightbox="gallery" 
-                                                           data-title="{{ member.first_name }} {{ member.last_name }}">
-                                                            <img src="{% static 'tifinar/'%}{{ first_path }}" 
-                                                                 alt="{{ member.first_name }} {{ member.last_name }}" 
-                                                                 class="img-thumbnail" style="width: 80px; height: 80px;">
-                                                        </a>
-                                                    {% else %}
-                                                        {% if member.gender == 'Female' %}
-                                                            <a href="{% static 'tifinar/assets/female.webp' %}" data-lightbox="gallery"
-                                                               data-title="{{ member.first_name }} {{ member.last_name }}">
-                                                                <img src="{% static 'tifinar/assets/female.webp' %}" 
-                                                                     alt="{{ member.first_name }} {{ member.last_name }}"
-                                                                     class="img-thumbnail" style="width: 80px; height: 80px;">
-                                                            </a>
-                                                        {% else %}
-                                                            <a href="{% static 'tifinar/assets/male.webp' %}" data-lightbox="gallery"
-                                                               data-title="{{ member.first_name }} {{ member.last_name }}">
-                                                                <img src="{% static 'tifinar/assets/male.webp' %}" 
-                                                                     alt="{{ member.first_name }} {{ member.last_name }}"
-                                                                     class="img-thumbnail" style="width: 80px; height: 80px;">
-                                                            </a>
-                                                        {% endif %}
-                                                    {% endif %}
-                                                </td>
-                                                <td>
-                                                    <a href="{% url 'member_profile_view' member.id %}">
-                                                        {{ member.first_name }} {{ member.last_name }}
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    {% if member.tel %}
-                                                        <a href="{% url 'member_profile_view' member.id %}">
-                                                            {{ member.tel }}
-                                                        </a>
-                                                    {% endif %}
-                                                </td>
-                                                <td>
-                                                    <div class="friendship-section">
-                                                        <div>
-                                                            {% if false %}
-                                                                <form action="" method="POST">
-                                                                    {% csrf_token %}
-                                                                    <button type="submit" class="btn btn-warning">إلغاء طلب صداقة</button>
-                                                                </form>
-                                                                <form action="" method="POST">
-                                                                    {% csrf_token %}
-                                                                    <button type="submit" class="btn btn-success">قبول طلب صداقة</button>
-                                                                </form>
-                                                                <form action="" method="POST">
-                                                                    {% csrf_token %}
-                                                                    <button type="submit" class="btn btn-danger">رفض طلب صداقة</button>
-                                                                </form>
-                                                            {% else %}
-                                                                <form action="" method="POST">
-                                                                    {% csrf_token %}
-                                                                    <button type="submit" class="btn btn-primary">إرسال طلب صداقة</button>
-                                                                </form>
-                                                            {% endif %}
-                                                            <button onclick="redirectToForm({{ member.id }})" class="send-button">
-                                                                <i class="fas fa-comment"></i> إرسال رسالة
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        {% endwith %}
-                                    {% endwith %}
-                                {% endwith %}
-                            {% endif %}
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+        <div class="members-list">
+            {% for member in members %}
+                {% if member.id != request.user.id %}
+                    {% with member.path|split as paths %}
+                        {% with paths|shuffle as shuffled_paths %}
+                            {% with shuffled_paths.0 as first_path %}
+                                <div class="member-card fade-in-up 
+                                    {% if member.friendship_status == 'friends' %}friends
+                                    {% elif member.friendship_status == 'request_sent' %}request-sent
+                                    {% elif member.friendship_status == 'request_received' %}request-received
+                                    {% else %}not-friends{% endif %}">
+                                    
+                                    <!-- رأس البطاقة -->
+                                    <div class="member-header">
+                                        <!-- الصورة -->
+                                        <div class="avatar-container">
+                                            {% if first_path %}
+                                                <a href="{{ first_path|media_url }}" data-lightbox="gallery">
+                                                    <img src="{% static 'tifinar/'%}{{ first_path }}" 
+                                                         class="member-avatar"
+                                                         alt="{{ member.first_name }} {{ member.last_name }}">
+                                                </a>
+                                            {% else %}
+                                                <img src="{% static 'tifinar/assets/' %}{% if member.gender == 'Female' %}female{% else %}male{% endif %}.webp" 
+                                                     class="member-avatar"
+                                                     alt="{{ member.first_name }} {{ member.last_name }}">
+                                            {% endif %}
+                                        </div>
+                                        
+                                        <!-- المعلومات -->
+                                        <div class="member-info">
+                                            <a href="{% url 'member_profile_view' member.id %}" class="member-name">
+                                                {{ member.first_name }} {{ member.last_name }}
+                                            </a>
+                                            <div class="member-email">{{ member.email }}</div>
+                                            <div class="member-contacts">
+                                                {% if member.tel %}
+                                                    <span class="contact-item">
+                                                        <i class="bi bi-phone"></i>
+                                                        {{ member.tel }}
+                                                    </span>
+                                                {% endif %}
+                                                <span class="contact-item">
+                                                    <i class="bi bi-person-badge"></i>
+                                                    ID: {{ member.id }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- خط فاصل -->
+                                    <div class="member-divider"></div>
+
+                                    <!-- حالة الصداقة -->
+                                    <div class="friendship-status 
+                                        {% if member.friendship_status == 'friends' %}status-friends
+                                        {% elif member.friendship_status == 'request_sent' %}status-request-sent
+                                        {% elif member.friendship_status == 'request_received' %}status-request-received
+                                        {% else %}status-not-friends{% endif %}">
+                                        
+                                        <i class="{% if member.friendship_status == 'friends' %}fas fa-heartbeat
+                                                 {% elif member.friendship_status == 'request_sent' %}fas fa-paper-plane
+                                                 {% elif member.friendship_status == 'request_received' %}fas fa-bell
+                                                 {% else %}fas fa-user-plus{% endif %} me-2"></i>
+                                        
+                                        {% if member.friendship_status == 'friends' %}🎯 أصدقاء
+                                        {% elif member.friendship_status == 'request_sent' %}📤 طلب مرسل
+                                        {% elif member.friendship_status == 'request_received' %}📥 طلب مستلم
+                                        {% else %}👥 غير أصدقاء{% endif %}
+                                    </div>
+
+                                    <!-- أزرار الإجراءات -->
+                                    <div class="actions-container">
+                                        {% if member.friendship_status == 'friends' %}
+                                            <form action="{% url 'remove_friend' member.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="action-btn btn-danger">
+                                                    <i class="fas fa-user-times"></i>
+                                                    إزالة صديق
+                                                </button>
+                                            </form>
+                                        
+                                        {% elif member.friendship_status == 'request_sent' %}
+                                            <form action="{% url 'cancel_friend_request' member.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="action-btn btn-warning">
+                                                    <i class="fas fa-times-circle"></i>
+                                                    إلغاء الطلب
+                                                </button>
+                                            </form>
+                                        
+                                        {% elif member.friendship_status == 'request_received' %}
+                                            <form action="{% url 'accept_friend_request' member.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="action-btn btn-success">
+                                                    <i class="fas fa-check"></i>
+                                                    قبول الطلب
+                                                </button>
+                                            </form>
+                                            <form action="{% url 'reject_friend_request' member.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="action-btn btn-danger">
+                                                    <i class="fas fa-times"></i>
+                                                    رفض الطلب
+                                                </button>
+                                            </form>
+                                        
+                                        {% else %}
+                                            <form action="{% url 'send_friend_request' member.id %}" method="POST">
+                                                {% csrf_token %}
+                                                <button type="submit" class="action-btn btn-primary">
+                                                    <i class="fas fa-user-plus"></i>
+                                                    إرسال طلب صداقة
+                                                </button>
+                                            </form>
+                                        {% endif %}
+                                        
+                                        <button onclick="redirectToForm({{ member.id }})" class="action-btn btn-info">
+                                            <i class="fas fa-comment-dots"></i>
+                                            إرسال رسالة
+                                        </button>
+                                    </div>
+                                </div>
+                            {% endwith %}
+                        {% endwith %}
+                    {% endwith %}
+                {% endif %}
+            {% endfor %}
         </div>
     {% endif %}
 
-    <div class="pagination-wrapper">
-        {% if members.has_other_pages %}
-            <ul class="pagination">
-                {% if members.has_previous %}
-                    <li><a href="?page={{ members.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.role %}&role={{ request.GET.role }}{% endif %}">&laquo;</a></li>
+    <!-- التصفح -->
+    {% if members.has_other_pages %}
+        <nav class="pagination-modern">
+            {% if members.has_previous %}
+                <a href="?page={{ members.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" 
+                   class="page-modern">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+            {% endif %}
+
+            {% for i in members.paginator.page_range %}
+                {% if members.number == i %}
+                    <span class="page-modern active">{{ i }}</span>
+                {% elif i > members.number|add:'-3' and i < members.number|add:'3' %}
+                    <a href="?page={{ i }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" 
+                       class="page-modern">{{ i }}</a>
                 {% endif %}
-                {% for i in members.paginator.page_range %}
-                    {% if members.number == i %}
-                        <li class="active"><span>{{ i }}</span></li>
-                    {% else %}
-                        <li><a href="?page={{ i }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.role %}&role={{ request.GET.role }}{% endif %}">{{ i }}</a></li>
-                    {% endif %}
-                {% endfor %}
-                {% if members.has_next %}
-                    <li><a href="?page={{ members.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.role %}&role={{ request.GET.role }}{% endif %}">&raquo;</a></li>
-                {% endif %}
-            </ul>
-        {% endif %}
-    </div>
+            {% endfor %}
+
+            {% if members.has_next %}
+                <a href="?page={{ members.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" 
+                   class="page-modern">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            {% endif %}
+        </nav>
+    {% endif %}
 </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lightbox2/dist/js/lightbox-plus-jquery.js"></script>
-
 <script>
-function redirectToForm(contactsId) {
-    const url = `/send_message?user_id=${contactsId}`;
-    window.location.href = url;
+function showLoading() {
+    $('#loadingBar').css('width', '100%');
+    setTimeout(() => $('#loadingBar').css('width', '0'), 500);
 }
+
+function redirectToForm(userId) {
+    showLoading();
+    setTimeout(() => {
+        window.location.href = `/send_message?user_id=${userId}`;
+    }, 300);
+}
+
+$(document).ready(function() {
+    // تأثيرات عند التمرير
+    $(window).scroll(function() {
+        $('.fade-in-up').each(function() {
+            var position = $(this).offset().top;
+            var scrollPosition = $(window).scrollTop() + $(window).height();
+            
+            if (position < scrollPosition - 50) {
+                $(this).addClass('visible');
+            }
+        });
+    });
+
+    // تأثيرات النقر
+    $('.action-btn').on('click', function(e) {
+        if ($(this).is('button[type="submit"]')) {
+            showLoading();
+        }
+    });
+
+    // إخفاء شريط التحميل
+    setTimeout(() => $('#loadingBar').css('width', '0'), 500);
+});
+
+// تحديث تلقائي للحالة كل 30 ثانية
+setInterval(() => {
+    if (document.hasFocus()) {
+        window.location.reload();
+    }
+}, 30000);
 </script>
 
 {% include "tifinar/adm_footer.html" %}

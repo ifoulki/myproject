@@ -17,6 +17,7 @@ from tifinar.views.audience.msgs import send_message
 from tifinar.views.content.cours import show_cours 
 from tifinar.views.members.user import show_user 
 from tifinar.views.members.members_index import members_index 
+from tifinar.views.members.friends_views import *
 from tifinar.views.contacts.contacts_index import contacts_index
 from tifinar.views.contacts.create_contact import contact_create
 from tifinar.views.members.user import edit_user 
@@ -95,7 +96,11 @@ urlpatterns = [
     # مسارات المستخدمين
     path('contacts/', contacts_index, name='contacts'),
     path('users/', members_index, name='users'),
-    
+    path('friend-request/send/<int:user_id>/', send_friend_request, name='send_friend_request'),
+    path('friend-request/cancel/<int:user_id>/', cancel_friend_request, name='cancel_friend_request'),
+    path('friend-request/accept/<int:user_id>/', accept_friend_request, name='accept_friend_request'),
+    path('friend-request/reject/<int:user_id>/', reject_friend_request, name='reject_friend_request'),
+    path('friend/remove/<int:user_id>/', remove_friend, name='remove_friend'),
     path('users/<int:user_id>/', member_profile_view, name='member_profile_view'),
     path('users/<int:user_id>/edit/', edit_member_profile, name='edit_member_profile'),
     path('users/<int:user_id>/delete/', delete_member_profile, name='delete_member_profile'),
