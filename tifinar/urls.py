@@ -32,6 +32,7 @@ from tifinar.views.content_manager.edit_contents import edit_content
 from tifinar.views.content_manager.edit_books import edit_book
 from tifinar.views.content_manager.edit_video import edit_video
 from tifinar.views.content_manager.edit_cours import edit_course_view
+from tifinar.views.content_manager.exam_items_list import exam_items_list,exam_items_create,exam_items_delete,exam_items_edit
 from tifinar.views.content.exams import exam_view, store_answer
 from .logout import custom_logout
 from .login import custom_login
@@ -127,6 +128,12 @@ urlpatterns = [
     path('cours/delete/<path:slug>/', delete_content, name='delete_cours'),
     path('videos/delete/<path:slug>/', delete_content, name='delete_videos'),
     path('msgs/delete/<int:msg_id>/', delete_msg, name='delete_msg'),
+    
+    
+    path('examItems/', exam_items_list, name='exam_items_list'),
+    path('examItems/create/', exam_items_create, name='exam_items_create'),
+    path('examItems/edit/<int:item_id>/', exam_items_edit, name='exam_items_edit'),
+    path('examItems/delete/<int:item_id>/', exam_items_delete, name='exam_items_delete'),
 
     # تعديل المحتوى
     path('articles/edit/<path:slug>/', edit_content, {'content_type': 'articles'}, name='edit_article'),

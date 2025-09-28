@@ -1,0 +1,78 @@
+{% load static %}
+{% include "tifinar/adm_header.html" %}
+
+<div class="content">
+    <div class="container">
+        <h1>قائمة الأسئلة</h1>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <a href="{% url 'exam_items_create' %}" class="btn btn-primary mb-3">إضافة سؤال جديد</a>
+
+        <!-- تعديل action ليكون نفس الصفحة -->
+        <form action="" method="GET" class="mb-4">
+            <div class="form-group">
+                <label for="exam_number">فلترة حسب عنوان الاختبار:</label>
+                <select class="form-control" name="exam_number" id="exam_number">
+                    <option value="">جميع الاختبارات</option>
+                    {% for exam in exams %}
+                        <option value="{{ exam.exam_id }}" 
+                            {% if request.GET.exam_number == exam.exam_id|stringformat:"s" %}selected{% endif %}>
+                            {{ exam.title }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-secondary">بحث</button>
+            {% if request.GET.exam_number %}
+                <a href="{% url 'exam_items_list' %}" class="btn btn-light">إلغاء التصفية</a>
+            {% endif %}
+        </form>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>الرقم</th>
+                    <th>الاختبار التابع له</th>
+                    <th>عنوان السؤال</th>
+                    <th>النوع</th>
+                    <th>العلامة</th>
+                    <th>التحكم</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if items %}
+                    {% for item in items %}
+                        <tr>
+                            <td>{{ item.qsts_id }}</td>
+                            <td>{{ item.exam_number }}</td>  <!-- عرض عنوان الاختبار -->
+                            <td dir="{{ item.dir }}">{{ item.qst_1st_line }}</td>
+                            <td>{{ item.the_type }}</td>  <!-- إذا كان choice field -->
+                            <td>{{ item.mark }}</td>
+                            <td>
+                                <a href="{% url 'exam_items_edit' item.premary_id %}" class="btn btn-warning">تعديل</a>
+                                
+                                <form action="{% url 'exam_items_delete' item.premary_id %}" method="POST" style="display:inline-block;" onsubmit="return confirm('هل أنت متأكد من الحذف؟')">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger">حذف</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center">لا توجد أسئلة حالياً</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% include "tifinar/adm_footer.html" %}

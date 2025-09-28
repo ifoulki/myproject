@@ -124,19 +124,15 @@ def delete_contact(request, contacts_id):
             messages.success(request, f'تم حذف الجهة "{contact_name}" بشكل نهائي من قاعدة البيانات')
             
         else:
-            # مستخدم عادي - إزالة ID المستخدم من عمود Author فقط
             if contact.author:
                 author_ids = [id.strip() for id in str(contact.author).split(',') if id.strip()]
                 
                 if current_user_id in author_ids:
-                    # إزالة ID المستخدم من القائمة
                     author_ids.remove(current_user_id)
                     
                     if author_ids:
-                        # تحديث العمود بالقائمة الجديدة
                         contact.author = ','.join(author_ids)
                     else:
-                        # إذا لم يتبقى أي authors، يمكن حذف الجهة أو تركها
                         contact.author = ''
                     
                     contact.save()
