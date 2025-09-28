@@ -10,7 +10,7 @@ from tifinar.views.content.videos import video_detail
 from tifinar.views.content.books import book_detail
 from tifinar.views.content.content import contents
 from tifinar.views.dashboard.dashboard import dashboard_view
-from tifinar.views.content.eddit_index import index_eddit, delete_content, delete_msg
+from tifinar.views.content.eddit_index import *
 from tifinar.views.content.welcome import welcome
 from tifinar.views.games.rock_paper_scissors import rps_game
 from tifinar.views.audience.msgs import send_message
@@ -18,22 +18,22 @@ from tifinar.views.content.cours import show_cours
 from tifinar.views.members.user import show_user 
 from tifinar.views.members.members_index import members_index 
 from tifinar.views.members.friends_views import *
-from tifinar.views.contacts.contacts_index import contacts_index, delete_contact
+from tifinar.views.contacts.contacts_index import *
 from tifinar.views.contacts.create_contact import contact_create
 from tifinar.views.members.user import edit_user 
-from tifinar.views.members.show_member import member_profile_view, edit_member_profile, delete_member_profile, manage_member_relations, update_profile_image
-from tifinar.views.contacts.show_contact import contact_view,edit_contact, delete_contact, manage_contact_relations, update_contact_image
+from tifinar.views.members.show_member import *
+from tifinar.views.contacts.show_contact import *
 from tifinar.views.content_manager.article_manager import create_article
 from tifinar.views.content_manager.book_manager import create_book
 from tifinar.views.content_manager.video_manager import create_video
 from tifinar.views.content_manager.create_cours import create_cours
-from tifinar.views.content_manager.create_exam import create_exam, edit_exam
+from tifinar.views.content_manager.create_exam import *
 from tifinar.views.content_manager.edit_contents import edit_content
 from tifinar.views.content_manager.edit_books import edit_book
 from tifinar.views.content_manager.edit_video import edit_video
 from tifinar.views.content_manager.edit_cours import edit_course_view
-from tifinar.views.content_manager.exam_items_list import exam_items_list,exam_items_create,exam_items_delete,exam_items_edit
-from tifinar.views.content.exams import exam_view, store_answer
+from tifinar.views.content_manager.exam_items_list import *
+from tifinar.views.content.exams import *
 from .logout import custom_logout
 from .login import custom_login
 from .logup import custom_logup
@@ -134,6 +134,8 @@ urlpatterns = [
     path('examItems/create/', exam_items_create, name='exam_items_create'),
     path('examItems/edit/<int:item_id>/', exam_items_edit, name='exam_items_edit'),
     path('examItems/delete/<int:item_id>/', exam_items_delete, name='exam_items_delete'),
+    path('get-next-qsts-id/', get_next_qsts_id, name='get_next_qsts_id'),
+
 
     # تعديل المحتوى
     path('articles/edit/<path:slug>/', edit_content, {'content_type': 'articles'}, name='edit_article'),

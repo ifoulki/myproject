@@ -1,0 +1,375 @@
+{% load static %}
+{% include "tifinar/adm_header.html" %}
+
+<div class="content">
+    <h1><i class="fas fa-edit"></i> إضافة سؤال:</h1>
+    
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                <i class="fas fa-exclamation-circle"></i> {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    {% if form.errors %}
+        <div class="error-feedback">
+            <i class="fas fa-exclamation-circle"></i> يوجد أخطاء في النموذج
+        </div>
+    {% endif %}
+
+    <form style="width: 100%" class="form" method="POST" action="{% url 'exam_items_create' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+
+       <div class="form">
+            <label class="label"><i class="fas fa-clipboard-list"></i> السؤال تابع للاختبار رقم:</label>
+            <div>
+                <input class="small-input {% if form.exam_id.errors %}is-invalid{% endif %}" type="number" name="exam_id" id="exam_id" 
+                    value="{{ form.exam_id.value|default:max_exam_id }}" style="flex: 1;">
+                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="useLastExam()" title="استخدام آخر اختبار">
+                    <i class="fas fa-sync-alt"></i>
+                </button>
+            </div>
+            {% if form.exam_id.errors %}
+                <small class="text-danger">{{ form.exam_id.errors.0 }}</small>
+            {% endif %}
+            <small class="text-muted">سيتم افتراض آخر اختبار (رقم {{ max_exam_id }}) إذا لم تحدد رقم</small>
+        </div>
+        
+        <hr>
+        
+        <div class="form">
+            <label class="label"><i class="fas fa-hashtag"></i> رقم السؤال:</label>
+            <input title="لا يمكن تغيير رقم، سيضع النظام الرقم المناسب تلقائيا" readonly class="{% if form.qsts_id.errors %}is-invalid{% endif %} small-input" type="number" name="qsts_id" id="qsts_id" value="{{ next_qsts_id }}">
+            {% if form.qsts_id.errors %}
+                <small class="text-danger">{{ form.qsts_id.errors.0 }}</small>
+            {% endif %}
+        </div>
+        
+        <hr>
+        
+        <div class="form">
+            <label class="label"><i class="fas fa-language"></i> بأي لغة ستطرح السؤال؟</label>
+            <select class="small-input {% if form.dir.errors %}is-invalid{% endif %}" name="dir">
+                <option value="" disabled selected>اختر اللغة</option>
+                <option value="rtl" {% if form.dir.value == 'rtl' %}selected{% endif %}>العربية</option>
+                <option value="ltr" {% if form.dir.value == 'ltr' %}selected{% endif %}>Français</option>
+                <option value="ltr" {% if form.dir.value == 'ltr' %}selected{% endif %}>English</option>
+            </select>
+            {% if form.dir.errors %}
+                <small class="text-danger">{{ form.dir.errors.0 }}</small>
+            {% endif %}
+        </div>
+        
+            <hr>
+
+            <div class="form">
+                <label class="label"><i class="fas fa-star"></i> السؤال عليه:</label>
+                <select class="input {% if form.mark.errors %}is-invalid{% endif %}" name="mark">
+                    <option {% if not form.mark.value %} selected{% endif %} disabled>كم نقطة ؟</option>
+                    <option value="0.5" {% if form.mark.value == "0.5" %}selected{% endif %}>نصف نقطة (0.5)</option>
+                    <option value="1" {% if form.mark.value == "1" %}selected{% endif %}>نقطة واحدة (1)</option>
+                    <option value="1.5" {% if form.mark.value == "1.5" %}selected{% endif %}>نقطة ونصف (1.5)</option>
+                    <option value="2" {% if form.mark.value == "2" %}selected{% endif %}>نقطتين (2)</option>
+                    <option value="2.5" {% if form.mark.value == "2.5" %}selected{% endif %}>نقطتين ونصف (2.5)</option>
+                    <option value="3" {% if form.mark.value == "3" %}selected{% endif %}>ثلاث نقاط (3)</option>
+                    <option value="3.5" {% if form.mark.value == "3.5" %}selected{% endif %}>ثلاث نقاط ونصف (3.5)</option>
+                    <option value="4" {% if form.mark.value == "4" %}selected{% endif %}>أربع نقاط (4)</option>
+                    <option value="4.5" {% if form.mark.value == "4.5" %}selected{% endif %}>أربع نقاط ونصف (4.5)</option>
+                    <option value="5" {% if form.mark.value == "5" %}selected{% endif %}>خمس نقاط (5)</option>
+                </select>
+                {% if form.mark.errors %}
+                    <small class="text-danger">{{ form.mark.errors.0 }}</small>
+                {% endif %}
+            </div>
+
+            <hr>
+
+        <div class="form">
+            <label class="label"><i class="fas fa-pen"></i> السطر الأول للسؤال:</label>
+            <textarea name="qst_1st_line" class="{% if form.qst_1st_line.errors %}is-invalid{% endif %}" placeholder="نص السؤال...">{{ form.qst_1st_line.value|default:'' }}</textarea>
+            {% if form.qst_1st_line.errors %}
+                <small class="text-danger">{{ form.qst_1st_line.errors.0 }}</small>
+            {% endif %}
+        </div>
+        
+        <hr>
+        
+        <div class="form">
+            <label class="label"><i class="fas fa-pen"></i> السطر الثاني للسؤال:</label>
+            <textarea name="qsts" placeholder="نص السؤال...">{{ form.qsts.value|default:'' }}</textarea>
+            {% if form.qsts.errors %}
+                <small class="text-danger">{{ form.qsts.errors.0 }}</small>
+            {% endif %}
+        </div>
+
+        <hr>
+
+        <div class="form">
+            <label class="label"><i class="fas fa-question-circle"></i> شكل السؤال:</label>
+            <select class="small-input the_type {% if form.the_type.errors %}is-invalid{% endif %}" name="the_type">
+                <option value="" disabled selected> حدد الشكل </option>
+                <option value="radio" {% if form.the_type.value == 'radio' %}selected{% endif %}>اختيارات (واحد فقط صحيح)</option>
+                <option value="checkbox" {% if form.the_type.value == 'checkbox' %}selected{% endif %}>اختيارات (واحد أو أكثر صحيح)</option>
+                <option value="text" {% if form.the_type.value == 'text' %}selected{% endif %}>إجابة قصيرة</option>
+                <option value="textarea" {% if form.the_type.value == 'textarea' %}selected{% endif %}>إجابة طويلة</option>
+            </select>
+            {% if form.the_type.errors %}
+                <small class="text-danger">{{ form.the_type.errors.0 }}</small>
+            {% endif %}
+        </div>
+
+        <hr>
+
+        <div class="form answerField">
+            <label class="label"><i class="fas fa-check-circle"></i> الإجابة الصحيحة:</label>
+            <textarea class="{% if form.correct_answer.errors %}is-invalid{% endif %}" name="correct_answer" placeholder="أكتب الإجابة الصحيحة هنا...">{{ form.correct_answer.value|default:'' }}</textarea>
+            {% if form.correct_answer.errors %}
+                <small class="text-danger">{{ form.correct_answer.errors.0 }}</small>
+            {% endif %}
+        </div>   
+
+        <p class="for_radio">باقي الاختيارات خاطئة :</p>
+
+        <div class="form choiceFields">
+            <div>
+                <label class="label"><i class="fas fa-dot-circle"></i> الاختيار الأول:</label>
+                <input class="input choicetext" type="text" name="choice1_text" placeholder="أدخل النص هنا..." value="{{ form.choice1_text.value|default:'' }}">
+                <select class="small-input key choiceKey" name="choice1_correct">
+                    <option value="" disabled {% if not form.choice1_correct.value %}selected{% endif %}>صحيح أم خطأ؟</option>
+                    <option class="wrong" value="false" {% if form.choice1_correct.value == 'false' %}selected{% endif %}>خطأ</option>
+                    <option class="correct" value="true" {% if form.choice1_correct.value == 'true' %}selected{% endif %}>صحيح</option>
+                </select>
+                {% if form.choice1_text.errors %}
+                    <small class="text-danger">{{ form.choice1_text.errors.0 }}</small>
+                {% endif %}
+            </div>
+
+            <hr>
+
+            <div>
+                <label class="label"><i class="fas fa-dot-circle"></i> الاختيار الثاني:</label>
+                <input class="input choicetext" type="text" name="choice2_text" placeholder="أدخل النص هنا..." value="{{ form.choice2_text.value|default:'' }}">
+                <select class="small-input key choiceKey" name="choice2_correct">
+                    <option value="" disabled {% if not form.choice2_correct.value %}selected{% endif %}>صحيح أم خطأ؟</option>
+                    <option class="wrong" value="false" {% if form.choice2_correct.value == 'false' %}selected{% endif %}>خطأ</option>
+                    <option value="true" {% if form.choice2_correct.value == 'true' %}selected{% endif %}>صحيح</option>
+                </select>
+                {% if form.choice2_text.errors %}
+                    <small class="text-danger">{{ form.choice2_text.errors.0 }}</small>
+                {% endif %}
+            </div>
+
+            <hr>
+
+            <div>
+                <label class="label"><i class="fas fa-dot-circle"></i> الاختيار الثالث:</label>
+                <input class="input choicetext" type="text" name="choice3_text" placeholder="أدخل النص هنا..." value="{{ form.choice3_text.value|default:'' }}">
+                <select class="small-input key choiceKey" name="choice3_correct">
+                    <option value="" disabled {% if not form.choice3_correct.value %}selected{% endif %}>صحيح أم خطأ؟</option>
+                    <option value="false" {% if form.choice3_correct.value == 'false' %}selected{% endif %}>خطأ</option>
+                    <option value="true" {% if form.choice3_correct.value == 'true' %}selected{% endif %}>صحيح</option>
+                </select>
+                {% if form.choice3_text.errors %}
+                    <small class="text-danger">{{ form.choice3_text.errors.0 }}</small>
+                {% endif %}
+            </div>
+        </div>
+
+        <hr>
+
+        <div>
+            <label class="label"><i class="fas fa-image"></i> صورة تظهر أسفل السؤال:</label>
+            <input type="file" name="qst_img" class="form-control" onchange="previewImage(this, 'qst_img_preview')">
+            <img id="qst_img_preview" style="display:none; max-width: 200px; margin-top: 10px;">
+            {% if form.qst_img.errors %}
+                <small class="text-danger">{{ form.qst_img.errors.0 }}</small>
+            {% endif %}
+        </div>
+
+        <hr>
+
+        <div class="form">
+            <label class="label"><i class="fas fa-comment-dots"></i> رسالة تظهر عندما تكون الإجابة صحيحة:</label><br>
+            <textarea name='if_choising_correct' placeholder='أكتب رسالة تظهر عندما تكون الإجابة صحيحة ...'>{{ form.if_choising_correct.value|default:'' }}</textarea>
+            {% if form.if_choising_correct.errors %}
+                <small class="text-danger">{{ form.if_choising_correct.errors.0 }}</small>
+            {% endif %}
+
+            <label class="label"><i class="fas fa-image"></i> صورة تظهر إذا كانت الإجابة صحيحة:</label>
+            <input class="form-control" type="file" name="img_if_right_answer" onchange="previewImage(this, 'img_if_right_preview')">
+            <img id="img_if_right_preview" style="display:none; max-width: 200px; margin-top: 10px;">
+            {% if form.img_if_right_answer.errors %}
+                <small class="text-danger">{{ form.img_if_right_answer.errors.0 }}</small>
+            {% endif %}
+        </div>
+
+        <hr>
+
+        <div class="form">
+            <label class="label"><i class="fas fa-comment-dots"></i> رسالة تظهر عندما تكون الإجابة خاطئة:</label><br>
+            <textarea name='if_its_wrong_answer' placeholder='أكتب رسالة تظهر عندما تكون الإجابة خاطئة ...'>{{ form.if_its_wrong_answer.value|default:'' }}</textarea>
+            {% if form.if_its_wrong_answer.errors %}
+                <small class="text-danger">{{ form.if_its_wrong_answer.errors.0 }}</small>
+            {% endif %}
+
+            <label class="label"><i class="fas fa-image"></i> صورة تظهر إذا كانت الإجابة خاطئة:</label>
+            <input class="form-control" type="file" name="img_if_wrong_answer" onchange="previewImage(this, 'img_if_wrong_preview')">
+            <img id="img_if_wrong_preview" style="display:none; max-width: 200px; margin-top: 10px;">
+            {% if form.img_if_wrong_answer.errors %}
+                <small class="text-danger">{{ form.img_if_wrong_answer.errors.0 }}</small>
+            {% endif %}
+        </div>
+
+        <div class="form">
+            <div class="text-center">
+                <button type="submit" class="btn btn-success"><i class="fas fa-plus"></i> إضافة السؤال</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<script>
+    function previewImage(input, previewId) {
+        const preview = document.getElementById(previewId);
+        const file = input.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                preview.src = e.target.result;
+                preview.style.display = 'block';
+            }
+            reader.readAsDataURL(file);
+        } else {
+            preview.style.display = 'none';
+        }
+    }
+
+    // دالة لاستخدام آخر اختبار
+    function useLastExam() {
+        const examIdInput = document.getElementById('exam_id');
+        examIdInput.value = '{{ max_exam_id }}';
+        updateQstsId();
+    }
+
+    // دالة لجلب next_qsts_id من السيرفر
+    function updateQstsId() {
+        const examIdInput = document.getElementById('exam_id');
+        const qstsIdInput = document.getElementById('qsts_id');
+        
+        // تنظيف القيمة من أي أحرف غير رقمية
+        let examId = examIdInput.value.replace(/[^0-9]/g, '');
+        
+        // إذا كان الحقل فارغاً، استخدم القيمة الافتراضية (آخر اختبار)
+        if (!examId) {
+            examId = '{{ max_exam_id }}';
+            examIdInput.value = examId;
+        }
+        
+        if (examId && examId > 0) {
+            // إظهار تحميل مؤقت
+            qstsIdInput.value = 'جاري التحميل...';
+            qstsIdInput.disabled = true;
+            
+            // جلب البيانات من السيرفر
+            fetch(`/get-next-qsts-id/?exam_id=${examId}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        qstsIdInput.value = data.next_qsts_id;
+                    } else {
+                        qstsIdInput.value = '1';
+                        console.error('Server error:', data.error);
+                    }
+                })
+                .catch(error => {
+                    console.error('Fetch error:', error);
+                    qstsIdInput.value = '1';
+                })
+                .finally(() => {
+                    qstsIdInput.disabled = false;
+                });
+        } else {
+            qstsIdInput.value = '{{ next_qsts_id }}';
+        }
+    }
+
+    // إدارة ظهور الحقول حسب نوع السؤال
+    function initQuestionTypeHandler() {
+        const the_type = document.querySelector(".the_type");
+        const choiceFields = document.querySelectorAll(".choiceFields");
+        const answerField = document.querySelectorAll(".answerField");
+        const choicetext = document.querySelectorAll(".choicetext");
+        const choiceKey = document.querySelectorAll(".choiceKey");
+        const for_radio = document.querySelectorAll(".for_radio");
+
+        function updateVisibility() {
+            const Type = the_type.value;
+
+            if (Type === "radio") {
+                choicetext.forEach(el => el.style.display = "block");
+                choiceKey.forEach(el => el.style.display = "none");
+                answerField.forEach(el => el.style.display = "block");
+                for_radio.forEach(el => el.style.display = "block");
+                choiceFields.forEach(el => el.style.display = "block");
+
+            } else if (Type === "checkbox") {
+                choicetext.forEach(el => el.style.display = "block");
+                choiceKey.forEach(el => el.style.display = "block");
+                answerField.forEach(el => el.style.display = "none");
+                choiceFields.forEach(el => el.style.display = "block");
+                for_radio.forEach(el => el.style.display = "none");
+
+            } else {
+                choicetext.forEach(el => el.style.display = "none");
+                choiceKey.forEach(el => el.style.display = "none");
+                answerField.forEach(el => el.style.display = "block");
+                choiceFields.forEach(el => el.style.display = "none");
+                for_radio.forEach(el => el.style.display = "none");
+            }
+        }
+
+        the_type.addEventListener("change", updateVisibility);
+        updateVisibility();
+    }
+
+    // إضافة event listeners
+    document.addEventListener('DOMContentLoaded', function() {
+        // تهيئة تحديث رقم السؤال
+        updateQstsId();
+        
+        // تهيئة إدارة نوع السؤال
+        initQuestionTypeHandler();
+        
+        // إضافة event listeners لحقل exam_id
+        const examIdInput = document.getElementById('exam_id');
+        examIdInput.addEventListener('input', updateQstsId);
+        examIdInput.addEventListener('change', updateQstsId);
+        examIdInput.addEventListener('blur', updateQstsId);
+
+        // منع إدخال أحرف غير رقمية في exam_id
+        examIdInput.addEventListener('keypress', function(e) {
+            const charCode = e.which ? e.which : e.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                e.preventDefault();
+            }
+        });
+
+        // معالجة عندما يكون الحقل فارغاً
+        examIdInput.addEventListener('focus', function() {
+            if (!this.value) {
+                this.value = '{{ max_exam_id }}';
+                updateQstsId();
+            }
+        });
+    });
+</script>
+
+
+{% include "tifinar/adm_footer.html" %}
