@@ -579,18 +579,15 @@ $(document).ready(function() {
         });
     });
 
-    // تأثيرات النقر
     $('.action-btn').on('click', function(e) {
         if ($(this).is('button[type="submit"]')) {
             showLoading();
         }
     });
 
-    // إخفاء شريط التحميل
     setTimeout(() => $('#loadingBar').css('width', '0'), 500);
 });
 
-// تحديث تلقائي للحالة كل 30 ثانية
 setInterval(() => {
     if (document.hasFocus()) {
         window.location.reload();

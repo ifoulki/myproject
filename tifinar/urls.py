@@ -18,12 +18,11 @@ from tifinar.views.content.cours import show_cours
 from tifinar.views.members.user import show_user 
 from tifinar.views.members.members_index import members_index 
 from tifinar.views.members.friends_views import *
-from tifinar.views.contacts.contacts_index import contacts_index
+from tifinar.views.contacts.contacts_index import contacts_index, delete_contact
 from tifinar.views.contacts.create_contact import contact_create
 from tifinar.views.members.user import edit_user 
 from tifinar.views.members.show_member import member_profile_view, edit_member_profile, delete_member_profile, manage_member_relations, update_profile_image
 from tifinar.views.contacts.show_contact import contact_view,edit_contact, delete_contact, manage_contact_relations, update_contact_image
-from tifinar.views.content_manager.show_create_contents import show_create_content
 from tifinar.views.content_manager.article_manager import create_article
 from tifinar.views.content_manager.book_manager import create_book
 from tifinar.views.content_manager.video_manager import create_video

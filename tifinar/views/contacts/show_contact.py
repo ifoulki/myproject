@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.views.decorators.http import require_http_methods
 from tifinar.models import Contacts
 import random
+from django.http import JsonResponse
 
 @login_required
 def contact_view(request, contacts_id):
@@ -109,24 +110,55 @@ def edit_contact(request, contacts_id):
 
 @login_required
 @require_http_methods(["POST"])
-def delete_contact(request, contacts_id):
-    """
-    حذف الملف الشخصي (للمسؤولين فقط)
-    """
-    if request.user.role != "admin":
-        messages.error(request, "ليس لديك صلاحية لحذف المستخدمين")
-        return redirect('show_contact', contacts_id=contacts_id)
 
-    
+@login_required
+def delete_contact(request, contacts_id):
     contact = get_object_or_404(Contacts, contacts_id=contacts_id)
-    try:
-        full_name = contact.get_full_name()
-        contact.delete()
-        messages.success(request, f"تم حذف المستخدم {full_name} بنجاح")
-    except Exception as e:
-        messages.error(request, f"حدث خطأ أثناء الحذف: {str(e)}")
+    current_user_id = str(request.user.id)
     
-    return redirect('contacts')
+    try:
+        if request.user.is_superuser:
+            # Superadmin - حذف كامل من قاعدة البيانات
+            contact_name = f"{contact.prenom} {contact.nom}"
+            contact.delete()
+            messages.success(request, f'تم حذف الجهة "{contact_name}" بشكل نهائي من قاعدة البيانات')
+            
+        else:
+            # مستخدم عادي - إزالة ID المستخدم من عمود Author فقط
+            if contact.author:
+                author_ids = [id.strip() for id in str(contact.author).split(',') if id.strip()]
+                
+                if current_user_id in author_ids:
+                    # إزالة ID المستخدم من القائمة
+                    author_ids.remove(current_user_id)
+                    
+                    if author_ids:
+                        # تحديث العمود بالقائمة الجديدة
+                        contact.author = ','.join(author_ids)
+                    else:
+                        # إذا لم يتبقى أي authors، يمكن حذف الجهة أو تركها
+                        contact.author = ''
+                    
+                    contact.save()
+                    messages.success(request, f'تم إزالة صلاحيتك عن الجهة "{contact.prenom} {contact.nom}"')
+                else:
+                    messages.error(request, 'ليس لديك صلاحية لهذه الجهة')
+            else:
+                messages.error(request, 'هذه الجهة لا تملك معلومات authors')
+        
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'success': True, 'message': 'تمت العملية بنجاح'})
+            
+        return redirect('contacts')
+        
+    except Exception as e:
+        error_message = f'حدث خطأ أثناء المعالجة: {str(e)}'
+        messages.error(request, error_message)
+        
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'success': False, 'error': error_message})
+            
+        return redirect('contacts')
 
 @login_required
 def manage_contact_relations(request, contacts_id):

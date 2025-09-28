@@ -516,6 +516,69 @@ class Contacts(models.Model):
     class Meta:
         managed = False
         db_table = 'contacts'
+    
+    def get_full_name(self):
+        return f"{self.prenom} {self.nom}"
+    
+    def get_author_contacts(self):
+        """
+        استرجاع جميع جهات الاتصال المرتبطة بالمستخدم بناءً على عمود author
+        """
+        if not self.author:
+            return Contacts.objects.none()
+        
+        try:
+            # تحويل الـ author من نص إلى قائمة IDs
+            author_ids = [int(id_str.strip()) for id_str in self.author.split(',') if id_str.strip()]
+            return Contacts.objects.filter(contacts_id__in=author_ids)
+        except (ValueError, TypeError):
+            return Contacts.objects.none()
+    
+    def add_author_contact(self, contacts_id):
+        """
+        إضافة جهة اتصال جديدة إلى عمود author
+        """
+        try:
+            contacts_id = int(contacts_id)
+            current_authors = self.get_author_ids()
+            
+            if contacts_id not in current_authors and contacts_id != self.contacts_id:
+                current_authors.append(contacts_id)
+                self.author = ','.join(map(str, current_authors))
+                self.save()
+                return True
+        except (ValueError, TypeError):
+            pass
+        return False
+    
+    def remove_author_contact(self, contacts_id):
+        """
+        إزالة جهة اتصال من عمود author
+        """
+        try:
+            contacts_id = int(contacts_id)
+            current_authors = self.get_author_ids()
+            
+            if contacts_id in current_authors:
+                current_authors.remove(contacts_id)
+                self.author = ','.join(map(str, current_authors)) if current_authors else ''
+                self.save()
+                return True
+        except (ValueError, TypeError):
+            pass
+        return False
+    
+    def get_author_ids(self):
+        """
+        الحصول على قائمة IDs من عمود author
+        """
+        if not self.author:
+            return []
+        
+        try:
+            return [int(id_str.strip()) for id_str in self.author.split(',') if id_str.strip()]
+        except (ValueError, TypeError):
+            return []
 
 
 class cours(models.Model):

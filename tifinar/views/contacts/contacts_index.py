@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
+from django.http import JsonResponse
 from django.db.models import Q, Case, When, IntegerField
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
@@ -175,20 +177,17 @@ def contacts_index(request):
 
     # إذا لم يكن هناك بحث
     if not search_term and not role:
-        # للمستخدمين العاديين: عرض الأصدقاء فقط
-        current_contact = request.user
+        # للمستخدمين العاديين: عرض الأشخاص الذين كتبهم المستخدم فقط
+        current_user_id = str(request.user.id)
         
-        friend_ids = []
-        if hasattr(current_contact, 'friends') and current_contact.friends:
-            try:
-                friend_ids = [int(id.strip()) for id in str(current_contact.friends).split(',') if id.strip().isdigit()]
-            except (ValueError, AttributeError):
-                friend_ids = []
-        
-        if friend_ids:
-            contacts = Contacts.objects.filter(contacts_id__in=friend_ids)
-        else:
-            contacts = Contacts.objects.none()
+        # البحث في عمود Author الذي يحتوي على IDs مفصولة بفواصل
+        contacts = Contacts.objects.filter(
+            Q(author__icontains=current_user_id) |
+            Q(author__startswith=current_user_id + ',') |
+            Q(author__endswith=',' + current_user_id) |
+            Q(author__icontains=',' + current_user_id + ',') |
+            Q(author=current_user_id)
+        ).distinct()
         
         paginator = Paginator(contacts, 20)
         page_obj = paginator.get_page(page_number)
@@ -198,3 +197,52 @@ def contacts_index(request):
         'search_term': search_term or '',
         'role': role or ''
     })
+
+@login_required
+def delete_contact(request, contact_id):
+    contact = get_object_or_404(Contacts, contacts_id=contact_id)
+    current_user_id = str(request.user.id)
+    
+    try:
+        if request.user.is_superuser:
+            # Superadmin - حذف كامل من قاعدة البيانات
+            contact_name = f"{contact.prenom} {contact.nom}"
+            contact.delete()
+            messages.success(request, f'تم حذف الجهة "{contact_name}" بشكل نهائي من قاعدة البيانات')
+            
+        else:
+            # مستخدم عادي - إزالة ID المستخدم من عمود Author فقط
+            if contact.author:
+                author_ids = [id.strip() for id in str(contact.author).split(',') if id.strip()]
+                
+                if current_user_id in author_ids:
+                    # إزالة ID المستخدم من القائمة
+                    author_ids.remove(current_user_id)
+                    
+                    if author_ids:
+                        # تحديث العمود بالقائمة الجديدة
+                        contact.author = ','.join(author_ids)
+                    else:
+                        # إذا لم يتبقى أي authors، يمكن حذف الجهة أو تركها
+                        contact.author = ''
+                    
+                    contact.save()
+                    messages.success(request, f'تم إزالة صلاحيتك عن الجهة "{contact.prenom} {contact.nom}"')
+                else:
+                    messages.error(request, 'ليس لديك صلاحية لهذه الجهة')
+            else:
+                messages.error(request, 'هذه الجهة لا تملك معلومات authors')
+        
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'success': True, 'message': 'تمت العملية بنجاح'})
+            
+        return redirect('contacts')
+        
+    except Exception as e:
+        error_message = f'حدث خطأ أثناء المعالجة: {str(e)}'
+        messages.error(request, error_message)
+        
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            return JsonResponse({'success': False, 'error': error_message})
+            
+        return redirect('contacts')

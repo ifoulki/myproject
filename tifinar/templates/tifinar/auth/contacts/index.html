@@ -40,24 +40,30 @@
                     </thead>
                     <tbody>
                         {% for contact in contacts %}
-                            {% if contact.contacts_id != request.contact.contacts_id %}
+                            {% if contact.contacts_id %}
                                 {% with contact.path|split as paths %}
                                     {% with paths|shuffle as shuffled_paths %}
                                         {% with shuffled_paths.0 as first_path %}
                                             <tr>
-                                                <td><a href="{% url 'contact_view' contact.contacts_id %}">{{ contact.contacts_id }}</a></td>
+                                                <td>
+                                                    {% if contact.contacts_id %}
+                                                        <a href="{% url 'contact_view' contact.contacts_id %}">{{ contact.contacts_id }}</a>
+                                                    {% else %}
+                                                        -
+                                                    {% endif %}
+                                                </td>
                                                 <td class="img-contacnt">
                                                     {% if first_path %}
                                                         <a href="{{ first_path|media_url }}" data-lightbox="gallery" 
-                                                           data-title="{{ contact.first_name }} {{ contact.last_name }}">
+                                                           data-title="{{ contact.prenom }} {{ contact.nom }}">
                                                             <img src="{% static 'tifinar/images/contacts/'%}{{ first_path }}" 
-                                                                 alt="{{ contact.first_name }} {{ contact.last_name }}" 
+                                                                 alt="{{ contact.prenom }} {{ contact.nom }}" 
                                                                  class="img-thumbnail" style="width: 80px; height: 80px;">
                                                         </a>
                                                     {% else %}
                                                         {% if contact.gender == 'Female' %}
                                                             <a href="{% static 'tifinar/assets/female.webp' %}" data-lightbox="gallery"
-                                                               data-title="{{ contact.first_name }} {{ contact.last_name }}">
+                                                               data-title="{{ contact.prenom }} {{ contact.nom }}">
                                                                 <img src="{% static 'tifinar/assets/female.webp' %}" 
                                                                      alt="{{ contact.prenom }} {{ contact.nom }}"
                                                                      class="img-thumbnail" style="width: 80px; height: 80px;">
@@ -66,51 +72,46 @@
                                                             <a href="{% static 'tifinar/assets/male.webp' %}" data-lightbox="gallery"
                                                                data-title="{{ contact.prenom }} {{ contact.nom }}">
                                                                 <img src="{% static 'tifinar/assets/male.webp' %}" 
-                                                                     alt="{{ contact.first_name }} {{ contact.last_name }}"
+                                                                     alt="{{ contact.prenom }} {{ contact.nom }}"
                                                                      class="img-thumbnail" style="width: 80px; height: 80px;">
                                                             </a>
                                                         {% endif %}
                                                     {% endif %}
                                                 </td>
                                                 <td>
-                                                    <a href="{% url 'contact_view' contact.contacts_id %}">
-                                                        {{ contact.prenom }} {{ contact.nom }}
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    {% if contact.tel %}
+                                                    {% if contact.contacts_id %}
                                                         <a href="{% url 'contact_view' contact.contacts_id %}">
-                                                            {{ contact.tel }}
+                                                            {{ contact.prenom }} {{ contact.nom }}
                                                         </a>
+                                                    {% else %}
+                                                        {{ contact.prenom }} {{ contact.nom }}
                                                     {% endif %}
                                                 </td>
                                                 <td>
-                                                    <div class="friendship-section">
-                                                        <div>
-                                                            {% if false %}
-                                                                <form action="" method="POST">
-                                                                    {% csrf_token %}
-                                                                    <button type="submit" class="btn btn-warning">إلغاء طلب صداقة</button>
-                                                                </form>
-                                                                <form action="" method="POST">
-                                                                    {% csrf_token %}
-                                                                    <button type="submit" class="btn btn-success">قبول طلب صداقة</button>
-                                                                </form>
-                                                                <form action="" method="POST">
-                                                                    {% csrf_token %}
-                                                                    <button type="submit" class="btn btn-danger">رفض طلب صداقة</button>
-                                                                </form>
-                                                            {% else %}
-                                                                <form action="" method="POST">
-                                                                    {% csrf_token %}
-                                                                    <button type="submit" class="btn btn-primary">إرسال طلب صداقة</button>
-                                                                </form>
-                                                            {% endif %}
-                                                            <button onclick="redirectToForm({{ contact.contacts_id }})" class="send-button">
-                                                                <i class="fas fa-comment"></i> إرسال رسالة
+                                                    {% if contact.tel %}
+                                                        {% if contact.contacts_id %}
+                                                            <a href="{% url 'contact_view' contact.contacts_id %}">
+                                                                {{ contact.tel }}
+                                                            </a>
+                                                        {% else %}
+                                                            {{ contact.tel }}
+                                                        {% endif %}
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    {% if contact.contacts_id %}
+                                                        <a href="{% url 'edit_contact' contact.contacts_id %}" class="btn btn-warning btn-sm">
+                                                            <i class="fas fa-edit"></i>
+                                                        </a>
+                                                        <form action="{% url 'delete_contact' contact.contacts_id %}" method="POST" style="display: inline;">
+                                                            {% csrf_token %}
+                                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirmDelete(event, '{{ contact.prenom }} {{ contact.nom }}');">
+                                                                <i class="fas fa-trash-alt"></i>
                                                             </button>
-                                                        </div>
-                                                    </div>
+                                                        </form>
+                                                    {% else %}
+                                                        <span class="text-muted">غير متاح</span>
+                                                    {% endif %}
                                                 </td>
                                             </tr>
                                         {% endwith %}
@@ -128,17 +129,17 @@
         {% if contacts.has_other_pages %}
             <ul class="pagination">
                 {% if contacts.has_previous %}
-                    <li><a href="?page={{ contacts.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.role %}&role={{ request.GET.role }}{% endif %}">&laquo;</a></li>
+                    <li><a href="?page={{ contacts.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">&laquo;</a></li>
                 {% endif %}
                 {% for i in contacts.paginator.page_range %}
                     {% if contacts.number == i %}
                         <li class="active"><span>{{ i }}</span></li>
                     {% else %}
-                        <li><a href="?page={{ i }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.role %}&role={{ request.GET.role }}{% endif %}">{{ i }}</a></li>
+                        <li><a href="?page={{ i }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ i }}</a></li>
                     {% endif %}
                 {% endfor %}
                 {% if contacts.has_next %}
-                    <li><a href="?page={{ contacts.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.role %}&role={{ request.GET.role }}{% endif %}">&raquo;</a></li>
+                    <li><a href="?page={{ contacts.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">&raquo;</a></li>
                 {% endif %}
             </ul>
         {% endif %}
@@ -154,6 +155,30 @@ function redirectToForm(userId) {
     const url = `/send_message?user_id=${userId}`;
     window.location.href = url;
 }
+
+function confirmDelete(event, fullName) {
+    event.preventDefault();
+    
+    const isConfirmed = confirm(`هل أنت متأكد من أنك تريد حذف العضو:\n\n"${fullName}"\n\n⚠️ هذا الإجراء لا يمكن التراجع عنه!`);
+    
+    if (isConfirmed) {
+        event.target.closest('form').submit();
+    }
+    
+    return false;
+}
+
+// منع الإرسال المزدوج
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteForms = document.querySelectorAll('form[action*="delete_contact"]');
+    deleteForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحذف...';
+        });
+    });
+});
 </script>
 
 {% include "tifinar/adm_footer.html" %}
