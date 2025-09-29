@@ -1,0 +1,490 @@
+{% load static %}
+{% include "tifinar/adm_header.html" %}
+
+<div class="content">
+    <section class="form-section">
+        <h1><i class="fas fa-edit"></i> تعديل السؤال:</h1>
+        
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    <i class="fas fa-exclamation-circle"></i> {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        {% if form.errors %}
+            <div class="error-feedback">
+                <i class="fas fa-exclamation-circle"></i> يوجد أخطاء في النموذج
+            </div>
+        {% endif %}
+
+        <form style="width: 100%" class="form" method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- معلومات الأساسية -->
+            <div class="form-group">
+                <div class="form">
+                    <label class="label"><i class="fas fa-clipboard-list"></i> السؤال تابع للاختبار رقم:</label>
+                    <input class="small-input {% if form.exam_number.errors %}is-invalid{% endif %}" type="number" name="exam_number" 
+                        value="{{ form.exam_number.value|default:'' }}">
+                    {% if form.exam_number.errors %}
+                        <small class="text-danger">{{ form.exam_number.errors.0 }}</small>
+                    {% endif %}
+                </div>
+                
+                <div class="form">
+                    <label class="label"><i class="fas fa-hashtag"></i> رقم السؤال:</label>
+                    <input title="لا يمكن تغيير رقم السؤال" readonly class="small-input {% if form.qsts_id.errors %}is-invalid{% endif %}" 
+                        type="number" name="qsts_id" value="{{ form.qsts_id.value|default:'' }}">
+                    {% if form.qsts_id.errors %}
+                        <small class="text-danger">{{ form.qsts_id.errors.0 }}</small>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form">
+                    <label class="label"><i class="fas fa-language"></i> بأي لغة ستطرح السؤال؟</label>
+                    <select class="small-input {% if form.dir.errors %}is-invalid{% endif %}" name="dir">
+                        <option value="" disabled>اختر اللغة</option>
+                        <option value="rtl" {% if form.dir.value == 'rtl' %}selected{% endif %}>العربية</option>
+                        <option value="ltr" {% if form.dir.value == 'ltr' %}selected{% endif %}>Français</option>
+                        <option value="ltr" {% if form.dir.value == 'ltr' %}selected{% endif %}>English</option>
+                    </select>
+                    {% if form.dir.errors %}
+                        <small class="text-danger">{{ form.dir.errors.0 }}</small>
+                    {% endif %}
+                </div>
+                
+                <div class="form">
+                    <label class="label"><i class="fas fa-star"></i> السؤال عليه:</label>
+                    <select class="small-input {% if form.mark.errors %}is-invalid{% endif %}" name="mark">
+                        <option value="" disabled>كم نقطة ؟</option>
+                        <option value="0.5" {% if form.mark.value == 0.5 or form.mark.value == "0.5" %}selected{% endif %}>0.5 نقطة</option>
+                        <option value="1" {% if form.mark.value == 1 or form.mark.value == "1" %}selected{% endif %}>1 نقطة</option>
+                        <option value="1.5" {% if form.mark.value == 1.5 or form.mark.value == "1.5" %}selected{% endif %}>1.5 نقطة</option>
+                        <option value="2" {% if form.mark.value == 2 or form.mark.value == "2" %}selected{% endif %}>2 نقطة</option>
+                        <option value="2.5" {% if form.mark.value == 2.5 or form.mark.value == "2.5" %}selected{% endif %}>2.5 نقطة</option>
+                        <option value="3" {% if form.mark.value == 3 or form.mark.value == "3" %}selected{% endif %}>3 نقطة</option>
+                        <option value="3.5" {% if form.mark.value == 3.5 or form.mark.value == "3.5" %}selected{% endif %}>3.5 نقطة</option>
+                        <option value="4" {% if form.mark.value == 4 or form.mark.value == "4" %}selected{% endif %}>4 نقطة</option>
+                        <option value="4.5" {% if form.mark.value == 4.5 or form.mark.value == "4.5" %}selected{% endif %}>4.5 نقطة</option>
+                        <option value="5" {% if form.mark.value == 5 or form.mark.value == "5" %}selected{% endif %}>5 نقطة</option>
+                    </select>
+                    {% if form.mark.errors %}
+                        <small class="text-danger">{{ form.mark.errors.0 }}</small>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- نص السؤال -->
+            <div class="form">
+                <label class="label"><i class="fas fa-pen"></i> السطر الأول للسؤال:</label>
+                <textarea name="qst_1st_line" class="{% if form.qst_1st_line.errors %}is-invalid{% endif %}" 
+                    placeholder="نص السؤال...">{{ form.qst_1st_line.value|default:'' }}</textarea>
+                {% if form.qst_1st_line.errors %}
+                    <small class="text-danger">{{ form.qst_1st_line.errors.0 }}</small>
+                {% endif %}
+            </div>
+            
+            <div class="form">
+                <label class="label"><i class="fas fa-pen"></i> السطر الثاني للسؤال:</label>
+                <textarea name="qsts" placeholder="نص السؤال...">{{ form.qsts.value|default:'' }}</textarea>
+                {% if form.qsts.errors %}
+                    <small class="text-danger">{{ form.qsts.errors.0 }}</small>
+                {% endif %}
+            </div>
+
+            <!-- نوع السؤال -->
+            <div class="form">
+                <label class="label"><i class="fas fa-question-circle"></i> شكل السؤال:</label>
+                <select class="small-input the_type {% if form.the_type.errors %}is-invalid{% endif %}" name="the_type">
+                    <option value="" disabled> حدد الشكل </option>
+                    <option value="radio" {% if form.the_type.value == 'radio' %}selected{% endif %}>اختيارات (واحد فقط صحيح)</option>
+                    <option value="checkbox" {% if form.the_type.value == 'checkbox' %}selected{% endif %}>اختيارات (واحد أو أكثر صحيح)</option>
+                    <option value="text" {% if form.the_type.value == 'text' %}selected{% endif %}>إجابة قصيرة</option>
+                    <option value="textarea" {% if form.the_type.value == 'textarea' %}selected{% endif %}>إجابة طويلة</option>
+                </select>
+                {% if form.the_type.errors %}
+                    <small class="text-danger">{{ form.the_type.errors.0 }}</small>
+                {% endif %}
+            </div>
+
+            <!-- الإجابة الصحيحة -->
+            <div class="form answerField">
+                <label class="label"><i class="fas fa-check-circle"></i> الإجابة الصحيحة:</label>
+                <textarea class="{% if form.correct_answer.errors %}is-invalid{% endif %}" name="correct_answer" 
+                    placeholder="أكتب الإجابة الصحيحة هنا...">{{ form.correct_answer.value|default:'' }}</textarea>
+                {% if form.correct_answer.errors %}
+                    <small class="text-danger">{{ form.correct_answer.errors.0 }}</small>
+                {% endif %}
+            </div>
+
+            <!-- الخيارات -->
+            <p class="for_radio" style="display: none;">باقي الاختيارات خاطئة :</p>
+
+            <div class="form choiceFields" style="display: none;">
+                <div class="choice-item">
+                    <label class="label"><i class="fas fa-dot-circle"></i> الاختيار الأول:</label>
+                    <input class="input choicetext" type="text" name="choice1" placeholder="أدخل النص هنا..." 
+                        value="{{ item.choice1|default:'' }}">
+                    <select class="small-input key choiceKey" name="choice1_correct">
+                        <option value="" disabled>صحيح أم خطأ؟</option>
+                        <option class="wrong" value="false" {% if form.choice1_correct.value == 'false' %}selected{% endif %}>خطأ</option>
+                        <option class="correct" value="true" {% if form.choice1_correct.value == 'true' %}selected{% endif %}>صحيح</option>
+                    </select>
+                    {% if form.choice1.errors %}
+                        <small class="text-danger">{{ form.choice1.errors.0 }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="choice-item">
+                    <label class="label"><i class="fas fa-dot-circle"></i> الاختيار الثاني:</label>
+                    <input class="input choicetext" type="text" name="choice2" placeholder="أدخل النص هنا..." 
+                        value="{{ item.choice2|default:'' }}">
+                    <select class="small-input key choiceKey" name="choice2_correct">
+                        <option value="" disabled>صحيح أم خطأ؟</option>
+                        <option class="wrong" value="false" {% if form.choice2_correct.value == 'false' %}selected{% endif %}>خطأ</option>
+                        <option value="true" {% if form.choice2_correct.value == 'true' %}selected{% endif %}>صحيح</option>
+                    </select>
+                    {% if form.choice2.errors %}
+                        <small class="text-danger">{{ form.choice2.errors.0 }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="choice-item">
+                    <label class="label"><i class="fas fa-dot-circle"></i> الاختيار الثالث:</label>
+                    <input class="input choicetext" type="text" name="choice3" placeholder="أدخل النص هنا..." 
+                        value="{{ item.choice3|default:'' }}">
+                    <select class="small-input key choiceKey" name="choice3_correct">
+                        <option value="" disabled>صحيح أم خطأ؟</option>
+                        <option value="false" {% if form.choice3_correct.value == 'false' %}selected{% endif %}>خطأ</option>
+                        <option value="true" {% if form.choice3_correct.value == 'true' %}selected{% endif %}>صحيح</option>
+                    </select>
+                    {% if form.choice3.errors %}
+                        <small class="text-danger">{{ form.choice3.errors.0 }}</small>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- الصور والرسائل -->
+            <div class="form-group">
+                <div class="form">
+                    <label class="label"><i class="fas fa-image"></i> صورة تظهر أسفل السؤال:</label>
+                    <input type="file" name="qst_img" class="form-control" onchange="previewImage(this, 'qst_img_preview')">
+                    {% if item.qst_img %}
+                        <div class="current-image">
+                            <p>الصورة الحالية:</p>
+                            <img src="{% static 'tifinar/images/exams/' %}{{ item.qst_img }}" alt="صورة السؤال">
+                        </div>
+                    {% endif %}
+                    <img id="qst_img_preview" class="image-preview">
+                    {% if form.qst_img.errors %}
+                        <small class="text-danger">{{ form.qst_img.errors.0 }}</small>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form">
+                    <label class="label"><i class="fas fa-comment-dots"></i> رسالة الإجابة الصحيحة:</label>
+                    <textarea name='if_choising_correct' placeholder='رسالة تظهر عندما تكون الإجابة صحيحة...'>{{ form.if_choising_correct.value|default:'' }}</textarea>
+                    {% if form.if_choising_correct.errors %}
+                        <small class="text-danger">{{ form.if_choising_correct.errors.0 }}</small>
+                    {% endif %}
+
+                    <label class="label"><i class="fas fa-image"></i> صورة الإجابة الصحيحة:</label>
+                    <input class="form-control" type="file" name="img_if_right_answer" onchange="previewImage(this, 'img_if_right_preview')">
+                    {% if item.img_if_right_answer %}
+                        <div class="current-image">
+                            <p>الصورة الحالية:</p>
+                            <img src="{% static 'tifinar/images/exams/' %}{{ item.img_if_right_answer }}" alt="صورة الإجابة الصحيحة">
+                        </div>
+                    {% endif %}
+                    <img id="img_if_right_preview" class="image-preview">
+                    {% if form.img_if_right_answer.errors %}
+                        <small class="text-danger">{{ form.img_if_right_answer.errors.0 }}</small>
+                    {% endif %}
+                </div>
+
+                <div class="form">
+                    <label class="label"><i class="fas fa-comment-dots"></i> رسالة الإجابة الخاطئة:</label>
+                    <textarea name='if_its_wrong_answer' placeholder='رسالة تظهر عندما تكون الإجابة خاطئة...'>{{ form.if_its_wrong_answer.value|default:'' }}</textarea>
+                    {% if form.if_its_wrong_answer.errors %}
+                        <small class="text-danger">{{ form.if_its_wrong_answer.errors.0 }}</small>
+                    {% endif %}
+
+                    <label class="label"><i class="fas fa-image"></i> صورة الإجابة الخاطئة:</label>
+                    <input class="form-control" type="file" name="img_if_wrong_answer" onchange="previewImage(this, 'img_if_wrong_preview')">
+                    {% if item.img_if_wrong_answer %}
+                        <div class="current-image">
+                            <p>الصورة الحالية:</p>
+                            <img src="{% static 'tifinar/images/exams/' %}{{ item.img_if_wrong_answer }}" alt="صورة الإجابة الخاطئة">
+                        </div>
+                    {% endif %}
+                    <img id="img_if_wrong_preview" class="image-preview">
+                    {% if form.img_if_wrong_answer.errors %}
+                        <small class="text-danger">{{ form.img_if_wrong_answer.errors.0 }}</small>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- أزرار التحكم -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-success btn-lg">
+                    <i class="fas fa-save"></i> حفظ التعديلات
+                </button>
+                <a href="{% url 'exam_items_list' %}" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-times"></i> إلغاء والعودة للقائمة
+                </a>
+            </div>
+        </form>
+    </section>
+</div>
+
+<style>
+.form-section {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.form-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form {
+    margin-bottom: 25px;
+}
+
+.label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+}
+
+.small-input, .input {
+    width: 100%;
+    padding: 3px;
+    padding-right: 16px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.small-input:focus, .input:focus, textarea:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+}
+
+textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    resize: vertical;
+    min-height: 100px;
+    font-family: inherit;
+}
+
+.choice-item {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #e9ecef;
+}
+
+.choice-item .label {
+    margin-bottom: 10px;
+}
+
+.choicetext, .choiceKey {
+    margin-bottom: 10px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.current-image {
+    margin: 10px 0;
+    padding: 10px;
+    background: #f8f9fa;
+    border-radius: 5px;
+}
+
+.current-image img {
+    max-width: 200px;
+    max-height: 150px;
+    border-radius: 5px;
+}
+
+.image-preview {
+    display: none;
+    max-width: 200px;
+    max-height: 150px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.form-actions {
+    text-align: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.btn {
+    padding: 12px 25px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+.btn-success {
+    background: #28a745;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #218838;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #6c757d;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: #5a6268;
+    transform: translateY(-2px);
+}
+
+.is-invalid {
+    border-color: #dc3545 !important;
+}
+
+.text-danger {
+    color: #dc3545;
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+
+.alert-success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+}
+
+.alert-error {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+.error-feedback {
+    background: #f8d7da;
+    color: #721c24;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #f5c6cb;
+}
+
+@media (max-width: 768px) {
+    .form-group {
+        grid-template-columns: 1fr;
+    }
+    
+    .btn {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+    }
+}
+</style>
+
+<script>
+function previewImage(input, previewId) {
+    const preview = document.getElementById(previewId);
+    const file = input.files[0];
+
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+        }
+        reader.readAsDataURL(file);
+    } else {
+        preview.style.display = 'none';
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    const the_type = document.querySelector(".the_type");
+    const choiceFields = document.querySelector(".choiceFields");
+    const answerField = document.querySelector(".answerField");
+    const choicetext = document.querySelectorAll(".choicetext");
+    const choiceKey = document.querySelectorAll(".choiceKey");
+    const for_radio = document.querySelector(".for_radio");
+
+    function updateVisibility() {
+        const Type = the_type.value;
+
+        if (Type === "radio") {
+            choicetext.forEach(el => el.style.display = "block");
+            choiceKey.forEach(el => el.style.display = "none");
+            answerField.style.display = "block";
+            for_radio.style.display = "block";
+            choiceFields.style.display = "block";
+
+        } else if (Type === "checkbox") {
+            choicetext.forEach(el => el.style.display = "block");
+            choiceKey.forEach(el => el.style.display = "block");
+            answerField.style.display = "none";
+            choiceFields.style.display = "block";
+            for_radio.style.display = "none";
+
+        } else {
+            choicetext.forEach(el => el.style.display = "none");
+            choiceKey.forEach(el => el.style.display = "none");
+            answerField.style.display = "block";
+            choiceFields.style.display = "none";
+            for_radio.style.display = "none";
+        }
+    }
+
+    the_type.addEventListener("change", updateVisibility);
+    
+    // تهيئة الحالة الأولية
+    updateVisibility();
+});
+</script>
+
+{% include "tifinar/adm_footer.html" %}

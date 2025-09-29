@@ -41,15 +41,15 @@ def exam_items_create(request):
                 if exam_item.the_type in ['radio', 'checkbox']:
                     exam_item.choices = {
                         'choice1': {
-                            'text': form.cleaned_data.get('choice1_text', ''),
+                            'text': form.cleaned_data.get('choice1', ''),
                             'correct': form.cleaned_data.get('choice1_correct') == 'true'
                         },
                         'choice2': {
-                            'text': form.cleaned_data.get('choice2_text', ''),
+                            'text': form.cleaned_data.get('choice2', ''),
                             'correct': form.cleaned_data.get('choice2_correct') == 'true'
                         },
                         'choice3': {
-                            'text': form.cleaned_data.get('choice3_text', ''),
+                            'text': form.cleaned_data.get('choice3', ''),
                             'correct': form.cleaned_data.get('choice3_correct') == 'true'
                         }
                     }
@@ -75,15 +75,39 @@ def exam_items_edit(request, item_id):
     item = get_object_or_404(Examitems, premary_id=item_id)
     
     if request.method == 'POST':
-        form = ExamItemForm(request.POST, instance=item)
+        form = ExamItemForm(request.POST, request.FILES, instance=item)
         if form.is_valid():
-            form.save()
-            messages.success(request, 'تم تعديل السؤال بنجاح')
-            return redirect('exam_items_list')
+            try:
+                exam_item = form.save(commit=False)
+                
+                # معالجة الخيارات إذا كان السؤال من نوع اختيار
+                if exam_item.the_type in ['radio', 'checkbox']:
+                    # حفظ الخيارات مباشرة في الحقول الموجودة في المودل
+                    exam_item.choice1 = form.cleaned_data.get('choice1', '')
+                    exam_item.choice2 = form.cleaned_data.get('choice2', '')
+                    exam_item.choice3 = form.cleaned_data.get('choice3', '')
+                
+                exam_item.save()
+                messages.success(request, 'تم تعديل السؤال بنجاح')
+                return redirect('exam_items_list')
+                
+            except Exception as e:
+                messages.error(request, f'حدث خطأ أثناء تعديل السؤال: {str(e)}')
     else:
-        form = ExamItemForm(instance=item)
+        # تحميل البيانات الحالية مباشرة من الحقول في المودل
+        initial_data = {
+            'choice1': item.choice1 if item.choice1 else '',
+            'choice2': item.choice2 if item.choice2 else '',
+            'choice3': item.choice3 if item.choice3 else '',
+        }
+        
+        form = ExamItemForm(instance=item, initial=initial_data)
     
-    return render(request, 'tifinar/auth/examsQsts/exam_items_edit.html', {'form': form})
+    context = {
+        'form': form,
+        'item': item,
+    }
+    return render(request, 'tifinar/auth/examsQsts/exam_items_edit.html', context)
 
 def exam_items_delete(request, item_id):
     item = get_object_or_404(Examitems, premary_id=item_id)

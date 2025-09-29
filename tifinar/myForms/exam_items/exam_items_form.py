@@ -3,17 +3,17 @@ from tifinar.models import Examitems
 
 class ExamItemForm(forms.ModelForm):
     # حقول الخيارات
-    choice1_text = forms.CharField(required=False, max_length=500)
+    choice1 = forms.CharField(required=False, max_length=500)
     choice1_correct = forms.ChoiceField(
         required=False,
         choices=[('', '----'), ('true', 'صحيح'), ('false', 'خطأ')]
     )
-    choice2_text = forms.CharField(required=False, max_length=500)
+    choice2 = forms.CharField(required=False, max_length=500)
     choice2_correct = forms.ChoiceField(
         required=False,
         choices=[('', '----'), ('true', 'صحيح'), ('false', 'خطأ')]
     )
-    choice3_text = forms.CharField(required=False, max_length=500)
+    choice3 = forms.CharField(required=False, max_length=500)
     choice3_correct = forms.ChoiceField(
         required=False,
         choices=[('', '----'), ('true', 'صحيح'), ('false', 'خطأ')]
@@ -44,11 +44,10 @@ class ExamItemForm(forms.ModelForm):
         
         # التحقق من صحة الخيارات حسب نوع السؤال
         if the_type in ['radio', 'checkbox']:
-            choice1_text = cleaned_data.get('choice1_text')
-            choice2_text = cleaned_data.get('choice2_text')
-            choice3_text = cleaned_data.get('choice3_text')
+            choice1 = cleaned_data.get('choice1')
+            choice2 = cleaned_data.get('choice2')
             
-            if not choice1_text or not choice2_text:
+            if not choice1 or not choice2:
                 raise forms.ValidationError("يجب ملء الاختيارين الأول والثاني على الأقل")
         
         return cleaned_data

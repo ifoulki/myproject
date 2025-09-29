@@ -134,14 +134,14 @@
         <div class="form choiceFields">
             <div>
                 <label class="label"><i class="fas fa-dot-circle"></i> الاختيار الأول:</label>
-                <input class="input choicetext" type="text" name="choice1_text" placeholder="أدخل النص هنا..." value="{{ form.choice1_text.value|default:'' }}">
+                <input class="input choicetext" type="text" name="choice1" placeholder="أدخل النص هنا..." value="{{ form.choice1.value|default:'' }}">
                 <select class="small-input key choiceKey" name="choice1_correct">
                     <option value="" disabled {% if not form.choice1_correct.value %}selected{% endif %}>صحيح أم خطأ؟</option>
                     <option class="wrong" value="false" {% if form.choice1_correct.value == 'false' %}selected{% endif %}>خطأ</option>
                     <option class="correct" value="true" {% if form.choice1_correct.value == 'true' %}selected{% endif %}>صحيح</option>
                 </select>
-                {% if form.choice1_text.errors %}
-                    <small class="text-danger">{{ form.choice1_text.errors.0 }}</small>
+                {% if form.choice1.errors %}
+                    <small class="text-danger">{{ form.choice1.errors.0 }}</small>
                 {% endif %}
             </div>
 
@@ -149,14 +149,14 @@
 
             <div>
                 <label class="label"><i class="fas fa-dot-circle"></i> الاختيار الثاني:</label>
-                <input class="input choicetext" type="text" name="choice2_text" placeholder="أدخل النص هنا..." value="{{ form.choice2_text.value|default:'' }}">
+                <input class="input choicetext" type="text" name="choice2" placeholder="أدخل النص هنا..." value="{{ form.choice2.value|default:'' }}">
                 <select class="small-input key choiceKey" name="choice2_correct">
                     <option value="" disabled {% if not form.choice2_correct.value %}selected{% endif %}>صحيح أم خطأ؟</option>
                     <option class="wrong" value="false" {% if form.choice2_correct.value == 'false' %}selected{% endif %}>خطأ</option>
                     <option value="true" {% if form.choice2_correct.value == 'true' %}selected{% endif %}>صحيح</option>
                 </select>
-                {% if form.choice2_text.errors %}
-                    <small class="text-danger">{{ form.choice2_text.errors.0 }}</small>
+                {% if form.choice2.errors %}
+                    <small class="text-danger">{{ form.choice2.errors.0 }}</small>
                 {% endif %}
             </div>
 
@@ -164,14 +164,14 @@
 
             <div>
                 <label class="label"><i class="fas fa-dot-circle"></i> الاختيار الثالث:</label>
-                <input class="input choicetext" type="text" name="choice3_text" placeholder="أدخل النص هنا..." value="{{ form.choice3_text.value|default:'' }}">
+                <input class="input choicetext" type="text" name="choice3" placeholder="أدخل النص هنا..." value="{{ form.choice3.value|default:'' }}">
                 <select class="small-input key choiceKey" name="choice3_correct">
                     <option value="" disabled {% if not form.choice3_correct.value %}selected{% endif %}>صحيح أم خطأ؟</option>
                     <option value="false" {% if form.choice3_correct.value == 'false' %}selected{% endif %}>خطأ</option>
                     <option value="true" {% if form.choice3_correct.value == 'true' %}selected{% endif %}>صحيح</option>
                 </select>
-                {% if form.choice3_text.errors %}
-                    <small class="text-danger">{{ form.choice3_text.errors.0 }}</small>
+                {% if form.choice3.errors %}
+                    <small class="text-danger">{{ form.choice3.errors.0 }}</small>
                 {% endif %}
             </div>
         </div>
@@ -246,33 +246,27 @@
         }
     }
 
-    // دالة لاستخدام آخر اختبار
     function useLastExam() {
         const examIdInput = document.getElementById('exam_id');
         examIdInput.value = '{{ max_exam_id }}';
         updateQstsId();
     }
 
-    // دالة لجلب next_qsts_id من السيرفر
     function updateQstsId() {
         const examIdInput = document.getElementById('exam_id');
         const qstsIdInput = document.getElementById('qsts_id');
         
-        // تنظيف القيمة من أي أحرف غير رقمية
         let examId = examIdInput.value.replace(/[^0-9]/g, '');
         
-        // إذا كان الحقل فارغاً، استخدم القيمة الافتراضية (آخر اختبار)
         if (!examId) {
             examId = '{{ max_exam_id }}';
             examIdInput.value = examId;
         }
         
         if (examId && examId > 0) {
-            // إظهار تحميل مؤقت
             qstsIdInput.value = 'جاري التحميل...';
             qstsIdInput.disabled = true;
             
-            // جلب البيانات من السيرفر
             fetch(`/get-next-qsts-id/?exam_id=${examId}`)
                 .then(response => {
                     if (!response.ok) {
@@ -300,7 +294,6 @@
         }
     }
 
-    // إدارة ظهور الحقول حسب نوع السؤال
     function initQuestionTypeHandler() {
         const the_type = document.querySelector(".the_type");
         const choiceFields = document.querySelectorAll(".choiceFields");
@@ -339,21 +332,16 @@
         updateVisibility();
     }
 
-    // إضافة event listeners
     document.addEventListener('DOMContentLoaded', function() {
-        // تهيئة تحديث رقم السؤال
         updateQstsId();
         
-        // تهيئة إدارة نوع السؤال
         initQuestionTypeHandler();
         
-        // إضافة event listeners لحقل exam_id
         const examIdInput = document.getElementById('exam_id');
         examIdInput.addEventListener('input', updateQstsId);
         examIdInput.addEventListener('change', updateQstsId);
         examIdInput.addEventListener('blur', updateQstsId);
 
-        // منع إدخال أحرف غير رقمية في exam_id
         examIdInput.addEventListener('keypress', function(e) {
             const charCode = e.which ? e.which : e.keyCode;
             if (charCode > 31 && (charCode < 48 || charCode > 57)) {
@@ -361,7 +349,6 @@
             }
         });
 
-        // معالجة عندما يكون الحقل فارغاً
         examIdInput.addEventListener('focus', function() {
             if (!this.value) {
                 this.value = '{{ max_exam_id }}';
