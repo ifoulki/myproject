@@ -23,14 +23,14 @@
     <meta name="description" content="{{description|default:'مجلة تيفيناغ هي مجلة متخصصة في نشر مواضيع ثقافية وتعليمية متنوعة' }}">
 
     {% with image|default:'' as final_image %}
-        <meta property="og:image" content="{% if final_image %}{{ final_image }}{% else %}{% static 'tifinar/assets/education2.webp' %}{% endif %}">
+        <meta property="og:image" content="{% if final_image %}{% static 'tifinar/assets/' %}{{final_image}}{% else %}{% static 'tifinar/assets/education2.webp' %}{% endif %}">
     {% endwith %}  
     <meta property="og:title" content="{{ title|default:'مجلة تيفيناغ' }}">
     <meta property="og:type" content="article">
     <meta property="og:url" content="{{ current_url }}">    
     <meta property="og:description" content="{{ description|default:'مجلة تيفيناغ هي مجلة متخصصة في نشر مواضيع ثقافية وتعليمية متنوعة' }}">
 
-    <title>{{ title|default:'مجلة تيفيناغ' }}</title>
+    <title>{{ title }}</title>
 
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3215265540164165"
      crossorigin="anonymous"></script>

@@ -108,12 +108,25 @@ def create_article(request):
             # أضف هذا لرؤية الأخطاء في الكونسول
             print("Form errors:", form.errors)
             print("Form non-field errors:", form.non_field_errors())
-            # أضف هذا لعرض الأخطاء في القالب أيضاً
-            return render(request, 'tifinar/auth/articles/create_article.html', {
+            
+            # إنشاء context مع Form والأخطاء
+            context = {
                 'form': form,
-                'errors': form.errors
-            })
+                'errors': form.errors,
+                'title': 'إضافة مقال',
+                'image': 'education.webp',
+                'description': 'انضم إلى الأعضاء المسجلين وشارك معرفتك عبر إضافة مقالات، كتب أو فيديوهات بسهولة. منصة تتيح لك نشر محتواك ومشاركته مع المجتمع في خطوات بسيطة وسريعة.',
+            }
+            return render(request, 'tifinar/auth/articles/create_article.html', context)
     else:
         form = ArticleForm()
+        
+    # context النهائي يجب أن يجمع كل المتغيرات
+    context = {
+        'form': form,  # أضف form هنا
+        'title': 'إضافة مقال',
+        'image': 'article.webp',
+        'description': 'انضم إلى الأعضاء المسجلين وشارك معرفتك عبر إضافة مقالات، كتب أو فيديوهات بسهولة. منصة تتيح لك نشر محتواك ومشاركته مع المجتمع في خطوات بسيطة وسريعة.',
+    }
     
-    return render(request, 'tifinar/auth/articles/create_article.html', {'form': form})
+    return render(request, 'tifinar/auth/articles/create_article.html', context)

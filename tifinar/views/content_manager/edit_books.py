@@ -183,12 +183,13 @@ def edit_book(request, content_type, slug):
     else:
         form = config['form_class'](instance=content)
 
-    # إذا لم تكن هناك نماذج تعليقات، أنشئها
     if not comment_forms and content_type == 'books':
         for comment in content_comments:
             comment_forms.append(CommentForm(instance=comment))
 
     context = {
+        'title': content.title,
+        'description': content.mydescription,
         'book': content,
         'form': form,
         'content_types': config['types'],

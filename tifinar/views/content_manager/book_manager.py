@@ -159,12 +159,24 @@ def create_book(request):
                 except Exception as e:
                     form.add_error(None, f"حدث خطأ أثناء معالجة البيانات: {str(e)}")
                     print(f"❌ خطأ غير متوقع: {str(e)}")
+            context = {
+                'form': form,
+                'errors': form.errors,
+                'title': 'إضافة كتاب',
+                'description': 'انضم إلى الأعضاء المسجلين وشارك معرفتك عبر إضافة مقالات، كتب أو فيديوهات بسهولة. منصة تتيح لك نشر محتواك ومشاركته مع المجتمع في خطوات بسيطة وسريعة.',
+            }
             
-            return render(request, 'tifinar/auth/books/create_book.html', {'form': form})
+            return render(request, 'tifinar/auth/books/create_book.html', context)
         
         else:
             form = BookForm()
-            return render(request, 'tifinar/auth/books/create_book.html', {'form': form})
+            context = {
+                'form': form,
+                'errors': form.errors,
+                'title': 'إضافة كتاب',
+                'description': 'انضم إلى الأعضاء المسجلين وشارك معرفتك عبر إضافة مقالات، كتب أو فيديوهات بسهولة. منصة تتيح لك نشر محتواك ومشاركته مع المجتمع في خطوات بسيطة وسريعة.',
+            }
+            return render(request, 'tifinar/auth/books/create_book.html', context)
             
     except Exception as e:
         form = BookForm()

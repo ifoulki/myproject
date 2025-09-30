@@ -193,6 +193,8 @@ def edit_video(request, slug):
 
     context = {
         'video': content,
+        'title': content.title,
+        'description': content.mydescription,
         'form': form,
         'content_types': config['types'],
         'comments': zip(content_comments, comment_forms) if content_type == 'videos' else [],

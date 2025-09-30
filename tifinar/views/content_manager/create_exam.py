@@ -237,11 +237,16 @@ def create_exam(request):
             print(f"📊 بيانات النموذج: {form.data}")
             messages.error(request, '❌ يرجى تصحيح الأخطاء في النموذج.')
             
+            context = {
+                    'form': form,
+                    'errors': form.errors,
+                    'title': 'إضافة اختبار',
+                    'description': 'انضم إلى الأعضاء المسجلين وشارك معرفتك عبر إضافة مقالات، كتب أو فيديوهات بسهولة. منصة تتيح لك نشر محتواك ومشاركته مع المجتمع في خطوات بسيطة وسريعة.',
+                    'image': 'exam.webp',
+                }
+            
             # إرجاع النموذج مع الأخطاء لعرضها في القالب
-            return render(request, 'tifinar/auth/exams/create_exam.html', {
-                'form': form,
-                'errors': form.errors
-            })
+            return render(request, 'tifinar/auth/exams/create_exam.html',context)
     else:
         form = ExamForm()
         form.fields['min_age'].initial = 2
@@ -249,6 +254,13 @@ def create_exam(request):
         form.fields['gender'].initial = 'all'
         form.fields['educational_level'].initial = '0'
         print("📝 طلب GET - عرض النموذج الفارغ")
+        
+    context = {
+            'form': form,
+            'title': 'إضافة اختبار',
+            'description': 'انضم إلى الأعضاء المسجلين وشارك معرفتك عبر إضافة مقالات، كتب أو فيديوهات بسهولة. منصة تتيح لك نشر محتواك ومشاركته مع المجتمع في خطوات بسيطة وسريعة.',
+            'image': 'exam.webp',
+        }
     
     return render(request, 'tifinar/auth/exams/create_exam.html', {'form': form})
 

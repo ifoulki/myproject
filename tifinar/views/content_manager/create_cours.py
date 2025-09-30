@@ -191,11 +191,24 @@ def create_cours(request):
                 return redirect('cours_edit')
             else:
                 logger.error(f"أخطاء النموذج: {form.errors}")
-                return render(request, 'tifinar/auth/cours/create_cours.html', {'form': form})
+                context = {
+                    'form': form,
+                    'errors': form.errors,
+                    'title': 'إضافة قاموس بصري',
+                    'description': 'انضم إلى الأعضاء المسجلين وشارك معرفتك عبر إضافة مقالات، كتب أو فيديوهات بسهولة. منصة تتيح لك نشر محتواك ومشاركته مع المجتمع في خطوات بسيطة وسريعة.',
+                    'image': 'cours.webp',
+                }
+                return render(request, 'tifinar/auth/cours/create_cours.html', context)
         else:
             form = CoursForm()
+            context = {
+                'form': form,
+                'title': 'إضافة قاموس بصري',
+                'description': 'انضم إلى الأعضاء المسجلين وشارك معرفتك عبر إضافة مقالات، كتب أو فيديوهات بسهولة. منصة تتيح لك نشر محتواك ومشاركته مع المجتمع في خطوات بسيطة وسريعة.',
+                'image': 'cours.webp',
+            }
             logger.info("طلب GET، عرض النموذج الفارغ")
-            return render(request, 'tifinar/auth/cours/create_cours.html', {'form': form})
+            return render(request, 'tifinar/auth/cours/create_cours.html', context)
             
     except Exception as e:
         logger.error(f"حدث خطأ: {str(e)}", exc_info=True)

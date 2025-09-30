@@ -237,7 +237,9 @@ class ArticleForm(BaseContentForm):
                 'class': 'form-control',
                 'id': 'formFile2'
             }),
+    
         }
+        
         labels = {
             'title': 'عنوان المقال',
             'author': 'اسم الكاتب',
@@ -250,7 +252,7 @@ class ArticleForm(BaseContentForm):
             'min_age': 'الحد الأدنى للعمر',
             'max_age': 'الحد الأقصى للعمر',
             'myimage': 'الصورة الرئيسية',
-            'autre': 'مرفقات إضافية'
+            'autre': 'مرفقات إضافية',
         }
 
     def clean_mysubject(self):

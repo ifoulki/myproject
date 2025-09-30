@@ -176,24 +176,30 @@ def edit_course_view(request, slug):
                     return redirect('edit_cours', slug=obj.slug)
                 else:
                     messages.error(request, 'حدث خطأ في تحديث البيانات. يرجى تصحيح الأخطاء أدناه.')
-                    return render(request, 'tifinar/auth/cours/edit_cours.html', {
+                    context = {
                         'form': form, 
                         'cour': cour,
+                        'title': cour.title,
                         'images_list': images_list,
                         'comments': comments_list,  # استخدام المتغير المحول
-                        'comment_count': comment_count
-                    })
+                        'comment_count': comment_count,
+                    }
+
+                    return render(request, 'tifinar/auth/cours/edit_cours.html', context)
         else:
             # عرض النموذج مع البيانات الحالية
             form = CoursForm(instance=cour)
             
-            return render(request, 'tifinar/auth/cours/edit_cours.html', {
+            context = {
                 'form': form, 
                 'cour': cour,
+                'title': cour.title,
                 'images_list': images_list,
                 'comments': comments_list,  # استخدام المتغير المحول
-                'comment_count': comment_count
-            })
+                'comment_count': comment_count,
+              }
+            
+            return render(request, 'tifinar/auth/cours/edit_cours.html', context)
             
     except Exception as e:
         logger.error(f"حدث خطأ في تعديل الدرس: {str(e)}", exc_info=True)
@@ -203,12 +209,13 @@ def edit_course_view(request, slug):
         error_msg = f"حدث خطأ غير متوقع في النظام: {str(e)}. يرجى المحاولة مرة أخرى."
         
         messages.error(request, error_msg)
-        
-        return render(request, 'tifinar/auth/cours/edit_cours.html', {
+        context = {
             'form': form, 
             'cour': cour,
+            'title': cour.title,
             'images_list': images_list,
             'comments': comments_list,  # استخدام المتغير المحول
             'comment_count': comment_count,
             'error_message': error_msg
-        })
+        }
+        return render(request, 'tifinar/auth/cours/edit_cours.html', context)

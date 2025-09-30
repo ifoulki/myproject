@@ -172,6 +172,7 @@ def edit_content(request, content_type, slug):
             comment_forms.append(CommentForm(instance=comment))
 
     context = {
+        'title': 'تعديل مقال : '+ content.title,
         'article': content,
         'form': form,
         'content_types': config['types'],
