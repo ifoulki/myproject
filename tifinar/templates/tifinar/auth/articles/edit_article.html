@@ -12,19 +12,21 @@
         <form method="POST" action="{% url 'edit_article' article.slug %}" enctype="multipart/form-data" id="editForm">
             {% csrf_token %}
             
+            <!-- معاينة الصور الحالية -->
             <div>
                 {% with images=article.myimage|split:"," %}
                     {% for image in images %}
                         {% if image %}
-                        <img src="{% static image %}" class="image-preview old-image" id="oldImage{{ forloop.counter }}">
+                        <img src="{% static '' %}tifinar/images/articles/{{image}}" class="image-preview old-image" id="oldImage{{ forloop.counter }}">
                         {% endif %}
                     {% endfor %}
                 {% endwith %}
                 <img id="imagePreview1" class="image-preview" alt="معاينة الصورة" style="display: none;">
                 <br>
+                
+                <!-- استخدام حقل الفورم بدلاً من input مباشر -->
                 <label class="label"><i class="fas fa-upload"></i> تعديل الصورة:</label>
-                <input class="form-control" type="file" id="formFile1" name="myimage" multiple onchange="handleImageChange(this, 'imagePreview1')">
-                <input type="hidden" name="original_myimage" value="{{ article.myimage }}">
+                {{ form.myimage }}
                 {% if form.myimage.errors %}
                     <small class="text-danger">{{ form.myimage.errors }}</small>
                 {% endif %}
@@ -32,17 +34,10 @@
 
             <hr>
 
+            <!-- العنوان -->
             <div class="form-group">
                 <label class="label" for="title"><i class="fas fa-heading"></i> عنوان المقال:</label>
-                <input
-                    type="text"
-                    maxlength="50"
-                    id="title"
-                    name="title"
-                    placeholder="عنوان المنشور ..."
-                    class="title form-control"
-                    value="{{ article.title }}"
-                >
+                {{ form.title }}
                 {% if form.title.errors %}
                     <small class="text-danger">{{ form.title.errors }}</small>
                 {% endif %}
@@ -50,17 +45,10 @@
 
             <hr>
 
+            <!-- الكاتب -->
             <div class="form-group">
                 <label class="label" for="author"><i class="fas fa-user"></i> اسم الكاتب:</label>
-                <input
-                    type="text"
-                    id="author"
-                    name="author"
-                    placeholder="اسم الكاتب ..."
-                    maxlength="50"
-                    class="author form-control"
-                    value="{{ article.author }}"
-                >
+                {{ form.author }}
                 {% if form.author.errors %}
                     <small class="text-danger">{{ form.author.errors }}</small>
                 {% endif %}
@@ -68,15 +56,10 @@
 
             <hr>
 
+            <!-- نص المقال -->
             <div class="form-group">
                 <label class="label" for="mysubject"><i class="fas fa-file-alt"></i> نص المقال:</label>
-                <textarea
-                    id="mysubject"
-                    name="mysubject"
-                    minlength="100"
-                    class="mysubject"
-                    placeholder="اكتب نص المقال هنا..."
-                >{{ article.mysubject }}</textarea>
+                {{ form.mysubject }}
                 {% if form.mysubject.errors %}
                     <small class="text-danger">{{ form.mysubject.errors }}</small>
                 {% endif %}
@@ -84,49 +67,27 @@
 
             <hr>
             
+            <!-- الصورة الإضافية -->
             <div>
-                <img id="imagePreview2" src="{% static article.autre %}" class="image-preview2" alt="معاينة الصورة">
+                <img id="imagePreview2" src="{% static '' %}tifinar/images/articles/{{article.autre}}" class="image-preview2" alt="معاينة الصورة">
                 <img id="imagePreview2_new" class="image-preview2" alt="معاينة الصورة" style="display: none;"><br>
                 <label class="label">
                     <i class="fas fa-upload"></i> تحميل صورة أخرى تظهر أسفل المقال:
                 </label>
-                <input class="form-control" type="file" id="formFile2" name="autre" multiple onchange="handleImageChange(this, 'imagePreview2_new')">
-                <input type="hidden" name="original_autre" value="{{ article.autre }}">
+                {{ form.autre }}
                 {% if form.autre.errors %}
                     <small class="text-danger">{{ form.autre.errors }}</small>
                 {% endif %}
             </div>
 
             <hr>
+
+            <!-- المستوى التعليمي -->
             <div class="mb-3">
                 <label for="educational_level" class="form-label">
                     <i class="fas fa-graduation-cap"></i> هل يجب أن يكون للقارئ مستوى دراسي محدد لقراءة هذا المقال؟
                 </label>
-                
-                <select id="educational_level" name="educational_level" class="form-select">
-                    <option value="Unknown" {% if form.educational_level.value == 'Unknown' or article.educational_level == 'Unknown' %}selected{% endif %}>لا، المقال مناسب للجميع</option>
-                    <optgroup label="الإبتدائي :">
-                        <option value="1" {% if form.educational_level.value == '1' or article.educational_level == '1' %}selected{% endif %}>السنة الأولى ابتدائي</option>
-                        <option value="2" {% if form.educational_level.value == '2' or article.educational_level == '2' %}selected{% endif %}>السنة الثانية ابتدائي</option>
-                        <option value="3" {% if form.educational_level.value == '3' or article.educational_level == '3' %}selected{% endif %}>السنة الثالثة ابتدائي</option>
-                        <option value="4" {% if form.educational_level.value == '4' or article.educational_level == '4' %}selected{% endif %}>السنة الرابعة ابتدائي</option>
-                        <option value="5" {% if form.educational_level.value == '5' or article.educational_level == '5' %}selected{% endif %}>السنة الخامسة ابتدائي</option>
-                        <option value="6" {% if form.educational_level.value == '6' or article.educational_level == '6' %}selected{% endif %}>السنة السادسة ابتدائي</option>
-                    </optgroup>
-                    <optgroup label="الثانوي الإعدادي :">
-                        <option value="7" {% if form.educational_level.value == '7' or article.educational_level == '7' %}selected{% endif %}>السنة الأولى إعدادي</option>
-                        <option value="8" {% if form.educational_level.value == '8' or article.educational_level == '8' %}selected{% endif %}>السنة الثانية إعدادي</option>
-                        <option value="9" {% if form.educational_level.value == '9' or article.educational_level == '9' %}selected{% endif %}>السنة الثالثة إعدادي</option>
-                    </optgroup>
-                    <optgroup label="الثانوي الثأهيلي :">
-                        <option value="10" {% if form.educational_level.value == '10' or article.educational_level == '10' %}selected{% endif %}>المشترك العلمي</option>
-                        <option value="11" {% if form.educational_level.value == '11' or article.educational_level == '11' %}selected{% endif %}>السنة الأولى من البكالوريا (تخصص علوم تجريبية)</option>
-                        <option value="12" {% if form.educational_level.value == '12' or article.educational_level == '12' %}selected{% endif %}>السنة الثانية من البكالوريا (تخصص علوم فيزيائية)</option>
-                    </optgroup>
-                    <optgroup label="التعليم العالي">
-                        <option value="13" {% if form.educational_level.value == '13' or article.educational_level == '13' %}selected{% endif %}>الدراسة بعد البكالوريا</option>
-                    </optgroup>
-                </select>
+                {{ form.educational_level }}
                 {% if form.educational_level.errors %}
                     <small class="text-danger">{{ form.educational_level.errors }}</small>
                 {% endif %}
@@ -136,84 +97,58 @@
             
             <!-- العمر الأدنى -->
             <div class="mb-3">
-                    <label for="min_age" class="form-label">
-                        <i class="fas fa-child"></i> الحد الأدنى للعمر:
-                    </label>
-                    {{ form.min_age }}
-                    {% if form.min_age.errors %}
-                        <div class="text-danger small">{{ form.min_age.errors }}</div>
-                    {% endif %}
-            </div>
-
-                    <!-- العمر الأقصى -->
-            <div class="mb-3">
-                    <label for="max_age" class="form-label">
-                        <i class="fas fa-user"></i> الحد الأقصى للعمر:
-                    </label>
-                    {{ form.max_age }}
-                    {% if form.max_age.errors %}
-                        <div class="text-danger small">{{ form.max_age.errors }}</div>
-                    {% endif %}
-            </div>
-
-            <hr>
-                <div class="form-group">
-                <label class="label" for="gender">
-                    <i class="fas fa-tag"></i>  
-                     المقال موجه ل :
+                <label for="min_age" class="form-label">
+                    <i class="fas fa-child"></i> الحد الأدنى للعمر:
                 </label>
-                <select class="form-control form-select" id="gender" name="gender">
-                    <option value="all" {% if article.gender == 'all' %}selected{% endif %}>المقال مناسب للجميع</option>
-                    <option value="male" {% if article.gender == 'male' %}selected{% endif %}>الدكور فقط</option>
-                    <option value="female" {% if article.gender == 'female' %}selected{% endif %}>اللإناث فقط</option>
-                </select>
-            
+                {{ form.min_age }}
+                {% if form.min_age.errors %}
+                    <div class="text-danger small">{{ form.min_age.errors }}</div>
+                {% endif %}
+            </div>
+
+            <!-- العمر الأقصى -->
+            <div class="mb-3">
+                <label for="max_age" class="form-label">
+                    <i class="fas fa-user"></i> الحد الأقصى للعمر:
+                </label>
+                {{ form.max_age }}
+                {% if form.max_age.errors %}
+                    <div class="text-danger small">{{ form.max_age.errors }}</div>
+                {% endif %}
+            </div>
+
             <hr>
 
+            <!-- الجنس -->
+            <div class="form-group">
+                <label class="label" for="gender">
+                    <i class="fas fa-tag"></i> المقال موجه ل:
+                </label>
+                {{ form.gender }}
+                {% if form.gender.errors %}
+                    <small class="text-danger">{{ form.gender.errors }}</small>
+                {% endif %}
+            </div>
+
+            <hr>
+
+            <!-- نوع المقال -->
             <div class="form-group">
                 <label class="label" for="the_type">
-                    <i class="fas fa-tag"></i>  
-                    صنف المقال :
+                    <i class="fas fa-tag"></i> صنف المقال:
                 </label>
-                <select class="form-control form-select" id="the_type" name="the_type">
-                    <option value="" disabled {% if article.the_type == '' %}selected{% endif %}>اختر صنف المقال...</option>
-            
-                    <optgroup label="اللغات:">
-                        <option value="الأمازيغية" {% if article.the_type == 'الأمازيغية' %}selected{% endif %}>تعلم الأمازيغية</option>
-                        <option value="العربية" {% if article.the_type == 'العربية' %}selected{% endif %}>تعلم العربية</option>
-                        <option value="الفرنسية" {% if article.the_type == 'الفرنسية' %}selected{% endif %}>تعلم الفرنسية</option>
-                        <option value="الإنجليزية" {% if article.the_type == 'الإنجليزية' %}selected{% endif %}>تعلم الإنجليزية</option>
-                    </optgroup>
-            
-                    <optgroup label="العلوم:">
-                        <option value="علوم Apprendre les maths" {% if article.the_type == 'علوم Apprendre les maths' %}selected{% endif %}>تعلم الرياضيات</option>
-                        <option value="الفزياء" {% if article.the_type == 'الفزياء' %}selected{% endif %}>الفزياء</option>
-                        <option value="الكمياء" {% if article.the_type == 'الكمياء' %}selected{% endif %}>الكمياء</option>
-                        <option value="علوم الحياة والأرض SVT" {% if article.the_type == 'علوم الحياة والأرض SVT' %}selected{% endif %}>علوم الحياة والأرض</option>
-                    </optgroup>
-            
-                    <optgroup label="مواضيع أخرى:">
-                        <option value="صحة وحياة" {% if article.the_type == 'صحة وحياة' %}selected{% endif %}>صحة وحياة</option>
-                        <option value="Computer Science علوم الحاسوب" {% if article.the_type == 'Computer Science علوم الحاسوب' %}selected{% endif %}>علوم الحاسوب</option>
-                        <option value="القانون وحقوق الإنسان" {% if article.the_type == 'القانون وحقوق الإنسان' %}selected{% endif %}>القانون وحقوق الإنسان</option>
-                        <option value="الثقافة العامة" {% if article.the_type == 'الثقافة العامة' %}selected{% endif %}>الثقافة العامة</option>
-                        <option value="تربية وتعليم" {% if article.the_type == 'تربية وتعليم' %}selected{% endif %}>تربية وتعليم</option>
-                        <option value="أصناف أخرى" {% if article.the_type == 'أصناف أخرى' %}selected{% endif %}>أصناف أخرى</option>
-                    </optgroup>
-                </select>
+                {{ form.the_type }}
+                {% if form.the_type.errors %}
+                    <small class="text-danger">{{ form.the_type.errors }}</small>
+                {% endif %}
             </div>
             
             <hr>
 
+            <!-- الوصف -->
             <div class="form-group">
                 <label class="label" for="mydescription"><i class="fas fa-info-circle"></i> وصف المنشور:</label>
-                <textarea
-                    maxlength="255"
-                    id="mydescription"
-                    name="mydescription"
-                    class="description"
-                    placeholder="أكتب وصفاً لمنشورك..."
-                >{{ article.mydescription }}</textarea>
+                {{ form.mydescription }}
                 {% if form.mydescription.errors %}
                     <small class="text-danger">{{ form.mydescription.errors }}</small>
                 {% endif %}
@@ -221,15 +156,10 @@
 
             <hr>
 
+            <!-- الكلمات المفتاحية -->
             <div class="form-group">
-                <label class="label" for="Keyword"><i class="fas fa-key"></i> الكلمات المفتاحية:</label>
-                <textarea
-                    maxlength="255"
-                    id="keywords"
-                    name="keywords"
-                    class="keywords"
-                    placeholder="الكلمات المفتاحية..."
-                >{{ article.keywords }}</textarea>
+                <label class="label" for="keywords"><i class="fas fa-key"></i> الكلمات المفتاحية:</label>
+                {{ form.keywords }}
                 {% if form.keywords.errors %}
                     <small class="text-danger">{{ form.keywords.errors }}</small>
                 {% endif %}
@@ -237,34 +167,24 @@
             
             <hr>
 
+            <!-- حالة المقال -->
             <div class="form-group">
-                <label>الحالة:</label>
-                
-                <div style="display: flex; gap: 15px; font-size: 1.2em;">
-                    <label>
-                        <input type="radio" name="visibility_status" value="public" {% if article.visibility_status == 'public' %}checked{% endif %} onchange="updateStatusColor(this)"> 
-                        <span style="color: #4CAF50;"><i class="fas fa-globe"></i> عام</span>
-                    </label>
-
-                    <label>
-                        <input type="radio" name="visibility_status" value="under_review" {% if article.visibility_status == 'under_review' %}checked{% endif %} onchange="updateStatusColor(this)"> 
-                        <span style="color: #FFC107;"><i class="fas fa-eye-slash"></i> قيد المراجعة</span>
-                    </label>
-                    <label>
-                        <input type="radio" name="visibility_status" value="restricted" {% if article.visibility_status == 'restricted' %}checked{% endif %} onchange="updateStatusColor(this)"> 
-                        <span style="color: #F44336;"><i class="fas fa-lock"></i> مقيد</span>
-                    </label>
-                </div>
+                <label class="label"><i class="fas fa-eye"></i> الحالة:</label>
+                {{ form.visibility_status }}
+                {% if form.visibility_status.errors %}
+                    <small class="text-danger">{{ form.visibility_status.errors }}</small>
+                {% endif %}
             </div>
 
             <hr>
 
+            <!-- زر الحفظ -->
             <div class="form-group">
                 <button type="submit" class="btn add_btn form-control"><i class="fas fa-save"></i> تحديث المقال</button>
             </div>
         </form>
 
-            {% include "tifinar/auth/articles/adm_comments.html" %}
+        {% include "tifinar/auth/articles/adm_comments.html" %}
 
     </article>
 </section>
@@ -292,36 +212,50 @@
         }
     }
 
-    document.getElementById('editForm').addEventListener('submit', function(e) {
-        const fileInput1 = document.getElementById('formFile1');
-        const fileInput2 = document.getElementById('formFile2');
+    // إضافة event listeners للحقول بعد تحميل الصفحة
+    document.addEventListener('DOMContentLoaded', function() {
+        const fileInput1 = document.querySelector('input[name="myimage"]');
+        const fileInput2 = document.querySelector('input[name="autre"]');
         
-        if (fileInput1.files.length === 0) {
+        if (fileInput1) {
+            fileInput1.addEventListener('change', function() {
+                handleImageChange(this, 'imagePreview1');
+            });
+        }
+        
+        if (fileInput2) {
+            fileInput2.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                const preview = document.getElementById('imagePreview2_new');
+                    
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        preview.src = e.target.result;
+                        preview.style.display = 'block';
+                        document.getElementById('imagePreview2').style.display = 'none';
+                    }
+                    reader.readAsDataURL(file);
+                } else {
+                    preview.style.display = 'none';
+                    document.getElementById('imagePreview2').style.display = 'block';
+                }
+            });
+        }
+    });
+
+    // تعطيل حقول الملفات الفارغة عند الإرسال
+    document.getElementById('editForm').addEventListener('submit', function(e) {
+        const fileInput1 = document.querySelector('input[name="myimage"]');
+        const fileInput2 = document.querySelector('input[name="autre"]');
+        
+        if (fileInput1 && fileInput1.files.length === 0) {
             fileInput1.disabled = true;
         }
-        if (fileInput2.files.length === 0) {
+        if (fileInput2 && fileInput2.files.length === 0) {
             fileInput2.disabled = true;
         }
     });
-
-    document.getElementById('formFile2').addEventListener('change', function(event) {
-        const file = event.target.files[0];
-        const preview = document.getElementById('imagePreview2_new');
-            
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                preview.src = e.target.result;
-                preview.style.display = 'block';
-                document.getElementById('imagePreview2').style.display = 'none';
-            }
-            reader.readAsDataURL(file);
-        } else {
-            preview.style.display = 'none';
-            document.getElementById('imagePreview2').style.display = 'block';
-        }
-    });
-
 </script>
 
-    {% include "tifinar/adm_footer.html" %}
+{% include "tifinar/adm_footer.html" %}

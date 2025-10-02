@@ -173,16 +173,12 @@ class BaseContentForm(forms.ModelForm):
         try:
             instance = super().save(commit=False)
             
-            # تم إزالة إنشاء الـ slug هنا لمنع التعارض مع الـ view
-            # الـ view سيقوم بإنشاء الـ slug الآن
-            
             if commit:
                 instance.save()
             return instance
             
         except Exception as e:
             print(f"خطأ في حفظ النموذج: {str(e)}")
-            # في حالة الخطأ، نستخدم slug افتراضي بدلاً من إظهار خطأ
             if not instance.slug:
                 instance.slug = f"exam-{int(time.time())}"
             if commit:
@@ -255,7 +251,7 @@ class ExamForm(BaseContentForm):
 
         model = exams
         fields = [
-            'title', 'slug', 'mydescription', 'keywords', 'author', 'myimage', 'gender',
+            'title', 'mydescription', 'keywords', 'author', 'myimage', 'gender',
             'the_type', 'educational_level', 'min_age', 'max_age', 'dir'
         ]
 

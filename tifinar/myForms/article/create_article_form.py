@@ -3,8 +3,8 @@ from django.core.exceptions import ValidationError
 from tifinar.models import articles
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-from django.utils.text import slugify  # أضف هذا
-import os  # أضف هذا
+from django.utils.text import slugify
+import os
 
 User = get_user_model()
 
@@ -63,6 +63,12 @@ class BaseContentForm(forms.ModelForm):
         ])
     ]
     
+    VISIBILITY_CHOICES = [
+        ('public', 'عام'),
+        ('under_review', 'قيد المراجعة'),
+        ('restricted', 'مقيد'),
+    ]
+    
     dir = forms.ChoiceField(
         choices=DIR_CHOICES,
         widget=forms.Select(attrs={
@@ -72,7 +78,6 @@ class BaseContentForm(forms.ModelForm):
         label=' موجز الكتاب مكتوب بأي لغة؟',
         initial='',
         required=False
-
     )
 
     educational_level = forms.ChoiceField(
@@ -82,12 +87,20 @@ class BaseContentForm(forms.ModelForm):
         required=False
     )
     
-    forms.ChoiceField(
+    gender = forms.ChoiceField(
         choices=GENDER_CHOICES,
         widget=forms.Select(attrs={'class': 'form-control form-select'}),
         label='موجه لـ',
         initial='all',
         required=False
+    )
+    
+    visibility_status = forms.ChoiceField(
+        choices=VISIBILITY_CHOICES,
+        widget=forms.RadioSelect(attrs={'class': 'visibility-radio'}),
+        label='حالة المقال',
+        initial='under_review',
+        required=True
     )
     
     class Meta:
@@ -151,6 +164,18 @@ class BaseContentForm(forms.ModelForm):
         
         return file
     
+    def clean_slug(self):
+        slug = self.cleaned_data.get('slug')
+        if not slug:
+            title = self.cleaned_data.get('title')
+            if title:
+                import re
+                from django.utils.text import slugify
+                clean = re.sub(r'[^\w\s-]', '', title)
+                clean = clean.replace(' ', '_')
+                slug = slugify(clean, allow_unicode=True)
+        return slug
+    
     def save(self, commit=True):
         instance = super().save(commit=False)
         if not hasattr(instance, 'slug') or not instance.slug:
@@ -182,9 +207,10 @@ class ArticleForm(BaseContentForm):
         model = articles
         
         fields = [
-            'title', 'slug', 'mysubject', 'mydescription', 
+            'title', 'mysubject', 'mydescription', 
             'keywords', 'author', 'myimage', 'autre', 'gender',
-            'the_type', 'educational_level', 'min_age', 'max_age', 'dir'
+            'the_type', 'educational_level', 'min_age', 'max_age', 'dir',
+            'visibility_status'  # 🔥 تمت الإضافة هنا
         ]
         widgets = {
             'title': forms.TextInput(attrs={
@@ -237,7 +263,9 @@ class ArticleForm(BaseContentForm):
                 'class': 'form-control',
                 'id': 'formFile2'
             }),
-    
+            'visibility_status': forms.RadioSelect(attrs={
+                'class': 'visibility-radio'
+            }),
         }
         
         labels = {
@@ -253,6 +281,7 @@ class ArticleForm(BaseContentForm):
             'max_age': 'الحد الأقصى للعمر',
             'myimage': 'الصورة الرئيسية',
             'autre': 'مرفقات إضافية',
+            'visibility_status': 'حالة المقال',
         }
 
     def clean_mysubject(self):

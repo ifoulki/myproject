@@ -16,6 +16,9 @@ import arabic_reshaper
 from bidi.algorithm import get_display
 import matplotlib as mpl
 from django.utils import timezone
+import unicodedata
+import re
+from django.utils.text import slugify
 
 
 plt.rcParams['font.family'] = 'Arial'
@@ -36,6 +39,30 @@ def generate_chart_image(fig):
     image_png = buffer.getvalue()
     buffer.close()
     return base64.b64encode(image_png).decode('utf-8')
+
+
+def generate_unique_slug(model_class, title, instance=None):
+    """إنشاء slug فريد من العنوان"""
+    # تنظيف العنوان وإنشاء slug أساسي
+    clean = re.sub(r'[^\w\s-]', '', title)
+    clean = clean.replace(' ', '_')
+    base_slug = slugify(clean, allow_unicode=True)
+    
+    slug = base_slug
+    counter = 1
+    
+    # إذا كان هناك instance (تحديث)، استثنيه من البحث
+    if instance and hasattr(instance, 'pk') and instance.pk:
+        queryset = model_class.objects.exclude(pk=instance.pk)
+    else:
+        queryset = model_class.objects.all()
+    
+    # تأكد من أن slug فريد
+    while queryset.filter(slug=slug).exists():
+        slug = f"{base_slug}-{counter}"
+        counter += 1
+    
+    return slug
 
 
 CONTENT_TYPES = {
@@ -85,8 +112,50 @@ CONTENT_TYPES = {
     },
 }
 
+def advanced_transliterator(text):
+    """
+    تحويل النص إلى slug واضح ومقروء
+    """
+    if not text:
+        return ""
+
+    # تحويل النص إلى حروف صغيرة
+    text = text.lower().strip()
+
+    # استبدالات أقرب للنطق
+    replacements = {
+        'ء': '', 'آ': 'a', 'أ': 'a', 'إ': 'i', 'ئ': 'i', 'ؤ': 'o', 'ة': 'a',
+        'ى': 'a', 'ٱ': 'a', 'ق': 'q', 'ك': 'k', 'ج': 'j', 'ش': 'sh', 'غ': 'gh',
+        'ع': 'a', 'خ': 'kh', 'ح': 'h', 'ث': 'th', 'ص': 's', 'ض': 'd', 'ط': 't',
+        'ظ': 'z', 'ذ': 'dh', 'ز': 'z', 'ر': 'r', 'د': 'd', 'س': 's', 'ب': 'b',
+        'م': 'm', 'و': 'w', 'ت': 't', 'ن': 'n', 'ل': 'l', 'ف': 'f', 'ي': 'y',
+        ' ': '_', '_': '_',
+
+        # الفرنسية والرموز
+        'é': 'e', 'è': 'e', 'ê': 'e', 'ë': 'e', 'à': 'a', 'â': 'a', 'ä': 'a',
+        'î': 'i', 'ï': 'i', 'ô': 'o', 'ö': 'o', 'ù': 'u', 'û': 'u', 'ü': 'u',
+        'ç': 'c', 'œ': 'oe', 'æ': 'ae',
+        '/': '_', '\\': '_', ':': '_', ',': '_', '!': '', '?': '', '؟': '',
+        '،': '_', '؛': '_', '"': '', "'": '', '«': '', '»': ''
+    }
+
+    for char, repl in replacements.items():
+        text = text.replace(char, repl)
+
+    # إزالة التشكيل
+    text = unicodedata.normalize('NFKD', text)
+    text = ''.join([c for c in text if not unicodedata.combining(c)])
+
+    # السماح فقط بـ a-z و 0-9 و "_"
+    text = re.sub(r'[^a-z0-9_]', '', text)
+
+    # تقليل الشرطات/underscores
+    text = re.sub(r'_+', '_', text).strip('_')
+
+    return text
 
 def edit_content(request, content_type, slug):
+    
     config = CONTENT_TYPES.get(content_type)
     if not config:
         return HttpResponseNotFound("نوع المحتوى غير موجود")
@@ -94,13 +163,17 @@ def edit_content(request, content_type, slug):
     ModelClass = config['model']
     content = get_object_or_404(ModelClass, slug=slug)
 
+    # حفظ القيم الأصلية للصور قبل أي تعديل
+    original_myimage = content.myimage
+    if hasattr(content, 'autre'):
+        original_autre = content.autre
+
     # جلب التعليقات المرتبطة بالمقال
     content_comments = []
     comment_forms = []
 
     if content_type == 'articles':
         content_comments = comments.objects.filter(page_title=content.title)
-        # إنشاء نماذج لكل تعليق
         for comment in content_comments:
             comment_forms.append(CommentForm(instance=comment))
 
@@ -118,8 +191,6 @@ def edit_content(request, content_type, slug):
                     comment_form.save()
                     messages.success(request, 'تم تحديث التعليق بنجاح')
                     return redirect(request.path)
-
-
                 else:
                     messages.error(request, 'حدث خطأ في تحديث التعليق')
                     # إضافة أخطاء النموذج للرسائل
@@ -132,36 +203,55 @@ def edit_content(request, content_type, slug):
             # هذا طلب لتعديل المقال
             form = config['form_class'](request.POST, request.FILES, instance=content)
             if form.is_valid():
-                content = form.save(commit=False)
-                image_fields = ['myimage', 'autre']
-                original_images = {field: getattr(content, field, '') for field in image_fields}
-
-                for field in image_fields:
-                    if field in request.FILES and request.FILES[field]:
-                        new_files = request.FILES.getlist(field)
-                        processed_value = handle_uploaded_images(
-                            new_files, original_images[field], content.slug, field.split('_')[-1]
-                        )
-                        setattr(content, field, processed_value)
+                print("✅ النموذج صالح")
+                print("📊 البيانات:", form.cleaned_data)
+                
+                try:
+                    # حفظ المحتوى أولاً بدون commit
+                    content = form.save(commit=False)
+                    
+                    # تأكد من أن slug ليس فارغاً
+                    if not content.slug:
+                        content.slug = slug
+                    
+                    # الحل الحاسم: التحقق من الملفات المرفوعة
+                    print(f"📁 FILES: {request.FILES}")
+                    print(f"📁 myimage في FILES: {'myimage' in request.FILES}")
+                    
+                    # إذا لم يتم رفع ملف جديد لـ myimage، استخدم القيمة الأصلية
+                    if 'myimage' not in request.FILES or not request.FILES.get('myimage'):
+                        content.myimage = original_myimage
+                        print(f"🖼️ احتفظ بالصورة القديمة: {original_myimage}")
                     else:
-                        setattr(content, field, original_images[field])
-
-                update_fields = [
-                    f.name for f in content._meta.get_fields()
-                    if f.concrete and not f.primary_key and not f.many_to_many and not f.one_to_many
-                    and f.name not in image_fields
-                ]
-                content.save(update_fields=update_fields)
-
-                for field in image_fields:
-                    if not (field in request.FILES and request.FILES[field]):
-                        ModelClass.objects.filter(pk=content.pk).update(**{field: original_images[field]})
-
-                if hasattr(form, 'save_m2m'):
-                    form.save_m2m()
-
-                messages.success(request, 'تم تحديث المحتوى بنجاح')
-                return redirect(request.path)
+                        print(f"🖼️ سيتم استخدام الصورة الجديدة: {request.FILES['myimage'].name}")
+                    
+                    # نفس المنطق لحقل autre إذا كان موجوداً
+                    if hasattr(content, 'autre'):
+                        if 'autre' not in request.FILES or not request.FILES.get('autre'):
+                            content.autre = original_autre
+                            print(f"🖼️ احتفظ بالصورة الإضافية القديمة: {original_autre}")
+                    
+                    # تحديث حقل updated_at
+                    content.updated_at = timezone.now()
+                    
+                    # حفظ المحتوى
+                    content.save()
+                    print("💾 تم الحفظ بنجاح")
+                    print(f"🖼️ الصورة بعد الحفظ: {content.myimage}")
+                    
+                    # حفظ الحقول many-to-many إذا وجدت
+                    if hasattr(form, 'save_m2m'):
+                        form.save_m2m()
+                    
+                    messages.success(request, 'تم تحديث المحتوى بنجاح')
+                    return redirect(request.path)
+                    
+                except Exception as e:
+                    logger.error(f"Error saving content: {e}")
+                    messages.error(request, f'حدث خطأ في حفظ المحتوى: {str(e)}')
+            else:
+                print("❌ النموذج غير صالح:", form.errors)
+                messages.error(request, 'حدث خطأ في تحديث المحتوى. يرجى التحقق من البيانات المدخلة.')
 
     else:
         form = config['form_class'](instance=content)
@@ -172,25 +262,44 @@ def edit_content(request, content_type, slug):
             comment_forms.append(CommentForm(instance=comment))
 
     context = {
-        'title': 'تعديل مقال : '+ content.title,
+        'title': f'تعديل {content_type[:-1]} : {content.title}',
+        
+        # أرسل الكائن كاملاً والفورم
         'article': content,
-        'form': form,
+        'form': form,  # هذا السطر المهم الناقص!
         'content_types': config['types'],
         'comments': zip(content_comments, comment_forms) if content_type == 'articles' else [],
-        'comment_count': content_comments.count() if content_type == 'articles' else 0
+        'comment_count': content_comments.count() if content_type == 'articles' else 0,
+        'content_type': content_type,
+        
+        # معلومات التصحيح
+        'debug_info': {
+            'content_type': content_type,
+            'myimage_value': content.myimage,
+            'myimage_type': type(content.myimage),
+            'myimage_exists': bool(content.myimage),
+            'slug_value': content.slug
+        }
     }
 
     return render(request, f'tifinar/auth/{content_type}/{config["template"]}', context)
-
-
+        
 def handle_uploaded_images(new_images, existing_images, slug, image_type):
+    """معالجة الصور المحملة وحفظها"""
     image_names = []
+    
+    # استخدام advanced_transliterator لإنشاء أسماء الصور
+    image_slug = advanced_transliterator(slug)  # هنا نستخدم الدالة
+    
+    # الاحتفاظ بالصور الموجودة إذا كانت موجودة
     if existing_images and isinstance(existing_images, str):
-        image_names = existing_images.split(',')
-
+        image_names = [img.strip() for img in existing_images.split(',') if img.strip()]
+    
+    # إضافة الصور الجديدة
     for i, image in enumerate(new_images, start=1):
         ext = os.path.splitext(image.name)[1]
-        new_name = f"{slug}_{image_type}_{i}{ext}"
+        # استخدام image_slug بدلاً من slug العادي
+        new_name = f"{image_slug}_{image_type}_{i}{ext}"
         save_path = os.path.join(settings.MEDIA_ROOT, 'uploads', new_name)
         os.makedirs(os.path.dirname(save_path), exist_ok=True)
         with open(save_path, 'wb+') as destination:
@@ -198,4 +307,4 @@ def handle_uploaded_images(new_images, existing_images, slug, image_type):
                 destination.write(chunk)
         image_names.append(new_name)
 
-    return ','.join(image_names)
+    return ','.join(image_names) if image_names else ''

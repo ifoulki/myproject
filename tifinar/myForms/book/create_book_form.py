@@ -196,17 +196,13 @@ class BaseContentForm(forms.ModelForm):
     def save(self, commit=True):
         try:
             instance = super().save(commit=False)
-            
-            # تم إزالة إنشاء الـ slug هنا لمنع التعارض مع الـ view
-            # الـ view سيقوم بإنشاء الـ slug الآن
-            
+        
             if commit:
                 instance.save()
             return instance
             
         except Exception as e:
             print(f"خطأ في حفظ النموذج: {str(e)}")
-            # في حالة الخطأ، نستخدم slug افتراضي بدلاً من إظهار خطأ
             if not instance.slug:
                 instance.slug = f"book-{int(time.time())}"
             if commit:
@@ -271,7 +267,7 @@ class BookForm(BaseContentForm):
         model = books
         
         fields = [
-            'title', 'slug', 'mysubject', 'mydescription', 
+            'title', 'mysubject', 'mydescription', 
             'keywords', 'author', 'myimage', 'autre', 'gender',
             'the_type', 'educational_level', 'min_age', 'max_age', 'dir'
         ]
@@ -309,7 +305,7 @@ class BookForm(BaseContentForm):
                 'id': 'formFile2',
                 'accept': '.pdf,.doc,.docx,.ppt,.pptx,.zip,.rar'
             }),
-            'slug': forms.HiddenInput(),
+
         }
         
         labels = {

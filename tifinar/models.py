@@ -38,7 +38,7 @@ class AdminArticles(models.Model):
 class articles(models.Model):
     art_id = models.AutoField(db_column='Art_id', primary_key=True)  # Field name made lowercase.
     title = models.CharField(unique=True, max_length=255, blank=True, null=True)
-    slug = models.SlugField( max_length=255, blank=True, null=True, allow_unicode=True, unique=True )
+    slug = models.SlugField(max_length=255, unique=True, blank=False, null=False)
     mysubject = models.TextField(db_column='Mysubject', unique=True, blank=True, null=True)  # Field name made lowercase.
     mydescription = models.TextField(db_column='Mydescription', blank=True, null=True)  # Field name made lowercase.    keywords = models.TextField(blank=True, null=True)
     keywords = models.TextField(db_column='keywords', blank=True, null=True)
@@ -318,7 +318,7 @@ class books(models.Model):
     books_id = models.AutoField(primary_key=True)
     myimage = models.CharField(max_length=500, db_column='Myimage', blank=True, null=True)
     title = models.TextField(unique=True, blank=True, null=True)
-    slug = models.SlugField(max_length=255, blank=True, null=True, allow_unicode=True, unique=True)
+    slug = models.SlugField(max_length=255, unique=True, blank=False, null=False)
     mysubject = models.TextField(db_column='Mysubject', unique=True, blank=True, null=True)
     mydescription = models.TextField(db_column='Mydescription', blank=True, null=True)
     keywords = models.TextField(blank=True, null=True)
@@ -584,7 +584,7 @@ class Contacts(models.Model):
 class cours(models.Model):
     cours_id = models.SmallAutoField(primary_key=True)
     title = models.TextField(unique=True, blank=True, null=True)
-    slug = models.SlugField( max_length=255, blank=True, null=True, allow_unicode=True, unique=True )
+    slug = models.SlugField(max_length=255, unique=True, blank=False, null=False)
     myimage = models.TextField(db_column='myimage', blank=True, null=True)  # Field name made lowercase.
     mydescription = models.TextField(db_column='Mydescription', blank=True, null=True)  # Field name made lowercase.    keywords = models.TextField(blank=True, null=True)
     keywords = models.TextField(blank=True, null=True)
@@ -704,7 +704,7 @@ class Examitems(models.Model):
 class exams(models.Model):
     exam_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=255, blank=True, null=True)
-    slug = models.SlugField( max_length=255, blank=True, null=True, allow_unicode=True, unique=True )
+    slug = models.SlugField(max_length=255, unique=True, blank=False, null=False)
     mydescription = models.CharField(db_column='Mydescription', max_length=255, blank=True, null=True)  # Field name made lowercase.
     myimage = models.CharField(db_column='myimage', max_length=255, blank=True, null=True)  # Field name made lowercase.
     keywords = models.TextField(blank=True, null=True)
@@ -999,7 +999,7 @@ class ArticleReaction(models.Model):
 class videos(models.Model):
     vd_id = models.AutoField(db_column='VD_id', primary_key=True)  # Field name made lowercase.
     title = models.TextField(blank=True, null=True)
-    slug = models.SlugField( max_length=255, blank=True, null=True, allow_unicode=True, unique=True )
+    slug = models.SlugField(max_length=255, unique=True, blank=False, null=False)
     mysubject = models.TextField(db_column='Mysubject', blank=True, null=True)  # Field name made lowercase.        
     myimage = models.TextField(db_column='myimage', blank=True, null=True)  # Field name made lowercase.
     keywords = models.TextField(blank=True, null=True)

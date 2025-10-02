@@ -178,7 +178,7 @@ class VideoForm(BaseContentForm):
         model = videos
         
         fields = [
-            'title', 'slug', 'mysubject', 'mydescription', 
+            'title', 'mysubject', 'mydescription', 
             'keywords', 'author', 'myimage', 'autre', 'gender',
             'the_type', 'educational_level', 'min_age', 'max_age', 'dir'
         ]
