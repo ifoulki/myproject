@@ -165,6 +165,7 @@ def edit_content(request, content_type, slug):
 
     # حفظ القيم الأصلية للصور قبل أي تعديل
     original_myimage = content.myimage
+    
     if hasattr(content, 'autre'):
         original_autre = content.autre
 
@@ -262,7 +263,7 @@ def edit_content(request, content_type, slug):
             comment_forms.append(CommentForm(instance=comment))
 
     context = {
-        'title': f'تعديل {content_type[:-1]} : {content.title}',
+        'title': f'تعديل : {content.title}',
         
         # أرسل الكائن كاملاً والفورم
         'article': content,

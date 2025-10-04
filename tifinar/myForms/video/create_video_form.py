@@ -3,8 +3,8 @@ from django.core.exceptions import ValidationError
 from tifinar.models import videos
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
-from django.utils.text import slugify  # أضف هذا
-import os  # أضف هذا
+from django.utils.text import slugify
+import os
 
 User = get_user_model()
 
@@ -63,6 +63,12 @@ class BaseContentForm(forms.ModelForm):
         ])
     ]
     
+    VISIBILITY_CHOICES = [
+        ('public', 'عام'),
+        ('under_review', 'قيد المراجعة'),
+        ('restricted', 'مقيد'),
+    ]
+    
     dir = forms.ChoiceField(
         choices=DIR_CHOICES,
         widget=forms.Select(attrs={
@@ -72,7 +78,6 @@ class BaseContentForm(forms.ModelForm):
         label=' عنوان الفيديو مكتوب بأي لغة؟',
         initial='',
         required=False
-
     )
 
     educational_level = forms.ChoiceField(
@@ -91,6 +96,9 @@ class BaseContentForm(forms.ModelForm):
         empty_value='all',
         coerce=str
     )
+    
+    # 🔥 إزالة حقل visibility_status من الفورم نهائياً
+    # سنتعامل معه يدوياً في الـ view
         
     class Meta:
         abstract = True
@@ -101,6 +109,32 @@ class BaseContentForm(forms.ModelForm):
         if not title or len(title.strip()) < 7:
             raise forms.ValidationError('يجب أن يكون العنوان لا يقل عن 7 أحرف.')
         return title
+
+    def clean_author(self):
+        author = self.cleaned_data.get('author')
+        if author and len(author.strip()) < 5:
+            raise forms.ValidationError('اسم الكاتب يجب أن لا يقل عن 5 أحرف.')
+        return author
+
+    def clean_min_age(self):
+        min_age = self.cleaned_data.get('min_age')
+        if min_age is not None and (min_age < 2 or min_age > 75):
+            raise forms.ValidationError('العمر الأدنى يجب أن يكون بين 2 و75.')
+        return min_age
+
+    def clean_max_age(self):
+        max_age = self.cleaned_data.get('max_age')
+        if max_age is not None and (max_age < 2 or max_age > 75):
+            raise forms.ValidationError('العمر الأقصى يجب أن يكون بين 2 و75.')
+        return max_age
+
+    def clean(self):
+        cleaned_data = super().clean()
+        min_age = cleaned_data.get('min_age')
+        max_age = cleaned_data.get('max_age')
+        if min_age and max_age and min_age >= max_age:
+            raise forms.ValidationError('يجب أن يكون الحد الأدنى للعمر أصغر من الحد الأقصى.')
+        return cleaned_data
 
     def clean_myimage(self):
         return self._validate_file('myimage', ['.jpeg', '.png', '.jpg', '.gif', '.svg', '.webp'], 5)
@@ -177,10 +211,12 @@ class VideoForm(BaseContentForm):
     class Meta(BaseContentForm.Meta):
         model = videos
         
+        # 🔥 إزالة visibility_status من الحقول
         fields = [
             'title', 'mysubject', 'mydescription', 
             'keywords', 'author', 'myimage', 'autre', 'gender',
             'the_type', 'educational_level', 'min_age', 'max_age', 'dir'
+            # تم إزالة 'visibility_status'
         ]
         widgets = {
             'title': forms.TextInput(attrs={
@@ -189,13 +225,13 @@ class VideoForm(BaseContentForm):
                 'minlength': '2',
                 'required': True
             }),
+            'mysubject': forms.TextInput(attrs={
+                'class': 'form-control',
+                'id': 'videoInput',
+                'placeholder': 'ألصق رابط فيديو YouTube هنا'
+            }),
             'mydescription': forms.Textarea(attrs={
                 'class': 'description',
-                'placeholder': 'أكتب وصفًا لمحتوى الفيديو ...'
-            }),
-            'mydescription': forms.TextInput(attrs={
-                'class': 'form-control',
-                'id':'videoInput',
                 'placeholder': 'أكتب وصفًا لمحتوى الفيديو ...'
             }),
             'keywords': forms.Textarea(attrs={
@@ -233,8 +269,7 @@ class VideoForm(BaseContentForm):
                 'class': 'form-control',
                 'id': 'formFile2'
             }),
-          
-                    }
+        }
         labels = {
             'title': 'عنوان الفيديو',
             'author': 'اسم صاحب الفيديو',
@@ -247,5 +282,5 @@ class VideoForm(BaseContentForm):
             'min_age': 'الحد الأدنى للعمر',
             'max_age': 'الحد الأقصى للعمر',
             'myimage': 'الصورة الرئيسية',
-            'autre': 'مرفقات إضافية'
+            'autre': 'مرفقات إضافية',
         }

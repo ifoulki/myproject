@@ -711,7 +711,15 @@ class exams(models.Model):
     the_type = models.CharField(max_length=255, blank=True, null=True)
     author = models.CharField(db_column='Author', max_length=255, blank=True, null=True)  # Field name made lowercase.
     dir = models.CharField(max_length=255, blank=True, null=True)
-    visibility_status = models.CharField(max_length=12)
+    visibility_status = models.CharField(
+        max_length=15,
+        choices=[
+            ('public', 'عام'),
+            ('under_review', 'قيد المراجعة'),
+            ('restricted', 'مقيد')
+        ],
+        default='under_review'
+    )
     educational_level = models.CharField(max_length=26)
     gender = models.CharField(max_length=6)
     created_at = models.DateTimeField()
