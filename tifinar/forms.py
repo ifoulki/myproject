@@ -161,6 +161,19 @@ class BaseContentForm(forms.ModelForm):
         required=False
     )
     
+    # 🔥 الحل: إضافة visibility_status هنا
+    visibility_status = forms.ChoiceField(
+        choices=[
+            ('public', 'عام'),
+            ('under_review', 'قيد المراجعة'),
+            ('restricted', 'مقيد'),
+        ],
+        widget=forms.Select(attrs={'class': 'form-control form-select'}),
+        label='حالة الظهور',
+        initial='under_review',
+        required=True
+    )
+    
     class Meta:
         abstract = True
         fields = [] 
@@ -304,8 +317,8 @@ class VideoForm(BaseContentForm):
             'educational_level': 'هل يجب أن يكون للمشاهد مستوى دراسي معين؟',
             'min_age': 'العمر الأدنى',
             'max_age': 'العمر الأقصى',
-            'myimage': 'غلاف الكتاب',
-            'autre': 'تحميل الكتاب'
+            'myimage': 'غلاف الفيديو',
+            'autre': 'تحميل الفيديو'
         }
 
     def clean_mysubject(self):
@@ -313,100 +326,6 @@ class VideoForm(BaseContentForm):
         if not mysubject or len(mysubject.strip()) < 20:
             raise forms.ValidationError('يرجى إضافة رابط الفيديو.')
         return mysubject
-
-
-class ExamForm(BaseContentForm):
-    TYPE_CHOICES = [
-     
-        ('لقواميس اللغوية - Dictionaries', 'لقواميس اللغوية - Dictionaries'),
-        ('أديان', 'التربية الإسلامية'),
-        ('فلسفة', 'فلسفة'),
-        ('الأمازيغية', 'تعلم الأمازيغية'),
-        ('الفرنسية', 'تعلم الفرنسية'),
-        ('الإنجليزية', 'تعلم الإنجليزية'),
-        ('رياضيات', 'تعلم الرياضيات'),
-        ('الكيمياء', 'الكيمياء'),
-        ('الفزياء', 'الفزياء'),
-        ('علوم الحياة والأرض', 'علوم الحياة والأرض'),
-        ('صحة وحياة', 'صحة وحياة'),
-        ('علوم الحاسوب', 'علوم الحاسوب'),
-        ('حقوق الإنسان', 'القانون وحقوق الإنسان'),
-        ('الثقافة العامة', 'الثقافة العامة'),
-    ]
-
-    the_type = forms.ChoiceField(
-        choices=TYPE_CHOICES,
-        widget=forms.Select(attrs={'class': 'form-control form-select'}),
-        label='نوع الاختبار',
-        required=True
-    )
-
-    class Meta(BaseContentForm.Meta):
-
-        model = exams
-        fields = [
-            'title', 'mydescription', 'keywords',
-            'author', 'myimage', 'the_type', 'educational_level',
-            'min_age', 'max_age', 'dir','gender'
-        ]
-
-        widgets = {
-            'title': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'عنوان الاختبار ...',
-                'minlength': '7',
-                'required': True
-            }),
-            'author': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'اسم الكاتب ...',
-                'maxlength': '50'
-            }),
-            'mydescription': forms.Textarea(attrs={
-                'class': 'description',
-                'placeholder': 'وصف مختصر ...',
-            }),
-            'keywords': forms.Textarea(attrs={
-                'class': 'keywords',
-                'placeholder': 'الكلمات المفتاحية ...',
-                'value': ''  # إضافة هذه السطر
-            }),
-            'educational_level': forms.Select(attrs={
-                'class': 'form-select'
-            }),
-            'min_age': forms.NumberInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'الحد الأدنى',
-                'min': '2',
-                'max': '75'
-            }),
-            'max_age': forms.NumberInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'الحد الأقصى',
-                'min': '2',
-                'max': '75'
-            }),
-            'myimage': forms.FileInput(attrs={
-                'class': 'form-control',
-                'id': 'formFile1'
-            }),
-            
-        }
-
-        labels = {
-            'title': 'عنوان الاختبار',
-            'author': 'اسم الكاتب',
-            'mydescription': 'وصف الاختبار',
-            'keywords': 'الكلمات المفتاحية',
-            'the_type': 'صنف الاختبار',
-            'dir': 'بأي لغة ستطرح الأسئلة ؟',
-            'educational_level': 'المستوى الدراسي',
-            'min_age': 'العمر الأدنى',
-            'max_age': 'العمر الأقصى',
-            'myimage': 'غلاف الكتاب',
-        }
-
-
 
 class BookForm(BaseContentForm):
     TYPE_CHOICES = [
@@ -446,7 +365,7 @@ class BookForm(BaseContentForm):
         widgets = {
             'title': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'عنوان الفيديو ...',
+                'placeholder': 'عنوان الاختبار ...',
                 'required': True
             }),
             'author': forms.TextInput(attrs={
@@ -455,14 +374,10 @@ class BookForm(BaseContentForm):
                 'placeholder': 'اسم الكاتب ...',
                 'maxlength': '50'
             }),
-            'mysubject': forms.Textarea(attrs={
-                'class': 'mysubject',
-                'placeholder': 'ألصق رابط الفيديو هنا ..',
-                'required': True
-            }),
+           
             'mydescription': forms.Textarea(attrs={
                 'class': 'description',
-                'placeholder': 'وصف الفيديو ...',
+                'placeholder': 'وصف الكتاب ...',
             }),
             
             'keywords': forms.Textarea(attrs={
@@ -489,29 +404,182 @@ class BookForm(BaseContentForm):
                 'class': 'form-control',
                 'id': 'formFile1'
             }),
-            'autre': forms.FileInput(attrs={
-                'class': 'form-control',
-                'id': 'formFile2'
-            }),
         }
 
         labels = {
-            'title': 'عنوان الفيديو',
-            'author': 'صاحب الفيديو',
-            'mysubject': 'رابط الفيديو',
-            'mydescription': 'وصف الفيديو',
+            'title': 'عنوان الكتاب',
+            'author': 'صاحب الكتاب',
+            'mydescription': 'وصف الكتاب',
             'keywords': 'الكلمات المفتاحية',
-            'the_type': 'صنف الفيديو',
+            'the_type': 'صنف الكتاب',
             'dir': 'العنوان مكتوب بأي لغة؟',
             'educational_level': 'هل يجب أن يكون للمشاهد مستوى دراسي معين؟',
             'min_age': 'العمر الأدنى',
             'max_age': 'العمر الأقصى',
             'myimage': 'غلاف الكتاب',
-            'autre': 'تحميل الكتاب'
         }
 
     def clean_mysubject(self):
         mysubject = self.cleaned_data.get('mysubject')
         if not mysubject or len(mysubject.strip()) < 20:
-            raise forms.ValidationError('يرجى إضافة رابط الفيديو.')
+            raise forms.ValidationError('يرجى إضافة رابط الكتاب.')
         return mysubject
+
+
+class ExamForm(BaseContentForm):
+    TYPE_CHOICES = [
+        ('التربية الإسلامية', 'التربية الإسلامية'),
+        ('فلسفة', 'فلسفة'),
+        ('الأمازيغية', 'تعلم الأمازيغية'),
+        ('الفرنسية', 'تعلم الفرنسية'),
+        ('الإنجليزية', 'تعلم الإنجليزية'),
+        ('رياضيات', 'تعلم الرياضيات'),
+        ('الكيمياء', 'الكيمياء'),
+        ('الفزياء', 'الفزياء'),
+        ('علوم الحياة والأرض', 'علوم الحياة والأرض'),
+        ('صحة وحياة', 'صحة وحياة'),
+        ('علوم الحاسوب', 'علوم الحاسوب'),
+        ('حقوق الإنسان', 'القانون وحقوق الإنسان'),
+        ('الثقافة العامة', 'الثقافة العامة'),
+        ('تربية وتعليم', 'تربية وتعليم'),
+        ('أصناف أخرى', 'أصناف أخرى'),
+    ]
+
+    the_type = forms.ChoiceField(
+        choices=TYPE_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-control form-select'}),
+        label='تصنيف الاختبار',
+        required=True
+    )
+
+    # 🔥 الحل: إضافة visibility_status مباشرة في ExamForm
+    visibility_status = forms.ChoiceField(
+        choices=[
+            ('public', 'عام'),
+            ('under_review', 'قيد المراجعة'),
+            ('restricted', 'مقيد'),
+        ],
+        widget=forms.Select(attrs={'class': 'form-control form-select'}),
+        label='حالة الظهور',
+        initial='under_review',
+        required=True
+    )
+
+    class Meta:
+        model = exams
+        fields = [
+            'title', 'mydescription', 'keywords',
+            'author', 'myimage', 'the_type', 'educational_level',
+            'min_age', 'max_age', 'dir', 'gender', 'visibility_status'
+        ]
+
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'عنوان الاختبار ...',
+                'required': True
+            }),
+            'author': forms.TextInput(attrs={
+                'class': 'form-control',
+                'name': 'author',
+                'placeholder': 'اسم الكاتب ...',
+                'maxlength': '50'
+            }),
+            'mydescription': forms.Textarea(attrs={
+                'class': 'description',
+                'placeholder': 'وصف الاختبار ...',
+            }),
+            'keywords': forms.Textarea(attrs={
+                'class': 'keywords',
+                'placeholder': 'الكلمات المفتاحية ...',
+            }),
+            'educational_level': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+            'min_age': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'الحد الأدنى',
+                'min': '2',
+                'max': '75'
+            }),
+            'max_age': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'الحد الأقصى',
+                'min': '2',
+                'max': '75'
+            }),
+            'myimage': forms.FileInput(attrs={
+                'class': 'form-control',
+                'id': 'formFile1'
+            }),
+        }
+
+        labels = {
+            'title': 'عنوان الاختبار',
+            'author': 'صاحب الاختبار', 
+            'mydescription': 'وصف الاختبار',
+            'keywords': 'الكلمات المفتاحية',
+            'the_type': 'صنف الاختبار',
+            'dir': 'العنوان مكتوب بأي لغة؟',
+            'educational_level': 'هل يجب أن يكون للمستخدم مستوى دراسي معين؟',
+            'min_age': 'العمر الأدنى',
+            'max_age': 'العمر الأقصى',
+            'myimage': 'غلاف الاختبار',
+            'visibility_status': 'حالة الظهور',
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # 🔥 تأكيد إضافة الحقل إذا لم يظهر
+        if 'visibility_status' not in self.fields:
+            self.fields['visibility_status'] = forms.ChoiceField(
+                choices=[
+                    ('public', 'عام'),
+                    ('under_review', 'قيد المراجعة'),
+                    ('restricted', 'مقيد'),
+                ],
+                widget=forms.Select(attrs={'class': 'form-control form-select'}),
+                label='حالة الظهور',
+                initial='under_review',
+                required=True
+            )
+
+    def clean_title(self):
+        title = self.cleaned_data.get('title')
+        if not title or len(title.strip()) < 7:
+            raise forms.ValidationError('يجب أن يكون العنوان لا يقل عن 7 أحرف.')
+        return title
+
+    def clean_author(self):
+        author = self.cleaned_data.get('author')
+        if author and len(author.strip()) < 5:
+            raise forms.ValidationError('اسم الكاتب يجب أن لا يقل عن 5 أحرف.')
+        return author
+
+    def clean_min_age(self):
+        min_age = self.cleaned_data.get('min_age')
+        if min_age is not None and (min_age < 2 or min_age > 75):
+            raise forms.ValidationError('العمر الأدنى يجب أن يكون بين 2 و75.')
+        return min_age
+
+    def clean_max_age(self):
+        max_age = self.cleaned_data.get('max_age')
+        if max_age is not None and (max_age < 2 or max_age > 75):
+            raise forms.ValidationError('العمر الأقصى يجب أن يكون بين 2 و75.')
+        return max_age
+
+    def clean(self):
+        cleaned_data = super().clean()
+        min_age = cleaned_data.get('min_age')
+        max_age = cleaned_data.get('max_age')
+        if min_age and max_age and min_age >= max_age:
+            raise forms.ValidationError('يجب أن يكون الحد الأدنى للعمر أصغر من الحد الأقصى.')
+        return cleaned_data
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        if not hasattr(instance, 'slug') or not instance.slug:
+            instance.slug = slugify(instance.title)
+        if commit:
+            instance.save()
+        return instance

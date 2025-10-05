@@ -28,7 +28,7 @@ class AdminArticles(models.Model):
     updated_at = models.DateTimeField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'admin_articles'
     @property
     def get_title(self):
@@ -72,7 +72,7 @@ class articles(models.Model):
     max_age = models.IntegerField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'articles'
     @property
     def get_title(self):
@@ -354,7 +354,7 @@ class books(models.Model):
     )
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'books'
         verbose_name = 'كتاب'
         verbose_name_plural = 'الكتب'
@@ -419,7 +419,7 @@ class CartItems(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'cart_items'
         unique_together = (('user_id', 'product_id'),)
 
@@ -514,7 +514,7 @@ class Contacts(models.Model):
     author = models.CharField(db_column='Author', max_length=255, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'contacts'
     
     def get_full_name(self):
@@ -605,7 +605,7 @@ class cours(models.Model):
     dir = models.CharField(max_length=3, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'cours'
     @property
     def get_title(self):
@@ -682,7 +682,7 @@ class Examitems(models.Model):
     updated_at = models.DateTimeField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'examitems'
         
     def get_shuffled_choices(self):
@@ -701,35 +701,7 @@ class Examitems(models.Model):
             random.shuffle(choices)
             return choices
 
-class exams(models.Model):
-    exam_id = models.AutoField(primary_key=True)
-    title = models.CharField(max_length=255, blank=True, null=True)
-    slug = models.SlugField(max_length=255, unique=True, blank=False, null=False)
-    mydescription = models.CharField(db_column='Mydescription', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    myimage = models.CharField(db_column='myimage', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    keywords = models.TextField(blank=True, null=True)
-    the_type = models.CharField(max_length=255, blank=True, null=True)
-    author = models.CharField(db_column='Author', max_length=255, blank=True, null=True)  # Field name made lowercase.
-    dir = models.CharField(max_length=255, blank=True, null=True)
-    visibility_status = models.CharField(
-        max_length=15,
-        choices=[
-            ('public', 'عام'),
-            ('under_review', 'قيد المراجعة'),
-            ('restricted', 'مقيد')
-        ],
-        default='under_review'
-    )
-    educational_level = models.CharField(max_length=26)
-    gender = models.CharField(max_length=6)
-    created_at = models.DateTimeField()
-    updated_at = models.DateTimeField()
-    min_age = models.IntegerField()
-    max_age = models.IntegerField()
 
-    class Meta:
-        managed = False
-        db_table = 'exams'
 
 
 class FailedJobs(models.Model):
@@ -761,7 +733,7 @@ class Invoices(models.Model):
     products = models.JSONField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'invoices'
 
 
@@ -781,7 +753,7 @@ class Laws(models.Model):
     updated_at = models.DateTimeField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'laws'
 
 
@@ -831,7 +803,7 @@ class msgs(models.Model):
         )
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'msgs'
 
 
@@ -848,7 +820,7 @@ class myadmin(models.Model):
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
     class Meta:
-        managed = False
+        managed = True
         db_table = 'myadmin'
 
 
@@ -878,7 +850,7 @@ class Products(models.Model):
     image_filenames = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'products'
 
 
@@ -891,7 +863,7 @@ class Results(models.Model):
     updated_at = models.DateTimeField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'results'
 
 
@@ -906,7 +878,7 @@ class SearchLogs(models.Model):
     updated_at = models.DateTimeField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'search_logs'
 
 
@@ -930,7 +902,7 @@ class synonym_terms(models.Model):
     ignore_terms = models.CharField(max_length=255, blank=True, null=True)
     
     class Meta:
-        managed = False
+        managed = True
         db_table = 'synonym_terms'
 
 class Users(models.Model):
@@ -974,7 +946,7 @@ class Users(models.Model):
     language = models.TextField(db_column='Language')  # Field name made lowercase.
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'users'
 
 
@@ -997,7 +969,7 @@ class ArticleReaction(models.Model):
     created_at = models.DateTimeField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'users_likes'
 
     def __str__(self):
@@ -1025,9 +997,42 @@ class videos(models.Model):
     max_age = models.IntegerField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'videos'
         db_table_comment = 'الفيديوهات'
+    @property
+    def get_title(self):
+        return self.title
+class exams(models.Model):
+    exam_id = models.AutoField(db_column='exam_id', primary_key=True)  # Field name made lowercase.
+    title = models.TextField(blank=True, null=True)
+    slug = models.SlugField(max_length=255, unique=True, blank=False, null=False)
+    myimage = models.TextField(db_column='myimage', blank=True, null=True)  # Field name made lowercase.
+    keywords = models.TextField(blank=True, null=True)
+    mydescription = models.TextField(db_column='Mydescription', blank=True, null=True)  # Field name made lowercase.    keywords = models.TextField(blank=True, null=True)
+    author = models.TextField(db_column='Author', blank=True, null=True)  # Field name made lowercase.
+    the_type = models.CharField(max_length=255, blank=True, null=True)
+    dir = models.CharField(max_length=3, blank=True, null=True)
+    visibility_status = models.CharField(
+        max_length=12,
+        choices=[
+            ('public', 'public'),
+            ('under_review', 'under_review'),
+            ('restricted', 'restricted'),
+        ],
+        default='under_review'
+    )
+    updated_at = models.DateField()
+    created_at = models.DateTimeField()
+    educational_level = models.CharField(max_length=26)
+    gender = models.CharField(max_length=6, blank=True, null=True)
+    min_age = models.IntegerField()
+    max_age = models.IntegerField()
+
+    class Meta:
+        managed = True
+        db_table = 'exams'
+        db_table_comment = 'اختبارات'
     @property
     def get_title(self):
         return self.title
@@ -1044,7 +1049,7 @@ class Visitors(models.Model):
     updated_at = models.DateTimeField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'visitors'
 
 
@@ -1057,7 +1062,7 @@ class VisitorsIp(models.Model):
     updated_at = models.DateTimeField()
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'visitors_ip'
 
 
@@ -1070,6 +1075,6 @@ class Visitorsearchrequests(models.Model):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
-        managed = False
+        managed = True
         db_table = 'visitorsearchrequests'
 
