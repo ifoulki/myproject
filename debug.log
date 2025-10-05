@@ -128946,3 +128946,483 @@ DEBUG 2025-10-05 00:03:22,783 utils (0.004)
             WHERE table_schema = DATABASE()
             ; args=None; alias=default
 DEBUG 2025-10-05 00:03:22,793 utils (0.002) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+INFO 2025-10-05 16:29:45,158 autoreload Watching for file changes with StatReloader
+DEBUG 2025-10-05 16:29:52,534 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:29:52,541 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:29:52,547 utils (0.005) 
+            SELECT
+                table_name,
+                table_type,
+                table_comment
+            FROM information_schema.tables
+            WHERE table_schema = DATABASE()
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:29:52,575 utils (0.001) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+DEBUG 2025-10-05 16:29:56,044 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:29:56,046 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:29:56,048 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:29:56.028064' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:29:56.028064', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:29:56,076 utils (0.007) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-05 16:29:56,495 utils (0.081) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE `cours`.`slug` = 'house_in_english' LIMIT 21; args=('house_in_english',); alias=default
+INFO 2025-10-05 16:29:56,496 edit_cours cour.images: '1a.png,2a.png,3a.png,4a.png,5a.png,6a.png'
+DEBUG 2025-10-05 16:29:56,665 utils (0.001) SELECT COUNT(*) AS `__count` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL; args=(); alias=default
+DEBUG 2025-10-05 16:29:56,672 utils (0.004) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL ORDER BY `comments`.`created_at` DESC; args=(); alias=default
+DEBUG 2025-10-05 16:29:57,073 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-05 16:29:57,420 basehttp "GET /cours/edit/house_in_english/ HTTP/1.1" 200 38099
+INFO 2025-10-05 16:29:57,550 basehttp "GET /static/tifinar/images/cours/house_in_english_8372.png HTTP/1.1" 304 0
+INFO 2025-10-05 16:29:57,700 basehttp "GET /static/tifinar/images/cours/the_house/1a.png HTTP/1.1" 304 0
+WARNING 2025-10-05 16:29:57,800 basehttp "GET /static/tifinar/images/cours/the_house/4a.png HTTP/1.1" 404 2038
+INFO 2025-10-05 16:29:57,809 basehttp "GET /static/tifinar/images/cours/the_house/3a.png HTTP/1.1" 304 0
+WARNING 2025-10-05 16:29:57,826 basehttp "GET /static/tifinar/images/cours/the_house/2a.png HTTP/1.1" 404 2038
+WARNING 2025-10-05 16:29:57,910 basehttp "GET /static/tifinar/images/cours/the_house/5a.png HTTP/1.1" 404 2038
+WARNING 2025-10-05 16:29:57,919 basehttp "GET /static/tifinar/images/cours/the_house/6a.png HTTP/1.1" 404 2038
+DEBUG 2025-10-05 16:30:02,361 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:30:02,369 utils (0.001) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:30:02,375 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:30:02.358451' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:30:02.358451', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:30:02,395 utils (0.002) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-05 16:30:02,487 utils (0.002) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE `cours`.`slug` = 'house_in_english' LIMIT 21; args=('house_in_english',); alias=default
+INFO 2025-10-05 16:30:02,492 edit_cours cour.images: '1a.png,2a.png,3a.png,4a.png,5a.png,6a.png'
+DEBUG 2025-10-05 16:30:02,574 utils (0.001) SELECT COUNT(*) AS `__count` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL; args=(); alias=default
+DEBUG 2025-10-05 16:30:02,579 utils (0.001) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL ORDER BY `comments`.`created_at` DESC; args=(); alias=default
+DEBUG 2025-10-05 16:30:02,598 utils (0.000) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-05 16:30:02,625 basehttp "GET /cours/edit/house_in_english/ HTTP/1.1" 200 34579
+WARNING 2025-10-05 16:30:02,681 basehttp "GET /static/tifinar/images/cours/the_house/2a.png HTTP/1.1" 404 2038
+WARNING 2025-10-05 16:30:02,695 basehttp "GET /static/tifinar/images/cours/the_house/4a.png HTTP/1.1" 404 2038
+WARNING 2025-10-05 16:30:02,709 basehttp "GET /static/tifinar/images/cours/the_house/5a.png HTTP/1.1" 404 2038
+WARNING 2025-10-05 16:30:02,722 basehttp "GET /static/tifinar/images/cours/the_house/6a.png HTTP/1.1" 404 2038
+DEBUG 2025-10-05 16:30:08,264 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:30:08,267 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:30:08,412 utils (0.144) SELECT `videos`.`VD_id`, `videos`.`title`, `videos`.`slug`, `videos`.`Mysubject`, `videos`.`myimage`, `videos`.`keywords`, `videos`.`Mydescription`, `videos`.`Author`, `videos`.`autre`, `videos`.`the_type`, `videos`.`dir`, `videos`.`visibility_status`, `videos`.`updated_at`, `videos`.`created_at`, `videos`.`educational_level`, `videos`.`gender`, `videos`.`min_age`, `videos`.`max_age` FROM `videos` WHERE (NOT (`videos`.`slug` IS NULL) AND NOT (`videos`.`slug` = '')) ORDER BY `videos`.`VD_id` DESC; args=('',); alias=default
+DEBUG 2025-10-05 16:30:08,523 utils (0.002) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:30:08.520369' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:30:08.520369', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:30:08,527 utils (0.002) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-05 16:30:08,533 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-05 16:30:08,587 basehttp "GET /videos_edit/ HTTP/1.1" 200 36141
+WARNING 2025-10-05 16:30:08,728 basehttp "GET /static/tifinar/images/videos/controle_1_consommation_de_la_matiere_organique_et_flux_denergie_0e1a.webp HTTP/1.1" 404 2215
+INFO 2025-10-05 16:30:08,820 basehttp "GET /static/tifinar/images/videos/lmada_lmdwra_myimage_1.PNG HTTP/1.1" 304 0
+WARNING 2025-10-05 16:30:08,836 basehttp "GET /static/tifinar/images/videos/Consommation_de_la_matiere_organique_et_flux_denergie_b6a8.webp HTTP/1.1" 404 2182
+WARNING 2025-10-05 16:30:08,851 basehttp "GET /static/tifinar/images/videos/Controle_1_svt_2_bac__exemple_6_58f4.webp HTTP/1.1" 404 2116
+WARNING 2025-10-05 16:30:08,864 basehttp "GET /static/tifinar/images/videos/Controle_1_svt_2_bac__exemple_5__unite_1_shrh_alfrd_baldaryjt_3f02.webp HTTP/1.1" 404 2206
+WARNING 2025-10-05 16:30:09,031 basehttp "GET /static/tifinar/images/videos/controle_1_svt_2_bac__exemple_4_ccb6.webp HTTP/1.1" 404 2116
+WARNING 2025-10-05 16:30:09,059 basehttp "GET /static/tifinar/images/videos/Controle_svt_2bac_svt_unite_1_9ec0.webp HTTP/1.1" 404 2110
+WARNING 2025-10-05 16:30:09,086 basehttp "GET /static/tifinar/images/videos/Controle_n_1_svt__tshyh_alfrd_baldaryjt_1a53.webp HTTP/1.1" 404 2140
+WARNING 2025-10-05 16:30:09,087 basehttp "GET /static/tifinar/images/videos/Controle_1_svt_2_bac__exemple_3_tshyh_alfrd_baldaryjt_1899.webp HTTP/1.1" 404 2182
+INFO 2025-10-05 16:30:09,118 basehttp "GET /static/tifinar/images/videos/asyd_mstshfyt_lmghrb_lsha_lyst_lljmya_myimage_1.PNG HTTP/1.1" 200 939073
+DEBUG 2025-10-05 16:30:11,502 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:30:11,507 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:30:11,679 utils (0.001) SELECT COUNT(*) AS `__count` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL; args=(); alias=default
+DEBUG 2025-10-05 16:30:11,682 utils (0.002) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL ORDER BY `comments`.`created_at` DESC; args=(); alias=default
+DEBUG 2025-10-05 16:30:11,801 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:30:11.800503' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:30:11.800503', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:30:11,812 utils (0.005) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-05 16:30:11,817 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-05 16:30:11,904 basehttp "GET /videos/edit/%D8%B9%D8%B5%D9%8A%D8%AF_%D9%85%D8%B3%D8%AA%D8%B4%D9%81%D9%8A%D8%A7%D8%AA_%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8_%D8%A7%D9%84%D8%B5%D8%AD%D8%A9_%D9%84%D9%8A%D8%B3%D8%AA_%D9%84%D9%84%D8%AC%D9%85%D9%8A%D8%B9/ HTTP/1.1" 200 39170
+DEBUG 2025-10-05 16:30:45,873 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:30:46,299 utils (0.001) SELECT COUNT(*) AS `__count` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL; args=(); alias=default
+DEBUG 2025-10-05 16:30:46,312 utils (0.002) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL ORDER BY `comments`.`created_at` DESC; args=(); alias=default
+DEBUG 2025-10-05 16:30:46,510 utils (0.001) SELECT visibility_status FROM videos WHERE VD_id = 2035; args=[2035]; alias=default
+INFO 2025-10-05 16:30:46,514 basehttp "POST /videos/edit/%D8%B9%D8%B5%D9%8A%D8%AF_%D9%85%D8%B3%D8%AA%D8%B4%D9%81%D9%8A%D8%A7%D8%AA_%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8_%D8%A7%D9%84%D8%B5%D8%AD%D8%A9_%D9%84%D9%8A%D8%B3%D8%AA_%D9%84%D9%84%D8%AC%D9%85%D9%8A%D8%B9/ HTTP/1.1" 302 0
+DEBUG 2025-10-05 16:30:46,526 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:30:46,566 utils (0.000) SELECT COUNT(*) AS `__count` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL; args=(); alias=default
+DEBUG 2025-10-05 16:30:46,569 utils (0.001) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL ORDER BY `comments`.`created_at` DESC; args=(); alias=default
+DEBUG 2025-10-05 16:30:46,614 utils (0.011) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:30:46.602245' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:30:46.602245', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:30:46,621 utils (0.004) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-05 16:30:46,631 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-05 16:30:46,669 basehttp "GET /videos/edit/%D8%B9%D8%B5%D9%8A%D8%AF_%D9%85%D8%B3%D8%AA%D8%B4%D9%81%D9%8A%D8%A7%D8%AA_%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8_%D8%A7%D9%84%D8%B5%D8%AD%D8%A9_%D9%84%D9%8A%D8%B3%D8%AA_%D9%84%D9%84%D8%AC%D9%85%D9%8A%D8%B9/ HTTP/1.1" 200 39130
+DEBUG 2025-10-05 16:30:51,793 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:30:51,959 utils (0.165) SELECT `videos`.`VD_id`, `videos`.`title`, `videos`.`slug`, `videos`.`Mysubject`, `videos`.`myimage`, `videos`.`keywords`, `videos`.`Mydescription`, `videos`.`Author`, `videos`.`autre`, `videos`.`the_type`, `videos`.`dir`, `videos`.`visibility_status`, `videos`.`updated_at`, `videos`.`created_at`, `videos`.`educational_level`, `videos`.`gender`, `videos`.`min_age`, `videos`.`max_age` FROM `videos` WHERE (NOT (`videos`.`slug` IS NULL) AND NOT (`videos`.`slug` = '')) ORDER BY `videos`.`VD_id` DESC; args=('',); alias=default
+DEBUG 2025-10-05 16:30:52,013 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:30:52.012224' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:30:52.012224', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:30:52,017 utils (0.002) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-05 16:30:52,024 utils (0.003) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-05 16:30:52,061 basehttp "GET /videos_edit/ HTTP/1.1" 200 36121
+WARNING 2025-10-05 16:30:52,134 basehttp "GET /static/tifinar/images/videos/controle_1_consommation_de_la_matiere_organique_et_flux_denergie_0e1a.webp HTTP/1.1" 404 2215
+WARNING 2025-10-05 16:30:52,134 basehttp "GET /static/tifinar/images/videos/Consommation_de_la_matiere_organique_et_flux_denergie_b6a8.webp HTTP/1.1" 404 2182
+WARNING 2025-10-05 16:30:52,159 basehttp "GET /static/tifinar/images/videos/Controle_svt_2bac_svt_unite_1_9ec0.webp HTTP/1.1" 404 2110
+WARNING 2025-10-05 16:30:52,176 basehttp "GET /static/tifinar/images/videos/controle_1_svt_2_bac__exemple_4_ccb6.webp HTTP/1.1" 404 2116
+WARNING 2025-10-05 16:30:52,197 basehttp "GET /static/tifinar/images/videos/Controle_1_svt_2_bac__exemple_5__unite_1_shrh_alfrd_baldaryjt_3f02.webp HTTP/1.1" 404 2206
+WARNING 2025-10-05 16:30:52,263 basehttp "GET /static/tifinar/images/videos/Controle_1_svt_2_bac__exemple_6_58f4.webp HTTP/1.1" 404 2116
+WARNING 2025-10-05 16:30:52,327 basehttp "GET /static/tifinar/images/videos/Controle_1_svt_2_bac__exemple_3_tshyh_alfrd_baldaryjt_1899.webp HTTP/1.1" 404 2182
+WARNING 2025-10-05 16:30:52,338 basehttp "GET /static/tifinar/images/videos/Controle_n_1_svt__tshyh_alfrd_baldaryjt_1a53.webp HTTP/1.1" 404 2140
+DEBUG 2025-10-05 16:30:54,882 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:30:54,884 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:30:54,952 utils (0.001) SELECT COUNT(*) AS `__count` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL; args=(); alias=default
+DEBUG 2025-10-05 16:30:54,963 utils (0.002) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL ORDER BY `comments`.`created_at` DESC; args=(); alias=default
+DEBUG 2025-10-05 16:30:55,054 utils (0.002) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:30:55.051577' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:30:55.051577', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:30:55,067 utils (0.005) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-05 16:30:55,078 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-05 16:30:55,109 basehttp "GET /videos/edit/%D8%B9%D8%B5%D9%8A%D8%AF_%D9%85%D8%B3%D8%AA%D8%B4%D9%81%D9%8A%D8%A7%D8%AA_%D8%A7%D9%84%D9%85%D8%BA%D8%B1%D8%A8_%D8%A7%D9%84%D8%B5%D8%AD%D8%A9_%D9%84%D9%8A%D8%B3%D8%AA_%D9%84%D9%84%D8%AC%D9%85%D9%8A%D8%B9/ HTTP/1.1" 200 39130
+DEBUG 2025-10-05 16:31:04,869 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:31:04,880 utils (0.007) SELECT `books`.`books_id`, `books`.`Myimage`, `books`.`title`, `books`.`slug`, `books`.`Mysubject`, `books`.`Mydescription`, `books`.`keywords`, `books`.`Author`, `books`.`autre`, `books`.`the_type`, `books`.`dir`, `books`.`language`, `books`.`visibility_status`, `books`.`updated_at`, `books`.`created_at`, `books`.`gender`, `books`.`min_age`, `books`.`max_age`, `books`.`educational_level` FROM `books` WHERE (NOT (`books`.`slug` IS NULL) AND NOT (`books`.`slug` = '')) ORDER BY `books`.`books_id` DESC; args=('',); alias=default
+DEBUG 2025-10-05 16:31:04,912 utils (0.005) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:31:04.903876' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:31:04.903876', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:31:04,917 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-05 16:31:04,926 utils (0.002) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-05 16:31:04,951 basehttp "GET /books_edit/ HTTP/1.1" 200 34575
+WARNING 2025-10-05 16:31:05,116 basehttp "GET /static/tifinar/images/books/seance_2__continuite_partie_17_image.webp HTTP/1.1" 404 2113
+WARNING 2025-10-05 16:31:05,117 basehttp "GET /static/tifinar/images/books/seance_3_continuite__partie_22_image.webp HTTP/1.1" 404 2113
+WARNING 2025-10-05 16:31:05,151 basehttp "GET /static/tifinar/images/books/seance_1_limites_et_derivation__rappel_1_image.webp HTTP/1.1" 404 2143
+DEBUG 2025-10-05 16:31:09,982 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:31:09,984 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:31:09,985 utils (0.001) SELECT `books`.`books_id`, `books`.`Myimage`, `books`.`title`, `books`.`slug`, `books`.`Mysubject`, `books`.`Mydescription`, `books`.`keywords`, `books`.`Author`, `books`.`autre`, `books`.`the_type`, `books`.`dir`, `books`.`language`, `books`.`visibility_status`, `books`.`updated_at`, `books`.`created_at`, `books`.`gender`, `books`.`min_age`, `books`.`max_age`, `books`.`educational_level` FROM `books` WHERE `books`.`slug` = 'bnl_bwnwnw' LIMIT 21; args=('bnl_bwnwnw',); alias=default
+DEBUG 2025-10-05 16:31:09,994 utils (0.001) SELECT COUNT(*) AS `__count` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL; args=(); alias=default
+DEBUG 2025-10-05 16:31:09,998 utils (0.002) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL ORDER BY `comments`.`created_at` DESC; args=(); alias=default
+DEBUG 2025-10-05 16:31:10,131 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:31:10.129748' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:31:10.129748', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:31:10,136 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-05 16:31:10,146 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-05 16:31:10,199 basehttp "GET /books/edit/bnl_bwnwnw/ HTTP/1.1" 200 26999
+INFO 2025-10-05 16:35:42,339 autoreload C:\Users\khalid\Documents\myproject\tifinar\views\content_manager\edit_books.py changed, reloading.
+INFO 2025-10-05 16:35:44,563 autoreload Watching for file changes with StatReloader
+DEBUG 2025-10-05 16:35:47,401 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:35:47,406 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:35:47,411 utils (0.005) 
+            SELECT
+                table_name,
+                table_type,
+                table_comment
+            FROM information_schema.tables
+            WHERE table_schema = DATABASE()
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:35:47,421 utils (0.002) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+INFO 2025-10-05 16:35:52,976 autoreload Watching for file changes with StatReloader
+DEBUG 2025-10-05 16:35:54,849 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:35:54,851 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:35:54,856 utils (0.005) 
+            SELECT
+                table_name,
+                table_type,
+                table_comment
+            FROM information_schema.tables
+            WHERE table_schema = DATABASE()
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:35:54,867 utils (0.002) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+DEBUG 2025-10-05 16:36:01,603 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:36:01,607 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:36:01,609 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:36:01.577385' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:36:01.577385', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:36:01,615 utils (0.002) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+ERROR 2025-10-05 16:36:01,777 log Internal Server Error: /books/edit/bnl_bwnwnw/
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+TypeError: edit_book() got an unexpected keyword argument 'content_type'
+ERROR 2025-10-05 16:36:01,857 basehttp "GET /books/edit/bnl_bwnwnw/ HTTP/1.1" 500 64827
+WARNING 2025-10-05 16:36:02,140 log Not Found: /favicon.ico/
+WARNING 2025-10-05 16:36:02,141 basehttp "GET /favicon.ico/ HTTP/1.1" 404 21344
+INFO 2025-10-05 16:37:27,435 autoreload C:\Users\khalid\Documents\myproject\tifinar\urls.py changed, reloading.
+INFO 2025-10-05 16:37:29,561 autoreload Watching for file changes with StatReloader
+DEBUG 2025-10-05 16:37:31,766 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:37:31,770 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:37:31,775 utils (0.004) 
+            SELECT
+                table_name,
+                table_type,
+                table_comment
+            FROM information_schema.tables
+            WHERE table_schema = DATABASE()
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:37:31,783 utils (0.002) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+DEBUG 2025-10-05 16:37:32,051 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:37:32,104 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:37:32,106 utils (0.002) SELECT `books`.`books_id`, `books`.`Myimage`, `books`.`title`, `books`.`slug`, `books`.`Mysubject`, `books`.`Mydescription`, `books`.`keywords`, `books`.`Author`, `books`.`autre`, `books`.`the_type`, `books`.`dir`, `books`.`language`, `books`.`visibility_status`, `books`.`updated_at`, `books`.`created_at`, `books`.`gender`, `books`.`min_age`, `books`.`max_age`, `books`.`educational_level` FROM `books` WHERE `books`.`slug` = 'bnl_bwnwnw' LIMIT 21; args=('bnl_bwnwnw',); alias=default
+DEBUG 2025-10-05 16:37:32,112 utils (0.001) SELECT COUNT(*) AS `__count` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL; args=(); alias=default
+DEBUG 2025-10-05 16:37:32,116 utils (0.002) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL ORDER BY `comments`.`created_at` DESC; args=(); alias=default
+DEBUG 2025-10-05 16:37:32,169 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:37:32.167468' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:37:32.167468', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:37:32,179 utils (0.004) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-05 16:37:32,183 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-05 16:37:32,241 basehttp "GET /books/edit/bnl_bwnwnw/ HTTP/1.1" 200 26999
+DEBUG 2025-10-05 16:38:04,467 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:38:04,470 utils (0.001) SELECT `books`.`books_id`, `books`.`Myimage`, `books`.`title`, `books`.`slug`, `books`.`Mysubject`, `books`.`Mydescription`, `books`.`keywords`, `books`.`Author`, `books`.`autre`, `books`.`the_type`, `books`.`dir`, `books`.`language`, `books`.`visibility_status`, `books`.`updated_at`, `books`.`created_at`, `books`.`gender`, `books`.`min_age`, `books`.`max_age`, `books`.`educational_level` FROM `books` WHERE `books`.`slug` = 'bnl_bwnwnw' LIMIT 21; args=('bnl_bwnwnw',); alias=default
+DEBUG 2025-10-05 16:38:04,481 utils (0.001) SELECT COUNT(*) AS `__count` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL; args=(); alias=default
+DEBUG 2025-10-05 16:38:04,484 utils (0.001) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL ORDER BY `comments`.`created_at` DESC; args=(); alias=default
+DEBUG 2025-10-05 16:38:04,781 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:38:04.779569' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:38:04.779569', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:38:04,786 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-05 16:38:04,793 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-05 16:38:04,811 basehttp "POST /books/edit/bnl_bwnwnw/ HTTP/1.1" 200 26977
+WARNING 2025-10-05 16:38:04,865 basehttp "GET /static/tifinar/images/books/recursion.PNG HTTP/1.1" 404 2029
+INFO 2025-10-05 16:41:56,630 autoreload C:\Users\khalid\Documents\myproject\tifinar\forms.py changed, reloading.
+INFO 2025-10-05 16:41:58,403 autoreload Watching for file changes with StatReloader
+DEBUG 2025-10-05 16:42:00,730 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:42:00,732 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:42:00,736 utils (0.003) 
+            SELECT
+                table_name,
+                table_type,
+                table_comment
+            FROM information_schema.tables
+            WHERE table_schema = DATABASE()
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:42:00,746 utils (0.002) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+DEBUG 2025-10-05 16:42:01,519 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:42:01,522 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:42:01,525 utils (0.003) SELECT `books`.`books_id`, `books`.`Myimage`, `books`.`title`, `books`.`slug`, `books`.`Mysubject`, `books`.`Mydescription`, `books`.`keywords`, `books`.`Author`, `books`.`autre`, `books`.`the_type`, `books`.`dir`, `books`.`language`, `books`.`visibility_status`, `books`.`updated_at`, `books`.`created_at`, `books`.`gender`, `books`.`min_age`, `books`.`max_age`, `books`.`educational_level` FROM `books` WHERE `books`.`slug` = 'bnl_bwnwnw' LIMIT 21; args=('bnl_bwnwnw',); alias=default
+DEBUG 2025-10-05 16:42:01,531 utils (0.001) SELECT COUNT(*) AS `__count` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL; args=(); alias=default
+DEBUG 2025-10-05 16:42:01,535 utils (0.002) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL ORDER BY `comments`.`created_at` DESC; args=(); alias=default
+DEBUG 2025-10-05 16:42:01,599 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:42:01.597517' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:42:01.597517', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:42:01,605 utils (0.002) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-05 16:42:01,614 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-05 16:42:01,675 basehttp "GET /books/edit/bnl_bwnwnw/ HTTP/1.1" 200 26381
+INFO 2025-10-05 16:42:31,133 autoreload Watching for file changes with StatReloader
+DEBUG 2025-10-05 16:42:33,080 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:42:33,083 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:42:33,088 utils (0.005) 
+            SELECT
+                table_name,
+                table_type,
+                table_comment
+            FROM information_schema.tables
+            WHERE table_schema = DATABASE()
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:42:33,098 utils (0.002) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+DEBUG 2025-10-05 16:42:37,879 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:42:37,885 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:42:37,892 utils (0.005) SELECT `books`.`books_id`, `books`.`Myimage`, `books`.`title`, `books`.`slug`, `books`.`Mysubject`, `books`.`Mydescription`, `books`.`keywords`, `books`.`Author`, `books`.`autre`, `books`.`the_type`, `books`.`dir`, `books`.`language`, `books`.`visibility_status`, `books`.`updated_at`, `books`.`created_at`, `books`.`gender`, `books`.`min_age`, `books`.`max_age`, `books`.`educational_level` FROM `books` WHERE `books`.`slug` = 'bnl_bwnwnw' LIMIT 21; args=('bnl_bwnwnw',); alias=default
+DEBUG 2025-10-05 16:42:37,901 utils (0.001) SELECT COUNT(*) AS `__count` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL; args=(); alias=default
+DEBUG 2025-10-05 16:42:37,905 utils (0.002) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL ORDER BY `comments`.`created_at` DESC; args=(); alias=default
+DEBUG 2025-10-05 16:42:37,947 utils (0.002) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:42:37.943365' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:42:37.943365', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:42:37,951 utils (0.002) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-05 16:42:37,960 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-05 16:42:37,985 basehttp "GET /books/edit/bnl_bwnwnw/ HTTP/1.1" 200 26381
+INFO 2025-10-05 16:43:13,649 autoreload Watching for file changes with StatReloader
+DEBUG 2025-10-05 16:43:15,949 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:43:15,951 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:43:15,956 utils (0.004) 
+            SELECT
+                table_name,
+                table_type,
+                table_comment
+            FROM information_schema.tables
+            WHERE table_schema = DATABASE()
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:43:15,967 utils (0.002) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+DEBUG 2025-10-05 16:43:20,335 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:43:20,350 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:43:20,353 utils (0.002) SELECT `books`.`books_id`, `books`.`Myimage`, `books`.`title`, `books`.`slug`, `books`.`Mysubject`, `books`.`Mydescription`, `books`.`keywords`, `books`.`Author`, `books`.`autre`, `books`.`the_type`, `books`.`dir`, `books`.`language`, `books`.`visibility_status`, `books`.`updated_at`, `books`.`created_at`, `books`.`gender`, `books`.`min_age`, `books`.`max_age`, `books`.`educational_level` FROM `books` WHERE `books`.`slug` = 'bnl_bwnwnw' LIMIT 21; args=('bnl_bwnwnw',); alias=default
+DEBUG 2025-10-05 16:43:20,363 utils (0.001) SELECT COUNT(*) AS `__count` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL; args=(); alias=default
+DEBUG 2025-10-05 16:43:20,367 utils (0.002) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL ORDER BY `comments`.`created_at` DESC; args=(); alias=default
+DEBUG 2025-10-05 16:43:20,410 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:43:20.408562' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:43:20.408562', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:43:20,420 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-05 16:43:20,437 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-05 16:43:20,461 basehttp "GET /books/edit/bnl_bwnwnw/ HTTP/1.1" 200 26381
+DEBUG 2025-10-05 16:43:57,638 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:43:57,647 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:43:57,649 utils (0.001) SELECT `books`.`books_id`, `books`.`Myimage`, `books`.`title`, `books`.`slug`, `books`.`Mysubject`, `books`.`Mydescription`, `books`.`keywords`, `books`.`Author`, `books`.`autre`, `books`.`the_type`, `books`.`dir`, `books`.`language`, `books`.`visibility_status`, `books`.`updated_at`, `books`.`created_at`, `books`.`gender`, `books`.`min_age`, `books`.`max_age`, `books`.`educational_level` FROM `books` WHERE `books`.`slug` = 'bnl_bwnwnw' LIMIT 21; args=('bnl_bwnwnw',); alias=default
+DEBUG 2025-10-05 16:43:57,653 utils (0.001) SELECT COUNT(*) AS `__count` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL; args=(); alias=default
+DEBUG 2025-10-05 16:43:57,662 utils (0.002) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL ORDER BY `comments`.`created_at` DESC; args=(); alias=default
+DEBUG 2025-10-05 16:43:57,796 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:43:57.795646' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:43:57.795646', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:43:57,800 utils (0.001) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-05 16:43:57,804 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-05 16:43:57,826 basehttp "POST /books/edit/bnl_bwnwnw/ HTTP/1.1" 200 26368
+WARNING 2025-10-05 16:43:57,889 basehttp "GET /static/tifinar/images/books/recursion.PNG HTTP/1.1" 404 2029
+INFO 2025-10-05 16:49:32,626 autoreload Watching for file changes with StatReloader
+DEBUG 2025-10-05 16:49:34,670 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:49:34,673 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:49:34,679 utils (0.005) 
+            SELECT
+                table_name,
+                table_type,
+                table_comment
+            FROM information_schema.tables
+            WHERE table_schema = DATABASE()
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:49:34,693 utils (0.002) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+DEBUG 2025-10-05 16:49:40,093 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-05 16:49:40,099 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:49:40,102 utils (0.002) SELECT `books`.`books_id`, `books`.`Myimage`, `books`.`title`, `books`.`slug`, `books`.`Mysubject`, `books`.`Mydescription`, `books`.`keywords`, `books`.`Author`, `books`.`autre`, `books`.`the_type`, `books`.`dir`, `books`.`language`, `books`.`visibility_status`, `books`.`updated_at`, `books`.`created_at`, `books`.`gender`, `books`.`min_age`, `books`.`max_age`, `books`.`educational_level` FROM `books` WHERE `books`.`slug` = 'bnl_bwnwnw' LIMIT 21; args=('bnl_bwnwnw',); alias=default
+DEBUG 2025-10-05 16:49:40,116 utils (0.000) SELECT COUNT(*) AS `__count` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL; args=(); alias=default
+DEBUG 2025-10-05 16:49:40,119 utils (0.001) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL ORDER BY `comments`.`created_at` DESC; args=(); alias=default
+DEBUG 2025-10-05 16:49:40,424 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:49:40.421613' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:49:40.421613', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:49:40,429 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-05 16:49:40,435 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-05 16:49:40,516 basehttp "GET /books/edit/bnl_bwnwnw/ HTTP/1.1" 200 37498
+DEBUG 2025-10-05 16:50:24,692 utils (0.001) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:50:24,694 utils (0.002) SELECT `books`.`books_id`, `books`.`Myimage`, `books`.`title`, `books`.`slug`, `books`.`Mysubject`, `books`.`Mydescription`, `books`.`keywords`, `books`.`Author`, `books`.`autre`, `books`.`the_type`, `books`.`dir`, `books`.`language`, `books`.`visibility_status`, `books`.`updated_at`, `books`.`created_at`, `books`.`gender`, `books`.`min_age`, `books`.`max_age`, `books`.`educational_level` FROM `books` WHERE `books`.`slug` = 'bnl_bwnwnw' LIMIT 21; args=('bnl_bwnwnw',); alias=default
+DEBUG 2025-10-05 16:50:24,700 utils (0.002) SELECT COUNT(*) AS `__count` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL; args=(); alias=default
+DEBUG 2025-10-05 16:50:24,704 utils (0.002) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL ORDER BY `comments`.`created_at` DESC; args=(); alias=default
+DEBUG 2025-10-05 16:50:25,160 utils (0.012) None; args=[165]; alias=default
+INFO 2025-10-05 16:50:25,163 basehttp "POST /books/edit/bnl_bwnwnw/ HTTP/1.1" 302 0
+DEBUG 2025-10-05 16:50:25,172 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:50:25,177 utils (0.002) SELECT `books`.`books_id`, `books`.`Myimage`, `books`.`title`, `books`.`slug`, `books`.`Mysubject`, `books`.`Mydescription`, `books`.`keywords`, `books`.`Author`, `books`.`autre`, `books`.`the_type`, `books`.`dir`, `books`.`language`, `books`.`visibility_status`, `books`.`updated_at`, `books`.`created_at`, `books`.`gender`, `books`.`min_age`, `books`.`max_age`, `books`.`educational_level` FROM `books` WHERE `books`.`slug` = 'bnl_bwnwnw' LIMIT 21; args=('bnl_bwnwnw',); alias=default
+DEBUG 2025-10-05 16:50:25,182 utils (0.000) SELECT COUNT(*) AS `__count` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL; args=(); alias=default
+DEBUG 2025-10-05 16:50:25,184 utils (0.001) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL ORDER BY `comments`.`created_at` DESC; args=(); alias=default
+DEBUG 2025-10-05 16:50:25,216 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:50:25.215019' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:50:25.215019', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:50:25,221 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-05 16:50:25,230 utils (0.000) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-05 16:50:25,262 basehttp "GET /books/edit/bnl_bwnwnw/ HTTP/1.1" 200 37512
+INFO 2025-10-05 16:50:25,483 basehttp "GET /static/tifinar/images/books/bnl_bwnwnw_myimage_1.PNG HTTP/1.1" 200 167882
+DEBUG 2025-10-05 16:50:40,091 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:50:40,094 utils (0.002) SELECT `books`.`books_id`, `books`.`Myimage`, `books`.`title`, `books`.`slug`, `books`.`Mysubject`, `books`.`Mydescription`, `books`.`keywords`, `books`.`Author`, `books`.`autre`, `books`.`the_type`, `books`.`dir`, `books`.`language`, `books`.`visibility_status`, `books`.`updated_at`, `books`.`created_at`, `books`.`gender`, `books`.`min_age`, `books`.`max_age`, `books`.`educational_level` FROM `books` WHERE `books`.`slug` = 'bnl_bwnwnw' LIMIT 21; args=('bnl_bwnwnw',); alias=default
+DEBUG 2025-10-05 16:50:40,103 utils (0.001) SELECT COUNT(*) AS `__count` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL; args=(); alias=default
+DEBUG 2025-10-05 16:50:40,116 utils (0.004) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL ORDER BY `comments`.`created_at` DESC; args=(); alias=default
+DEBUG 2025-10-05 16:50:40,177 utils (0.003) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:50:40.173309' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:50:40.173309', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:50:40,186 utils (0.002) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-05 16:50:40,195 utils (0.007) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-05 16:50:40,232 basehttp "GET /books/edit/bnl_bwnwnw/ HTTP/1.1" 200 37512
+INFO 2025-10-05 16:50:40,282 basehttp "GET /static/tifinar/images/books/bnl_bwnwnw_myimage_1.PNG HTTP/1.1" 304 0
+DEBUG 2025-10-05 16:51:23,271 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:51:23,274 utils (0.003) SELECT `books`.`books_id`, `books`.`Myimage`, `books`.`title`, `books`.`slug`, `books`.`Mysubject`, `books`.`Mydescription`, `books`.`keywords`, `books`.`Author`, `books`.`autre`, `books`.`the_type`, `books`.`dir`, `books`.`language`, `books`.`visibility_status`, `books`.`updated_at`, `books`.`created_at`, `books`.`gender`, `books`.`min_age`, `books`.`max_age`, `books`.`educational_level` FROM `books` WHERE `books`.`slug` = 'bnl_bwnwnw' LIMIT 21; args=('bnl_bwnwnw',); alias=default
+DEBUG 2025-10-05 16:51:23,287 utils (0.001) SELECT COUNT(*) AS `__count` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL; args=(); alias=default
+DEBUG 2025-10-05 16:51:23,296 utils (0.003) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL ORDER BY `comments`.`created_at` DESC; args=(); alias=default
+DEBUG 2025-10-05 16:51:23,753 utils (0.001) None; args=[165]; alias=default
+INFO 2025-10-05 16:51:23,757 basehttp "POST /books/edit/bnl_bwnwnw/ HTTP/1.1" 302 0
+DEBUG 2025-10-05 16:51:23,767 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:51:23,768 utils (0.001) SELECT `books`.`books_id`, `books`.`Myimage`, `books`.`title`, `books`.`slug`, `books`.`Mysubject`, `books`.`Mydescription`, `books`.`keywords`, `books`.`Author`, `books`.`autre`, `books`.`the_type`, `books`.`dir`, `books`.`language`, `books`.`visibility_status`, `books`.`updated_at`, `books`.`created_at`, `books`.`gender`, `books`.`min_age`, `books`.`max_age`, `books`.`educational_level` FROM `books` WHERE `books`.`slug` = 'bnl_bwnwnw' LIMIT 21; args=('bnl_bwnwnw',); alias=default
+DEBUG 2025-10-05 16:51:23,771 utils (0.000) SELECT COUNT(*) AS `__count` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL; args=(); alias=default
+DEBUG 2025-10-05 16:51:23,775 utils (0.002) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL ORDER BY `comments`.`created_at` DESC; args=(); alias=default
+DEBUG 2025-10-05 16:51:23,811 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:51:23.805410' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:51:23.805410', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:51:23,814 utils (0.001) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-05 16:51:23,817 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-05 16:51:23,843 basehttp "GET /books/edit/bnl_bwnwnw/ HTTP/1.1" 200 37509
+INFO 2025-10-05 16:51:23,885 basehttp "GET /static/tifinar/images/books/bnl_bwnwnw_myimage_1.PNG HTTP/1.1" 304 0
+DEBUG 2025-10-05 16:51:29,641 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-05 16:51:29,643 utils (0.001) SELECT `books`.`books_id`, `books`.`Myimage`, `books`.`title`, `books`.`slug`, `books`.`Mysubject`, `books`.`Mydescription`, `books`.`keywords`, `books`.`Author`, `books`.`autre`, `books`.`the_type`, `books`.`dir`, `books`.`language`, `books`.`visibility_status`, `books`.`updated_at`, `books`.`created_at`, `books`.`gender`, `books`.`min_age`, `books`.`max_age`, `books`.`educational_level` FROM `books` WHERE `books`.`slug` = 'bnl_bwnwnw' LIMIT 21; args=('bnl_bwnwnw',); alias=default
+DEBUG 2025-10-05 16:51:29,647 utils (0.001) SELECT COUNT(*) AS `__count` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL; args=(); alias=default
+DEBUG 2025-10-05 16:51:29,653 utils (0.004) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE `comments`.`page_title` IS NOT NULL ORDER BY `comments`.`created_at` DESC; args=(); alias=default
+DEBUG 2025-10-05 16:51:29,704 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-05 15:51:29.703232' AND `django_session`.`session_key` = 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz') LIMIT 21; args=('2025-10-05 15:51:29.703232', 'vgd4bcmjtr0otko11me9r0vgy1xfqdtz'); alias=default
+DEBUG 2025-10-05 16:51:29,712 utils (0.005) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-05 16:51:29,719 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-05 16:51:29,753 basehttp "GET /books/edit/bnl_bwnwnw/ HTTP/1.1" 200 37509
+INFO 2025-10-05 16:51:29,804 basehttp "GET /static/tifinar/images/books/bnl_bwnwnw_myimage_1.PNG HTTP/1.1" 304 0

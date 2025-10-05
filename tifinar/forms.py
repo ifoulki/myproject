@@ -205,132 +205,6 @@ class BaseContentForm(forms.ModelForm):
             instance.save()
         return instance
 
-class BookForm(BaseContentForm):
-    
-    TYPE_CHOICES = [
-        ('', 'اختر صنف الكتاب'),
-        ('الآداب :', [
-            ('قصص و روايات', 'قصص و روايات'),
-            ('قصائد شعرية', 'قصائد شعرية'),
-            ('مجلات', 'مجلات'),
-            ('لقواميس اللغوية - Dictionaries', 'لقواميس اللغوية - Dictionaries'),
-            ('أديان', 'أديان'),
-            ('فلسفة', 'فلسفة'),
-        ]),
-        ('الغات :', [
-            ('الأمازيغية', 'تعلم الأمازيغية'),
-            ('العربية', 'تعلم العربية'),
-            ('الفرنسية', 'تعلم الفرنسية'),
-            ('الإنجليزية', 'تعلم الإنجليزية'),
-        ]),
-        ('العلوم :', [
-            ('علوم الحاسوب', 'علوم الحاسوب'),
-            ('رياضيات', 'تعلم الرياضيات'),
-            ('الكيمياء', 'الكيمياء'),
-            ('الفزياء', 'الفزياء'),
-            ('علوم الحياة والأرض', 'علوم الحياة والأرض'),
-        ]),
-        ('مواضيع أخرى :', [
-            ('صحة وحياة', 'صحة وحياة'),
-            ('حقوق الإنسان', 'القانون وحقوق الإنسان'),
-            ('الثقافة العامة', 'الثقافة العامة'),
-            ('تربية وتعليم', 'تربية وتعليم'),
-            ('أصناف أخرى', 'أصناف أخرى'),
-        ])
-    ]
-
-    the_type = forms.ChoiceField(
-        choices=TYPE_CHOICES,
-        widget=forms.Select(attrs={'class': 'form-control form-select'}),
-        label='تصنيف الكتاب',
-        required=True
-    )
-
-    class Meta(BaseContentForm.Meta):
-
-        model = books
-        fields = [
-            'title', 'mysubject', 'mydescription', 'keywords',
-            'author', 'myimage', 'autre', 'the_type', 'educational_level',
-            'min_age', 'max_age', 'dir','gender'
-        ]
-
-        widgets = {
-            'title': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'عنوان الكتاب ...',
-                'minlength': '7',
-                'required': True
-            }),
-            'author': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'اسم الكاتب ...',
-                'maxlength': '50'
-            }),
-            'mysubject': forms.Textarea(attrs={
-                'class': 'mysubject',
-                'placeholder': 'عن ماذا يتحدث الكتاب؟',
-                'required': True
-            }),
-            'mydescription': forms.Textarea(attrs={
-                'class': 'description',
-                'name': 'mydescription',
-                'placeholder': 'وصف مختصر ...',
-                'maxlength': '255'
-            }),
-            'keywords': forms.Textarea(attrs={
-                'class': 'keywords',
-                'placeholder': 'الكلمات المفتاحية ...',
-                'maxlength': '255'
-            }),
-            'educational_level': forms.Select(attrs={
-                'class': 'form-select'
-            }),
-            'min_age': forms.NumberInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'الحد الأدنى',
-                'min': '2',
-                'max': '75'
-            }),
-            'max_age': forms.NumberInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'الحد الأقصى',
-                'min': '2',
-                'max': '75'
-            }),
-            'myimage': forms.FileInput(attrs={
-                'class': 'form-control',
-                'name': 'myimage',
-                'id': 'formFile1'
-            }),
-            'autre': forms.FileInput(attrs={
-                'class': 'form-control',
-                'name': 'autre',
-                'id': 'formFile2'
-            }),
-        }
-
-        labels = {
-            'title': 'عنوان الكتاب',
-            'author': 'اسم الكاتب',
-            'mysubject': 'موجز عن الكتاب يشجع على تحميله :',
-            'mydescription': 'وصف المحتوى',
-            'keywords': 'الكلمات المفتاحية',
-            'the_type': 'صنف الكتاب',
-            'dir': 'لغة الموجز',
-            'educational_level': 'المستوى الدراسي',
-            'min_age': 'العمر الأدنى',
-            'max_age': 'العمر الأقصى',
-            'myimage': 'غلاف الكتاب',
-            'autre': 'تحميل الكتاب'
-        }
-
-    def clean_mysubject(self):
-        mysubject = self.cleaned_data.get('mysubject')
-        if not mysubject or len(mysubject.strip()) < 20:
-            raise forms.ValidationError('يرجى إدخال موجز لا يقل عن 20 حرفًا.')
-        return mysubject
-
 
 class VideoForm(BaseContentForm):
     TYPE_CHOICES = [
@@ -531,3 +405,113 @@ class ExamForm(BaseContentForm):
             'max_age': 'العمر الأقصى',
             'myimage': 'غلاف الكتاب',
         }
+
+
+
+class BookForm(BaseContentForm):
+    TYPE_CHOICES = [
+        ('التربية الإسلامية', 'التربية الإسلامية'),
+        ('فلسفة', 'فلسفة'),
+        ('الأمازيغية', 'تعلم الأمازيغية'),
+        ('الفرنسية', 'تعلم الفرنسية'),
+        ('الإنجليزية', 'تعلم الإنجليزية'),
+        ('رياضيات', 'تعلم الرياضيات'),
+        ('الكيمياء', 'الكيمياء'),
+        ('الفزياء', 'الفزياء'),
+        ('علوم الحياة والأرض', 'علوم الحياة والأرض'),
+        ('صحة وحياة', 'صحة وحياة'),
+        ('علوم الحاسوب', 'علوم الحاسوب'),
+        ('حقوق الإنسان', 'القانون وحقوق الإنسان'),
+        ('الثقافة العامة', 'الثقافة العامة'),
+        ('تربية وتعليم', 'تربية وتعليم'),
+        ('أصناف أخرى', 'أصناف أخرى'),
+    ]
+
+    the_type = forms.ChoiceField(
+        choices=TYPE_CHOICES,
+        widget=forms.Select(attrs={'class': 'form-control form-select'}),
+        label='تصنيف الكتاب',
+        required=True
+    )
+
+    class Meta(BaseContentForm.Meta):
+
+        model = videos
+        fields = [
+            'title', 'mysubject', 'mydescription', 'keywords',
+            'author', 'myimage', 'autre', 'the_type', 'educational_level',
+            'min_age', 'max_age', 'dir','gender'
+        ]
+
+        widgets = {
+            'title': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'عنوان الفيديو ...',
+                'required': True
+            }),
+            'author': forms.TextInput(attrs={
+                'class': 'form-control',
+                'name': 'author',
+                'placeholder': 'اسم الكاتب ...',
+                'maxlength': '50'
+            }),
+            'mysubject': forms.Textarea(attrs={
+                'class': 'mysubject',
+                'placeholder': 'ألصق رابط الفيديو هنا ..',
+                'required': True
+            }),
+            'mydescription': forms.Textarea(attrs={
+                'class': 'description',
+                'placeholder': 'وصف الفيديو ...',
+            }),
+            
+            'keywords': forms.Textarea(attrs={
+                'class': 'keywords',
+                'placeholder': 'الكلمات المفتاحية ...',
+                'value': ''  # إضافة هذه السطر
+            }),
+            'educational_level': forms.Select(attrs={
+                'class': 'form-select'
+            }),
+            'min_age': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'الحد الأدنى',
+                'min': '2',
+                'max': '75'
+            }),
+            'max_age': forms.NumberInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'الحد الأقصى',
+                'min': '2',
+                'max': '75'
+            }),
+            'myimage': forms.FileInput(attrs={
+                'class': 'form-control',
+                'id': 'formFile1'
+            }),
+            'autre': forms.FileInput(attrs={
+                'class': 'form-control',
+                'id': 'formFile2'
+            }),
+        }
+
+        labels = {
+            'title': 'عنوان الفيديو',
+            'author': 'صاحب الفيديو',
+            'mysubject': 'رابط الفيديو',
+            'mydescription': 'وصف الفيديو',
+            'keywords': 'الكلمات المفتاحية',
+            'the_type': 'صنف الفيديو',
+            'dir': 'العنوان مكتوب بأي لغة؟',
+            'educational_level': 'هل يجب أن يكون للمشاهد مستوى دراسي معين؟',
+            'min_age': 'العمر الأدنى',
+            'max_age': 'العمر الأقصى',
+            'myimage': 'غلاف الكتاب',
+            'autre': 'تحميل الكتاب'
+        }
+
+    def clean_mysubject(self):
+        mysubject = self.cleaned_data.get('mysubject')
+        if not mysubject or len(mysubject.strip()) < 20:
+            raise forms.ValidationError('يرجى إضافة رابط الفيديو.')
+        return mysubject

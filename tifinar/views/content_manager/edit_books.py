@@ -47,10 +47,111 @@ def normalize_text(text):
     text = text.replace('\n', ' ').replace('\r', ' ').replace('\t', ' ')
     return text
 
+def advanced_transliterator(text):
+    """
+    تحويل النص إلى slug واضح ومقروء
+    """
+    if not text:
+        return ""
+
+    # تحويل النص إلى حروف صغيرة
+    text = text.lower().strip()
+
+    # استبدالات أقرب للنطق
+    replacements = {
+        'ء': '', 'آ': 'a', 'أ': 'a', 'إ': 'i', 'ئ': 'i', 'ؤ': 'o', 'ة': 'a',
+        'ى': 'a', 'ٱ': 'a', 'ق': 'q', 'ك': 'k', 'ج': 'j', 'ش': 'sh', 'غ': 'gh',
+        'ع': 'a', 'خ': 'kh', 'ح': 'h', 'ث': 'th', 'ص': 's', 'ض': 'd', 'ط': 't',
+        'ظ': 'z', 'ذ': 'dh', 'ز': 'z', 'ر': 'r', 'د': 'd', 'س': 's', 'ب': 'b',
+        'م': 'm', 'و': 'w', 'ت': 't', 'ن': 'n', 'ل': 'l', 'ف': 'f', 'ي': 'y',
+        ' ': '_', '_': '_',
+
+        # الفرنسية والرموز
+        'é': 'e', 'è': 'e', 'ê': 'e', 'ë': 'e', 'à': 'a', 'â': 'a', 'ä': 'a',
+        'î': 'i', 'ï': 'i', 'ô': 'o', 'ö': 'o', 'ù': 'u', 'û': 'u', 'ü': 'u',
+        'ç': 'c', 'œ': 'oe', 'æ': 'ae',
+        '/': '_', '\\': '_', ':': '_', ',': '_', '!': '', '?': '', '؟': '',
+        '،': '_', '؛': '_', '"': '', "'": '', '«': '', '»': ''
+    }
+
+    for char, repl in replacements.items():
+        text = text.replace(char, repl)
+
+    # إزالة التشكيل
+    text = unicodedata.normalize('NFKD', text)
+    text = ''.join([c for c in text if not unicodedata.combining(c)])
+
+    # السماح فقط بـ a-z و 0-9 و "_"
+    text = re.sub(r'[^a-z0-9_]', '', text)
+
+    # تقليل الشرطات/underscores
+    text = re.sub(r'_+', '_', text).strip('_')
+
+    return text
+
+
+def handle_uploaded_images(new_images, existing_images, slug, image_type):
+    """معالجة الصور المحملة وحفظها في مجلد static"""
+    
+    image_slug = advanced_transliterator(slug)
+    
+    # 🔥 استخدام أول مسار من STATICFILES_DIRS
+    if settings.STATICFILES_DIRS:
+        base_static_path = settings.STATICFILES_DIRS[0]
+    else:
+        base_static_path = os.path.join(settings.BASE_DIR, 'static')
+    
+    static_images_path = os.path.join(base_static_path, 'tifinar', 'images', 'books')
+    
+    print(f"📍 المسار المستهدف: {static_images_path}")
+    print(f"📍 هل المجلد موجود؟ {os.path.exists(static_images_path)}")
+    
+    # 🔥 الخطوة 1: حذف جميع الصور القديمة
+    if existing_images and isinstance(existing_images, str):
+        old_images = [img.strip() for img in existing_images.split(',') if img.strip()]
+        for old_image in old_images:
+            old_path = os.path.join(static_images_path, old_image)
+            print(f"🗑️ محاولة حذف: {old_path}")
+            if os.path.exists(old_path):
+                os.remove(old_path)
+                print(f"🗑️ تم حذف الصورة القديمة: {old_image}")
+            else:
+                print(f"⚠️  الصورة القديمة غير موجودة: {old_image}")
+    
+    # 🔥 الخطوة 2: إضافة الصور الجديدة
+    image_names = []
+    
+    for i, image in enumerate(new_images, start=1):
+        ext = os.path.splitext(image.name)[1]
+        new_name = f"{image_slug}_{image_type}_{i}{ext}"
+        save_path = os.path.join(static_images_path, new_name)
+        
+        print(f"💾 محاولة حفظ الصورة في: {save_path}")
+        
+        # إنشاء المجلد إذا لم يكن موجوداً
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+        print(f"📁 تم إنشاء/التأكد من المجلد: {os.path.dirname(save_path)}")
+        
+        # حفظ الصورة
+        with open(save_path, 'wb+') as destination:
+            for chunk in image.chunks():
+                destination.write(chunk)
+        image_names.append(new_name)
+        
+        # التحقق من الحفظ
+        if os.path.exists(save_path):
+            file_size = os.path.getsize(save_path)
+            print(f"✅ تم حفظ الصورة بنجاح: {new_name} ({file_size} bytes)")
+        else:
+            print(f"❌ فشل في حفظ الصورة: {new_name}")
+
+    return ','.join(image_names) if image_names else ''
+
+
 CONTENT_TYPES = {
     'books': {
         'model': books,
-        'id_field': 'book_id',
+        'id_field': 'books_id',
         'subject_field': 'mysubject',
         'template': 'edit_book.html',
         'redirect_name': 'show_book',
@@ -58,14 +159,22 @@ CONTENT_TYPES = {
         'types': ['أدب', 'علوم', 'تاريخ', 'فلسفة']
     },
 }
-
-def edit_book(request, content_type, slug):
+    
+def edit_book(request, slug):
+    # تحديد نوع المحتوى مباشرة داخل الدالة
+    content_type = 'books'
     config = CONTENT_TYPES.get(content_type)
+    
     if not config:
         return HttpResponseNotFound("نوع المحتوى غير موجود")
 
     ModelClass = config['model']
     content = get_object_or_404(ModelClass, slug=slug)
+
+    # حفظ القيم الأصلية للصور قبل أي تعديل
+    original_myimage = content.myimage
+    if hasattr(content, 'autre'):
+        original_autre = content.autre
 
     # جلب التعليقات المرتبطة بالكتاب
     content_comments = []
@@ -110,6 +219,12 @@ def edit_book(request, content_type, slug):
             print(f"تم إنشاء نموذج للتعليق {comment.cmt_id}")
 
     if request.method == 'POST':
+        # 🔥 طباعة جميع بيانات POST للتحقق
+        print("=== بيانات POST المستلمة ===")
+        for key, value in request.POST.items():
+            print(f"{key}: {value}")
+        print("=== نهاية بيانات POST ===")
+
         # التحقق مما إذا كان الطلب لتعديل كتاب أو تعليق
         if 'comment_id' in request.POST:
             # هذا طلب لتعديل تعليق
@@ -141,29 +256,82 @@ def edit_book(request, content_type, slug):
         else:
             # هذا طلب لتعديل الكتاب
             form = config['form_class'](request.POST, request.FILES, instance=content)
+            print(f"📝 النموذج صالح؟ {form.is_valid()}")
+            if form.errors:
+                print(f"📝 أخطاء النموذج: {form.errors}")
+            
             if form.is_valid():
                 try:
                     content = form.save(commit=False)
-                    image_fields = ['myimage', 'autre']
-                    original_images = {field: getattr(content, field, '') for field in image_fields}
-
-                    for field in image_fields:
-                        if field in request.FILES and request.FILES[field]:
-                            new_files = request.FILES.getlist(field)
+                    
+                    # 🔥 الحل الجذري: تحديث visibility_status مباشرة من request.POST
+                    visibility_status = request.POST.get('visibility_status')
+                    print(f"🔍 visibility_status من POST: {visibility_status}")
+                    
+                    if visibility_status:
+                        content.visibility_status = visibility_status
+                        print(f"✅ تم تعيين visibility_status إلى: {visibility_status}")
+                    else:
+                        # إذا لم يتم إرسال القيمة، استخدم القيمة الحالية
+                        print(f"⚠️  لم يتم إرسال visibility_status، الاستمرار بالقيمة الحالية: {content.visibility_status}")
+                    
+                    # تحديث حقل updated_at
+                    content.updated_at = timezone.now()
+                    
+                    # الحل: التحقق من الملفات المرفوعة والحفاظ على القيم الأصلية
+                    print(f"📁 FILES: {request.FILES}")
+                    print(f"📁 myimage في FILES: {'myimage' in request.FILES}")
+                    
+                    # إذا لم يتم رفع ملف جديد لـ myimage، استخدم القيمة الأصلية
+                    if 'myimage' not in request.FILES or not request.FILES.get('myimage'):
+                        content.myimage = original_myimage
+                        print(f"🖼️ احتفظ بالصورة القديمة: {original_myimage}")
+                    else:
+                        print(f"🖼️ سيتم استخدام الصورة الجديدة: {request.FILES['myimage'].name}")
+                        # استخدام advanced_transliterator لأسماء الصور الجديدة
+                        if request.FILES.get('myimage'):
+                            new_files = request.FILES.getlist('myimage')
                             processed_value = handle_uploaded_images(
-                                new_files, original_images[field], content.slug, field.split('_')[-1]
+                                new_files, original_myimage, content.slug, 'myimage'
                             )
-                            setattr(content, field, processed_value)
+                            content.myimage = processed_value
+                    
+                    # نفس المنطق لحقل autre إذا كان موجوداً
+                    if hasattr(content, 'autre'):
+                        if 'autre' not in request.FILES or not request.FILES.get('autre'):
+                            content.autre = original_autre
+                            print(f"🖼️ احتفظ بالصورة الإضافية القديمة: {original_autre}")
                         else:
-                            setattr(content, field, original_images[field])
-
+                            # استخدام advanced_transliterator لأسماء الصور الجديدة
+                            if request.FILES.get('autre'):
+                                new_files = request.FILES.getlist('autre')
+                                processed_value = handle_uploaded_images(
+                                    new_files, original_autre, content.slug, 'autre'
+                                )
+                                content.autre = processed_value
+                    
+                    # 🔥 تأكد من حفظ visibility_status
+                    print(f"🔍 visibility_status قبل الحفظ: {content.visibility_status}")
+                    
                     content.save()
 
                     if hasattr(form, 'save_m2m'):
                         form.save_m2m()
 
+                    # 🔥 تحقق من القيمة في قاعدة البيانات
+                    try:
+                        from django.db import connection
+                        with connection.cursor() as cursor:
+                            cursor.execute("SELECT visibility_status FROM books WHERE VD_id = %s", [content.books_id])
+                            db_status = cursor.fetchone()
+                            print(f"🗄️  القيمة في قاعدة البيانات: {db_status}")
+                    except Exception as db_error:
+                        print(f"❌ خطأ في التحقق من قاعدة البيانات: {db_error}")
+
                     messages.success(request, 'تم تحديث الكتاب بنجاح')
-                    print(f"تم تحديث الكتاب {content.title} بنجاح")
+                    print(f"✅ تم تحديث الكتاب {content.title} بنجاح")
+                    print(f"🖼️ الصورة بعد الحفظ: {content.myimage}")
+                    print(f"🔍 visibility_status بعد الحفظ: {content.visibility_status}")
                     return redirect(request.path)
                     
                 except Exception as e:
@@ -183,36 +351,22 @@ def edit_book(request, content_type, slug):
     else:
         form = config['form_class'](instance=content)
 
+    # إذا لم تكن هناك نماذج تعليقات، أنشئها
     if not comment_forms and content_type == 'books':
         for comment in content_comments:
             comment_forms.append(CommentForm(instance=comment))
 
     context = {
+        'book': content,
         'title': content.title,
         'description': content.mydescription,
-        'book': content,
         'form': form,
         'content_types': config['types'],
         'comments': zip(content_comments, comment_forms) if content_type == 'books' else [],
-        'comment_count': len(content_comments) if content_type == 'books' else 0
+        'comment_count': len(content_comments) if content_type == 'books' else 0,
+        'current_visibility': content.visibility_status  # 🔥 إرسال القيمة الحالية للقالب
     }
 
     print(f"تم تحضير context مع {len(content_comments)} تعليقات")
-    return render(request, f'tifinar/auth/{content_type}/{config["template"]}', context)
-
-def handle_uploaded_images(new_images, existing_images, slug, image_type):
-    image_names = []
-    if existing_images and isinstance(existing_images, str):
-        image_names = existing_images.split(',')
-
-    for i, image in enumerate(new_images, start=1):
-        ext = os.path.splitext(image.name)[1]
-        new_name = f"{slug}_{image_type}_{i}{ext}"
-        save_path = os.path.join(settings.MEDIA_ROOT, 'uploads', new_name)
-        os.makedirs(os.path.dirname(save_path), exist_ok=True)
-        with open(save_path, 'wb+') as destination:
-            for chunk in image.chunks():
-                destination.write(chunk)
-        image_names.append(new_name)
-
-    return ','.join(image_names)
+    
+    return render(request, f'tifinar/auth/books/edit_book.html', context)

@@ -140,7 +140,7 @@ urlpatterns = [
     # تعديل المحتوى
     path('articles/edit/<path:slug>/', edit_content, {'content_type': 'articles'}, name='edit_article'),
     path('videos/edit/<path:slug>/', edit_video, name='edit_video'),
-    path('books/edit/<path:slug>/', edit_book, {'content_type': 'books'}, name='edit_book'),
+    path('books/edit/<path:slug>/', edit_book, name='edit_book'),
     path('exams/edit/<slug:slug>/', edit_exam, name='edit_exam'),
     path('cours/edit/<path:slug>/', edit_course_view, name='edit_cours'), 
     
