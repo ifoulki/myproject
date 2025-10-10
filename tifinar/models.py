@@ -11,10 +11,10 @@ from django.utils.text import slugify
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.utils.translation import gettext_lazy as _
 import random
-from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 
+from .choices import *
 class AdminArticles(models.Model):
     adm_art_id = models.IntegerField(primary_key=True)
     title = models.CharField(max_length=255, blank=True, null=True)
@@ -49,23 +49,19 @@ class articles(models.Model):
     the_type = models.CharField(max_length=255, blank=True, null=True)
     visibility_status = models.CharField(
         max_length=15,
-        choices=[
-            ('public', 'عام'),
-            ('under_review', 'قيد المراجعة'),
-            ('restricted', 'مقيد')
-        ],
-        default='under_review'
-    )
+        choices=VisibilityStatus.choices,
+        default=VisibilityStatus.UNDER_REVIEW
+        )
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
-    educational_level = models.CharField(max_length=26)
+    educational_level = models.CharField(
+        max_length=3,
+        choices=EducationalLevel.choices,
+        default=EducationalLevel.UNKNOWN
+        )
     gender = models.CharField(
         max_length=10,
-        choices=[
-            ('male', 'ذكر'),
-            ('female', 'أنثى'),
-            ('all', 'جميع')
-        ],
+        choices=Gender.choices,
         default='all'
     )
     min_age = models.IntegerField()

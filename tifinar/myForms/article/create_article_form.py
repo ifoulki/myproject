@@ -100,7 +100,7 @@ class BaseContentForm(forms.ModelForm):
         widget=forms.RadioSelect(attrs={'class': 'visibility-radio'}),
         label='حالة المقال',
         initial='under_review',
-        required=True
+        required=False
     )
     
     class Meta:

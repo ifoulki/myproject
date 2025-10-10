@@ -33,7 +33,7 @@ def normalize_text(text):
     return text
 
 @login_required
-def edit_course_view(request, slug):
+def edit_cours_view(request, slug):
     logger.info(f"بدء عملية تعديل درس: {slug}")
     
     cour = get_object_or_404(cours, slug=slug)

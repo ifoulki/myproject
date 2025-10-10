@@ -1,9 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseNotFound
-from tifinar.models import articles, books, exams, videos, cours, comments
+from tifinar.models import articles, comments
 from tifinar.myForms.article.create_article_form import ArticleForm
-from tifinar.forms import BookForm, ExamForm, VideoForm, CommentForm
-from tifinar.myForms.cours.create_cours_form import CoursForm
+from tifinar.forms import CommentForm
 from django.contrib import messages
 import os
 from django.conf import settings
@@ -74,41 +73,6 @@ CONTENT_TYPES = {
         'redirect_name': 'show_article',
         'types': ['الأمازيغية', 'تربية وتعليم', 'الثقافة العامة', 'علوم', 'القانون وحقوق الإنسان'],
         'form_class': ArticleForm,
-    },
-    'books': {
-        'model': books,
-        'id_field': 'book_id',
-        'subject_field': 'mysubject',
-        'template': 'edit_book.html',
-        'redirect_name': 'show_book',
-        'form_class': BookForm,
-        'types': ['أدب', 'علوم', 'تاريخ', 'فلسفة']
-    },
-    'exams': {
-        'model': exams,
-        'id_field': 'exam_id',
-        'subject_field': 'mysubject',
-        'template': 'edit_exam.html',
-        'redirect_name': 'show_exam',
-        'form_class': ExamForm,
-        'types': ['أدب', 'علوم', 'تاريخ', 'فلسفة']
-    },
-    'cours': {
-        'model': cours,
-        'id_field': 'cours_id',
-        'subject_field': 'mysubject',
-        'template': 'edit_cours.html',
-        'redirect_name': 'show_cours',
-        'form_class': CoursForm,
-        'types': ['أدب', 'علوم', 'تاريخ', 'فلسفة']
-    },
-    'videos': {
-        'model': videos,
-        'id_field': 'vd_id',
-        'template': 'edit_video.html',
-        'form_class': VideoForm,
-        'redirect_name': 'show_video',
-        'types': ['أدب', 'علوم', 'تاريخ', 'فلسفة']
     },
 }
 

@@ -1,130 +1,215 @@
-{% include "tifinar/header.html" %}
-{% load static %}
+{% include "tifinar/header.html" %} {% load static %}
 
-<div class="content" >
-    <div class="content_flex">
-        <div class="aside-ads-index">
-          
-            {% if ads %}
-               <a target="_blank" href="https://hostinger.ae?REFERRALCODE=1HAMID718"><img src="{% static 'tifinar/assets/education2.webp' %}"></a>
-            {% endif %}
+<div class="content">
+  <div class="content_flex">
+    <div class="aside-ads-index">
+      {% if ads %}
+      <a target="_blank" href="https://hostinger.ae?REFERRALCODE=1HAMID718"
+        ><img src="{% static 'tifinar/assets/education2.webp' %}"
+      /></a>
+      {% endif %}
+    </div>
+
+    <div class="proposition">
+      <div
+        id="carouselExampleIndicators"
+        class="carousel slide"
+        data-bs-ride="carousel"
+        data-bs-interval="6000"
+      >
+        <div class="carousel-indicators">
+          {% for video in videos %}
+          <button
+            type="button"
+            data-bs-target="#carouselExampleIndicators"
+            data-bs-slide-to="{{forloop.counter0}}"
+            class="{% if forloop.first %}active{% endif %}"
+            aria-current="{% if forloop.first %}true{% else %}false{% endif %}"
+            aria-label="Slide {{ forloop.counter }}"
+          ></button>
+          {% endfor %}
         </div>
-        
-        <div class="proposition">
-            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" data-bs-interval="6000">
-                <div class="carousel-inner">
-                    <div class="carousel-indicators">
-                        {% for video in videos %}
-                        <button type="button" data-bs-target="#carouselExampleIndicators" 
-                                data-bs-slide-to="{{ forloop.counter0 }}" 
-                                class="{% if forloop.first %}active{% endif %}" 
-                                aria-current="{% if forloop.first %}true{% else %}false{% endif %}" 
-                                aria-label="Slide {{ forloop.counter }}"></button>
-                        {% endfor %}
-                    </div>
-                    
-                    {% for video in videos %}
-                    <a class="dynamic-link" data-title="{{ video.slug }}">
-                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                            <img src="{% static 'tifinar/images/videos/' %}{{ video.myimage }}" class="d-block w-100" alt="{{ video.title }}">
-                            <h2 class="text-center text-carousel mt-3">{{ video.title }}</h2>
-                        </div>
-                    </a>
-                    {% endfor %}
-                </div>
 
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">السابق</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">التالي</span>
-                </button>
+        <div class="carousel-inner">
+          {% for video in videos %}
+          <a href="/videos/{{ video.slug }}">
+            <div class="carousel-item {% if forloop.first %}active{% endif %}">
+              <img
+                src="{% static 'tifinar/images/videos/' %}{{ video.myimage }}"
+                class="d-block w-100 rounded-2 shadow"
+                alt="{{ video.title }}"
+              />
+              <h2 class="text-center text-carousel mt-3 animate-text">
+                {{ video.title }}
+              </h2>
             </div>
+          </a>
+          {% endfor %}
         </div>
+
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">السابق</span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">التالي</span>
+        </button>
+      </div>
     </div>
 
-    <hr>
-    <h3>فيديوهات:</h3>
-    <div class="section2">
-        {% for video in videos %}
-            <div class="video" dir="{{ video.dir}}">
-                <a class="dynamic-link" data-title="{{ video.slug }}">
-                    <figure>
-                        <img src="{% static 'tifinar/images/videos/' %}{{ video.myimage }}" alt="{{ video.title }}" title="{{ video.title }}">
-                        <figcaption class="video-title">{{ video.title }}</figcaption>
-                    </figure>
-                </a>
-            </div>
-        {% endfor %}
-    </div>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const carousel = document.getElementById("carouselExampleIndicators");
+        if (!carousel) return;
 
-    <hr>
-    <h3>مقالات:</h3>
-    <div class="section2">
-        {% for article in articles %}
-            <div class="video" dir="{{article.dir}}">
-                <a class="dynamic-link" data-title="{{ article.slug }}">
-                    <figure>
-                        <img src="{% static 'tifinar/images/articles/' %}{{ article.myimage }}" alt="{{ article.title }}" title="{{ article.title }}">
-                        <figcaption class="book-title">{{ article.title }}</figcaption>
-                    </figure>
-                </a>
-            </div>
-        {% endfor %}
-    </div>
+        // 🔁 تصحيح الاتجاه إذا كانت الصفحة RTL
+        const isRTL =
+          document.documentElement.dir === "rtl" ||
+          document.body.dir === "rtl" ||
+          carousel.closest("[dir]")?.dir === "rtl";
 
-    <hr>
-    <h3>كتب:</h3>
-    <div class="section2">
-        {% for book in books %}
-            <a class="dynamic-link" data-title="{{ book.slug }}">
-                <div class="book">
-                    <figure>
-                        <img src="{% static 'tifinar/images/books/' %}{{ book.myimage }}" alt="{{ book.title }}" title="{{ book.title }}">
-                        <figcaption class="book-title">{{ book.title }}</figcaption>
-                    </figure>
-                </div>
-            </a>
-        {% endfor %}
-    </div>
-    <hr>
-</div>
-
-<script>
-    $(document).ready(function() {
-    // معالجة الروابط الديناميكية
-    $('.dynamic-link').click(function(e) {
-        e.preventDefault();
-        const slug = $(this).data('title');
-        loadContent(slug);
-    });
-
-    // تهيئة الكاروسيل
-    $('#carouselExampleIndicators').carousel({
-        interval: 6000,
-        pause: "hover"
-    });
-
-    // دالة لتحميل المحتوى
-    function loadContent(slug) {
-        $.ajax({
-            url: '/api/content/' + slug,
-            method: 'GET',
-            success: function(response) {
-                $('#content-container').html(response);
-                history.pushState(null, null, '/content/' + slug);
-            },
-            error: function(xhr) {
-                console.error('Error loading content:', xhr.responseText);
+        if (isRTL) {
+          carousel.classList.add("carousel-rtl");
+          const prevBtn = carousel.querySelector(".carousel-control-prev");
+          const nextBtn = carousel.querySelector(".carousel-control-next");
+          if (prevBtn && nextBtn) {
+            prevBtn.setAttribute("data-bs-slide", "next");
+            nextBtn.setAttribute("data-bs-slide", "prev");
+            const prevLabel = prevBtn.querySelector(".visually-hidden");
+            const nextLabel = nextBtn.querySelector(".visually-hidden");
+            if (prevLabel && nextLabel) {
+              const tmp = prevLabel.textContent;
+              prevLabel.textContent = nextLabel.textContent;
+              nextLabel.textContent = tmp;
             }
-        });
-    }
+            const prevIcon = prevBtn.querySelector(
+              ".carousel-control-prev-icon"
+            );
+            const nextIcon = nextBtn.querySelector(
+              ".carousel-control-next-icon"
+            );
+            if (prevIcon) prevIcon.style.transform = "scaleX(-1)";
+            if (nextIcon) nextIcon.style.transform = "scaleX(-1)";
+          }
+        }
 
-    // إدارة حالة RTL/LTR
-    $('[dir="rtl"]').css('text-align', 'right');
-});
-</script>
+        // ✨ تأثير ظهور النص بسلاسة
+        const items = carousel.querySelectorAll(".carousel-item");
+        carousel.addEventListener("slide.bs.carousel", () => {
+          items.forEach((item) => {
+            const text = item.querySelector(".animate-text");
+            if (text) text.classList.remove("visible");
+          });
+        });
+        carousel.addEventListener("slid.bs.carousel", (e) => {
+          const activeItem = e.target.querySelector(".carousel-item.active");
+          const text = activeItem.querySelector(".animate-text");
+          if (text) text.classList.add("visible");
+        });
+      });
+    </script>
+
+    <style>
+      /* 🌟 تحسين مظهر الحركة */
+      .carousel-item {
+        transition: transform 0.9s ease-in-out, opacity 0.7s ease-in-out;
+      }
+
+      /* تأثير ظهور النص */
+      .animate-text {
+        opacity: 0;
+        transform: translateY(25px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+      }
+      .animate-text.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* عكس الاتجاه في المواقع العربية */
+      .carousel-rtl .carousel-control-prev-icon,
+      .carousel-rtl .carousel-control-next-icon {
+        transform: scaleX(-1);
+      }
+
+      /* لمسة ظل ونعومة للصورة */
+      .carousel-item img {
+        transition: transform 0.8s ease;
+      }
+      .carousel-item.active img:hover {
+        transform: scale(1.03);
+      }
+    </style>
+  </div>
+
+  <hr />
+  <h3>فيديوهات:</h3>
+  <div class="section2">
+    {% for video in videos %}
+    <div class="video" dir="{{ video.dir}}">
+      <a href="/videos/{{ video.slug }}">
+        <figure>
+          <img
+            src="{% static 'tifinar/images/videos/' %}{{ video.myimage }}"
+            alt="{{ video.title }}"
+            title="{{ video.title }}"
+          />
+          <figcaption class="video-title">{{ video.title }}</figcaption>
+        </figure>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+
+  <hr />
+  <h3>مقالات:</h3>
+  <div class="section2">
+    {% for article in articles %}
+    <div class="video" dir="{{article.dir}}">
+      <a href="/articles/{{ article.slug }}">
+        <figure>
+          <img
+            src="{% static 'tifinar/images/articles/' %}{{ article.myimage }}"
+            alt="{{ article.title }}"
+            title="{{ article.title }}"
+          />
+          <figcaption class="book-title">{{ article.title }}</figcaption>
+        </figure>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+
+  <hr />
+  <h3>كتب:</h3>
+  <div class="section2">
+    {% for book in books %}
+    <a href="/books/{{ book.slug }}">
+      <div class="book">
+        <figure>
+          <img
+            src="{% static 'tifinar/images/books/' %}{{ book.myimage }}"
+            alt="{{ book.title }}"
+            title="{{ book.title }}"
+          />
+          <figcaption class="book-title">{{ book.title }}</figcaption>
+        </figure>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+  <hr />
+</div>
 
 {% include "tifinar/footer.html" %}
