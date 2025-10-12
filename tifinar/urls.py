@@ -1,3 +1,4 @@
+from tifinar.views.content_manager.create_exam import create_exam  # ← أضف هذا
 from django.contrib import admin
 from django.urls import path, include
 from django.urls import path
@@ -31,7 +32,7 @@ from tifinar.views.content_manager.create_exam import *
 from tifinar.views.content_manager.edit_contents import edit_content
 from tifinar.views.content_manager.edit_books import edit_book
 from tifinar.views.content_manager.edit_video import edit_video
-from tifinar.views.content_manager.edit_cours import edit_course_view
+from tifinar.views.content_manager.edit_cours import edit_cours_view
 from tifinar.views.content_manager.exam_items_list import *
 from tifinar.views.content.exams import *
 from .logout import custom_logout
@@ -79,9 +80,9 @@ urlpatterns = [
     # مسارات التعديل - يجب أن تكون في البداية
     path('articles/edit/<path:slug>/', edit_content, {'content_type': 'articles'}, name='edit_article'),
     path('videos/edit/<path:slug>/', edit_video, name='edit_video'),
-    path('books/edit/<path:slug>/', edit_book, name='edit_book'),
+    path('books/edit/<path:slug>/', edit_book,{'content_type': 'books'}, name='edit_book'),
     path('exams/edit/<slug:slug>/', edit_exam, name='edit_exam'),
-    path('cours/edit/<path:slug>/', edit_course_view, name='edit_cours'),
+    path('cours/edit/<path:slug>/', edit_cours_view, name='edit_cours'),
     
     # الصفحات الرئيسية
     path('مقالات/', contents, name='articles'),

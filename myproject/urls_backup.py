@@ -1,4 +1,3 @@
-from tifinar.views.content_manager.create_exam import create_exam
 from django.contrib import admin
 from django.urls import path, include
 from django.urls import path
@@ -110,7 +109,7 @@ urlpatterns = [
     path('books/create/', create_book, name='create_book'),
     path('videos/create/', create_video, name='create_video'),
     path('cours/create/', create_cours, name='create_cours'),
-    path('exams/create/', create_exam, name='create_exam'),
+    path('exams/create/', create_exam, {'content_type': 'exams'}, name='create_exam'),
 
     # حدف المحتوى
     path('articles/delete/<path:slug>/', delete_content, name='delete_article'),
@@ -124,7 +123,7 @@ urlpatterns = [
     path('videos/edit/<path:slug>/', edit_video,{'content_type': 'videos'}, name='edit_video'),
     path('books/edit/<path:slug>/', edit_book, {'content_type': 'books'}, name='edit_book'),
     path('cours/edit/<slug:slug>/', edit_cours_view, name='edit_cours'),
-    path('exams/edit/<path:slug>/', edit_content, name='edit_exam'), 
+    path('exams/edit/<path:slug>/', edit_content, {'content_type': 'exams'}, name='edit_exam'), 
     
     path('profile/<int:user_id>/', show_user, name='user_profile'),
     path('exam/store-answer/', store_answer, name='store_answer'),

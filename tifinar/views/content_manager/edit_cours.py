@@ -6,16 +6,17 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.forms.utils import ErrorDict
 from django.contrib import messages
-from tifinar.myForms.cours.create_cours_form import CoursForm
+from tifinar.myForms.cours.edit_cours_form import CoursForm 
+from tifinar.myForms.comments.comments_forms import *
 from tifinar.models import cours
+
 from tifinar.views.content_manager.create_cours import (
     advanced_transliterator, 
-    simple_unique_id, 
     handle_uploaded_file
 )
+
 from django.contrib.auth.decorators import login_required
 from tifinar.models import comments
-from tifinar.forms import CommentForm
 import unicodedata
 
 logger = logging.getLogger(__name__)

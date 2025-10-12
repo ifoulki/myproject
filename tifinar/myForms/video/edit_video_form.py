@@ -26,8 +26,6 @@ class MultipleFileField(forms.FileField):
         return result
     
 class BaseContentForm(forms.ModelForm):
-
-
     
     dir = forms.ChoiceField(
         choices=Dir.choices,
@@ -56,6 +54,9 @@ class BaseContentForm(forms.ModelForm):
         empty_value='all',
         coerce=str
     )
+    
+    # 🔥 إزالة حقل visibility_status من الفورم نهائياً
+    # سنتعامل معه يدوياً في الـ view
         
     class Meta:
         abstract = True
@@ -172,8 +173,7 @@ class VideoForm(BaseContentForm):
         fields = [
             'title', 'mysubject', 'mydescription', 
             'keywords', 'author', 'myimage', 'autre', 'gender',
-            'the_type', 'educational_level', 'min_age', 'max_age', 'dir'
-            # تم إزالة 'visibility_status'
+            'the_type', 'educational_level', 'min_age', 'max_age', 'dir','visibility_status'
         ]
         widgets = {
             'title': forms.TextInput(attrs={
@@ -240,4 +240,5 @@ class VideoForm(BaseContentForm):
             'max_age': 'الحد الأقصى للعمر',
             'myimage': 'الصورة الرئيسية',
             'autre': 'مرفقات إضافية',
+            'visibility_status': 'مرفقات إضافية',
         }

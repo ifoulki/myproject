@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseNotFound
 from tifinar.models import books, comments
-from tifinar.forms import BookForm, CommentForm
+from tifinar.myForms.book.edit_book_form import BookForm
+from tifinar.myForms.comments.comments_forms import *
+from tifinar.choices import *
 from django.contrib import messages
 import os
 from django.conf import settings
@@ -160,7 +162,7 @@ CONTENT_TYPES = {
     },
 }
     
-def edit_book(request, slug):
+def edit_book(request, slug,content_type=None):
     # تحديد نوع المحتوى مباشرة داخل الدالة
     content_type = 'books'
     config = CONTENT_TYPES.get(content_type)

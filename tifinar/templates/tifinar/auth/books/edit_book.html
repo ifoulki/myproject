@@ -127,9 +127,6 @@
         <form method="POST" action="{% url 'edit_book' book.slug %}" enctype="multipart/form-data" id="editForm">
             {% csrf_token %}
             
-            <!-- 🔥 حقل visibility_status المخفي -->
-            {{ form.visibility_status }}
-            
             <!-- معاينة الصور الحالية -->
             <div class="image-preview-container">
                 {% with images=book.myimage|split:"," %}
@@ -197,12 +194,6 @@
                 {{ form.mysubject }}
                 {% if form.mysubject.errors %}
                     <small class="text-danger">{{ form.mysubject.errors }}</small>
-                {% endif %}
-
-                {% if book.mysubject and 'youtube.com' in book.mysubject or 'youtu.be' in book.mysubject %}
-                    <iframe id="bookPreview" class="book-preview" src="{{ book.mysubject }}" allowfullscreen></iframe>
-                {% else %}
-                    <iframe id="bookPreview" class="book-preview" style="display: none;" allowfullscreen></iframe>
                 {% endif %}
             </div>
 
@@ -296,26 +287,16 @@
 
             <!-- الحالة -->
             <div class="form-group">
-                <label class="label"><i class="fas fa-eye"></i> الحالة:</label>
-                
-                <!-- التصميم الجميل -->
-                <div style="display: flex; gap: 15px; font-size: 1.2em;">
-                    <label class="visibility-option">
-                        <input type="radio" name="visibility_status" value="public" {% if book.visibility_status == 'public' %}checked{% endif %}>
-                        <span style="color: #4CAF50;"><i class="fas fa-globe"></i> عام</span>
-                    </label>
-                    <label class="visibility-option">
-                        <input type="radio" name="visibility_status" value="under_review" {% if book.visibility_status == 'under_review' %}checked{% endif %}>
-                        <span style="color: #FFC107;"><i class="fas fa-eye-slash"></i> قيد المراجعة</span>
-                    </label>
-                    <label class="visibility-option">
-                        <input type="radio" name="visibility_status" value="restricted" {% if book.visibility_status == 'restricted' %}checked{% endif %}>
-                        <span style="color: #F44336;"><i class="fas fa-lock"></i> مقيد</span>
-                    </label>
+                <label class="label"><i class="fas fa-eye"></i> حالة المقال:</label>
+                <div class="visibility-status">
+                    {{ form.visibility_status }}
                 </div>
-                
                 {% if form.visibility_status.errors %}
-                    <small class="text-danger">{{ form.visibility_status.errors }}</small>
+                    <div class="error-message">
+                        {% for error in form.visibility_status.errors %}
+                            <small class="text-danger">{{ error }}</small><br>
+                        {% endfor %}
+                    </div>
                 {% endif %}
             </div>
 

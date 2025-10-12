@@ -74,6 +74,13 @@ class BaseContentForm(forms.ModelForm):
         initial=75,
         required=False
     )
+    
+    visibility_status = forms.ChoiceField(
+        choices=VisibilityStatus.choices,
+        widget=forms.RadioSelect(attrs={'class': 'visibility-radio'}),
+        label='حالة القاموس البصري',
+        required=True
+    )
         
     class Meta:
         abstract = True
@@ -169,7 +176,7 @@ class CoursForm(BaseContentForm):
         fields = [
             'title', 'myfile', 'mydescription', 'keywords','cours_contents','images','exams_link',
             'author', 'myimage', 'intro', 'the_type', 'educational_level',
-            'min_age', 'max_age', 'dir','gender'
+            'min_age', 'max_age', 'dir','gender','visibility_status'
         ]
 
         widgets = {
@@ -224,6 +231,9 @@ class CoursForm(BaseContentForm):
                 'class': 'form-control',
                 'id': 'formFile1'
             }),
+            'visibility_status': forms.RadioSelect(attrs={
+                'class': 'visibility-radio'
+            }),
         }
 
         labels = {
@@ -241,6 +251,8 @@ class CoursForm(BaseContentForm):
             'myimage': 'غلاف الدرس',
             'gender': 'موجه لـ',
             'exams_link': ' أضف رابط الاختبار في حالة إذا كان هناك اختبار يجتازه الزرائر',
+            'visibility_status': 'حالة الالقاموس البصري',
+
         }
         
     def clean_myfile(self):

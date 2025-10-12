@@ -1,4 +1,3 @@
-from tifinar.views.content_manager.create_exam import create_exam
 from django.contrib import admin
 from django.urls import path, include
 from django.urls import path
@@ -18,24 +17,30 @@ from tifinar.views.audience.msgs import send_message
 from tifinar.views.content.cours import show_cours 
 from tifinar.views.members.user import show_user 
 from tifinar.views.members.members_index import members_index 
-from tifinar.views.contacts.contacts_index import contacts_index
+from tifinar.views.members.friends_views import *
+from tifinar.views.contacts.contacts_index import *
 from tifinar.views.contacts.create_contact import contact_create
 from tifinar.views.members.user import edit_user 
 from tifinar.views.members.show_member import *
 from tifinar.views.contacts.show_contact import *
-# from tifinar.views.content_manager.show_create_contents import show_create_content
 from tifinar.views.content_manager.article_manager import create_article
 from tifinar.views.content_manager.book_manager import create_book
 from tifinar.views.content_manager.video_manager import create_video
 from tifinar.views.content_manager.create_cours import create_cours
+from tifinar.views.content_manager.create_exam import *
 from tifinar.views.content_manager.edit_contents import edit_content
 from tifinar.views.content_manager.edit_books import edit_book
 from tifinar.views.content_manager.edit_video import edit_video
-from tifinar.views.content_manager.edit_cours import edit_cours_view
-from tifinar.views.content.exams import exam_view, store_answer
-from tifinar.logout import custom_logout
-from tifinar.login import custom_login
-from tifinar.logup import custom_logup
+from tifinar.views.content_manager.edit_cours import edit_course_view
+from tifinar.views.content_manager.exam_items_list import *
+from tifinar.views.content.exams import *
+from .logout import custom_logout
+from .login import custom_login
+from .logup import custom_logup
+
+# أضف هذه الاستيرادات
+from django.conf import settings
+from django.conf.urls.static import static
 
 
 def table_exists(table_name):
@@ -66,10 +71,17 @@ def get_view(view_path):
         print(f"خطأ في تحميل العرض: {e}")
         return None
 
-# مسارات التطبيق
+# مسارات التطبيق - تم تعديل الترتيب
 urlpatterns = [
     
     path('admin/', admin.site.urls),
+    
+    # مسارات التعديل - يجب أن تكون في البداية
+    path('articles/edit/<path:slug>/', edit_content, {'content_type': 'articles'}, name='edit_article'),
+    path('videos/edit/<path:slug>/', edit_video, name='edit_video'),
+    path('books/edit/<path:slug>/', edit_book,{'content_type': 'books'}, name='edit_book'),
+    path('exams/edit/<slug:slug>/', edit_exam, name='edit_exam'),
+    path('cours/edit/<path:slug>/', edit_course_view, name='edit_cours'),
     
     # الصفحات الرئيسية
     path('مقالات/', contents, name='articles'),
@@ -82,6 +94,7 @@ urlpatterns = [
     path('articles_edit/', index_eddit, name='articles_edit'),
     path('books_edit/', index_eddit, name='books_edit'),
     path('exams_edit/', index_eddit, name='exams_edit'),
+    path('msgs_edit/', index_eddit, name='msgs_edit'),
     path('adm/dashboard/', dashboard_view, name='dashboard'),
     path('rock_paper_scissors/', rps_game, name='rock_paper_scissors'),
     path('send_message/', send_message, name='send_message'),
@@ -91,7 +104,11 @@ urlpatterns = [
     # مسارات المستخدمين
     path('contacts/', contacts_index, name='contacts'),
     path('users/', members_index, name='users'),
-    
+    path('friend-request/send/<int:user_id>/', send_friend_request, name='send_friend_request'),
+    path('friend-request/cancel/<int:user_id>/', cancel_friend_request, name='cancel_friend_request'),
+    path('friend-request/accept/<int:user_id>/', accept_friend_request, name='accept_friend_request'),
+    path('friend-request/reject/<int:user_id>/', reject_friend_request, name='reject_friend_request'),
+    path('friend/remove/<int:user_id>/', remove_friend, name='remove_friend'),
     path('users/<int:user_id>/', member_profile_view, name='member_profile_view'),
     path('users/<int:user_id>/edit/', edit_member_profile, name='edit_member_profile'),
     path('users/<int:user_id>/delete/', delete_member_profile, name='delete_member_profile'),
@@ -112,33 +129,39 @@ urlpatterns = [
     path('cours/create/', create_cours, name='create_cours'),
     path('exams/create/', create_exam, name='create_exam'),
 
-    # حدف المحتوى
+    # حذف المحتوى
     path('articles/delete/<path:slug>/', delete_content, name='delete_article'),
     path('books/delete/<path:slug>/', delete_content, name='delete_books'),
     path('exams/delete/<path:slug>/', delete_content, name='delete_exams'),
     path('cours/delete/<path:slug>/', delete_content, name='delete_cours'),
     path('videos/delete/<path:slug>/', delete_content, name='delete_videos'),
-
-    # تعديل المحتوى
-    path('articles/edit/<path:slug>/', edit_content, {'content_type': 'articles'}, name='edit_article'),
-    path('videos/edit/<path:slug>/', edit_video,{'content_type': 'videos'}, name='edit_video'),
-    path('books/edit/<path:slug>/', edit_book, {'content_type': 'books'}, name='edit_book'),
-    path('cours/edit/<slug:slug>/', edit_cours_view, name='edit_cours'),
-    path('exams/edit/<path:slug>/', edit_content, name='edit_exam'), 
+    path('msgs/delete/<int:msg_id>/', delete_msg, name='delete_msg'),
     
-    path('profile/<int:user_id>/', show_user, name='user_profile'),
+    # مسارات الامتحانات
+    path('examItems/', exam_items_list, name='exam_items_list'),
+    path('examItems/create/', exam_items_create, name='exam_items_create'),
+    path('examItems/edit/<int:item_id>/', exam_items_edit, name='exam_items_edit'),
+    path('examItems/delete/<int:item_id>/', exam_items_delete, name='exam_items_delete'),
+    path('get-next-qsts-id/', get_next_qsts_id, name='get_next_qsts_id'),
     path('exam/store-answer/', store_answer, name='store_answer'),
     path('exams/<path:exam_slug>/', exam_view, name='exam_view'),
     
+    # المصادقة
     path("logout/", custom_logout, name="logout"),
     path("login/", custom_login, name="login"),
     path('logup/', custom_logup, name='logup'),
 
     # المحتوى الديناميكي (يجب أن يكون آخر مسار)
-    path('articles/<str:slug>/', article_detail, name='dynamic_content'),
-    path('videos/<str:slug>/', video_detail, name='dynamic_content'),
-    path('books/<str:slug>/', book_detail, name='dynamic_content'),
-    path('cours/<str:slug>/', show_cours, name='dynamic_content'),
+    path('articles/<str:slug>/', article_detail, name='show_article'),
+    path('videos/<str:slug>/', video_detail, name='show_video'),
+    path('books/<str:slug>/', book_detail, name='show_book'),
+    path('cours/<str:slug>/', show_cours, name='show_cours'),
     path('', welcome, name='welcome'),
     
 ]
+
+# أضف هذا في النهاية - خدم ملفات الوسائط في وضع التطوير فقط
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+

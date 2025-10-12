@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseNotFound
 from tifinar.models import articles, comments
 from tifinar.myForms.article.edit_article_form import ArticleForm
-from tifinar.forms import CommentForm
+from tifinar.myForms.comments.comments_forms import *
 from django.contrib import messages
 import os
 from django.conf import settings
@@ -188,7 +188,6 @@ def edit_content(request, content_type, slug):
                         form.save_m2m()
                     
                     messages.success(request, 'تم تحديث المحتوى بنجاح')
-                    # return redirect('edit_content', content_type=content_type, slug=content.slug)
                     return redirect('edit_article', slug=content.slug)
                     
                 except Exception as e:

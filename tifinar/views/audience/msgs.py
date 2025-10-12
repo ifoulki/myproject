@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from tifinar.models import msgs, AuthUser  # استيراد النموذج المخصص
-from tifinar.forms import MsgForm
-
+from tifinar.myForms.msgs.msgs_forms import *
 
 def send_message(request):
     recipient_id = request.GET.get('user_id')

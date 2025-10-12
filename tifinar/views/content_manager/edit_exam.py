@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseNotFound
 from tifinar.models import exams, comments
-from tifinar.forms import ExamForm, CommentForm
+from tifinar.myForms.comments.comments_forms import *
 from django.contrib import messages
 import os
 from django.conf import settings

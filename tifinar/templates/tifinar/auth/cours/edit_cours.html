@@ -239,22 +239,20 @@
 
         <hr>
 
+        <!-- الحالة -->
         <div class="form-group">
-            <label>الحالة:</label>
-            <div style="display: flex; gap: 15px; font-size: 1.2em;">
-                <label>
-                    <input type="radio" name="visibility_status" value="public" {% if cour.visibility_status == 'public' %}checked{% endif %} onchange="updateStatusColor(this)"> 
-                    <span style="color: #4CAF50;"><i class="fas fa-globe"></i> عام</span>
-                </label>
-                <label>
-                    <input type="radio" name="visibility_status" value="under_review" {% if cour.visibility_status == 'under_review' %}checked{% endif %} onchange="updateStatusColor(this)"> 
-                    <span style="color: #FFC107;"><i class="fas fa-eye-slash"></i> قيد المراجعة</span>
-                </label>
-                <label>
-                    <input type="radio" name="visibility_status" value="restricted" {% if cour.visibility_status == 'restricted' %}checked{% endif %} onchange="updateStatusColor(this)"> 
-                    <span style="color: #F44336;"><i class="fas fa-lock"></i> مقيد</span>
-                </label>
+            <label class="label"><i class="fas fa-eye"></i> حالة المقال:</label>
+            <div class="visibility-status">
+                {{ form.visibility_status }}
             </div>
+
+            {% if form.visibility_status.errors %}
+                <div class="error-message">
+                    {% for error in form.visibility_status.errors %}
+                        <small class="text-danger">{{ error }}</small><br>
+                    {% endfor %}
+                </div>
+            {% endif %}
         </div>
         
         <button class="add_btn btn btn-primary" type="submit">

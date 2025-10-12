@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseNotFound
 from tifinar.models import videos, comments
-from tifinar.forms import VideoForm, CommentForm
+from tifinar.myForms.comments.comments_forms import *
+from tifinar.myForms.video.edit_video_form import VideoForm
 from django.contrib import messages
 import os
 from django.conf import settings

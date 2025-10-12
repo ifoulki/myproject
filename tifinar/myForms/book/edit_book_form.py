@@ -51,7 +51,7 @@ class BaseContentForm(forms.ModelForm):
         choices=Gender.choices,
         widget=forms.Select(attrs={'class': 'form-control form-select'}),
         label='موجه لـ',
-        initial=Gender.ALL,
+        initial='all',
         required=False
     )
     
@@ -75,6 +75,13 @@ class BaseContentForm(forms.ModelForm):
         }),
         initial=75,
         required=False
+    )
+    
+    visibility_status = forms.ChoiceField(
+        choices=VisibilityStatus.choices,
+        widget=forms.RadioSelect(attrs={'class': 'visibility-radio'}),
+        label='حالة الكتاب',
+        required=True
     )
         
     class Meta:
@@ -233,7 +240,7 @@ class BookForm(BaseContentForm):
         fields = [
             'title', 'mysubject', 'mydescription', 
             'keywords', 'author', 'myimage', 'autre', 'gender',
-            'the_type', 'educational_level', 'min_age', 'max_age', 'dir'
+            'the_type', 'educational_level', 'min_age', 'max_age', 'dir','visibility_status'
         ]
         
         widgets = {
@@ -269,6 +276,9 @@ class BookForm(BaseContentForm):
                 'id': 'formFile2',
                 'accept': '.pdf,.doc,.docx,.ppt,.pptx,.zip,.rar'
             }),
+            'visibility_status': forms.RadioSelect(attrs={
+                'class': 'visibility-radio'
+            }),
 
         }
         
@@ -285,7 +295,8 @@ class BookForm(BaseContentForm):
             'max_age': 'الحد الأقصى للعمر',
             'myimage': 'الصورة الرئيسية *',
             'autre': 'مرفقات إضافية',
-            'dir': 'لغة الكتاب *'
+            'dir': 'لغة الكتاب *',
+            'visibility_status': 'حالة الكتاب',
         }
         
         error_messages = {

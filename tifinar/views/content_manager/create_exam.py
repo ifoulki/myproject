@@ -7,7 +7,6 @@ from django.conf import settings
 from tifinar.myForms.exam.create_exam_form import ExamForm
 from tifinar.models import exams
 from tifinar.models import comments
-from tifinar.forms import CommentForm
 import os
 import re
 import unicodedata
