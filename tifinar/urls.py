@@ -71,10 +71,18 @@ def get_view(view_path):
         print(f"خطأ في تحميل العرض: {e}")
         return None
 
-# مسارات التطبيق
+# مسارات التطبيق - تم تعديل الترتيب
 urlpatterns = [
     
     path('admin/', admin.site.urls),
+    
+    # مسارات التعديل - يجب أن تكون في البداية
+    path('articles/edit/<path:slug>/', edit_content, {'content_type': 'articles'}, name='edit_article'),
+    path('videos/edit/<path:slug>/', edit_video, name='edit_video'),
+    path('books/edit/<path:slug>/', edit_book, name='edit_book'),
+    path('exams/edit/<slug:slug>/', edit_exam, name='edit_exam'),
+    path('cours/edit/<path:slug>/', edit_course_view, name='edit_cours'),
+    
     # الصفحات الرئيسية
     path('مقالات/', contents, name='articles'),
     path('اختبارات/', contents, name='exams'),
@@ -121,7 +129,7 @@ urlpatterns = [
     path('cours/create/', create_cours, name='create_cours'),
     path('exams/create/', create_exam, name='create_exam'),
 
-    # حدف المحتوى
+    # حذف المحتوى
     path('articles/delete/<path:slug>/', delete_content, name='delete_article'),
     path('books/delete/<path:slug>/', delete_content, name='delete_books'),
     path('exams/delete/<path:slug>/', delete_content, name='delete_exams'),
@@ -129,34 +137,25 @@ urlpatterns = [
     path('videos/delete/<path:slug>/', delete_content, name='delete_videos'),
     path('msgs/delete/<int:msg_id>/', delete_msg, name='delete_msg'),
     
-    
+    # مسارات الامتحانات
     path('examItems/', exam_items_list, name='exam_items_list'),
     path('examItems/create/', exam_items_create, name='exam_items_create'),
     path('examItems/edit/<int:item_id>/', exam_items_edit, name='exam_items_edit'),
     path('examItems/delete/<int:item_id>/', exam_items_delete, name='exam_items_delete'),
     path('get-next-qsts-id/', get_next_qsts_id, name='get_next_qsts_id'),
-
-
-    # تعديل المحتوى
-    path('articles/edit/<path:slug>/', edit_content, {'content_type': 'articles'}, name='edit_article'),
-    path('videos/edit/<path:slug>/', edit_video, name='edit_video'),
-    path('books/edit/<path:slug>/', edit_book, name='edit_book'),
-    path('exams/edit/<slug:slug>/', edit_exam, name='edit_exam'),
-    path('cours/edit/<path:slug>/', edit_course_view, name='edit_cours'), 
-    
-    path('profile/<int:user_id>/', show_user, name='user_profile'),
     path('exam/store-answer/', store_answer, name='store_answer'),
     path('exams/<path:exam_slug>/', exam_view, name='exam_view'),
     
+    # المصادقة
     path("logout/", custom_logout, name="logout"),
     path("login/", custom_login, name="login"),
     path('logup/', custom_logup, name='logup'),
 
     # المحتوى الديناميكي (يجب أن يكون آخر مسار)
-    path('articles/<str:slug>/', article_detail, name='dynamic_content'),
-    path('videos/<str:slug>/', video_detail, name='dynamic_content'),
-    path('books/<str:slug>/', book_detail, name='dynamic_content'),
-    path('cours/<str:slug>/', show_cours, name='dynamic_content'),
+    path('articles/<str:slug>/', article_detail, name='show_article'),
+    path('videos/<str:slug>/', video_detail, name='show_video'),
+    path('books/<str:slug>/', book_detail, name='show_book'),
+    path('cours/<str:slug>/', show_cours, name='show_cours'),
     path('', welcome, name='welcome'),
     
 ]

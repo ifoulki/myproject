@@ -1,6 +1,6 @@
 from django import forms
-from django.core.exceptions import ValidationError
-from .models import comments, msgs, books, videos, exams, cours
+from tifinar.models import comments, msgs, videos, exams
+from tifinar.choices import *
 from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
@@ -8,6 +8,24 @@ from django.utils.text import slugify
 
 User = get_user_model()
 import os
+
+TYPE_CHOICES = [
+        ('التربية الإسلامية', 'التربية الإسلامية'),
+        ('فلسفة', 'فلسفة'),
+        ('الأمازيغية', 'تعلم الأمازيغية'),
+        ('الفرنسية', 'تعلم الفرنسية'),
+        ('الإنجليزية', 'تعلم الإنجليزية'),
+        ('رياضيات', 'تعلم الرياضيات'),
+        ('الكيمياء', 'الكيمياء'),
+        ('الفزياء', 'الفزياء'),
+        ('علوم الحياة والأرض', 'علوم الحياة والأرض'),
+        ('صحة وحياة', 'صحة وحياة'),
+        ('علوم الحاسوب', 'علوم الحاسوب'),
+        ('حقوق الإنسان', 'القانون وحقوق الإنسان'),
+        ('الثقافة العامة', 'الثقافة العامة'),
+        ('تربية وتعليم', 'تربية وتعليم'),
+        ('أصناف أخرى', 'أصناف أخرى'),
+    ]
 
 class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
@@ -48,7 +66,9 @@ class CommentForm(forms.ModelForm):
                 'placeholder': _('اكتب تعليقك هنا ...'),
                 'required': True
             }),
-            'visibility_status': forms.RadioSelect(choices=comments.VISIBILITY_CHOICES),
+            'visibility_status': forms.RadioSelect(
+                choices=VisibilityStatus.choices,
+            ),
         }
         labels = {
             'author_name': _('الاسم'),
@@ -97,46 +117,9 @@ class MsgForm(forms.ModelForm):
         return author
 
 class BaseContentForm(forms.ModelForm):
-
-    DIR_CHOICES = [
-        ('rtl', 'العربية'),
-        ('ltr', 'Français'),
-        ('ltr', 'English'),
-    ]
-    
-    GENDER_CHOICES = [
-        ('male', 'للدكور فقط'),
-        ('female', 'للإناث فقط'),
-        ('all', 'للجميع'),
-    ]
-     
-    EDUCATIONAL_LEVEL_CHOICES = [
-        ('0', 'لا، المقال مناسب للجميع'),
-        ('الإبتدائي :', [
-            ('1', 'السنة الأولى ابتدائي'),
-            ('2', 'السنة الثانية ابتدائي'),
-            ('3', 'السنة الثالثة ابتدائي'),
-            ('4', 'السنة الرابعة ابتدائي'),
-            ('5', 'السنة الخامسة ابتدائي'),
-            ('6', 'السنة السادسة ابتدائي'),
-        ]),
-        ('الإعدادي :', [
-            ('7', 'السنة الأولى إعدادي'),
-            ('8', 'السنة الثانية إعدادي'),
-            ('9', 'السنة الثالثة إعدادي'),
-        ]),
-        ('الثانوي :', [
-            ('10', 'المشترك العلمي'),
-            ('11', 'السنة الأولى من البكالوريا (تخصص علوم تجريبية)'),
-            ('12', 'السنة الثانية من البكالوريا (تخصص علوم فيزيائية)'),
-        ]),
-        ('ما بعد الثانوي :', [
-            ('13', 'الدراسة بعد البكالوريا'),
-        ])
-    ]
     
     dir = forms.ChoiceField(
-        choices=DIR_CHOICES,
+        choices=Dir.choices,
         widget=forms.Select(attrs={
             'class': 'small-input',
             'placeholder': 'اختر اللغة'
@@ -147,30 +130,24 @@ class BaseContentForm(forms.ModelForm):
     )
 
     educational_level = forms.ChoiceField(
-        choices=EDUCATIONAL_LEVEL_CHOICES,
+        choices=EducationalLevel.choices,
         widget=forms.Select(attrs={'class': 'form-select'}),
         label='المستوى الدراسي المطلوب',
         required=False
     )
     
     gender = forms.ChoiceField(
-        choices=GENDER_CHOICES,
+        choices=Gender.choices,
         widget=forms.Select(attrs={'class': 'form-control form-select'}),
         label='موجه لـ',
         initial='all',
         required=False
     )
     
-    # 🔥 الحل: إضافة visibility_status هنا
     visibility_status = forms.ChoiceField(
-        choices=[
-            ('public', 'عام'),
-            ('under_review', 'قيد المراجعة'),
-            ('restricted', 'مقيد'),
-        ],
+        choices=VisibilityStatus.choices,
         widget=forms.Select(attrs={'class': 'form-control form-select'}),
         label='حالة الظهور',
-        initial='under_review',
         required=True
     )
     
@@ -220,23 +197,6 @@ class BaseContentForm(forms.ModelForm):
 
 
 class VideoForm(BaseContentForm):
-    TYPE_CHOICES = [
-        ('التربية الإسلامية', 'التربية الإسلامية'),
-        ('فلسفة', 'فلسفة'),
-        ('الأمازيغية', 'تعلم الأمازيغية'),
-        ('الفرنسية', 'تعلم الفرنسية'),
-        ('الإنجليزية', 'تعلم الإنجليزية'),
-        ('رياضيات', 'تعلم الرياضيات'),
-        ('الكيمياء', 'الكيمياء'),
-        ('الفزياء', 'الفزياء'),
-        ('علوم الحياة والأرض', 'علوم الحياة والأرض'),
-        ('صحة وحياة', 'صحة وحياة'),
-        ('علوم الحاسوب', 'علوم الحاسوب'),
-        ('حقوق الإنسان', 'القانون وحقوق الإنسان'),
-        ('الثقافة العامة', 'الثقافة العامة'),
-        ('تربية وتعليم', 'تربية وتعليم'),
-        ('أصناف أخرى', 'أصناف أخرى'),
-    ]
 
     the_type = forms.ChoiceField(
         choices=TYPE_CHOICES,
@@ -328,23 +288,6 @@ class VideoForm(BaseContentForm):
         return mysubject
 
 class BookForm(BaseContentForm):
-    TYPE_CHOICES = [
-        ('التربية الإسلامية', 'التربية الإسلامية'),
-        ('فلسفة', 'فلسفة'),
-        ('الأمازيغية', 'تعلم الأمازيغية'),
-        ('الفرنسية', 'تعلم الفرنسية'),
-        ('الإنجليزية', 'تعلم الإنجليزية'),
-        ('رياضيات', 'تعلم الرياضيات'),
-        ('الكيمياء', 'الكيمياء'),
-        ('الفزياء', 'الفزياء'),
-        ('علوم الحياة والأرض', 'علوم الحياة والأرض'),
-        ('صحة وحياة', 'صحة وحياة'),
-        ('علوم الحاسوب', 'علوم الحاسوب'),
-        ('حقوق الإنسان', 'القانون وحقوق الإنسان'),
-        ('الثقافة العامة', 'الثقافة العامة'),
-        ('تربية وتعليم', 'تربية وتعليم'),
-        ('أصناف أخرى', 'أصناف أخرى'),
-    ]
 
     the_type = forms.ChoiceField(
         choices=TYPE_CHOICES,
@@ -427,23 +370,6 @@ class BookForm(BaseContentForm):
 
 
 class ExamForm(BaseContentForm):
-    TYPE_CHOICES = [
-        ('التربية الإسلامية', 'التربية الإسلامية'),
-        ('فلسفة', 'فلسفة'),
-        ('الأمازيغية', 'تعلم الأمازيغية'),
-        ('الفرنسية', 'تعلم الفرنسية'),
-        ('الإنجليزية', 'تعلم الإنجليزية'),
-        ('رياضيات', 'تعلم الرياضيات'),
-        ('الكيمياء', 'الكيمياء'),
-        ('الفزياء', 'الفزياء'),
-        ('علوم الحياة والأرض', 'علوم الحياة والأرض'),
-        ('صحة وحياة', 'صحة وحياة'),
-        ('علوم الحاسوب', 'علوم الحاسوب'),
-        ('حقوق الإنسان', 'القانون وحقوق الإنسان'),
-        ('الثقافة العامة', 'الثقافة العامة'),
-        ('تربية وتعليم', 'تربية وتعليم'),
-        ('أصناف أخرى', 'أصناف أخرى'),
-    ]
 
     the_type = forms.ChoiceField(
         choices=TYPE_CHOICES,
@@ -452,16 +378,10 @@ class ExamForm(BaseContentForm):
         required=True
     )
 
-    # 🔥 الحل: إضافة visibility_status مباشرة في ExamForm
     visibility_status = forms.ChoiceField(
-        choices=[
-            ('public', 'عام'),
-            ('under_review', 'قيد المراجعة'),
-            ('restricted', 'مقيد'),
-        ],
+        choices=VisibilityStatus.choices,
         widget=forms.Select(attrs={'class': 'form-control form-select'}),
         label='حالة الظهور',
-        initial='under_review',
         required=True
     )
 
@@ -530,17 +450,12 @@ class ExamForm(BaseContentForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # 🔥 تأكيد إضافة الحقل إذا لم يظهر
+
         if 'visibility_status' not in self.fields:
             self.fields['visibility_status'] = forms.ChoiceField(
-                choices=[
-                    ('public', 'عام'),
-                    ('under_review', 'قيد المراجعة'),
-                    ('restricted', 'مقيد'),
-                ],
+                choices=VisibilityStatus.choices,
                 widget=forms.Select(attrs={'class': 'form-control form-select'}),
                 label='حالة الظهور',
-                initial='under_review',
                 required=True
             )
 

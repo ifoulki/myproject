@@ -26,7 +26,7 @@ class MultipleFileField(forms.FileField):
         return result
     
 class BaseContentForm(forms.ModelForm):
-    
+
     dir = forms.ChoiceField(
         choices=Dir.choices,
         widget=forms.Select(attrs={
@@ -57,20 +57,12 @@ class BaseContentForm(forms.ModelForm):
         choices=VisibilityStatus.choices,
         widget=forms.RadioSelect(attrs={'class': 'visibility-radio'}),
         label='حالة المقال',
-        required=True,
-        initial=VisibilityStatus.UNDER_REVIEW  # قيمة افتراضية
+        required=True
     )
     
     class Meta:
         abstract = True
         fields = [] 
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        # جعل الحقول غير مطلوبة أثناء التعديل
-        self.fields['myimage'].required = False
-        self.fields['autre'].required = False
-        self.fields['slug'].required = False
 
     def clean_title(self):
         title = self.cleaned_data.get('title')
@@ -105,35 +97,18 @@ class BaseContentForm(forms.ModelForm):
         return cleaned_data
 
     def clean_myimage(self):
-        myimage = self.cleaned_data.get('myimage')
-        
-        # إذا كانت الصورة نص (قيمة حالية) أو لم يتم تقديم ملف جديد، احتفظ بالقيمة الأصلية
-        if isinstance(myimage, str) or myimage is None:
-            if self.instance and self.instance.myimage:
-                return self.instance.myimage
-        
-        # إذا كان ملف جديد، قم بالتحقق منه
-        if myimage and hasattr(myimage, 'name'):
-            return self._validate_file(myimage, ['.jpeg', '.png', '.jpg', '.gif', '.svg', '.webp'], 5)
-        
-        return myimage
+        return self._validate_file('myimage', ['.jpeg', '.png', '.jpg', '.gif', '.svg', '.webp'], 5)
     
     def clean_autre(self):
-        autre = self.cleaned_data.get('autre')
-        
-        # إذا كان الملف نص (قيمة حالية) أو لم يتم تقديم ملف جديد، احتفظ بالقيمة الأصلية
-        if isinstance(autre, str) or autre is None:
-            if self.instance and hasattr(self.instance, 'autre') and self.instance.autre:
-                return self.instance.autre
-        
-        # إذا كان ملف جديد، قم بالتحقق منه
-        if autre and hasattr(autre, 'name'):
-            return self._validate_file(autre, ['.pdf', '.doc', '.docx', '.ppt', '.pptx', '.zip', '.rar'], 10)
-        
-        return autre
+        return self._validate_file('autre', ['.pdf', '.doc', '.docx', '.ppt', '.pptx', '.zip', '.rar'], 10)
     
-    def _validate_file(self, file, valid_extensions, max_size_mb):
-        """دالة مساعدة للتحقق من الملفات"""
+    def _validate_file(self, field_name, valid_extensions, max_size_mb):
+        file = self.cleaned_data.get(field_name)
+        
+        # إذا كان file هو نص (تم تمريره من خلال التعديل)
+        if isinstance(file, str):
+            return file
+        
         if file:
             # التحقق من الامتداد
             ext = os.path.splitext(file.name)[1].lower()
@@ -160,22 +135,10 @@ class BaseContentForm(forms.ModelForm):
     
     def save(self, commit=True):
         instance = super().save(commit=False)
-        
-        # تأكد من وجود slug
-        if not instance.slug:
+        if not hasattr(instance, 'slug') or not instance.slug:
             instance.slug = slugify(instance.title)
-            
-        # تحديث updated_at يدوياً إذا كان الحقل موجوداً
-        if hasattr(instance, 'updated_at'):
-            from django.utils import timezone
-            instance.updated_at = timezone.now()
-            
         if commit:
             instance.save()
-            # حفظ علاقات many-to-many إذا وجدت
-            if hasattr(self, 'save_m2m'):
-                self.save_m2m()
-                
         return instance
 
 class ArticleForm(BaseContentForm):
@@ -201,10 +164,10 @@ class ArticleForm(BaseContentForm):
         model = articles
         
         fields = [
-            'title', 'slug', 'mysubject', 'mydescription', 
+            'title', 'mysubject', 'mydescription', 
             'keywords', 'author', 'myimage', 'autre', 'gender',
             'the_type', 'educational_level', 'min_age', 'max_age', 'dir',
-            'visibility_status'  # 🔥 تمت إضافة الحقل المفقود هنا
+            'visibility_status'  # 🔥 تمت الإضافة هنا
         ]
         widgets = {
             'title': forms.TextInput(attrs={
@@ -212,11 +175,6 @@ class ArticleForm(BaseContentForm):
                 'placeholder': 'عنوان المنشور ...',
                 'minlength': '2',
                 'required': True
-            }),
-            'slug': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'الرابط المختصر ...',
-                'required': False
             }),
             'mysubject': forms.Textarea(attrs={
                 'class': 'mysubject',
@@ -269,7 +227,6 @@ class ArticleForm(BaseContentForm):
         
         labels = {
             'title': 'عنوان المقال',
-            'slug': 'الرابط المختصر',
             'author': 'اسم الكاتب',
             'mysubject': 'نص المقال',
             'mydescription': 'وصف المنشور',
@@ -289,13 +246,3 @@ class ArticleForm(BaseContentForm):
         if not mysubject or len(mysubject.strip()) < 100:
             raise forms.ValidationError('يجب أن لا يقل نص المقال عن 100 حرف.')
         return mysubject
-
-    def clean(self):
-        """تنظيف إضافي للتأكد من أن الحقول المطلوبة موجودة"""
-        cleaned_data = super().clean()
-        
-        # التأكد من أن visibility_status موجود
-        if 'visibility_status' not in cleaned_data:
-            cleaned_data['visibility_status'] = VisibilityStatus.UNDER_REVIEW
-            
-        return cleaned_data

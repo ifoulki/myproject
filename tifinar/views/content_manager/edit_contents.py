@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponseNotFound
 from tifinar.models import articles, comments
-from tifinar.myForms.article.create_article_form import ArticleForm
+from tifinar.myForms.article.edit_article_form import ArticleForm
 from tifinar.forms import CommentForm
 from django.contrib import messages
 import os
@@ -119,7 +119,7 @@ def advanced_transliterator(text):
     return text
 
 def edit_content(request, content_type, slug):
-    
+        
     config = CONTENT_TYPES.get(content_type)
     if not config:
         return HttpResponseNotFound("نوع المحتوى غير موجود")
@@ -127,13 +127,12 @@ def edit_content(request, content_type, slug):
     ModelClass = config['model']
     content = get_object_or_404(ModelClass, slug=slug)
 
-    # حفظ القيم الأصلية للصور قبل أي تعديل
+    # حفظ القيم الأصلية
     original_myimage = content.myimage
-    
     if hasattr(content, 'autre'):
         original_autre = content.autre
 
-    # جلب التعليقات المرتبطة بالمقال
+    # جلب التعليقات
     content_comments = []
     comment_forms = []
 
@@ -143,111 +142,84 @@ def edit_content(request, content_type, slug):
             comment_forms.append(CommentForm(instance=comment))
 
     if request.method == 'POST':
-        # التحقق مما إذا كان الطلب لتعديل مقال أو تعليق
+        # معالجة طلبات التعليقات أولاً
         if 'comment_id' in request.POST:
-            # هذا طلب لتعديل تعليق
             comment_id = request.POST.get('comment_id')
             try:
                 comment_obj = comments.objects.get(cmt_id=comment_id)
                 comment_form = CommentForm(request.POST, instance=comment_obj)
                 if comment_form.is_valid():
-                    # تحديث حقل updated_at قبل الحفظ
                     comment_obj.updated_at = timezone.now()
                     comment_form.save()
                     messages.success(request, 'تم تحديث التعليق بنجاح')
                     return redirect(request.path)
                 else:
                     messages.error(request, 'حدث خطأ في تحديث التعليق')
-                    # إضافة أخطاء النموذج للرسائل
-                    for field, errors in comment_form.errors.items():
-                        for error in errors:
-                            messages.error(request, f"{field}: {error}")
             except comments.DoesNotExist:
                 messages.error(request, 'التعليق غير موجود')
         else:
-            # هذا طلب لتعديل المقال
+            # معالجة طلبات تعديل المقال
             form = config['form_class'](request.POST, request.FILES, instance=content)
             if form.is_valid():
                 print("✅ النموذج صالح")
-                print("📊 البيانات:", form.cleaned_data)
                 
                 try:
-                    # حفظ المحتوى أولاً بدون commit
+                    # حفظ المحتوى بدون commit أولاً
                     content = form.save(commit=False)
                     
-                    # تأكد من أن slug ليس فارغاً
-                    if not content.slug:
-                        content.slug = slug
-                    
-                    # الحل الحاسم: التحقق من الملفات المرفوعة
-                    print(f"📁 FILES: {request.FILES}")
-                    print(f"📁 myimage في FILES: {'myimage' in request.FILES}")
-                    
-                    # إذا لم يتم رفع ملف جديد لـ myimage، استخدم القيمة الأصلية
-                    if 'myimage' not in request.FILES or not request.FILES.get('myimage'):
-                        content.myimage = original_myimage
-                        print(f"🖼️ احتفظ بالصورة القديمة: {original_myimage}")
-                    else:
-                        print(f"🖼️ سيتم استخدام الصورة الجديدة: {request.FILES['myimage'].name}")
-                    
-                    # نفس المنطق لحقل autre إذا كان موجوداً
-                    if hasattr(content, 'autre'):
-                        if 'autre' not in request.FILES or not request.FILES.get('autre'):
-                            content.autre = original_autre
-                            print(f"🖼️ احتفظ بالصورة الإضافية القديمة: {original_autre}")
-                    
-                    # تحديث حقل updated_at
+                    # تحديث الحقول المطلوبة
                     content.updated_at = timezone.now()
                     
-                    # حفظ المحتوى
-                    content.save()
-                    print("💾 تم الحفظ بنجاح")
-                    print(f"🖼️ الصورة بعد الحفظ: {content.myimage}")
+                    # الحفاظ على الصور الأصلية إذا لم يتم رفع جديدة
+                    if 'myimage' not in request.FILES or not request.FILES.get('myimage'):
+                        content.myimage = original_myimage
+                        print("🖼️ احتفظ بالصورة الرئيسية القديمة")
                     
-                    # حفظ الحقول many-to-many إذا وجدت
+                    if hasattr(content, 'autre') and ('autre' not in request.FILES or not request.FILES.get('autre')):
+                        content.autre = original_autre
+                        print("🖼️ احتفظ بالصورة الإضافية القديمة")
+                    
+                    # الحفظ النهائي
+                    content.save()
+                    print("💾 تم حفظ المقال بنجاح")
+                    
+                    # حفظ علاقات many-to-many إذا وجدت
                     if hasattr(form, 'save_m2m'):
                         form.save_m2m()
                     
                     messages.success(request, 'تم تحديث المحتوى بنجاح')
-                    return redirect(request.path)
+                    # return redirect('edit_content', content_type=content_type, slug=content.slug)
+                    return redirect('edit_article', slug=content.slug)
                     
                 except Exception as e:
-                    logger.error(f"Error saving content: {e}")
+                    logger.error(f"خطأ في حفظ المحتوى: {e}")
                     messages.error(request, f'حدث خطأ في حفظ المحتوى: {str(e)}')
             else:
                 print("❌ النموذج غير صالح:", form.errors)
-                messages.error(request, 'حدث خطأ في تحديث المحتوى. يرجى التحقق من البيانات المدخلة.')
+                for field, errors in form.errors.items():
+                    for error in errors:
+                        messages.error(request, f"{field}: {error}")
 
     else:
         form = config['form_class'](instance=content)
 
-    # إذا لم تكن هناك نماذج تعليقات، أنشئها
+    # إعداد قائمة نماذج التعليقات
     if not comment_forms and content_type == 'articles':
         for comment in content_comments:
             comment_forms.append(CommentForm(instance=comment))
 
     context = {
         'title': f'تعديل : {content.title}',
-        
-        # أرسل الكائن كاملاً والفورم
         'article': content,
-        'form': form,  # هذا السطر المهم الناقص!
+        'form': form,  # تأكد من إرسال الفورم
         'content_types': config['types'],
         'comments': zip(content_comments, comment_forms) if content_type == 'articles' else [],
         'comment_count': content_comments.count() if content_type == 'articles' else 0,
         'content_type': content_type,
-        
-        # معلومات التصحيح
-        'debug_info': {
-            'content_type': content_type,
-            'myimage_value': content.myimage,
-            'myimage_type': type(content.myimage),
-            'myimage_exists': bool(content.myimage),
-            'slug_value': content.slug
-        }
     }
 
     return render(request, f'tifinar/auth/{content_type}/{config["template"]}', context)
+
         
 def handle_uploaded_images(new_images, existing_images, slug, image_type):
     """معالجة الصور المحملة وحفظها"""

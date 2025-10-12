@@ -42,28 +42,32 @@ class articles(models.Model):
     mysubject = models.TextField(db_column='Mysubject', unique=True, blank=True, null=True)  # Field name made lowercase.
     mydescription = models.TextField(db_column='Mydescription', blank=True, null=True)  # Field name made lowercase.    keywords = models.TextField(blank=True, null=True)
     keywords = models.TextField(db_column='keywords', blank=True, null=True)
-    dir = models.CharField(max_length=3)
+    dir = models.CharField(
+            choices=Dir.choices,
+            default=Dir.LTR,
+            max_length=3
+        )
     author = models.CharField(db_column='Author', max_length=255, blank=True, null=True)  # Field name made lowercase.
     myimage = models.CharField(db_column='myimage', max_length=255, blank=True, null=True)  # Field name made lowercase.
     autre = models.CharField(max_length=255, blank=True, null=True)
     the_type = models.CharField(max_length=255, blank=True, null=True)
     visibility_status = models.CharField(
-        max_length=15,
-        choices=VisibilityStatus.choices,
-        default=VisibilityStatus.UNDER_REVIEW
+            max_length=15,
+            choices=VisibilityStatus.choices,
+            default=VisibilityStatus.UNDER_REVIEW
         )
     updated_at = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
     educational_level = models.CharField(
-        max_length=3,
-        choices=EducationalLevel.choices,
-        default=EducationalLevel.UNKNOWN
+            max_length=3,
+            choices=EducationalLevel.choices,
+            default=EducationalLevel.UNKNOWN
         )
     gender = models.CharField(
-        max_length=10,
-        choices=Gender.choices,
-        default='all'
-    )
+            max_length=10,
+            choices=Gender.choices,
+            default='all'
+        )
     min_age = models.IntegerField()
     max_age = models.IntegerField()
 
@@ -145,38 +149,15 @@ class AuthUser(AbstractBaseUser, PermissionsMixin):
     # الحقول الإضافية من جدولك
     email_verified_at = models.DateTimeField(_('Email Verified At'), null=True, blank=True)
     remember_token = models.CharField(_('Remember Token'), max_length=100, null=True, blank=True)
-    
-    class Role(models.TextChoices):
-        CONTENT_CREATOR = 'content_creator', _('Content Creator')
-        ADMIN = 'admin', _('Admin')
-        USER = 'user', _('User')
-    
+
     role = models.CharField(
-        _('Role'),
         max_length=15,
         choices=Role.choices,
         default=Role.USER
     )
-    
-    class EducationalLevel(models.TextChoices):
-        UNKNOWN = '0', _('غير محدد')
-        PRIMARY_1 = '1', _('السنة الأولى ابتدائي')
-        PRIMARY_2 = '2', _('السنة الثانية ابتدائي')
-        PRIMARY_3 = '3', _('السنة الثالثة ابتدائي')
-        PRIMARY_4 = '4', _('السنة الرابعة ابتدائي')
-        PRIMARY_5 = '5', _('السنة الخامسة ابتدائي')
-        PRIMARY_6 = '6', _('السنة السادسة ابتدائي')
-        MIDDLE_1 = '7', _('السنة الأولى إعدادي')
-        MIDDLE_2 = '8', _('السنة الثانية إعدادي')
-        MIDDLE_3 = '9', _('السنة الثالثة إعدادي')
-        COMMON_CORE = '10', _('الجدع المشترك')
-        BAC_1 = '11', _('السنة الأولى بكالوريا')
-        BAC_2 = '12', _('السنة الثانية بكالوريا')
-        POST_BAC = '13', _('التعليم العالي')
 
     educational_level = models.CharField(
-        _('Educational Level'),
-        max_length=20,
+        max_length=3,
         choices=EducationalLevel.choices,
         default=EducationalLevel.UNKNOWN
     )
@@ -185,37 +166,20 @@ class AuthUser(AbstractBaseUser, PermissionsMixin):
     ville_d_origine = models.TextField(_('Ville D\'origine'), null=True, blank=True)
     adresse = models.TextField(_('Adresse'), null=True, blank=True)
     
-    class EtatSocial(models.TextChoices):
-        CELIBATAIRE = 'Celibataire', _('Celibataire')
-        VEUF = 'Veu(f)ve', _('Veu(f)ve')
-        ORGANISME = 'Organisme', _('Organisme')
-        MARIE = 'Marie(e)', _('Marie(e)')
-        DIVORCE = 'Divorce(e)', _('Divorce(e)')
-    
     Etat_Social = models.CharField(
-        _('Etat Social'),
         max_length=15,
-        default=EtatSocial.CELIBATAIRE,
-        null=True,
-        blank=True
+        choices=SocialStatus.choices,
+        default=SocialStatus.CELIBATAIRE,
     )
     
     date_de_naissance = models.DateField(_('date_de_naissance'), null=True, blank=True)
     Ideologie = models.TextField(_('Ideologie'), null=True, blank=True)
     social_media = models.TextField(_('Social Media'), null=True, blank=True)
     
-    class Gender(models.TextChoices):
-        MALE = 'male', _('male')
-        FEMALE = 'female', _('female')
-        ALL = 'all', _('all')
-    
-    
     gender = models.CharField(
-        _('Gender'),
         max_length=10,
         choices=Gender.choices,
-        null=True,
-        blank=True
+        default=Gender.ALL
     )
     
     tel = models.CharField(_('Tel'), max_length=20, null=True, blank=True)
@@ -279,37 +243,6 @@ class AuthUserUserPermissions(models.Model):
         db_table = 'auth_user_user_permissions'
         unique_together = (('user', 'permission'),)
 
-
-class EducationalLevel(models.TextChoices):
-    UNKNOWN = '0', _('غير محدد')
-    PRIMARY_1 = '1', _('السنة الأولى ابتدائي')
-    PRIMARY_2 = '2', _('السنة الثانية ابتدائي')
-    PRIMARY_3 = '3', _('السنة الثالثة ابتدائي')
-    PRIMARY_4 = '4', _('السنة الرابعة ابتدائي')
-    PRIMARY_5 = '5', _('السنة الخامسة ابتدائي')
-    PRIMARY_6 = '6', _('السنة السادسة ابتدائي')
-    MIDDLE_1 = '7', _('السنة الأولى إعدادي')
-    MIDDLE_2 = '8', _('السنة الثانية إعدادي')
-    MIDDLE_3 = '9', _('السنة الثالثة إعدادي')
-    COMMON_CORE = '10', _('الجدع المشترك')
-    BAC_1 = '11', _('السنة الأولى بكالوريا')
-    BAC_2 = '12', _('السنة الثانية بكالوريا')
-    POST_BAC = '13', _('التعليم العالي')
-
-class Gender(models.TextChoices):
-    MALE = 'male', _('ذكر')
-    FEMALE = 'female', _('أنثى')
-    ALL = 'all', _('للجميع')
-
-class VisibilityStatus(models.TextChoices):
-    PUBLIC = 'public', _('عام')
-    UNDER_REVIEW = 'under_review', _('قيد المراجعة')
-    RESTRICTED = 'restricted', _('مقيد')
-
-class Dir(models.TextChoices):
-    RTL = 'rtl', _('من اليمين لليسار (العربية)')
-    LTR = 'ltr', _('من اليسار لليمين (الفرنسية/الإنجليزية)')
-
 class books(models.Model):
     books_id = models.AutoField(primary_key=True)
     myimage = models.CharField(max_length=500, db_column='Myimage', blank=True, null=True)
@@ -325,8 +258,6 @@ class books(models.Model):
         max_length=3,
         choices=Dir.choices,
         default=Dir.LTR,
-        blank=True,
-        null=True
     )
     language = models.CharField(max_length=255, blank=True, null=True)
     visibility_status = models.CharField(
@@ -422,11 +353,6 @@ class CartItems(models.Model):
 User = get_user_model()
 
 class comments(models.Model):
-    VISIBILITY_CHOICES = [
-        ('public', 'عام'),
-        ('under_review', 'قيد المراجعة'),
-        ('restricted', 'مقيد'),
-    ]
     
     cmt_id = models.AutoField(primary_key=True)
     page_title = models.CharField(max_length=255, blank=True, null=True)
@@ -435,8 +361,8 @@ class comments(models.Model):
     author_email = models.CharField(max_length=255, blank=True, null=True)
     visibility_status = models.CharField(
         max_length=15, 
-        choices=VISIBILITY_CHOICES, 
-        default='under_review'
+        choices=VisibilityStatus.choices, 
+        default=VisibilityStatus.UNDER_REVIEW
     )
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField()
@@ -493,7 +419,11 @@ class Contacts(models.Model):
     social_media = models.TextField(blank=True, null=True)
     gender = models.CharField(max_length=7, blank=True, null=True)
     path = models.TextField(blank=True, null=True)
-    educational_level = models.CharField(max_length=28)
+    educational_level = models.CharField(
+        max_length=3,
+        choices=EducationalLevel.choices,
+        default=EducationalLevel.UNKNOWN
+    )
     keywords = models.TextField(blank=True, null=True)
     spouse = models.CharField(max_length=255, blank=True, null=True)
     children = models.TextField(blank=True, null=True)
@@ -589,7 +519,11 @@ class cours(models.Model):
     images = models.TextField(blank=True, null=True)
     intro = models.TextField(blank=True, null=True)
     exams_link = models.CharField(max_length=255, blank=True, null=True)
-    visibility_status = models.CharField(max_length=12)
+    visibility_status = models.CharField(
+        max_length=12,
+        choices=VisibilityStatus.choices,
+        default=VisibilityStatus.UNDER_REVIEW
+    )
     updated_at = models.DateField()
     created_at = models.DateTimeField()
     cours_contents = models.TextField(blank=True, null=True)
@@ -597,7 +531,11 @@ class cours(models.Model):
     gender = models.CharField(max_length=6)
     min_age = models.IntegerField()
     max_age = models.IntegerField()
-    educational_level = models.CharField(max_length=26)
+    educational_level = models.CharField(
+        max_length=3,
+        choices=EducationalLevel.choices,
+        default=EducationalLevel.UNKNOWN
+    )
     dir = models.CharField(max_length=3, blank=True, null=True)
 
     class Meta:
@@ -697,9 +635,6 @@ class Examitems(models.Model):
             random.shuffle(choices)
             return choices
 
-
-
-
 class FailedJobs(models.Model):
     id = models.BigAutoField(primary_key=True)
     uuid = models.CharField(max_length=255)
@@ -769,10 +704,6 @@ class msgs(models.Model):
         ('important', 'Important'),
     ]
 
-    DIR_CHOICES = [
-        ('ltr', 'ltr'),
-        ('rtl', 'rtl'),
-    ]
     msg_id = models.AutoField(primary_key=True)
     mysubject = models.TextField(db_column='mysubject', blank=True, null=True)  # Field name made lowercase.        
     email = models.TextField(db_column='Email', blank=True, null=True)  # Field name made lowercase.
@@ -792,10 +723,8 @@ class msgs(models.Model):
         )
     dir = models.CharField(
             max_length=3,
-            choices=DIR_CHOICES,
-            default='ltr',
-            blank=False,
-            null=False,
+            choices=Dir.choices,
+            default=Dir.LTR,
         )
 
     class Meta:
@@ -894,57 +823,16 @@ class synonym_terms(models.Model):
     term = models.CharField(max_length=255)
     synonyms = models.TextField(blank=True, null=True)
     contact_field = models.CharField(max_length=64)  # هذا يجب أن يكون موجودًا
-    target_gender = models.CharField(max_length=6, choices=[('male','male'),('female','female')], blank=True, null=True)
+    target_gender = models.CharField(
+            max_length=6,
+            choices=Gender.choices,
+            default=Gender.ALL
+        )
     ignore_terms = models.CharField(max_length=255, blank=True, null=True)
     
     class Meta:
         managed = True
         db_table = 'synonym_terms'
-
-class Users(models.Model):
-    id = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=255, blank=True, null=True)
-    email = models.CharField(unique=True, max_length=255, blank=True, null=True)
-    email_verified_at = models.DateTimeField(blank=True, null=True)
-    password = models.CharField(max_length=255, blank=True, null=True)
-    remember_token = models.CharField(max_length=100, blank=True, null=True)
-    created_at = models.DateTimeField(blank=True, null=True)
-    updated_at = models.DateTimeField(blank=True, null=True)
-    role = models.CharField(max_length=15)
-    educational_level = models.CharField(max_length=26)
-    images = models.TextField(blank=True, null=True)
-    ville_d_origine = models.TextField(db_column='Ville_D_origine', blank=True, null=True)  # Field name made lowercase.
-    adresse = models.TextField(db_column='Adresse', blank=True, null=True)  # Field name made lowercase.
-    etat_social = models.CharField(db_column='Etat_Social', max_length=11, blank=True, null=True)  # Field name made lowercase.
-    date_de_naissance = models.DateField(db_column='date_de_naissance', blank=True, null=True)  # Field name made lowercase.
-    ideologie = models.TextField(db_column='Ideologie', blank=True, null=True)  # Field name made lowercase.        
-    social_media = models.TextField(blank=True, null=True)
-    gender = models.CharField(max_length=7, blank=True, null=True)
-    nom = models.TextField(db_column='Nom', blank=True, null=True)  # Field name made lowercase.
-    prenom = models.TextField(db_column='Prenom', blank=True, null=True)  # Field name made lowercase.
-    tel = models.CharField(db_column='Tel', max_length=20, blank=True, null=True)  # Field name made lowercase.     
-    the_type = models.TextField(blank=True, null=True)
-    societe = models.TextField(db_column='Societe', blank=True, null=True)  # Field name made lowercase.
-    commentaire = models.TextField(db_column='Commentaire', blank=True, null=True)  # Field name made lowercase.    
-    path = models.TextField(blank=True, null=True)
-    keywords = models.TextField(blank=True, null=True)
-    spouse = models.CharField(max_length=255, blank=True, null=True)
-    children = models.TextField(blank=True, null=True)
-    siblings = models.TextField(blank=True, null=True)
-    parents = models.TextField(blank=True, null=True)
-    maternal_relatives = models.TextField(blank=True, null=True)
-    paternal_relatives = models.TextField(blank=True, null=True)
-    grandparents = models.TextField(blank=True, null=True)
-    friends = models.TextField(blank=True, null=True)
-    friend_requests = models.TextField(blank=True, null=True)
-    name_in_arabic = models.CharField(max_length=255, blank=True, null=True)
-    cousins = models.TextField(blank=True, null=True)
-    language = models.TextField(db_column='Language')  # Field name made lowercase.
-
-    class Meta:
-        managed = True
-        db_table = 'users'
-
 
 class ArticleReaction(models.Model):
     REACTION_CHOICES = [
@@ -983,12 +871,28 @@ class videos(models.Model):
     author = models.TextField(db_column='Author', blank=True, null=True)  # Field name made lowercase.
     autre = models.TextField(blank=True, null=True)
     the_type = models.CharField(max_length=255, blank=True, null=True)
-    dir = models.CharField(max_length=3, blank=True, null=True)
-    visibility_status = models.CharField(max_length=12)
+    dir = models.CharField(
+            max_length=3,
+            choices=Dir.choices,
+            default=Dir.LTR
+        )
+    visibility_status = models.CharField(
+        max_length=12,
+        choices=VisibilityStatus.choices,
+        default=VisibilityStatus.UNDER_REVIEW
+        )
     updated_at = models.DateField()
     created_at = models.DateTimeField()
-    educational_level = models.CharField(max_length=26)
-    gender = models.CharField(max_length=6, blank=True, null=True)
+    educational_level = models.CharField(
+            max_length=3,
+            choices=EducationalLevel.choices,
+            default=EducationalLevel.UNKNOWN
+        )
+    gender = models.CharField(
+        max_length=6,
+        choices=Gender.choices,
+        default=Gender.ALL
+    )
     min_age = models.IntegerField()
     max_age = models.IntegerField()
 
@@ -1011,17 +915,17 @@ class exams(models.Model):
     dir = models.CharField(max_length=3, blank=True, null=True)
     visibility_status = models.CharField(
         max_length=12,
-        choices=[
-            ('public', 'public'),
-            ('under_review', 'under_review'),
-            ('restricted', 'restricted'),
-        ],
-        default='under_review'
+        choices=VisibilityStatus.choices,
+        default=VisibilityStatus.UNDER_REVIEW
     )
     updated_at = models.DateField()
     created_at = models.DateTimeField()
     educational_level = models.CharField(max_length=26)
-    gender = models.CharField(max_length=6, blank=True, null=True)
+    gender = models.CharField(
+            max_length=6,
+            choices=Gender.choices,
+            default=Gender.ALL
+        )
     min_age = models.IntegerField()
     max_age = models.IntegerField()
 
