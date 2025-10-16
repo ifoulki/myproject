@@ -1,3 +1,4 @@
+# tifinar/views.py
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from django.http import JsonResponse
@@ -5,6 +6,93 @@ from django.db.models import Q, Case, When, IntegerField
 from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from tifinar.models import Contacts, synonym_terms
+import re
+
+class DynamicContactSearch:
+    """فئة ديناميكية للبحث باستخدام جدول المرادفات"""
+    
+    @staticmethod
+    def get_all_synonyms():
+        """الحصول على جميع المرادفات من قاعدة البيانات"""
+        synonyms_data = {}
+        all_entries = synonym_terms.objects.all()
+        
+        for entry in all_entries:
+            # جمع جميع المرادفات في قائمة واحدة
+            all_terms = [entry.term.strip()]
+            if entry.synonyms:
+                all_terms.extend([syn.strip() for syn in entry.synonyms.split(',') if syn.strip()])
+            
+            # تخزين البيانات المهمة
+            synonyms_data[entry.relation_type] = {
+                'terms': all_terms,
+                'contact_field': entry.contact_field,
+                'target_gender': entry.target_gender,
+                'ignore_terms': [term.strip() for term in entry.ignore_terms.split(',')] if entry.ignore_terms else []
+            }
+        
+        return synonyms_data
+    
+    @staticmethod
+    def extract_relation_and_name(search_term):
+        """استخراج العلاقة والاسم من مصطلح البحث باستخدام جدول المرادفات"""
+        synonyms_data = DynamicContactSearch.get_all_synonyms()
+        
+        # جمع جميع المصطلحات من جميع العلاقات
+        all_terms = []
+        term_to_relation = {}
+        
+        for relation_type, data in synonyms_data.items():
+            for term in data['terms']:
+                all_terms.append(term)
+                term_to_relation[term] = relation_type
+        
+        # البحث عن مصطلح مطابق
+        for term in all_terms:
+            if term and term in search_term:
+                # التحقق من عدم وجود كلمات محظورة
+                relation_type = term_to_relation[term]
+                ignore_terms = synonyms_data[relation_type]['ignore_terms']
+                
+                if not any(ignore_term in search_term for ignore_term in ignore_terms):
+                    # استخراج الاسم
+                    name = search_term.replace(term, '').strip()
+                    # تنظيف الاسم
+                    clean_name = DynamicContactSearch.clean_name(name, synonyms_data[relation_type]['terms'])
+                    return term, relation_type, clean_name
+        
+        return None, None, search_term
+    
+    @staticmethod
+    def clean_name(name, relation_terms):
+        """تنظيف الاسم من الكلمات المتعلقة بالعلاقات"""
+        # إنشاء نمط regex من جميع مصطلحات العلاقات
+        pattern_terms = []
+        for term in relation_terms:
+            # الهروب من الأحخاص الخاصة في regex
+            escaped_term = re.escape(term)
+            pattern_terms.append(escaped_term)
+        
+        # إضافة كلمات شائعة أخرى
+        common_terms = ['أخت', 'أخ', 'شقيقة', 'شقيق', 'والد', 'والدة', 'ابن', 'ابنة', 'زوج', 'زوجة', 'إلخ']
+        pattern_terms.extend(common_terms)
+        
+        pattern = r'\b(' + '|'.join(pattern_terms) + r')\b'
+        clean_name = re.sub(pattern, '', name).strip()
+        return clean_name
+    
+    @staticmethod
+    def get_relation_info(relation_type):
+        """الحصول على معلومات العلاقة من جدول المرادفات"""
+        try:
+            entry = synonym_terms.objects.get(relation_type=relation_type)
+            return {
+                'contact_field': entry.contact_field,
+                'target_gender': entry.target_gender,
+                'ignore_terms': [term.strip() for term in entry.ignore_terms.split(',')] if entry.ignore_terms else []
+            }
+        except synonym_terms.DoesNotExist:
+            return None
 
 @login_required
 def contacts_index(request):
@@ -12,7 +100,7 @@ def contacts_index(request):
     
     # تعريف أولويات الحقول للترتيب
     field_priorities = {
-        'name_in_arabic': 17,  # الأعلى أولوية
+        'name_in_arabic': 17,
         'nom': 16,
         'prenom': 15,
         'friends': 14,
@@ -49,138 +137,50 @@ def contacts_index(request):
 
     search_term = request.GET.get('search')
     if search_term:
-        # البحث في جدول المرادفات
-        synonym_entries = synonym_terms.objects.all()
-        matched_entry = None
+        # استخدام المنطق الديناميكي مع جدول المرادفات
+        relation_term, relation_type, name = DynamicContactSearch.extract_relation_and_name(search_term)
         
-        for entry in synonym_entries:
-            terms_to_check = [entry.term.strip()] 
-            if entry.synonyms:
-                terms_to_check.extend([syn.strip() for syn in entry.synonyms.split(',') if syn.strip()])
+        if relation_term and relation_type and name:
+            print(f"Found relation: '{relation_term}' (type: {relation_type}) for name: '{name}'")
             
-            ignore_terms = []
-            if entry.ignore_terms:
-                ignore_terms = [ignore.strip() for ignore in entry.ignore_terms.split(',') if ignore.strip()]
+            # الحصول على معلومات العلاقة
+            relation_info = DynamicContactSearch.get_relation_info(relation_type)
             
-            # البحث عن أي مصطلح مطابق
-            for t in terms_to_check:
-                if t and t in search_term:
-                    # التحقق من عدم وجود كلمات محظورة
-                    if not any(ignore in search_term for ignore in ignore_terms):
-                        matched_entry = entry
-                        break
-            if matched_entry:
-                break
-
-        if matched_entry:
-            print(f"Matched synonym: {matched_entry.term}, field: {matched_entry.contact_field}")
-            
-            # استخراج الاسم بعد المصطلح
-            name_part = search_term
-            for term in [matched_entry.term] + (matched_entry.synonyms.split(',') if matched_entry.synonyms else []):
-                if term.strip() in search_term:
-                    parts = search_term.split(term.strip())
-                    name_part = parts[-1].strip() if parts[-1].strip() else (parts[0].strip() if parts[0].strip() else search_term)
-                    break
-
-            print(f"Name part extracted: '{name_part}'")
-            
-            # البحث عن الأسماء المطابقة للجزء المستخرج
-            name_matches = Contacts.objects.filter(
-                Q(name_in_arabic__icontains=name_part) |
-                Q(nom__icontains=name_part) |
-                Q(prenom__icontains=name_part)
-            )
-
-            related_names = []
-            target_field = matched_entry.contact_field
-            target_gender = matched_entry.target_gender
-
-            print(f"Found {name_matches.count()} name matches")
-            
-            for contact in name_matches:
-                if target_field and hasattr(contact, target_field):
-                    field_value = getattr(contact, target_field, '')
-                    if field_value:
-                        print(f"Field {target_field} value: {field_value}")
-                        # تقسيم الأسماء بفواصل
-                        names_list = []
-                        if isinstance(field_value, str):
-                            if ',' in field_value:
-                                names_list = [name.strip() for name in field_value.split(',') if name.strip()]
-                            else:
-                                names_list = [field_value.strip()]
-                        
-                        for rel_name in names_list:
-                            if rel_name:
-                                # البحث عن الأسماء المرتبطة
-                                rel_contacts = Contacts.objects.filter(
-                                    Q(name_in_arabic__icontains=rel_name) |
-                                    Q(nom__icontains=rel_name) |
-                                    Q(prenom__icontains=rel_name)
-                                )
-                                
-                                for rel_contact in rel_contacts:
-                                    # التحقق من الجنس إذا محدد
-                                    gender_match = True
-                                    if target_gender and rel_contact.gender:
-                                        gender_match = (rel_contact.gender.lower() == target_gender.lower())
-                                    
-                                    if gender_match:
-                                        related_names.append(rel_contact.name_in_arabic or f"{rel_contact.nom} {rel_contact.prenom}")
-
-            print(f"Related names found: {related_names}")
-            
-            if related_names:
-                # البحث عن جميع الأسماء المرتبطة
-                q_objects = Q()
-                for name in set(related_names):
-                    if name:
-                        q_objects |= Q(name_in_arabic__icontains=name)
-                        q_objects |= Q(nom__icontains=name)
-                        q_objects |= Q(prenom__icontains=name)
-                
-                contacts = Contacts.objects.filter(q_objects).distinct()
-            else:
-                contacts = Contacts.objects.none()
-                
-        else:
-            # البحث العادي مع ترتيب الأولويات
-            q_objects = Q()
-            for column in searchable_columns:
-                if hasattr(Contacts, column):
-                    q_objects |= Q(**{f'{column}__icontains': search_term})
-            
-            contacts = contacts.filter(q_objects)
-            
-            # إضافة ترتيب الأولويات للنتائج
-            when_conditions = []
-            for column, priority in field_priorities.items():
-                if hasattr(Contacts, column):
-                    when_conditions.append(
-                        When(**{f'{column}__icontains': search_term}, then=priority)
-                    )
-            
-            # ترتيب النتائج حسب الأولوية ثم حسب الاسم
-            contacts = contacts.annotate(
-                search_priority=Case(
-                    *when_conditions,
-                    default=0,
-                    output_field=IntegerField()
+            if relation_info:
+                # البحث عن الأشخاص الأساسيين
+                main_contacts = Contacts.objects.filter(
+                    Q(name_in_arabic__icontains=name) |
+                    Q(nom__icontains=name) |
+                    Q(prenom__icontains=name)
                 )
-            ).order_by('-search_priority', 'name_in_arabic', 'nom', 'prenom')
+                
+                print(f"Found {main_contacts.count()} main contacts")
+                
+                if main_contacts.exists():
+                    # الحصول على الأسماء المرتبطة
+                    related_names = get_related_names_dynamic(main_contacts, relation_info)
+                    print(f"Found {len(related_names)} related names: {related_names}")
+                    
+                    if related_names:
+                        # البحث عن الجهات المرتبطة
+                        contacts = search_related_contacts(related_names)
+                    else:
+                        contacts = normal_search(search_term, searchable_columns, field_priorities)
+                else:
+                    contacts = normal_search(search_term, searchable_columns, field_priorities)
+            else:
+                contacts = normal_search(search_term, searchable_columns, field_priorities)
+        else:
+            # البحث العادي
+            contacts = normal_search(search_term, searchable_columns, field_priorities)
 
-    # التقسيم إلى صفحات
+    # باقي الكود كما هو...
     paginator = Paginator(contacts, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    # إذا لم يكن هناك بحث
     if not search_term and not role:
-        # للمستخدمين العاديين: عرض الأشخاص الذين كتبهم المستخدم فقط
         current_user_id = str(request.user.id)
-        
-        # البحث في عمود Author الذي يحتوي على IDs مفصولة بفواصل
         contacts = Contacts.objects.filter(
             Q(author__icontains=current_user_id) |
             Q(author__startswith=current_user_id + ',') |
@@ -188,7 +188,6 @@ def contacts_index(request):
             Q(author__icontains=',' + current_user_id + ',') |
             Q(author=current_user_id)
         ).distinct()
-        
         paginator = Paginator(contacts, 20)
         page_obj = paginator.get_page(page_number)
 
@@ -198,51 +197,70 @@ def contacts_index(request):
         'role': role or ''
     })
 
-@login_required
-def delete_contact(request, contact_id):
-    contact = get_object_or_404(Contacts, contacts_id=contact_id)
-    current_user_id = str(request.user.id)
+def get_related_names_dynamic(contacts, relation_info):
+    """الحصول على الأسماء المرتبطة باستخدام معلومات العلاقة الديناميكية"""
+    related_names = []
+    contact_field = relation_info['contact_field']
+    target_gender = relation_info['target_gender']
     
-    try:
-        if request.user.is_superuser:
-            # Superadmin - حذف كامل من قاعدة البيانات
-            contact_name = f"{contact.prenom} {contact.nom}"
-            contact.delete()
-            messages.success(request, f'تم حذف الجهة "{contact_name}" بشكل نهائي من قاعدة البيانات')
-            
-        else:
-            # مستخدم عادي - إزالة ID المستخدم من عمود Author فقط
-            if contact.author:
-                author_ids = [id.strip() for id in str(contact.author).split(',') if id.strip()]
-                
-                if current_user_id in author_ids:
-                    # إزالة ID المستخدم من القائمة
-                    author_ids.remove(current_user_id)
-                    
-                    if author_ids:
-                        # تحديث العمود بالقائمة الجديدة
-                        contact.author = ','.join(author_ids)
-                    else:
-                        # إذا لم يتبقى أي authors، يمكن حذف الجهة أو تركها
-                        contact.author = ''
-                    
-                    contact.save()
-                    messages.success(request, f'تم إزالة صلاحيتك عن الجهة "{contact.prenom} {contact.nom}"')
-                else:
-                    messages.error(request, 'ليس لديك صلاحية لهذه الجهة')
-            else:
-                messages.error(request, 'هذه الجهة لا تملك معلومات authors')
-        
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({'success': True, 'message': 'تمت العملية بنجاح'})
-            
-        return redirect('contacts')
-        
-    except Exception as e:
-        error_message = f'حدث خطأ أثناء المعالجة: {str(e)}'
-        messages.error(request, error_message)
-        
-        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
-            return JsonResponse({'success': False, 'error': error_message})
-            
-        return redirect('contacts')
+    for contact in contacts:
+        if hasattr(contact, contact_field):
+            field_value = getattr(contact, contact_field)
+            if field_value:
+                # تقسيم الأسماء
+                names_array = field_value.split(',')
+                for name in names_array:
+                    name = name.strip()
+                    if name:
+                        # التحقق من الجنس إذا كان محدداً
+                        if target_gender and target_gender != 'ALL':
+                            name_contact = Contacts.objects.filter(
+                                Q(name_in_arabic__icontains=name) |
+                                Q(nom__icontains=name) |
+                                Q(prenom__icontains=name)
+                            ).first()
+                            
+                            if name_contact and name_contact.gender == target_gender:
+                                related_names.append(name)
+                        else:
+                            related_names.append(name)
+    
+    return list(set(related_names))
+
+def search_related_contacts(related_names):
+    """البحث عن الجهات المرتبطة"""
+    if not related_names:
+        return Contacts.objects.none()
+    
+    q_objects = Q()
+    for name in related_names:
+        if name:
+            q_objects |= Q(name_in_arabic__icontains=name)
+            q_objects |= Q(nom__icontains=name)
+            q_objects |= Q(prenom__icontains=name)
+    
+    return Contacts.objects.filter(q_objects).distinct()
+
+def normal_search(search_term, searchable_columns, field_priorities):
+    """البحث العادي"""
+    q_objects = Q()
+    for column in searchable_columns:
+        if hasattr(Contacts, column):
+            q_objects |= Q(**{f'{column}__icontains': search_term})
+    
+    contacts = Contacts.objects.filter(q_objects)
+    
+    when_conditions = []
+    for column, priority in field_priorities.items():
+        if hasattr(Contacts, column):
+            when_conditions.append(
+                When(**{f'{column}__icontains': search_term}, then=priority)
+            )
+    
+    return contacts.annotate(
+        search_priority=Case(
+            *when_conditions,
+            default=0,
+            output_field=IntegerField()
+        )
+    ).order_by('-search_priority', 'name_in_arabic', 'nom', 'prenom')

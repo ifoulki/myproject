@@ -467,7 +467,7 @@
                                     <!-- أزرار الإجراءات -->
                                     <div class="actions-container">
                                         {% if member.friendship_status == 'friends' %}
-                                            <form action="{% url 'remove_friend' member.id %}" method="POST">
+                                            <form action="" method="POST">
                                                 {% csrf_token %}
                                                 <button type="submit" class="action-btn btn-danger">
                                                     <i class="fas fa-user-times"></i>

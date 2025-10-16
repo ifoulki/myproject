@@ -819,20 +819,105 @@ class Sessions(models.Model):
         managed = False
         db_table = 'sessions'
 
+# tifinar/models.py
+from django.db import models
+
 class synonym_terms(models.Model):
-    term = models.CharField(max_length=255)
-    synonyms = models.TextField(blank=True, null=True)
-    contact_field = models.CharField(max_length=64)  # هذا يجب أن يكون موجودًا
+    # خيارات الجنس المستهدف
+    GENDER_CHOICES = Gender.choices
+    
+    # خيارات الحقول المتاحة في جدول contacts
+    CONTACT_FIELD_CHOICES = [
+        ('name_in_arabic', 'الاسم بالعربية'),
+        ('nom', 'الاسم الأخير'),
+        ('prenom', 'الاسم الأول'),
+        ('tel', 'الهاتف'),
+        ('email', 'البريد الإلكتروني'),
+        ('the_type', 'النوع'),
+        ('societe', 'الشركة'),
+        ('ville_d_origine', 'مدينة المنشأ'),
+        ('adresse', 'العنوان'),
+        ('etat_social', 'الحالة الاجتماعية'),
+        ('date_de_naissance', 'تاريخ الميلاد'),
+        ('ideologie', 'الإيديولوجيا'),
+        ('commentaire', 'تعليق'),
+        ('social_media', 'وسائل التواصل'),
+        ('gender', 'الجنس'),
+        ('path', 'مسار الصورة'),
+        ('keywords', 'الكلمات المفتاحية'),
+        ('spouse', 'الزوج/الزوجة'),
+        ('children', 'الأبناء'),
+        ('siblings', 'الإخوة'),
+        ('parents', 'الوالدان'),
+        ('maternal_relatives', 'أقارب من طرف الأم'),
+        ('paternal_relatives', 'أقارب من طرف الأب'),
+        ('grandparents', 'الأجداد'),
+        ('friends', 'الأصدقاء'),
+        ('cousins', 'أبناء العم'),
+        ('author', 'المؤلف'),
+        ('educational_level', 'المستوى التعليمي'),
+    ]
+    
+    id = models.AutoField(primary_key=True, verbose_name='المعرف')
+    term = models.CharField(max_length=255, verbose_name='المصطلح الأساسي')
+    synonyms = models.TextField(blank=True, null=True, verbose_name='المرادفات')
+    contact_field = models.CharField(
+        max_length=64, 
+        choices=CONTACT_FIELD_CHOICES,
+        verbose_name='الحقل المستهدف'
+    )
+    relation_type = models.CharField(
+        max_length=50, 
+        blank=True, 
+        null=True, 
+        verbose_name='نوع العلاقة'
+    )
     target_gender = models.CharField(
-            max_length=6,
-            choices=Gender.choices,
-            default=Gender.ALL
-        )
-    ignore_terms = models.CharField(max_length=255, blank=True, null=True)
+        max_length=6, 
+        choices=GENDER_CHOICES,
+        default='ALL',
+        verbose_name='الجنس المستهدف'
+    )
+    ignore_terms = models.CharField(
+        max_length=255, 
+        blank=True, 
+        null=True, 
+        verbose_name='المصطلحات المستثناة'
+    )
     
     class Meta:
-        managed = True
         db_table = 'synonym_terms'
+        verbose_name = 'مرادف'
+        verbose_name_plural = 'المرادفات'
+    
+    def __str__(self):
+        return f"{self.term} → {self.contact_field}"
+    
+    def get_synonyms_list(self):
+        """الحصول على قائمة المرادفات"""
+        if self.synonyms:
+            return [syn.strip() for syn in self.synonyms.split(',') if syn.strip()]
+        return []
+    
+    def get_ignore_terms_list(self):
+        """الحصول على قائمة المصطلحات المستثناة"""
+        if self.ignore_terms:
+            return [term.strip() for term in self.ignore_terms.split(',') if term.strip()]
+        return []
+    
+    def get_all_terms(self):
+        """الحصول على جميع المصطلحات (الأساسي + المرادفات)"""
+        all_terms = [self.term]
+        all_terms.extend(self.get_synonyms_list())
+        return all_terms
+    
+    def save(self, *args, **kwargs):
+        # تنظيف البيانات قبل الحفظ
+        if self.synonyms:
+            self.synonyms = self.synonyms.strip()
+        if self.ignore_terms:
+            self.ignore_terms = self.ignore_terms.strip()
+        super().save(*args, **kwargs)
 
 class ArticleReaction(models.Model):
     REACTION_CHOICES = [

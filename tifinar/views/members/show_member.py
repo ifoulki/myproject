@@ -43,7 +43,7 @@ def member_profile_view(request, user_id):
 
     # التحقق من الصلاحيات
     is_owner = request.user.id == member.id
-    is_admin = request.user.role == AuthUser.Role.ADMIN
+    is_admin = request.user.role == AuthUser.role.admin
     
     context = {
         'member': member,
@@ -118,7 +118,7 @@ def edit_member_profile(request, user_id):
     # عرض صفحة التعديل
     return render(request, 'tifinar/auth/members/edit_profile.html', {
         'member': member,
-        'role_choices': AuthUser.Role.choices,
+        'role_choices': AuthUser.role.choices,
         'gender_choices': AuthUser.Gender.choices,
     })
 
