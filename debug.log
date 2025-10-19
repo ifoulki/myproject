@@ -137382,3 +137382,433 @@ DEBUG 2025-10-16 22:31:01,861 utils (0.002)
             WHERE table_schema = DATABASE()
             ; args=None; alias=default
 DEBUG 2025-10-16 22:31:01,870 utils (0.001) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+INFO 2025-10-19 08:43:22,618 autoreload Watching for file changes with StatReloader
+DEBUG 2025-10-19 08:44:29,567 utils (0.358) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 08:44:29,577 utils (0.009) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 08:44:30,876 utils (1.298) 
+            SELECT
+                table_name,
+                table_type,
+                table_comment
+            FROM information_schema.tables
+            WHERE table_schema = DATABASE()
+            ; args=None; alias=default
+DEBUG 2025-10-19 08:44:31,337 utils (0.291) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+DEBUG 2025-10-19 08:45:50,794 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 08:45:50,798 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 08:45:51,136 utils (0.337) SELECT `myadmin`.`adm_id`, `myadmin`.`logo`, `myadmin`.`mobile_logo`, `myadmin`.`link`, `myadmin`.`ads`, `myadmin`.`aside_ads`, `myadmin`.`meta_title`, `myadmin`.`meta_description`, `myadmin`.`meta_keyword`, `myadmin`.`created_at`, `myadmin`.`updated_at` FROM `myadmin` ORDER BY `myadmin`.`adm_id` ASC LIMIT 1; args=(); alias=default
+DEBUG 2025-10-19 08:45:51,801 utils (0.145) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-19 07:45:51.644475' AND `django_session`.`session_key` = 'va6d34asno3dxk5qkhdzyuj942vmj1m1') LIMIT 21; args=('2025-10-19 07:45:51.644475', 'va6d34asno3dxk5qkhdzyuj942vmj1m1'); alias=default
+DEBUG 2025-10-19 08:45:51,934 utils (0.057) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-19 08:45:51,975 utils (0.035) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+DEBUG 2025-10-19 08:45:53,509 utils (0.039) SELECT `articles`.`Art_id`, `articles`.`title`, `articles`.`slug`, `articles`.`Mysubject`, `articles`.`Mydescription`, `articles`.`keywords`, `articles`.`dir`, `articles`.`Author`, `articles`.`myimage`, `articles`.`autre`, `articles`.`the_type`, `articles`.`visibility_status`, `articles`.`updated_at`, `articles`.`created_at`, `articles`.`educational_level`, `articles`.`gender`, `articles`.`min_age`, `articles`.`max_age` FROM `articles` ORDER BY RAND() ASC LIMIT 5; args=(); alias=default
+DEBUG 2025-10-19 08:45:53,567 utils (0.055) SELECT `books`.`books_id`, `books`.`Myimage`, `books`.`title`, `books`.`slug`, `books`.`Mysubject`, `books`.`Mydescription`, `books`.`keywords`, `books`.`Author`, `books`.`autre`, `books`.`the_type`, `books`.`dir`, `books`.`language`, `books`.`visibility_status`, `books`.`updated_at`, `books`.`created_at`, `books`.`gender`, `books`.`min_age`, `books`.`max_age`, `books`.`educational_level` FROM `books` ORDER BY RAND() ASC LIMIT 4; args=(); alias=default
+INFO 2025-10-19 08:45:53,772 basehttp "GET / HTTP/1.1" 200 28337
+INFO 2025-10-19 08:45:53,852 basehttp "GET /static/icons-1.13.1/font/bootstrap-icons.css HTTP/1.1" 304 0
+INFO 2025-10-19 08:45:53,854 basehttp "GET /static/bootstrap-5.3.7-dist/css/bootstrap.min.css HTTP/1.1" 304 0
+INFO 2025-10-19 08:45:53,856 basehttp "GET /static/fontawesome/css/all.min.css HTTP/1.1" 304 0
+INFO 2025-10-19 08:45:53,861 basehttp "GET /static/tifinar/css/style-mobile.css HTTP/1.1" 304 0
+INFO 2025-10-19 08:45:53,861 basehttp "GET /static/tifinar/css/main.css HTTP/1.1" 304 0
+INFO 2025-10-19 08:45:53,924 basehttp "GET /static/tifinar/assets/tifinar.webp HTTP/1.1" 304 0
+INFO 2025-10-19 08:45:54,029 basehttp "GET /static/tifinar/assets/hostinger.webp HTTP/1.1" 304 0
+INFO 2025-10-19 08:45:54,237 basehttp "GET /static/tifinar/images/videos/learn-ST35.webp HTTP/1.1" 304 0
+INFO 2025-10-19 08:45:54,237 basehttp "GET /static/tifinar/assets/education2.webp HTTP/1.1" 304 0
+INFO 2025-10-19 08:45:54,239 basehttp "GET /static/tifinar/images/videos/learn-ST36.webp HTTP/1.1" 304 0
+INFO 2025-10-19 08:45:54,601 basehttp "GET /static/tifinar/images/videos/learn-english24.webp HTTP/1.1" 200 51366
+INFO 2025-10-19 08:45:54,666 basehttp "GET /static/tifinar/images/videos/souss.webp HTTP/1.1" 304 0
+WARNING 2025-10-19 08:45:54,709 basehttp "GET /static/tifinar/images/articles/tifinar/images/articles/__1.jpg HTTP/1.1" 404 1979
+WARNING 2025-10-19 08:45:54,709 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp HTTP/1.1" 404 2007
+WARNING 2025-10-19 08:45:54,710 basehttp "GET /static/tifinar/images/videos/ghltt_albkalwrya__alkhta_lkydyr_alaghlbyt_dyal_altlamydh_fy_althdyr_llwtny_w_aljhwy_41ab.webp HTTP/1.1" 404 2159
+WARNING 2025-10-19 08:45:54,822 basehttp "GET /static/tifinar/images/articles/tifinar/images/articles/___1.png HTTP/1.1" 404 1982
+WARNING 2025-10-19 08:45:54,969 basehttp "GET /static/tifinar/images/articles/atls_anty_fsywr_0_5_lytr_H4pn.webp HTTP/1.1" 404 1988
+INFO 2025-10-19 08:45:55,118 basehttp "GET /static/tifinar/images/books/Physique_chimie7.webp HTTP/1.1" 200 22826
+INFO 2025-10-19 08:45:55,120 basehttp "GET /static/tifinar/images/books/Physique_chimie2.webp HTTP/1.1" 200 23188
+INFO 2025-10-19 08:45:55,120 basehttp "GET /static/tifinar/images/articles/unschooling1.webp HTTP/1.1" 200 39808
+INFO 2025-10-19 08:45:55,121 basehttp "GET /static/tifinar/images/books/Constitutions_marocaines.webp HTTP/1.1" 200 48254
+INFO 2025-10-19 08:45:55,127 basehttp "GET /static/tifinar/assets/return-up.webp HTTP/1.1" 304 0
+INFO 2025-10-19 08:45:55,139 basehttp "GET /static/fontawesome/webfonts/fa-solid-900.woff2 HTTP/1.1" 304 0
+INFO 2025-10-19 08:45:55,140 basehttp "GET /static/tifinar/images/books/code_de_famille.webp HTTP/1.1" 200 85168
+INFO 2025-10-19 08:45:55,155 basehttp "GET /static/tifinar/images/articles/code_de_famille_au_maroc_modawana-reunion.webp HTTP/1.1" 200 45530
+INFO 2025-10-19 08:45:55,292 basehttp "GET /static/tifinar/assets/siteicon.ico HTTP/1.1" 304 0
+DEBUG 2025-10-19 08:45:59,047 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 08:45:59,050 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 08:45:59,052 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-19 07:45:59.041013' AND `django_session`.`session_key` = 'va6d34asno3dxk5qkhdzyuj942vmj1m1') LIMIT 21; args=('2025-10-19 07:45:59.041013', 'va6d34asno3dxk5qkhdzyuj942vmj1m1'); alias=default
+DEBUG 2025-10-19 08:45:59,060 utils (0.005) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-19 08:45:59,099 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-19 08:45:59,263 basehttp "GET /profile/ HTTP/1.1" 200 12329
+WARNING 2025-10-19 08:45:59,325 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp,images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_2.webp,images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_3.webp,images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_4.jpg,images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_5.jpg,images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_6.jpg,images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_7.jpg,images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_8.jpg,images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_9.jpg,images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_10.jpg,images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_11.jpg,images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_12.jpg,images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_13.jpg,images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_14.jpg,images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_15.jpg,images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_16.jpg,images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_17.jpg HTTP/1.1" 404 4741
+WARNING 2025-10-19 08:45:59,347 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp HTTP/1.1" 404 2007
+INFO 2025-10-19 08:45:59,353 basehttp "GET /static/tifinar/assets/footer-background.webp HTTP/1.1" 304 0
+INFO 2025-10-19 08:45:59,445 basehttp "GET /static/bootstrap-5.3.7-dist/js/bootstrap.bundle.min.js HTTP/1.1" 304 0
+INFO 2025-10-19 08:46:03,862 basehttp "GET /users HTTP/1.1" 301 0
+DEBUG 2025-10-19 08:46:03,891 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 08:46:03,899 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 08:46:03,901 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-19 07:46:03.869192' AND `django_session`.`session_key` = 'va6d34asno3dxk5qkhdzyuj942vmj1m1') LIMIT 21; args=('2025-10-19 07:46:03.869192', 'va6d34asno3dxk5qkhdzyuj942vmj1m1'); alias=default
+DEBUG 2025-10-19 08:46:03,907 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-19 08:46:03,952 utils (0.037) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` IN (5, 6, 7, 8, 9, 10); args=(5, 6, 7, 8, 9, 10); alias=default
+DEBUG 2025-10-19 08:46:04,199 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-19 08:46:04,213 basehttp "GET /users/ HTTP/1.1" 200 41262
+WARNING 2025-10-19 08:46:04,265 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp HTTP/1.1" 404 2007
+WARNING 2025-10-19 08:46:04,282 basehttp "GET /static/tifinar/images/users/10/image_alae.webp HTTP/1.1" 404 1931
+WARNING 2025-10-19 08:46:04,285 basehttp "GET /static/tifinar/images/users/7/1000160286.jpg HTTP/1.1" 404 1925
+INFO 2025-10-19 08:46:04,301 basehttp "GET /static/tifinar/assets/female.webp HTTP/1.1" 304 0
+WARNING 2025-10-19 08:46:04,302 basehttp "GET /static/tifinar/images/users/12/sirine.jpeg HTTP/1.1" 404 1919
+WARNING 2025-10-19 08:46:04,302 basehttp "GET /static/tifinar/images/users/11/242138917457869975.jfif HTTP/1.1" 404 1955
+INFO 2025-10-19 08:46:05,172 basehttp "GET /static/icons-1.13.1/font/fonts/bootstrap-icons.woff2?e34853135f9e39acf64315236852cd5a HTTP/1.1" 304 0
+DEBUG 2025-10-19 08:46:17,220 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 08:46:17,232 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 08:46:17,234 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-19 07:46:17.212922' AND `django_session`.`session_key` = 'va6d34asno3dxk5qkhdzyuj942vmj1m1') LIMIT 21; args=('2025-10-19 07:46:17.212922', 'va6d34asno3dxk5qkhdzyuj942vmj1m1'); alias=default
+DEBUG 2025-10-19 08:46:17,241 utils (0.004) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-19 08:46:17,795 utils (0.548) SELECT `synonym_terms`.`id`, `synonym_terms`.`term`, `synonym_terms`.`synonyms`, `synonym_terms`.`contact_field`, `synonym_terms`.`relation_type`, `synonym_terms`.`target_gender`, `synonym_terms`.`ignore_terms` FROM `synonym_terms`; args=(); alias=default
+DEBUG 2025-10-19 08:46:17,805 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE (`auth_user`.`id` IN (5, 6, 7, 8, 9, 10) AND (`auth_user`.`name_in_arabic` LIKE '%douae%' OR `auth_user`.`last_name` LIKE '%douae%' OR `auth_user`.`first_name` LIKE '%douae%' OR `auth_user`.`friends` LIKE '%douae%' OR `auth_user`.`siblings` LIKE '%douae%' OR `auth_user`.`parents` LIKE '%douae%' OR `auth_user`.`spouse` LIKE '%douae%' OR `auth_user`.`children` LIKE '%douae%' OR `auth_user`.`cousins` LIKE '%douae%' OR `auth_user`.`adresse` LIKE '%douae%' OR `auth_user`.`tel` LIKE '%douae%' OR `auth_user`.`email` LIKE '%douae%' OR `auth_user`.`Ideologie` LIKE '%douae%' OR `auth_user`.`societe` LIKE '%douae%' OR `auth_user`.`gender` LIKE '%douae%' OR `auth_user`.`the_type` LIKE '%douae%' OR `auth_user`.`keywords` LIKE '%douae%' OR `auth_user`.`maternal_relatives` LIKE '%douae%' OR `auth_user`.`paternal_relatives` LIKE '%douae%' OR `auth_user`.`ville_d_origine` LIKE '%douae%' OR `auth_user`.`social_media` LIKE '%douae%' OR `auth_user`.`educational_level` LIKE '%douae%' OR `auth_user`.`Commentaire` LIKE '%douae%' OR `auth_user`.`grandparents` LIKE '%douae%' OR `auth_user`.`date_de_naissance` LIKE '%douae%' OR `auth_user`.`path` LIKE '%douae%')); args=(5, 6, 7, 8, 9, 10, '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%'); alias=default
+DEBUG 2025-10-19 08:46:17,823 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-19 08:46:17,832 basehttp "GET /users/?search=Douae HTTP/1.1" 200 24416
+WARNING 2025-10-19 08:46:17,889 basehttp "GET /static/tifinar/images/users/11/242138917457869975.jfif HTTP/1.1" 404 1955
+WARNING 2025-10-19 08:46:17,889 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp HTTP/1.1" 404 2007
+DEBUG 2025-10-19 08:49:45,469 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 08:49:45,473 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 08:49:45,475 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-19 07:49:45.463459' AND `django_session`.`session_key` = 'va6d34asno3dxk5qkhdzyuj942vmj1m1') LIMIT 21; args=('2025-10-19 07:49:45.463459', 'va6d34asno3dxk5qkhdzyuj942vmj1m1'); alias=default
+DEBUG 2025-10-19 08:49:45,482 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-19 08:49:45,492 utils (0.001) SELECT `synonym_terms`.`id`, `synonym_terms`.`term`, `synonym_terms`.`synonyms`, `synonym_terms`.`contact_field`, `synonym_terms`.`relation_type`, `synonym_terms`.`target_gender`, `synonym_terms`.`ignore_terms` FROM `synonym_terms`; args=(); alias=default
+DEBUG 2025-10-19 08:49:45,647 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-19 08:49:45,654 basehttp "GET /users/?search=%D8%A3%D9%85+%D8%AF%D8%B9%D8%A7%D8%A1 HTTP/1.1" 200 20339
+WARNING 2025-10-19 08:49:45,888 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp HTTP/1.1" 404 2007
+INFO 2025-10-19 09:11:55,650 autoreload C:\Users\khalid\Documents\myproject\tifinar\views\members\members_index.py changed, reloading.
+INFO 2025-10-19 09:11:59,380 autoreload Watching for file changes with StatReloader
+DEBUG 2025-10-19 09:12:02,293 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 09:12:02,296 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 09:12:02,301 utils (0.004) 
+            SELECT
+                table_name,
+                table_type,
+                table_comment
+            FROM information_schema.tables
+            WHERE table_schema = DATABASE()
+            ; args=None; alias=default
+DEBUG 2025-10-19 09:12:02,313 utils (0.002) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+INFO 2025-10-19 09:12:15,991 autoreload Watching for file changes with StatReloader
+DEBUG 2025-10-19 09:12:18,092 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 09:12:18,094 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 09:12:18,098 utils (0.003) 
+            SELECT
+                table_name,
+                table_type,
+                table_comment
+            FROM information_schema.tables
+            WHERE table_schema = DATABASE()
+            ; args=None; alias=default
+DEBUG 2025-10-19 09:12:18,112 utils (0.002) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+DEBUG 2025-10-19 09:12:26,837 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 09:12:26,839 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 09:12:26,841 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-19 08:12:26.828365' AND `django_session`.`session_key` = 'va6d34asno3dxk5qkhdzyuj942vmj1m1') LIMIT 21; args=('2025-10-19 08:12:26.828365', 'va6d34asno3dxk5qkhdzyuj942vmj1m1'); alias=default
+DEBUG 2025-10-19 09:12:26,851 utils (0.007) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-19 09:12:26,861 utils (0.004) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` IN (5, 6, 7, 8, 9, 10); args=(5, 6, 7, 8, 9, 10); alias=default
+DEBUG 2025-10-19 09:12:26,908 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-19 09:12:26,956 basehttp "GET /users/ HTTP/1.1" 200 41254
+WARNING 2025-10-19 09:12:27,025 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp HTTP/1.1" 404 2007
+WARNING 2025-10-19 09:12:27,027 basehttp "GET /static/tifinar/images/users/10/oumaima.png HTTP/1.1" 404 1919
+WARNING 2025-10-19 09:12:27,041 basehttp "GET /static/tifinar/images/users/7/1000160286.jpg HTTP/1.1" 404 1925
+WARNING 2025-10-19 09:12:27,054 basehttp "GET /static/tifinar/images/users/11/242138917457869975.jfif HTTP/1.1" 404 1955
+WARNING 2025-10-19 09:12:27,071 basehttp "GET /static/tifinar/images/users/12/sirine.jpeg HTTP/1.1" 404 1919
+DEBUG 2025-10-19 09:12:39,731 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 09:12:39,735 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 09:12:39,737 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-19 08:12:39.728534' AND `django_session`.`session_key` = 'va6d34asno3dxk5qkhdzyuj942vmj1m1') LIMIT 21; args=('2025-10-19 08:12:39.728534', 'va6d34asno3dxk5qkhdzyuj942vmj1m1'); alias=default
+DEBUG 2025-10-19 09:12:39,744 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-19 09:12:39,752 utils (0.001) SELECT `synonym_terms`.`id`, `synonym_terms`.`term`, `synonym_terms`.`synonyms`, `synonym_terms`.`contact_field`, `synonym_terms`.`relation_type`, `synonym_terms`.`target_gender`, `synonym_terms`.`ignore_terms` FROM `synonym_terms`; args=(); alias=default
+DEBUG 2025-10-19 09:12:39,854 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-19 09:12:39,864 basehttp "GET /users/?search=%D8%A3%D9%84%D8%A7%D8%A1 HTTP/1.1" 200 20334
+WARNING 2025-10-19 09:12:39,919 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp HTTP/1.1" 404 2007
+DEBUG 2025-10-19 09:12:45,698 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 09:12:45,701 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 09:12:45,703 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-19 08:12:45.695298' AND `django_session`.`session_key` = 'va6d34asno3dxk5qkhdzyuj942vmj1m1') LIMIT 21; args=('2025-10-19 08:12:45.695298', 'va6d34asno3dxk5qkhdzyuj942vmj1m1'); alias=default
+DEBUG 2025-10-19 09:12:45,710 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-19 09:12:45,719 utils (0.002) SELECT `synonym_terms`.`id`, `synonym_terms`.`term`, `synonym_terms`.`synonyms`, `synonym_terms`.`contact_field`, `synonym_terms`.`relation_type`, `synonym_terms`.`target_gender`, `synonym_terms`.`ignore_terms` FROM `synonym_terms`; args=(); alias=default
+DEBUG 2025-10-19 09:12:45,808 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-19 09:12:45,817 basehttp "GET /users/?search=%D8%AF%D8%B9%D8%A7%D8%A1 HTTP/1.1" 200 20334
+WARNING 2025-10-19 09:12:45,868 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp HTTP/1.1" 404 2007
+DEBUG 2025-10-19 09:12:51,614 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 09:12:51,617 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 09:12:51,621 utils (0.003) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-19 08:12:51.599713' AND `django_session`.`session_key` = 'va6d34asno3dxk5qkhdzyuj942vmj1m1') LIMIT 21; args=('2025-10-19 08:12:51.599713', 'va6d34asno3dxk5qkhdzyuj942vmj1m1'); alias=default
+DEBUG 2025-10-19 09:12:51,632 utils (0.006) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-19 09:12:51,639 utils (0.002) SELECT `synonym_terms`.`id`, `synonym_terms`.`term`, `synonym_terms`.`synonyms`, `synonym_terms`.`contact_field`, `synonym_terms`.`relation_type`, `synonym_terms`.`target_gender`, `synonym_terms`.`ignore_terms` FROM `synonym_terms`; args=(); alias=default
+DEBUG 2025-10-19 09:12:51,651 utils (0.002) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE (`auth_user`.`id` IN (5, 6, 7, 8, 9, 10) AND (`auth_user`.`name_in_arabic` LIKE '%douae%' OR `auth_user`.`last_name` LIKE '%douae%' OR `auth_user`.`first_name` LIKE '%douae%' OR `auth_user`.`friends` LIKE '%douae%' OR `auth_user`.`siblings` LIKE '%douae%' OR `auth_user`.`parents` LIKE '%douae%' OR `auth_user`.`spouse` LIKE '%douae%' OR `auth_user`.`children` LIKE '%douae%' OR `auth_user`.`cousins` LIKE '%douae%' OR `auth_user`.`adresse` LIKE '%douae%' OR `auth_user`.`tel` LIKE '%douae%' OR `auth_user`.`email` LIKE '%douae%' OR `auth_user`.`Ideologie` LIKE '%douae%' OR `auth_user`.`societe` LIKE '%douae%' OR `auth_user`.`gender` LIKE '%douae%' OR `auth_user`.`the_type` LIKE '%douae%' OR `auth_user`.`keywords` LIKE '%douae%' OR `auth_user`.`maternal_relatives` LIKE '%douae%' OR `auth_user`.`paternal_relatives` LIKE '%douae%' OR `auth_user`.`ville_d_origine` LIKE '%douae%' OR `auth_user`.`social_media` LIKE '%douae%' OR `auth_user`.`educational_level` LIKE '%douae%' OR `auth_user`.`Commentaire` LIKE '%douae%' OR `auth_user`.`grandparents` LIKE '%douae%' OR `auth_user`.`date_de_naissance` LIKE '%douae%' OR `auth_user`.`path` LIKE '%douae%')); args=(5, 6, 7, 8, 9, 10, '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%', '%douae%'); alias=default
+DEBUG 2025-10-19 09:12:51,672 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-19 09:12:51,686 basehttp "GET /users/?search=douae HTTP/1.1" 200 24416
+WARNING 2025-10-19 09:12:51,758 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp HTTP/1.1" 404 2007
+WARNING 2025-10-19 09:12:51,758 basehttp "GET /static/tifinar/images/users/11/242138917457869975.jfif HTTP/1.1" 404 1955
+DEBUG 2025-10-19 09:16:24,693 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 09:16:24,702 utils (0.001) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 09:16:24,704 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-19 08:16:24.686890' AND `django_session`.`session_key` = 'va6d34asno3dxk5qkhdzyuj942vmj1m1') LIMIT 21; args=('2025-10-19 08:16:24.686890', 'va6d34asno3dxk5qkhdzyuj942vmj1m1'); alias=default
+DEBUG 2025-10-19 09:16:24,714 utils (0.005) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-19 09:16:24,722 utils (0.002) SELECT `synonym_terms`.`id`, `synonym_terms`.`term`, `synonym_terms`.`synonyms`, `synonym_terms`.`contact_field`, `synonym_terms`.`relation_type`, `synonym_terms`.`target_gender`, `synonym_terms`.`ignore_terms` FROM `synonym_terms`; args=(); alias=default
+DEBUG 2025-10-19 09:16:24,735 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` IN (5, 6, 7, 8, 9, 10); args=(5, 6, 7, 8, 9, 10); alias=default
+DEBUG 2025-10-19 09:16:24,768 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-19 09:16:24,821 basehttp "GET /users/?search=%D8%B3 HTTP/1.1" 200 24207
+WARNING 2025-10-19 09:16:24,884 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp HTTP/1.1" 404 2007
+DEBUG 2025-10-19 09:16:34,521 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 09:16:34,524 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 09:16:34,526 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-19 08:16:34.516153' AND `django_session`.`session_key` = 'va6d34asno3dxk5qkhdzyuj942vmj1m1') LIMIT 21; args=('2025-10-19 08:16:34.516153', 'va6d34asno3dxk5qkhdzyuj942vmj1m1'); alias=default
+DEBUG 2025-10-19 09:16:34,533 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-19 09:16:34,544 utils (0.001) SELECT `synonym_terms`.`id`, `synonym_terms`.`term`, `synonym_terms`.`synonyms`, `synonym_terms`.`contact_field`, `synonym_terms`.`relation_type`, `synonym_terms`.`target_gender`, `synonym_terms`.`ignore_terms` FROM `synonym_terms`; args=(); alias=default
+DEBUG 2025-10-19 09:16:34,913 utils (0.003) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-19 09:16:34,926 basehttp "GET /users/?search=%D8%A3%D8%AE+%D8%B3%D9%85%D9%8A%D8%B1%D8%A9 HTTP/1.1" 200 24427
+WARNING 2025-10-19 09:16:35,002 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp HTTP/1.1" 404 2007
+WARNING 2025-10-19 09:16:35,003 basehttp "GET /static/tifinar/images/users/7/1000160286.jpg HTTP/1.1" 404 1925
+DEBUG 2025-10-19 09:17:52,241 utils (0.002) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 09:17:52,246 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 09:17:52,248 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-19 08:17:52.235567' AND `django_session`.`session_key` = 'va6d34asno3dxk5qkhdzyuj942vmj1m1') LIMIT 21; args=('2025-10-19 08:17:52.235567', 'va6d34asno3dxk5qkhdzyuj942vmj1m1'); alias=default
+DEBUG 2025-10-19 09:17:52,261 utils (0.007) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-19 09:17:52,269 utils (0.002) SELECT `synonym_terms`.`id`, `synonym_terms`.`term`, `synonym_terms`.`synonyms`, `synonym_terms`.`contact_field`, `synonym_terms`.`relation_type`, `synonym_terms`.`target_gender`, `synonym_terms`.`ignore_terms` FROM `synonym_terms`; args=(); alias=default
+DEBUG 2025-10-19 09:17:52,277 utils (0.004) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` IN (5, 6, 7, 8, 9, 10); args=(5, 6, 7, 8, 9, 10); alias=default
+DEBUG 2025-10-19 09:17:52,302 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-19 09:17:52,317 basehttp "GET /users/?search=%D8%AD HTTP/1.1" 200 24207
+WARNING 2025-10-19 09:17:52,385 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp HTTP/1.1" 404 2007
+DEBUG 2025-10-19 09:18:02,502 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 09:18:02,506 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 09:18:02,508 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-19 08:18:02.496318' AND `django_session`.`session_key` = 'va6d34asno3dxk5qkhdzyuj942vmj1m1') LIMIT 21; args=('2025-10-19 08:18:02.496318', 'va6d34asno3dxk5qkhdzyuj942vmj1m1'); alias=default
+DEBUG 2025-10-19 09:18:02,527 utils (0.004) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-19 09:18:02,540 utils (0.003) SELECT `synonym_terms`.`id`, `synonym_terms`.`term`, `synonym_terms`.`synonyms`, `synonym_terms`.`contact_field`, `synonym_terms`.`relation_type`, `synonym_terms`.`target_gender`, `synonym_terms`.`ignore_terms` FROM `synonym_terms`; args=(); alias=default
+DEBUG 2025-10-19 09:18:02,674 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-19 09:18:02,692 basehttp "GET /users/?search=%D8%AD%D9%85%D9%8A%D8%AF+%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86 HTTP/1.1" 200 28495
+WARNING 2025-10-19 09:18:02,769 basehttp "GET /static/tifinar/images/users/7/1000160286.jpg HTTP/1.1" 404 1925
+WARNING 2025-10-19 09:18:02,769 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp HTTP/1.1" 404 2007
+DEBUG 2025-10-19 09:19:11,685 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 09:19:11,691 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 09:19:11,693 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-19 08:19:11.681253' AND `django_session`.`session_key` = 'va6d34asno3dxk5qkhdzyuj942vmj1m1') LIMIT 21; args=('2025-10-19 08:19:11.681253', 'va6d34asno3dxk5qkhdzyuj942vmj1m1'); alias=default
+DEBUG 2025-10-19 09:19:11,702 utils (0.005) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-19 09:19:11,710 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 6 LIMIT 21; args=(6,); alias=default
+ERROR 2025-10-19 09:19:12,058 log Internal Server Error: /users/6/
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\khalid\Documents\myproject\tifinar\views\members\show_member.py", line 46, in member_profile_view
+    is_admin = request.user.role == AuthUser.role.admin
+                                    ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'DeferredAttribute' object has no attribute 'admin'
+ERROR 2025-10-19 09:19:12,067 basehttp "GET /users/6/ HTTP/1.1" 500 75123
+WARNING 2025-10-19 09:19:12,428 log Not Found: /favicon.ico
+WARNING 2025-10-19 09:19:12,429 basehttp "GET /favicon.ico HTTP/1.1" 404 12268
+INFO 2025-10-19 09:19:23,236 basehttp "GET /users/6/edit HTTP/1.1" 301 0
+DEBUG 2025-10-19 09:19:23,275 utils (0.002) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 09:19:23,279 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 09:19:23,280 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-19 08:19:23.243945' AND `django_session`.`session_key` = 'va6d34asno3dxk5qkhdzyuj942vmj1m1') LIMIT 21; args=('2025-10-19 08:19:23.243945', 'va6d34asno3dxk5qkhdzyuj942vmj1m1'); alias=default
+DEBUG 2025-10-19 09:19:23,284 utils (0.001) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-19 09:19:23,294 utils (0.002) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 6 LIMIT 21; args=(6,); alias=default
+ERROR 2025-10-19 09:19:23,427 log Internal Server Error: /users/6/edit/
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\contrib\auth\decorators.py", line 59, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\decorators\http.py", line 64, in inner
+    return func(request, *args, **kwargs)
+  File "C:\Users\khalid\Documents\myproject\tifinar\views\members\show_member.py", line 121, in edit_member_profile
+    'role_choices': AuthUser.role.choices,
+                    ^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'DeferredAttribute' object has no attribute 'choices'
+ERROR 2025-10-19 09:19:23,453 basehttp "GET /users/6/edit/ HTTP/1.1" 500 78092
+WARNING 2025-10-19 09:19:41,823 log Not Found: /members/6/edit/
+WARNING 2025-10-19 09:19:41,824 basehttp "GET /members/6/edit/ HTTP/1.1" 404 12280
+DEBUG 2025-10-19 09:21:55,615 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 09:21:55,618 utils (0.002) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-19 08:21:55.612443' AND `django_session`.`session_key` = 'va6d34asno3dxk5qkhdzyuj942vmj1m1') LIMIT 21; args=('2025-10-19 08:21:55.612443', 'va6d34asno3dxk5qkhdzyuj942vmj1m1'); alias=default
+DEBUG 2025-10-19 09:21:55,632 utils (0.006) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-19 09:21:55,642 utils (0.004) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` IN (5, 6, 7, 8, 9, 10); args=(5, 6, 7, 8, 9, 10); alias=default
+DEBUG 2025-10-19 09:21:55,676 utils (0.002) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-19 09:21:55,700 basehttp "GET /users/ HTTP/1.1" 200 41250
+WARNING 2025-10-19 09:21:55,767 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp HTTP/1.1" 404 2007
+WARNING 2025-10-19 09:21:55,780 basehttp "GET /static/tifinar/images/users/7/1000160286.jpg HTTP/1.1" 404 1925
+WARNING 2025-10-19 09:21:55,795 basehttp "GET /static/tifinar/images/users/11/242138917457869975.jfif HTTP/1.1" 404 1955
+WARNING 2025-10-19 09:21:55,817 basehttp "GET /static/tifinar/images/users/10/alae.jfif HTTP/1.1" 404 1913
+WARNING 2025-10-19 09:21:55,838 basehttp "GET /static/tifinar/images/users/12/sirine.jpeg HTTP/1.1" 404 1919
+DEBUG 2025-10-19 09:22:08,033 utils (0.002) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 09:22:08,043 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 09:22:08,047 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-19 08:22:08.025420' AND `django_session`.`session_key` = 'va6d34asno3dxk5qkhdzyuj942vmj1m1') LIMIT 21; args=('2025-10-19 08:22:08.025420', 'va6d34asno3dxk5qkhdzyuj942vmj1m1'); alias=default
+DEBUG 2025-10-19 09:22:08,060 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-19 09:22:08,066 utils (0.001) SELECT `synonym_terms`.`id`, `synonym_terms`.`term`, `synonym_terms`.`synonyms`, `synonym_terms`.`contact_field`, `synonym_terms`.`relation_type`, `synonym_terms`.`target_gender`, `synonym_terms`.`ignore_terms` FROM `synonym_terms`; args=(); alias=default
+DEBUG 2025-10-19 09:22:08,515 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-19 09:22:08,533 basehttp "GET /users/?search=%D8%A8%D9%86%D8%AA+%D8%B3%D9%85%D9%8A%D8%B1%D8%A9+%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86 HTTP/1.1" 200 28504
+WARNING 2025-10-19 09:22:08,603 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp HTTP/1.1" 404 2007
+WARNING 2025-10-19 09:22:08,603 basehttp "GET /static/tifinar/images/users/7/1000160286.jpg HTTP/1.1" 404 1925
+DEBUG 2025-10-19 09:22:18,680 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 09:22:18,685 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 09:22:18,687 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-19 08:22:18.675731' AND `django_session`.`session_key` = 'va6d34asno3dxk5qkhdzyuj942vmj1m1') LIMIT 21; args=('2025-10-19 08:22:18.675731', 'va6d34asno3dxk5qkhdzyuj942vmj1m1'); alias=default
+DEBUG 2025-10-19 09:22:18,702 utils (0.005) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-19 09:22:18,716 utils (0.002) SELECT `synonym_terms`.`id`, `synonym_terms`.`term`, `synonym_terms`.`synonyms`, `synonym_terms`.`contact_field`, `synonym_terms`.`relation_type`, `synonym_terms`.`target_gender`, `synonym_terms`.`ignore_terms` FROM `synonym_terms`; args=(); alias=default
+DEBUG 2025-10-19 09:22:18,809 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-19 09:22:18,820 basehttp "GET /users/?search=%D8%A8%D9%86%D8%AA+%D8%B3%D9%85%D9%8A%D8%B1%D8%A9 HTTP/1.1" 200 24222
+WARNING 2025-10-19 09:22:18,888 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp HTTP/1.1" 404 2007
+DEBUG 2025-10-19 09:22:28,419 utils (0.003) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 09:22:28,429 utils (0.001) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 09:22:28,454 utils (0.001) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-19 08:22:28.409964' AND `django_session`.`session_key` = 'va6d34asno3dxk5qkhdzyuj942vmj1m1') LIMIT 21; args=('2025-10-19 08:22:28.409964', 'va6d34asno3dxk5qkhdzyuj942vmj1m1'); alias=default
+DEBUG 2025-10-19 09:22:28,465 utils (0.005) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-19 09:22:28,470 utils (0.001) SELECT `synonym_terms`.`id`, `synonym_terms`.`term`, `synonym_terms`.`synonyms`, `synonym_terms`.`contact_field`, `synonym_terms`.`relation_type`, `synonym_terms`.`target_gender`, `synonym_terms`.`ignore_terms` FROM `synonym_terms`; args=(); alias=default
+DEBUG 2025-10-19 09:22:28,597 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-19 09:22:28,611 basehttp "GET /users/?search=%D8%A3%D9%85+%D8%A2%D9%84%D8%A7%D8%A1 HTTP/1.1" 200 24218
+WARNING 2025-10-19 09:22:28,674 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp HTTP/1.1" 404 2007
+DEBUG 2025-10-19 09:22:40,665 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-10-19 09:22:40,670 utils (0.001) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-10-19 09:22:40,674 utils (0.002) SELECT `django_session`.`session_key`, `django_session`.`session_data`, `django_session`.`expire_date` FROM `django_session` WHERE (`django_session`.`expire_date` > '2025-10-19 08:22:40.655701' AND `django_session`.`session_key` = 'va6d34asno3dxk5qkhdzyuj942vmj1m1') LIMIT 21; args=('2025-10-19 08:22:40.655701', 'va6d34asno3dxk5qkhdzyuj942vmj1m1'); alias=default
+DEBUG 2025-10-19 09:22:40,695 utils (0.010) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`id` = 2 LIMIT 21; args=(2,); alias=default
+DEBUG 2025-10-19 09:22:40,706 utils (0.003) SELECT `synonym_terms`.`id`, `synonym_terms`.`term`, `synonym_terms`.`synonyms`, `synonym_terms`.`contact_field`, `synonym_terms`.`relation_type`, `synonym_terms`.`target_gender`, `synonym_terms`.`ignore_terms` FROM `synonym_terms`; args=(); alias=default
+DEBUG 2025-10-19 09:22:40,849 utils (0.001) SELECT COUNT(*) AS `__count` FROM `msgs` WHERE (`msgs`.`recipient` = '2' AND `msgs`.`status` = 'unread'); args=('2', 'unread'); alias=default
+INFO 2025-10-19 09:22:40,862 basehttp "GET /users/?search=%D8%A3%D9%85+%D8%AF%D8%B9%D8%A7%D8%A1 HTTP/1.1" 200 24218
+WARNING 2025-10-19 09:22:40,929 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp HTTP/1.1" 404 2007
