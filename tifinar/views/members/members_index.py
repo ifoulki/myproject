@@ -3,225 +3,294 @@ from django.db.models import Q
 from django.core.paginator import Paginator
 from tifinar.models import AuthUser, synonym_terms
 from django.contrib.auth.decorators import login_required
-from tifinar.views.members.friends_views import get_friendship_status  # تصحيح المسار
+from tifinar.views.members.friends_views import get_friendship_status
 import re
+
 
 @login_required
 def members_index(request):
-    # البدء بجميع الأعضاء للمسؤولين، أو محدود للعاديين
-    if request.user.role == 'admin':
-        members = AuthUser.objects.all()
-    else:
-        # للمستخدمين العاديين: الأصدقاء وطلبات الصداقة فقط
-        current_member = request.user
-        friend_ids = [int(id) for id in current_member.friends.split(',')] if current_member.friends else []
-        request_ids = [int(id) for id in current_member.friend_requests.split(',')] if current_member.friend_requests else []
-        all_ids = list(set(friend_ids + request_ids))
-        members = AuthUser.objects.filter(id__in=all_ids)
+    members = _get_initial_members_queryset(request.user)
+    members = _apply_role_filter(members, request)
+    members = _apply_search_filter(members, request)
+    members = _add_friendship_status_to_members(members, request.user)
     
-    # معالجة تصفية الدور
+    return _render_members_page(request, members)
+
+
+def _get_initial_members_queryset(user):
+    if _is_admin_user(user):
+        return AuthUser.objects.all()
+    return _get_limited_members_for_regular_user(user)
+
+
+def _is_admin_user(user):
+    return user.role == 'admin'
+
+
+def _get_limited_members_for_regular_user(user):
+    friend_ids = _extract_ids_from_field(user.friends)
+    request_ids = _extract_ids_from_field(user.friend_requests)
+    all_ids = list(set(friend_ids + request_ids))
+    return AuthUser.objects.filter(id__in=all_ids)
+
+
+def _extract_ids_from_field(field_value):
+    if not field_value:
+        return []
+    return [int(id) for id in field_value.split(',')]
+
+
+def _apply_role_filter(members, request):
     role = request.GET.get('role')
     if role:
-        members = members.filter(role__icontains=role)
+        return members.filter(role__icontains=role)
+    return members
 
+
+def _apply_search_filter(members, request):
     search_term = request.GET.get('search', '').strip()
+    if not search_term:
+        return members
     
-    if search_term:
-        # 1. البحث باستخدام المرادفات أولاً (التحسين الجديد)
-        synonym_results = advanced_search_with_synonyms(search_term, members)
-        if synonym_results.exists():
-            members = synonym_results
-        else:
-            # 2. البحث الذكي إذا لم توجد نتائج من المرادفات
-            members = smart_search(search_term, members)
-    
-    # إضافة حالة الصداقة لكل عضو
+    return _perform_advanced_search(search_term, members)
+
+
+def _perform_advanced_search(search_term, members):
+    synonym_results = advanced_search_with_synonyms(search_term, members)
+    if synonym_results.exists():
+        return synonym_results
+    return smart_search(search_term, members)
+
+
+def _add_friendship_status_to_members(members, current_user):
     for member in members:
-        member.friendship_status = get_friendship_status(request.user, member)
-    
-    # التقسيم إلى صفحات
+        member.friendship_status = get_friendship_status(current_user, member)
+    return members
+
+
+def _render_members_page(request, members):
     paginator = Paginator(members, 20)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
+    
     return render(request, 'tifinar/auth/members/index.html', {
         'members': page_obj,
-        'search_term': search_term,
-        'role': role
+        'search_term': request.GET.get('search', ''),
+        'role': request.GET.get('role')
     })
 
+
 def advanced_search_with_synonyms(search_term, queryset):
-    """
-    بحث متقدم باستخدام جدول المرادفات - النسخة المطورة
-    """
-    # الحصول على جميع بيانات المرادفات
     synonyms_data = get_all_synonyms_data()
-    
-    # استخراج العلاقة والاسم من البحث
     relation_term, relation_type, clean_name = extract_relation_and_name(search_term, synonyms_data)
     
-    if relation_term and relation_type and clean_name:
-        # الحصول على معلومات العلاقة
-        relation_info = synonyms_data.get(relation_type)
-        
-        if relation_info and clean_name:
-            # البحث عن الأعضاء الأساسيين بالاسم
-            main_members = queryset.filter(
-                Q(name_in_arabic__icontains=clean_name) |
-                Q(first_name__icontains=clean_name) |
-                Q(last_name__icontains=clean_name)
-            )
-            
-            if main_members.exists():
-                # الحصول على الأسماء المرتبطة من حقل العلاقة
-                related_names = get_related_names_from_members(main_members, relation_info)
-                
-                if related_names:
-                    # البحث عن الأعضاء المرتبطين
-                    return search_related_members(related_names, relation_info, queryset)
+    if not _has_valid_relation_data(relation_term, relation_type, clean_name):
+        return queryset.none()
     
-    # إذا لم توجد نتائج، إرجاع queryset فارغ للانتقال للبحث الذكي
-    return queryset.none()
+    return _find_members_using_relation(relation_type, clean_name, synonyms_data, queryset)
+
+
+def _has_valid_relation_data(relation_term, relation_type, clean_name):
+    return relation_term and relation_type and clean_name
+
+
+def _find_members_using_relation(relation_type, clean_name, synonyms_data, queryset):
+    relation_info = synonyms_data.get(relation_type)
+    if not relation_info:
+        return queryset.none()
+    
+    main_members = _find_members_by_name(clean_name, queryset)
+    if not main_members.exists():
+        return queryset.none()
+    
+    related_names = get_related_names_from_members(main_members, relation_info)
+    if not related_names:
+        return queryset.none()
+    
+    return search_related_members(related_names, relation_info, queryset)
+
+
+def _find_members_by_name(name, queryset):
+    return queryset.filter(
+        Q(name_in_arabic__icontains=name) |
+        Q(first_name__icontains=name) |
+        Q(last_name__icontains=name)
+    )
+
 
 def get_all_synonyms_data():
-    """
-    الحصول على جميع بيانات المرادفات من قاعدة البيانات
-    """
     synonyms_data = {}
     all_entries = synonym_terms.objects.all()
     
     for entry in all_entries:
-        # جمع جميع مصطلحات العلاقة
-        all_terms = [entry.term.strip()]
-        if entry.synonyms:
-            all_terms.extend([syn.strip() for syn in entry.synonyms.split(',') if syn.strip()])
-        
-        # تخزين بيانات العلاقة
-        synonyms_data[entry.relation_type] = {
-            'terms': all_terms,
-            'contact_field': entry.contact_field,
-            'target_gender': entry.target_gender,
-            'ignore_terms': [term.strip() for term in entry.ignore_terms.split(',')] if entry.ignore_terms else []
-        }
+        synonyms_data[entry.relation_type] = _build_relation_data(entry)
     
     return synonyms_data
 
+
+def _build_relation_data(entry):
+    return {
+        'terms': _get_all_relation_terms(entry),
+        'contact_field': entry.contact_field,
+        'target_gender': entry.target_gender,
+        'ignore_terms': _get_ignore_terms(entry)
+    }
+
+
+def _get_all_relation_terms(entry):
+    terms = [entry.term.strip()]
+    if entry.synonyms:
+        terms.extend([syn.strip() for syn in entry.synonyms.split(',') if syn.strip()])
+    return terms
+
+
+def _get_ignore_terms(entry):
+    if not entry.ignore_terms:
+        return []
+    return [term.strip() for term in entry.ignore_terms.split(',')]
+
+
 def extract_relation_and_name(search_term, synonyms_data):
-    """
-    استخراج العلاقة والاسم من مصطلح البحث
-    """
-    # جمع جميع المصطلحات من جميع العلاقات
-    all_terms = []
-    term_to_relation = {}
+    term_to_relation = _build_term_to_relation_mapping(synonyms_data)
+    all_terms = _get_sorted_search_terms(term_to_relation)
     
-    for relation_type, data in synonyms_data.items():
-        for term in data['terms']:
-            if term:  # التأكد من أن المصطلح ليس فارغاً
-                all_terms.append(term)
-                term_to_relation[term] = relation_type
-    
-    # ترتيب المصطلحات من الأطول إلى الأقصر لتجنب المطالبات الجزئية
-    all_terms.sort(key=len, reverse=True)
-    
-    # البحث عن مصطلح مطابق
     for term in all_terms:
-        if term and term in search_term:
-            relation_type = term_to_relation[term]
-            ignore_terms = synonyms_data[relation_type]['ignore_terms']
-            
-            # التحقق من عدم وجود كلمات محظورة
-            if not any(ignore_term in search_term for ignore_term in ignore_terms if ignore_term):
-                # استخراج الاسم وتنظيفه
-                name = search_term.replace(term, '').strip()
-                clean_name = clean_extracted_name(name, synonyms_data[relation_type]['terms'])
-                if clean_name:
-                    return term, relation_type, clean_name
+        relation_type = term_to_relation[term]
+        if _is_term_in_search_and_not_ignored(term, search_term, synonyms_data[relation_type]):
+            clean_name = _extract_and_clean_name(search_term, term, synonyms_data[relation_type])
+            if clean_name:
+                return term, relation_type, clean_name
     
     return None, None, search_term
 
+
+def _build_term_to_relation_mapping(synonyms_data):
+    mapping = {}
+    for relation_type, data in synonyms_data.items():
+        for term in data['terms']:
+            if term:
+                mapping[term] = relation_type
+    return mapping
+
+
+def _get_sorted_search_terms(term_to_relation):
+    terms = list(term_to_relation.keys())
+    terms.sort(key=len, reverse=True)
+    return terms
+
+
+def _is_term_in_search_and_not_ignored(term, search_term, relation_data):
+    if term not in search_term:
+        return False
+    
+    ignore_terms = relation_data['ignore_terms']
+    return not any(ignore_term in search_term for ignore_term in ignore_terms if ignore_term)
+
+
+def _extract_and_clean_name(search_term, relation_term, relation_data):
+    name = search_term.replace(relation_term, '').strip()
+    return clean_extracted_name(name, relation_data['terms'])
+
+
 def clean_extracted_name(name, relation_terms):
-    """
-    تنظيف الاسم المستخرج من مصطلحات العلاقات
-    """
     if not name:
         return ''
     
-    # إنشاء نمط regex من مصطلحات العلاقات
-    pattern_terms = []
-    for term in relation_terms:
-        if term:
-            escaped_term = re.escape(term)
-            pattern_terms.append(escaped_term)
+    pattern = _build_cleaning_pattern(relation_terms)
+    if pattern:
+        return re.sub(pattern, '', name, flags=re.IGNORECASE).strip()
     
-    # إضافة كلمات علاقات شائعة أخرى
+    return name.strip()
+
+
+def _build_cleaning_pattern(relation_terms):
+    pattern_terms = [re.escape(term) for term in relation_terms if term]
+    
     common_terms = ['أخت', 'أخ', 'شقيقة', 'شقيق', 'والد', 'والدة', 'ابن', 'ابنة', 'زوج', 'زوجة']
     pattern_terms.extend([re.escape(term) for term in common_terms])
     
-    if pattern_terms:
-        pattern = r'\b(' + '|'.join(pattern_terms) + r')\b'
-        clean_name = re.sub(pattern, '', name, flags=re.IGNORECASE).strip()
-    else:
-        clean_name = name.strip()
+    if not pattern_terms:
+        return None
     
-    return clean_name
+    return r'\b(' + '|'.join(pattern_terms) + r')\b'
+
 
 def get_related_names_from_members(members, relation_info):
-    """
-    الحصول على الأسماء المرتبطة من الأعضاء باستخدام معلومات العلاقة
-    """
     related_names = set()
     contact_field = relation_info['contact_field']
-    target_gender = relation_info['target_gender']
     
     for member in members:
-        if hasattr(member, contact_field):
-            field_value = getattr(member, contact_field)
-            if field_value:
-                # تقسيم القيم (دعم تنسيقات متعددة)
-                names = re.split(r'[,\n;]+', str(field_value))
-                for name in names:
-                    clean_name = name.strip()
-                    if clean_name and len(clean_name) > 2:  # تجنب الأسماء القصيرة
-                        # التحقق من الجنس إذا كان محدداً
-                        if target_gender and target_gender != 'ALL':
-                            # البحث عن العضو بالاسم للتحقق من الجنس
-                            name_member = AuthUser.objects.filter(
-                                Q(name_in_arabic__icontains=clean_name) |
-                                Q(first_name__icontains=clean_name) |
-                                Q(last_name__icontains=clean_name)
-                            ).first()
-                            
-                            if name_member and name_member.gender == target_gender:
-                                related_names.add(clean_name)
-                        else:
-                            related_names.add(clean_name)
+        names_from_member = _extract_names_from_member(member, contact_field, relation_info)
+        related_names.update(names_from_member)
     
     return list(related_names)
 
+
+def _extract_names_from_member(member, contact_field, relation_info):
+    if not hasattr(member, contact_field):
+        return set()
+    
+    field_value = getattr(member, contact_field)
+    if not field_value:
+        return set()
+    
+    names = re.split(r'[,\n;]+', str(field_value))
+    valid_names = set()
+    
+    for name in names:
+        clean_name = name.strip()
+        if _is_valid_name(clean_name) and _matches_gender_filter(clean_name, relation_info):
+            valid_names.add(clean_name)
+    
+    return valid_names
+
+
+def _is_valid_name(name):
+    return name and len(name) > 2
+
+
+def _matches_gender_filter(name, relation_info):
+    target_gender = relation_info.get('target_gender')
+    if not target_gender or target_gender == 'ALL':
+        return True
+    
+    name_member = _find_member_by_name(name)
+    return name_member and name_member.gender == target_gender
+
+
+def _find_member_by_name(name):
+    return AuthUser.objects.filter(
+        Q(name_in_arabic__icontains=name) |
+        Q(first_name__icontains=name) |
+        Q(last_name__icontains=name)
+    ).first()
+
+
 def search_related_members(related_names, relation_info, queryset):
-    """
-    البحث عن الأعضاء المرتبطين بالأسماء
-    """
     if not related_names:
         return queryset.none()
     
-    # بناء استعلام البحث
+    results = _find_members_by_names(related_names, queryset)
+    return _filter_by_gender_if_needed(results, relation_info.get('target_gender'))
+
+
+def _find_members_by_names(names, queryset):
     q_objects = Q()
-    for name in related_names:
+    for name in names:
         q_objects |= Q(name_in_arabic__icontains=name)
         q_objects |= Q(first_name__icontains=name)
         q_objects |= Q(last_name__icontains=name)
     
-    results = queryset.filter(q_objects).distinct()
-    
-    # تصفية حسب الجنس إذا محدد
-    target_gender = relation_info.get('target_gender')
-    if target_gender and target_gender != 'ALL':
-        results = results.filter(gender=target_gender)
-    
-    return results
+    return queryset.filter(q_objects).distinct()
 
-# الحفاظ على جميع الوظائف الأصلية كما هي دون تغيير
+
+def _filter_by_gender_if_needed(queryset, target_gender):
+    if target_gender and target_gender != 'ALL':
+        return queryset.filter(gender=target_gender)
+    return queryset
+
+
+# الحفاظ على الوظائف الأصلية كما هي (دون تغيير)
 def search_with_synonyms(search_term, queryset):
     """
     البحث باستخدام جدول المرادفات - النسخة الأصلية محفوظة
@@ -319,6 +388,7 @@ def find_related_members(synonym_entry, name_part, queryset):
         results = results.filter(gender=target_gender)
     
     return results
+
 
 def smart_search(search_term, queryset):
     """
