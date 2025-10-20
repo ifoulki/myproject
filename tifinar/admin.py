@@ -2,7 +2,7 @@
 # Register your models here.
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import AuthUser
+from .models import AuthUser, books, articles, cours, videos, exams, Examitems, comments, Contacts
 from django.utils.translation import gettext_lazy as _  # أضف هذا الاستيراد
 
 class AuthUserAdmin(UserAdmin):
@@ -32,3 +32,11 @@ class AuthUserAdmin(UserAdmin):
     )
 
 admin.site.register(AuthUser, AuthUserAdmin)
+admin.site.register(Contacts)
+admin.site.register(articles)
+admin.site.register(videos)
+admin.site.register(books)
+admin.site.register(cours)
+admin.site.register(exams)
+admin.site.register(Examitems)
+admin.site.register(comments)

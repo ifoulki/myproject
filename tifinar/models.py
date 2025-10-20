@@ -13,6 +13,8 @@ from django.utils.translation import gettext_lazy as _
 import random
 from django.utils.text import slugify
 from django.core.exceptions import ValidationError
+from .mixins import CommonModelMixin
+
 
 from .choices import *
 class AdminArticles(models.Model):
@@ -30,12 +32,15 @@ class AdminArticles(models.Model):
     class Meta:
         managed = True
         db_table = 'admin_articles'
+        verbose_name = 'مقال'
+        verbose_name_plural = 'مقالات الإدارة'
+        
     @property
     def get_title(self):
         return self.title
 
 
-class articles(models.Model):
+class articles(CommonModelMixin, models.Model):
     art_id = models.AutoField(db_column='Art_id', primary_key=True)  # Field name made lowercase.
     title = models.CharField(unique=True, max_length=255, blank=True, null=True)
     slug = models.SlugField(max_length=255, unique=True, blank=False, null=False)
@@ -74,9 +79,8 @@ class articles(models.Model):
     class Meta:
         managed = True
         db_table = 'articles'
-    @property
-    def get_title(self):
-        return self.title
+        verbose_name = 'مقال'
+        verbose_name_plural = 'المقالات'
 
 
 class AuthGroup(models.Model):
@@ -243,7 +247,7 @@ class AuthUserUserPermissions(models.Model):
         db_table = 'auth_user_user_permissions'
         unique_together = (('user', 'permission'),)
 
-class books(models.Model):
+class books(CommonModelMixin, models.Model):
     books_id = models.AutoField(primary_key=True)
     myimage = models.CharField(max_length=500, db_column='Myimage', blank=True, null=True)
     title = models.TextField(unique=True, blank=True, null=True)
@@ -285,44 +289,6 @@ class books(models.Model):
         db_table = 'books'
         verbose_name = 'كتاب'
         verbose_name_plural = 'الكتب'
-
-    def __str__(self):
-        return self.title or 'بدون عنوان'
-
-    def save(self, *args, **kwargs):
-        if not self.slug and self.title:
-            self.slug = slugify(self.title, allow_unicode=True)
-        super().save(*args, **kwargs)
-
-    @property
-    def get_title(self):
-        return self.title or 'بدون عنوان'
-
-    def clean(self):
-        if self.min_age and self.max_age and self.min_age > self.max_age:
-            raise ValidationError('الحد الأدنى للعمر يجب أن يكون أقل من الحد الأقصى')
-        
-        if self.min_age < 2 or self.min_age > 75:
-            raise ValidationError('الحد الأدنى للعمر يجب أن يكون بين 2 و 75')
-        
-        if self.max_age < 2 or self.max_age > 75:
-            raise ValidationError('الحد الأقصى للعمر يجب أن يكون بين 2 و 75')
-
-    def get_educational_level_display(self):
-        """عرض قيمة educational_level بشكل مقروء"""
-        return dict(EducationalLevel.choices).get(self.educational_level, 'غير معروف')
-
-    def get_gender_display(self):
-        """عرض قيمة gender بشكل مقروء"""
-        return dict(Gender.choices).get(self.gender, 'غير معروف')
-
-    def get_visibility_status_display(self):
-        """عرض قيمة visibility_status بشكل مقروء"""
-        return dict(VisibilityStatus.choices).get(self.visibility_status, 'غير معروف')
-
-    def get_dir_display(self):
-        """عرض قيمة dir بشكل مقروء"""
-        return dict(Dir.choices).get(self.dir, 'غير معروف')
     
 class Cache(models.Model):
     id = models.CharField(primary_key=True, max_length=255)
@@ -369,8 +335,8 @@ class comments(models.Model):
    
     class Meta:
         db_table = 'comments'
-        verbose_name = 'Comment'
-        verbose_name_plural = 'comments'
+        verbose_name = 'تعليق'
+        verbose_name_plural = 'التعاليق'
         ordering = ['-created_at']
 
     def __str__(self):
@@ -402,7 +368,7 @@ class comments(models.Model):
     def is_visible(self):
         return self.visibility_status == 'public'
 
-class Contacts(models.Model):
+class Contacts( models.Model):
     contacts_id = models.SmallAutoField(primary_key=True)
     nom = models.TextField(db_column='nom', blank=True, null=True)  # Field name made lowercase.
     prenom = models.TextField(db_column='prenom', blank=True, null=True)  # Field name made lowercase.
@@ -442,6 +408,25 @@ class Contacts(models.Model):
     class Meta:
         managed = True
         db_table = 'contacts'
+        
+    class Meta:
+        managed = True
+        db_table = 'contacts'
+        verbose_name = 'العضو'
+        verbose_name_plural = 'موسوعة المعارف الشخصية'
+        
+    def __str__(self):
+                
+        return f"{self.prenom} {self.nom}" or 'بدون عنوان'
+
+    def save(self, *args, **kwargs):
+        if not self.slug and f"{self.prenom} {self.nom}":
+            self.slug = slugify(f"{self.prenom} {self.nom}", allow_unicode=True)
+        super().save(*args, **kwargs)
+
+    @property
+    def get_title(self):
+        return self.title or 'بدون عنوان'
     
     def get_full_name(self):
         return f"{self.prenom} {self.nom}"
@@ -507,7 +492,7 @@ class Contacts(models.Model):
             return []
 
 
-class cours(models.Model):
+class cours(CommonModelMixin, models.Model):
     cours_id = models.SmallAutoField(primary_key=True)
     title = models.TextField(unique=True, blank=True, null=True)
     slug = models.SlugField(max_length=255, unique=True, blank=False, null=False)
@@ -541,10 +526,8 @@ class cours(models.Model):
     class Meta:
         managed = True
         db_table = 'cours'
-    @property
-    def get_title(self):
-        return self.title
-
+        verbose_name = 'قاموس'
+        verbose_name_plural = 'قواميس بصرية'
 
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()
@@ -618,7 +601,21 @@ class Examitems(models.Model):
     class Meta:
         managed = True
         db_table = 'examitems'
+        verbose_name = 'سؤال'
+        verbose_name_plural = 'أسئلة الامتحانات'
         
+    def __str__(self):
+        return 'exam n°: ' + str(self.exam_number) + ' - Qst : '+self.qst_1st_line or 'بدون عنوان'
+
+    def save(self, *args, **kwargs):
+        if not self.slug and self.qst_1st_line:
+            self.slug = slugify(self.qst_1st_line, allow_unicode=True)
+        super().save(*args, **kwargs)
+
+    @property
+    def get_title(self):
+        return self.qst_1st_line or 'بدون عنوان'
+    
     def get_shuffled_choices(self):
             choices = []
             if self.choice1:
@@ -945,7 +942,7 @@ class ArticleReaction(models.Model):
         return f"{self.ip_or_name} - {self.reaction_type}"    
 
 
-class videos(models.Model):
+class videos(CommonModelMixin, models.Model):
     vd_id = models.AutoField(db_column='VD_id', primary_key=True)  # Field name made lowercase.
     title = models.TextField(blank=True, null=True)
     slug = models.SlugField(max_length=255, unique=True, blank=False, null=False)
@@ -980,15 +977,14 @@ class videos(models.Model):
     )
     min_age = models.IntegerField()
     max_age = models.IntegerField()
-
+        
     class Meta:
         managed = True
         db_table = 'videos'
-        db_table_comment = 'الفيديوهات'
-    @property
-    def get_title(self):
-        return self.title
-class exams(models.Model):
+        verbose_name = 'الفيديو'
+        verbose_name_plural = 'الفيديوهات'
+        
+class exams(CommonModelMixin, models.Model):
     exam_id = models.AutoField(db_column='exam_id', primary_key=True)  # Field name made lowercase.
     title = models.TextField(blank=True, null=True)
     slug = models.SlugField(max_length=255, unique=True, blank=False, null=False)
@@ -1013,14 +1009,12 @@ class exams(models.Model):
         )
     min_age = models.IntegerField()
     max_age = models.IntegerField()
-
+        
     class Meta:
         managed = True
         db_table = 'exams'
-        db_table_comment = 'اختبارات'
-    @property
-    def get_title(self):
-        return self.title
+        verbose_name = 'اختبار'
+        verbose_name_plural = 'اختبارات'
 
 
 class Visitors(models.Model):
