@@ -404,11 +404,7 @@ class Contacts( models.Model):
     created_at = models.DateTimeField(blank=True, null=True)
     cousins = models.TextField(blank=True, null=True)
     author = models.CharField(db_column='Author', max_length=255, blank=True, null=True)  # Field name made lowercase.
-
-    class Meta:
-        managed = True
-        db_table = 'contacts'
-        
+    
     class Meta:
         managed = True
         db_table = 'contacts'
@@ -416,8 +412,8 @@ class Contacts( models.Model):
         verbose_name_plural = 'موسوعة المعارف الشخصية'
         
     def __str__(self):
-                
         return f"{self.prenom} {self.nom}" or 'بدون عنوان'
+    
 
     def save(self, *args, **kwargs):
         if not self.slug and f"{self.prenom} {self.nom}":

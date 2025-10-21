@@ -31,11 +31,38 @@ class AuthUserAdmin(UserAdmin):
         }),
     )
 
+class ContactAdmin(admin.ModelAdmin):
+    list_display = ('get_full_name', 'tel', 'email', 'ville_d_origine')
+    list_filter = ('ville_d_origine', 'the_type', 'educational_level')
+    search_fields = ('nom', 'prenom', 'email', 'tel')
+    
+    def get_full_name(self, obj):
+        return f"{obj.prenom} {obj.nom}"
+    get_full_name.short_description = 'الاسم الكامل'
+    
+class BookAdmin(admin.ModelAdmin):
+    list_display = ('title', 'the_type', 'educational_level')
+    
+class VideoAdmin(admin.ModelAdmin):
+    list_display = ('title', 'the_type', 'educational_level')
+    
+class ArticleAdmin(admin.ModelAdmin):
+    list_display = ('title', 'the_type', 'educational_level')
+    
+class CoursAdmin(admin.ModelAdmin):
+    list_display = ('title', 'the_type', 'educational_level')
+    
+class ExamAdmin(admin.ModelAdmin):
+    list_display = ('title', 'the_type', 'educational_level')
+    
+class ExamItemsAdmin(admin.ModelAdmin):
+    list_display = ('title', 'the_type', 'educational_level')
+    
 admin.site.register(AuthUser, AuthUserAdmin)
-admin.site.register(Contacts)
+admin.site.register(Contacts,ContactAdmin)
 admin.site.register(articles)
 admin.site.register(videos)
-admin.site.register(books)
+admin.site.register(books, BookAdmin)
 admin.site.register(cours)
 admin.site.register(exams)
 admin.site.register(Examitems)
