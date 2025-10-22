@@ -599,9 +599,6 @@ class Examitems(models.Model):
         db_table = 'examitems'
         verbose_name = 'سؤال'
         verbose_name_plural = 'أسئلة الامتحانات'
-        
-    def __str__(self):
-        return 'exam n°: ' + str(self.exam_number) + ' - Qst : '+self.qst_1st_line or 'بدون عنوان'
 
     def save(self, *args, **kwargs):
         if not self.slug and self.qst_1st_line:
