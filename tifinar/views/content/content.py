@@ -7,6 +7,7 @@ def contents(request):
     # معالجة معلمات البحث والتصفية
     search = request.GET.get("search", "").strip()
     the_type = request.GET.get("the_type", "").strip()
+    category = request.GET.get("category", "").strip()
     path = request.path.strip('/')
 
     # تحديد نوع المحتوى بناء على المسار
@@ -15,26 +16,64 @@ def contents(request):
         title = "فيديوهات"
         description = "مجموعة متنوعة من الفيديوهات التعليمية والثقافية"
         template_name = "tifinar/videos.html"
+        filter_field = "the_type"
+        filter_value = the_type
+        types_list = 0
+        
     elif path == "قواميس_بصرية":
         model = cours
         title = "قواميس بصرية"
         description = "قواميس مصورة لتعلم المفردات بلغة تيفيناغ"
         template_name = "tifinar/contents.html"
+        types_list = [
+            ['English','English'],
+            ['French','Français'],
+            ['Amazigh','الأمازيغية']
+        ]
+        filter_field = "category"
+        filter_value = the_type
+        
     elif path == "مقالات":
         model = articles
         title = "مقالات"
         description = "مقالات متنوعة في الثقافة الأمازيغية والعلوم"
         template_name = "tifinar/contents.html"
+        types_list = [
+            ['تربية وتعليم','تربية وتعليم'],
+            ['الثقافة العامة','الثقافة العامة'],
+            ['القانون وحقوق الإنسان','القانون وحقوق الإنسان'],
+            ['علوم','علوم'],
+            ['الثقافة العامة','الثقافة العامة']
+        ]
+        filter_field = "the_type"
+        filter_value = the_type
+        
     elif path == "اختبارات":
         model = exams
         title = "اختبارات"
         description = "اختبارات تفاعلية لتقييم المستوى في اللغة الأمازيغية"
-        template_name = "tifinar/exams.html"
+        template_name = "tifinar/contents.html"
+        types_list = [
+            ['الكيمياء','الكيمياء'],
+            ['French','Français'],
+            ['Amazigh','الأمازيغية']
+        ]
+        filter_field = "the_type"
+        filter_value = the_type
+        
     elif path == "مكتبة_تيفيناغ":
         model = books
         title = "مكتبة تيفيناغ"
         description = "مجموعة من الكتب والمراجع التعليمية المجانية"
         template_name = "tifinar/books.html"
+        types_list = [
+            ['English','English'],
+            ['French','Français'],
+            ['Amazigh','الأمازيغية']
+        ]
+        filter_field = "the_type"
+        filter_value = the_type
+        
     else:
         return render(request, 'tifinar/404.html', status=404)
 
@@ -42,11 +81,11 @@ def contents(request):
     queryset = model.objects.all()
 
     # تطبيق عوامل التصفية
-    if the_type:
-        queryset = queryset.filter(the_type__icontains=the_type)
+    if filter_value:
+        filter_condition = Q(**{f"{filter_field}__icontains": filter_value})
+        queryset = queryset.filter(filter_condition)
 
     if search:
-        # إنشاء شروط البحث
         search_conditions = (
             Q(title__icontains=search) |
             Q(keywords__icontains=search) |
@@ -73,16 +112,7 @@ def contents(request):
         if hasattr(item, 'myimage') and item.myimage:
             item.images = item.myimage.split(',')
         else:
-            item.images = []
-
-    # إعداد قائمة أنواع المحتوى للتصفية
-    types_list = [
-        'الأمازيغية',
-        'تربية وتعليم',
-        'الثقافة العامة',
-        'علوم',
-        'القانون وحقوق الإنسان'
-    ]
+            item.images = []    
 
     # التقسيم إلى صفحات
     items_per_page = 11 if path in ["فيديوهات", "مكتبة_تيفيناغ"] else 5
@@ -103,7 +133,7 @@ def contents(request):
         'title': title,
         'dir': 'rtl',
         'articles': page_obj,
-        'page_obj': page_obj,      # هذا ما يحتاجه الـ template
+        'page_obj': page_obj,
         'types_list': types_list,
         'table_name': model._meta.db_table,
         'paginator': paginator,

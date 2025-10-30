@@ -487,6 +487,11 @@ class Contacts( models.Model):
         except (ValueError, TypeError):
             return []
 
+CATEGORY_CHOICES = [
+    ('English', 'English'),
+    ('French', 'French'),
+    ('Amazigh', 'Amazigh'),
+]
 
 class cours(CommonModelMixin, models.Model):
     cours_id = models.SmallAutoField(primary_key=True)
@@ -512,6 +517,13 @@ class cours(CommonModelMixin, models.Model):
     gender = models.CharField(max_length=6)
     min_age = models.IntegerField()
     max_age = models.IntegerField()
+    
+    category = models.CharField(
+        max_length=50,
+        choices=CATEGORY_CHOICES,
+        default='English'
+    )
+    
     educational_level = models.CharField(
         max_length=3,
         choices=EducationalLevel.choices,
