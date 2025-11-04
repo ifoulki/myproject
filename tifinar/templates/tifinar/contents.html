@@ -29,10 +29,13 @@
             <div class="input-group border rounded flex-grow-1 d-flex">
                 <select class="form-select border-0 flex-grow-1" name="the_type" id="the_type">
                     <option value="">جميع التصنيفات</option>
-                    {% for value, label in types_list %}
-                        <option value="{{ value }}" {% if request.GET.the_type == value %}selected{% endif %}>
-                            {{ label }}
-                        </option>
+                    {% for label, value  in types_list %}
+                        <optgroup label='{{label}}'>
+                          {% for v, l in value %}
+                            <option value="{{ v }}" {% if request.GET.the_type == v %}selected{% endif %}>
+                                {{ l }}
+                            </option>
+                      {% endfor %}
                     {% endfor %}
                 </select>
                 <button type="submit" class="btn btn-outline-success search-btn flex-shrink-0" style="width: 50px;">

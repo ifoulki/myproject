@@ -1,4 +1,5 @@
 {% load static %}
+{% load custom_filters %}
 {% include "tifinar/header.html" %} 
 <body>
     <style>
@@ -68,7 +69,7 @@
                                                 <input type="radio" id="choice{{ forloop.counter }}_{{ question.premary_id }}" 
                                                        name="answer{{ forloop.parentloop.counter }}" value="{{ choice }}">
                                                 <label for="choice{{ forloop.counter }}_{{ question.premary_id }}" 
-                                                       class="choice-label custom-label">{{ choice }}</label>
+                                                       class="choice-label custom-label">{{ choice|clean_choice }}</label>
                                             </div>
                                         {% endfor %}
                                     {% endwith %}
@@ -82,7 +83,7 @@
                                                            name="answer{{ forloop.parentloop.counter }}[]" value="{{ choice }}" 
                                                            class="form-check-input">
                                                     <label for="choice{{ forloop.counter }}_{{ question.premary_id }}" 
-                                                           class="form-check-label custom-label">{{ choice }}</label>
+                                                           class="form-check-label custom-label">{{ choice|clean_choice }}</label>
                                                 </div>
                                             {% endif %}
                                         {% endfor %}

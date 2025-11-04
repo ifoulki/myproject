@@ -6,6 +6,8 @@ from difflib import SequenceMatcher
 from django.http import HttpResponse
 
 import datetime
+import re
+
 
 from django.db.models import Count, Sum
 from tifinar.models import exams, Examitems, Results, ArticleReaction, comments, AuthUser
@@ -96,7 +98,22 @@ def get_user_identifier(request):
         return ip
 
 def exam_view(request, exam_slug):
+    
     try:
+        exam = exams.objects.get(slug=exam_slug)
+        questions = Examitems.objects.filter(exam_number=exam.exam_id).order_by('qsts_id')
+        
+        # 🔴 أضف هذا الكود للتصحيح - يظهر عند زيارة الصفحة
+        print("=" * 60)
+        print("🔍 DEBUG: exam_view - عرض بيانات الأسئلة")
+        for i, question in enumerate(questions, 1):
+            print(f"🔴 Q{i} RAW choice1: '{question.choice1}'")
+            print(f"🟢 Q{i} After cleaning: '{clean_choice_text(question.choice1)}'")
+            print(f"📋 Q{i} correct_answer: '{question.correct_answer}'")
+            print(f"🧹 Q{i} cleaned correct: '{clean_choice_text(question.correct_answer)}'")
+            print("-" * 40)
+        print("=" * 60)
+        
         exam = exams.objects.get(slug=exam_slug)
         questions = Examitems.objects.filter(exam_number=exam.exam_id).order_by('qsts_id')
         
@@ -261,25 +278,34 @@ def exam_view(request, exam_slug):
             'error_message': f'لا يوجد اختبار بالرابط: {exam_slug}'
         })
 
-
 def clean_choice_text(choice):
-    """تنظيف نص الخيار من البادئات correct:/wrong:"""
+    """تنظيف نص الخيار من البادئات correct:/wrong:/correct=/wrong="""
     if not choice:
         return choice
     
     choice_str = str(choice).strip()
     
-    # إذا كانت البادئة موجودة، نزيلها
-    if choice_str.lower().startswith('correct:'):
-        return choice_str.split(':', 1)[1].strip()
-    elif choice_str.lower().startswith('wrong:'):
-        return choice_str.split(':', 1)[1].strip()
-    elif choice_str.lower().startswith('correct='):
-        return choice_str.split('=', 1)[1].strip()
-    elif choice_str.lower().startswith('wrong='):
-        return choice_str.split('=', 1)[1].strip()
+    # جميع الأنماط الممكنة
+    patterns = [
+        ("correct:'", 9, "'"),      # correct:'نص'
+        ("correct:", 8, ""),        # correct:نص
+        ("wrong:'", 7, "'"),        # wrong:'نص'  
+        ("wrong:", 6, ""),          # wrong:نص
+        ("correct='", 9, "'"),      # correct='نص'
+        ("correct=", 8, ""),        # correct=نص
+        ("wrong='", 7, "'"),        # wrong='نص'
+        ("wrong=", 6, "")           # wrong=نص
+    ]
+    
+    for pattern, remove_len, end_char in patterns:
+        if choice_str.lower().startswith(pattern):
+            cleaned = choice_str[remove_len:]
+            if end_char and cleaned.endswith(end_char):
+                cleaned = cleaned[:-len(end_char)]
+            return cleaned.strip()
     
     return choice_str
+
 
 def get_correct_answers(question):
     """استخراج جميع الإجابات الصحيحة من سؤال من نوع checkbox"""
@@ -288,22 +314,17 @@ def get_correct_answers(question):
     if question.the_type != 'checkbox':
         return [clean_choice_text(question.correct_answer)] if question.correct_answer else []
     
-    # جمع جميع الخيارات المتاحة
-    choices_data = [
-        question.choice1, 
-        question.choice2, 
-        question.choice3, 
-        question.correct_answer
-    ]
+    choices_data = [question.choice1, question.choice2, question.choice3, question.correct_answer]
     
     for choice in choices_data:
         if choice:
-            choice_str = str(choice).lower()
-            if 'correct:' in choice_str or 'correct=' in choice_str:
-                cleaned_choice = clean_choice_text(choice)
+            cleaned_choice = clean_choice_text(choice)
+            # إذا تغير النص بعد التنظيف، فهذا يعني أنه كان به بادئة
+            if cleaned_choice != str(choice).strip() and cleaned_choice:
                 correct_answers.append(cleaned_choice)
     
     return correct_answers
+
 
 
 def store_answer(request):
@@ -350,6 +371,10 @@ def store_answer(request):
         for i, question in enumerate(questions, 1):
             user_answer = request.POST.get(f'answer{i}')
             user_answer_list = request.POST.getlist(f'answer{i}[]')
+            
+            # 🔴 أضف هذه السطور هنا - قبل أي معالجة أخرى
+            print(f"🔴 RAW choice1 from DB: '{question.choice1}'")
+            print(f"🟢 After clean_choice_text: '{clean_choice_text(question.choice1)}'")
             
             print(f"DEBUG: Q{i} - answer={user_answer}, answer_list={user_answer_list}")
             

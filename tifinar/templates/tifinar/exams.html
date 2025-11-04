@@ -40,23 +40,19 @@
 
                     <optgroup label="العلوم">
                         <option value="رياضيات" {% if request.GET.the_type == 'رياضيات' %}selected{% endif %}> رياضيات</option>
-                        
-                        
                         <option value="الفزياء والكمياء" {% if request.GET.the_type == 'الفزياء والكمياء' %}selected{% endif %}>الفزياء والكمياء</option>
-                       
                         <option value="علوم الحياة والأرض" {% if request.GET.the_type == 'علوم الحياة والأرض' %}selected{% endif %}>علوم الحياة والأرض</option>
+                        <option value="علوم الحاسوب" {% if request.GET.the_type == 'علوم الحاسوب' %}selected{% endif %}>علوم الحاسوب</option>
                     </optgroup>
 
                     <optgroup label="مواضيع أخرى">
                         <option value="صحة وحياة" {% if request.GET.the_type == 'صحة وحياة' %}selected{% endif %}>صحة وحياة</option>
-                        <option value="علوم الحاسوب" {% if request.GET.the_type == 'علوم الحاسوب' %}selected{% endif %}>علوم الحاسوب</option>
 
                         @if ($userAge >=12)
                             <option value="حقوق الإنسان" {% if request.GET.the_type == 'حقوق الإنسان' %}selected{% endif %}>القانون وحقوق الإنسان</option>
                         @endif
 
                         <option value="الثقافة العامة" {% if request.GET.the_type == 'الثقافة العامة' %}selected{% endif %}>الثقافة العامة</option>
-                        <option value="أصناف أخرى" {% if request.GET.the_type == 'أصناف أخرى' %}selected{% endif %}>أصناف أخرى</option>
                     </optgroup>
                 </select>
                 <button type="submit" class="btn btn-outline-success search-btn flex-shrink-0" style="width: 50px;">

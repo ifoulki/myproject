@@ -2,18 +2,42 @@ from django import template
 from django.conf import settings
 import re
 import random
-register = template.Library()
-# custom_filters.py
-from django import template
 from django.contrib.auth.models import User
-
-register = template.Library()
-from django import template
-
 from django.utils import timezone
-from datetime import timedelta
 
 register = template.Library()
+
+def clean_choice_text(choice):
+    """تنظيف نص الخيار من البادئات correct:/wrong:/correct=/wrong="""
+    if not choice:
+        return choice
+    
+    choice_str = str(choice).strip()
+    
+    # جميع الأنماط الممكنة
+    patterns = [
+        ("correct:'", 9, "'"),      # correct:'نص'
+        ("correct:", 8, ""),        # correct:نص
+        ("wrong:'", 7, "'"),        # wrong:'نص'  
+        ("wrong:", 6, ""),          # wrong:نص
+        ("correct='", 9, "'"),      # correct='نص'
+        ("correct=", 8, ""),        # correct=نص
+        ("wrong='", 7, "'"),        # wrong='نص'
+        ("wrong=", 6, "")           # wrong=نص
+    ]
+    
+    for pattern, remove_len, end_char in patterns:
+        if choice_str.lower().startswith(pattern):
+            cleaned = choice_str[remove_len:]
+            if end_char and cleaned.endswith(end_char):
+                cleaned = cleaned[:-len(end_char)]
+            return cleaned.strip()
+    
+    return choice_str
+
+@register.filter
+def clean_choice(value):
+    return clean_choice_text(value)
 
 @register.filter
 def humanize_time(value):
@@ -85,8 +109,6 @@ def message_date(value):
     # إذا كانت الرسالة قديمة، نعرض التاريخ الكامل
     else:
         return value.strftime("%Y/%m/%d %H:%M")
-    
-register = template.Library()
 
 @register.filter
 def split_string(value, delimiter=','):
@@ -121,15 +143,6 @@ def get_user_path(email):
         return '❌ مستخدم غير موجود'
     except:
         return '❌ خطأ'
-    
-@register.filter
-def get_user_by_email(email):
-    try:
-        return User.objects.filter(email=email).first()
-    except:
-        return None
-    
-register = template.Library()
 
 @register.filter
 def clean_float(value):
@@ -142,6 +155,7 @@ def clean_float(value):
             return f"{num:.2f}".rstrip('0').rstrip('.')
     except (ValueError, TypeError):
         return str(value)
+
 # فلتر get_item
 @register.filter
 def get_item(dictionary, key):
