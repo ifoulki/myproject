@@ -47,16 +47,16 @@
                 
                 {% for question in questions %}
                     <div class="question-container my-4 p-3 border rounded" dir="{{ question.dir }}">
-                        <h2 class="qst h5">{{ question.qsts_id }} - {{ question.qst_1st_line }}
+                        <h2 class="qst h5">{{ question.qsts_id }} - {{ question.qst_1st_line|safe  }}
                             <span class="badge bg-secondary">({{ question.mark }})</span>
                         </h2>
                         
                         {% if question.qsts %}
-                            <h4 class="qst_2part custom-h4 text-muted">{{ question.qsts }}</h4>
+                            <h4 class="qst_2part custom-h4 text-muted">{{ question.qsts|safe  }}</h4>
                         {% endif %}
                         
                         <div class="exam-content-grid d-flex align-items-start my-3">
-                            {% if question.qst_img and question.the_type == 'radio' or question.the_type == 'checkbox' %}
+                            {% if question.qst_img and question.the_type == 'radio' or question.qst_img and question.the_type == 'checkbox' %}
                                 <img class="exam-img {% if question.dir == 'rtl' %}me-3{% else %}ms-3{% endif %} img-thumbnail"
                                     src="{% static 'tifinar/images/exams/' %}{{ question.qst_img }}" alt="صورة السؤال">
                             {% endif %}
@@ -100,7 +100,8 @@
                                               placeholder="أكتب إجابتك هنا ..."></textarea>
                                 {% endif %}
                                 
-                                {% if question.qst_img and question.the_type == 'text' or question.the_type == 'textarea' %}
+                                {% if question.qst_img and question.the_type == 'text' or question.qst_img and question.the_type == 'textarea' %}
+
                                     <img class="exam-img img-fluid my-3 mx-auto d-block" 
                                          src="{% static 'images/exams/' %}{{ question.qst_img }}" alt="صورة السؤال">
                                 {% endif %}

@@ -49,29 +49,32 @@
                     {% if dir == 'rtl' %}
                     <h2 class="text-center mt-4">تفاصيل الإجابات:</h2>
                     {% for answer in user_answers %}
-                    <div class="mb-4">
+                    <div class="mb-4" style="text-align: right !important ">
                         <div class="question-container border rounded p-3 bg-white shadow-sm" dir="{{ answer.dir }}">
                             <h4 class="qst text-primary">
-                                <b> السؤال {{ answer.qsts_id }} : &ensp;</b> {{ answer.qst_1st_line }}
+                                <b> السؤال {{ answer.qsts_id }} : &ensp;</b> {{ answer.qst_1st_line|safe  }}
                             </h4>
                             {% if answer.qsts %}
-                                <p class="qst_2part text-muted">{{ answer.qsts }}</p>
+                                <p class="qst_2part text-muted">{{ answer.qsts|safe  }}</p>
                             {% endif %}
                             
                             {% if answer.user_answer == 0 %}
-                                <p class="choice-label text-danger">لم تتم الإجابة عليه</p>
-                                <p class="choice-label"><strong>الإجابة الصحيحة:</strong> {{ answer.correct_answer }}</p>
-                                <p class="text-info mt-2"><strong>التعليق:</strong> {{ answer.if_its_wrong_answer }}</p>
-                                
+                            <p class="choice-label text-danger">لم تتم الإجابة عليه</p>
+
+                            <p class="choice-label"><strong>الإجابة الصحيحة:</strong> {{ answer.correct_answer|safe  }}</p>
+                            
+                                {% if answer.if_its_wrong_answer %}
+                                    <p class="text-info mt-2"><strong>التعليق:</strong> {{ answer.if_its_wrong_answer|safe  }}</p>
+                                {% endif %}                                    
                             {% else %}                                    
                                 <p><strong>إجابتك :</strong> {{ answer.user_answer }}</p>
                                 {% if answer.is_correct %}
                                     <p class="choice-label text-success">{{ answer.if_choising_correct|default:"إجابة صحيحة" }}, حصلت على: {{ answer.mark_obtained|clean_float }}</p>
                                 {% else %}
                                     <p class="label text-danger">إجابتك خاطئة!</p>
-                                    <p class="choice-label"><strong>الإجابة الصحيحة:</strong> {{ answer.correct_answer }}</p>
+                                    <p class="choice-label"><strong>الإجابة الصحيحة:</strong> {{ answer.correct_answer|safe  }}</p>
                                     {% if answer.if_its_wrong_answer %}
-                                        <p class="text-info mt-2"><strong>التعليق:</strong> {{ answer.if_its_wrong_answer }}</p>
+                                        <p class="text-info mt-2"><strong>التعليق:</strong> {{ answer.if_its_wrong_answer|safe  }}</p>
                                     {% endif %}
                                 {% endif %}
                             {% endif %}
@@ -82,27 +85,27 @@
                     {% else %}
                     <h2 dir="ltr" class="text-center mt-4">Détails des réponses :</h2>
                     {% for answer in user_answers %}
-                    <div class="mb-4">
+                    <div class="mb-4" style="text-align: left !important ">
                         <div class="question-container border rounded p-3 bg-white shadow-sm" dir="{{ answer.dir }}">
                             <h4 class="qst text-primary">
-                                <strong>Question {{ answer.qsts_id }} :</strong> {{ answer.qst_1st_line }}
+                                <strong>Question {{ answer.qsts_id }} :</strong> {{ answer.qst_1st_line|safe  }}
                             </h4>
                             {% if answer.qsts %}
-                                <p class="qst_2part text-muted">{{ answer.qsts }}</p>
+                                <p class="qst_2part text-muted">{{ answer.qsts|safe  }}</p>
                             {% endif %}
                             
                             {% if answer.user_answer == 0 %}
                                 <p class="choice-label text-danger">Tu n'as pas répondu.</p>
-                                <p class="choice-label"><strong>Bonne réponse :</strong> {{ answer.correct_answer }}</p>
+                                <p class="choice-label"><strong>Bonne réponse :</strong> {{ answer.correct_answer|safe  }}</p>
                             {% else %}
                                 <p><strong>Ta réponse :</strong> {{ answer.user_answer }}</p>
                                 {% if answer.is_correct %}
                                     <p class="choice-label text-success">{{ answer.if_choising_correct|default:"Réponse correcte" }}, tu as gagné : {{ answer.mark_obtained|clean_float }} points</p>
                                 {% else %}
                                     <p class="label text-danger">Dommage, ce n'est pas la bonne réponse !</p>
-                                    <p class="choice-label"><strong>Bonne réponse :</strong> {{ answer.correct_answer }}</p>
+                                    <p class="choice-label"><strong>Bonne réponse :</strong> {{ answer.correct_answer|safe  }}</p>
                                     {% if answer.if_its_wrong_answer %}
-                                        <p class="text-info mt-2"><strong>Commentaire:</strong> {{ answer.if_its_wrong_answer }}</p>
+                                        <p class="text-info mt-2"><strong>Commentaire:</strong> {{ answer.if_its_wrong_answer|safe  }}</p>
                                     {% endif %}
                                 {% endif %}
                             {% endif %}
