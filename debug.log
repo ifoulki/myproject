@@ -151222,3 +151222,1071 @@ DEBUG 2025-11-05 00:11:29,639 utils (0.001) SELECT COUNT(*) AS `__count` FROM `m
 INFO 2025-11-05 00:11:29,665 basehttp "POST /exam/store-answer/ HTTP/1.1" 200 56633
 WARNING 2025-11-05 00:11:29,721 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp HTTP/1.1" 404 2007
 WARNING 2025-11-05 00:11:29,743 basehttp "GET /static/tifinar/images/users/1/%D8%AD%D9%85%D9%8A%D8%AF_%D8%A8%D8%B9%D9%84%D9%88%D8%A7%D9%86_1.webp HTTP/1.1" 404 2007
+INFO 2025-11-05 22:10:24,815 autoreload Watching for file changes with StatReloader
+DEBUG 2025-11-05 22:11:41,271 utils (0.003) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-05 22:11:41,273 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-05 22:11:41,298 utils (0.024) 
+            SELECT
+                table_name,
+                table_type,
+                table_comment
+            FROM information_schema.tables
+            WHERE table_schema = DATABASE()
+            ; args=None; alias=default
+DEBUG 2025-11-05 22:11:41,438 utils (0.003) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+DEBUG 2025-11-05 22:16:09,662 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-05 22:16:09,665 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-05 22:16:09,678 utils (0.013) SELECT `myadmin`.`adm_id`, `myadmin`.`logo`, `myadmin`.`mobile_logo`, `myadmin`.`link`, `myadmin`.`ads`, `myadmin`.`aside_ads`, `myadmin`.`meta_title`, `myadmin`.`meta_description`, `myadmin`.`meta_keyword`, `myadmin`.`created_at`, `myadmin`.`updated_at` FROM `myadmin` ORDER BY `myadmin`.`adm_id` ASC LIMIT 1; args=(); alias=default
+DEBUG 2025-11-05 22:16:11,487 utils (0.070) SELECT `articles`.`Art_id`, `articles`.`title`, `articles`.`slug`, `articles`.`Mysubject`, `articles`.`Mydescription`, `articles`.`keywords`, `articles`.`dir`, `articles`.`Author`, `articles`.`myimage`, `articles`.`autre`, `articles`.`the_type`, `articles`.`visibility_status`, `articles`.`updated_at`, `articles`.`created_at`, `articles`.`educational_level`, `articles`.`gender`, `articles`.`min_age`, `articles`.`max_age` FROM `articles` ORDER BY RAND() ASC LIMIT 5; args=(); alias=default
+DEBUG 2025-11-05 22:16:11,576 utils (0.087) SELECT `books`.`books_id`, `books`.`Myimage`, `books`.`title`, `books`.`slug`, `books`.`Mysubject`, `books`.`Mydescription`, `books`.`keywords`, `books`.`Author`, `books`.`autre`, `books`.`the_type`, `books`.`dir`, `books`.`language`, `books`.`visibility_status`, `books`.`updated_at`, `books`.`created_at`, `books`.`gender`, `books`.`min_age`, `books`.`max_age`, `books`.`educational_level` FROM `books` ORDER BY RAND() ASC LIMIT 4; args=(); alias=default
+INFO 2025-11-05 22:16:11,749 basehttp "GET / HTTP/1.1" 200 26869
+INFO 2025-11-05 22:16:12,190 basehttp "GET /static/tifinar/css/style-mobile.css HTTP/1.1" 200 7998
+INFO 2025-11-05 22:16:12,196 basehttp "GET /static/tifinar/css/main.css HTTP/1.1" 200 47006
+INFO 2025-11-05 22:16:12,209 basehttp "GET /static/icons-1.13.1/font/bootstrap-icons.css HTTP/1.1" 200 99556
+INFO 2025-11-05 22:16:12,216 basehttp "GET /static/fontawesome/css/all.min.css HTTP/1.1" 200 73898
+INFO 2025-11-05 22:16:12,216 basehttp "GET /static/bootstrap-5.3.7-dist/css/bootstrap.min.css HTTP/1.1" 200 232023
+INFO 2025-11-05 22:16:12,248 basehttp "GET /static/tifinar/assets/hostinger.webp HTTP/1.1" 200 17388
+INFO 2025-11-05 22:16:12,260 basehttp "GET /static/tifinar/assets/tifinar.webp HTTP/1.1" 200 9104
+INFO 2025-11-05 22:16:12,326 basehttp "GET /static/tifinar/images/videos/learn-ST35.webp HTTP/1.1" 200 45088
+INFO 2025-11-05 22:16:12,366 basehttp "GET /static/tifinar/images/articles/6.png HTTP/1.1" 200 93491
+INFO 2025-11-05 22:16:12,404 basehttp "GET /static/tifinar/images/videos/tlmydht_thsl_%CA%BFly_m%CA%BFdl_2020_fy_jhwy_althaltht_a%CA%BFdady.webp HTTP/1.1" 200 21488
+INFO 2025-11-05 22:16:12,407 basehttp "GET /static/tifinar/images/videos/bm%CA%BFdl_1962__amyrt_blkwshy_thsl_%CA%BFly_a%CA%BFly_m%CA%BFdl_bakalwrya_%CA%BFly_almstwy_alwtny.webp HTTP/1.1" 200 21054
+INFO 2025-11-05 22:16:12,430 basehttp "GET /static/tifinar/assets/education2.webp HTTP/1.1" 200 90708
+INFO 2025-11-05 22:16:12,444 basehttp "GET /static/tifinar/images/videos/souss.webp HTTP/1.1" 200 40254
+WARNING 2025-11-05 22:16:12,512 basehttp "GET /static/tifinar/images/articles/kwlwfynyl_900___10_kgh_SMOb.webp HTTP/1.1" 404 1982
+WARNING 2025-11-05 22:16:12,513 basehttp "GET /static/tifinar/images/videos/ghltt_albkalwrya__alkhta_lkydyr_alaghlbyt_dyal_altlamydh_fy_althdyr_llwtny_w_aljhwy_41ab.webp HTTP/1.1" 404 2159
+WARNING 2025-11-05 22:16:12,514 basehttp "GET /static/tifinar/images/articles/tifinar/images/articles/__1.jpg HTTP/1.1" 404 1979
+INFO 2025-11-05 22:16:12,517 basehttp "GET /static/tifinar/images/articles/unschooling1.webp HTTP/1.1" 200 39808
+INFO 2025-11-05 22:16:12,575 basehttp "GET /static/tifinar/images/articles/%D8%AB%D8%A3%D8%AB%D9%8A%D8%B1%20%D8%A7%D9%84%D8%AA%D9%83%D9%86%D9%88%D9%84%D9%88%D8%AC%D9%8A%D8%A9%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D8%B5%D8%AD%D8%A9%20%D8%A7%D9%84%D9%86%D9%81%D8%B3%D9%8A%D8%A9.webp HTTP/1.1" 200 103380
+INFO 2025-11-05 22:16:12,591 basehttp "GET /static/tifinar/images/books/math1.webp HTTP/1.1" 200 40904
+INFO 2025-11-05 22:16:12,689 basehttp "GET /static/tifinar/images/books/Physique_chimie12.webp HTTP/1.1" 200 23140
+INFO 2025-11-05 22:16:12,709 basehttp "GET /static/tifinar/images/books/code_de_travail_2.webp HTTP/1.1" 200 84162
+INFO 2025-11-05 22:16:12,774 basehttp "GET /static/tifinar/assets/return-up.webp HTTP/1.1" 200 5830
+INFO 2025-11-05 22:16:12,775 basehttp "GET /static/tifinar/images/books/francais4.webp HTTP/1.1" 200 80122
+INFO 2025-11-05 22:16:12,966 basehttp "GET /static/fontawesome/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 158220
+INFO 2025-11-05 22:16:13,871 basehttp "GET /static/tifinar/assets/siteicon.ico HTTP/1.1" 200 9662
+INFO 2025-11-05 22:16:17,315 basehttp "GET /%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1%D8%A7%D8%AA HTTP/1.1" 301 0
+DEBUG 2025-11-05 22:16:17,337 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-05 22:16:17,340 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-05 22:16:17,358 utils (0.018) SELECT `exams`.`exam_id`, `exams`.`title`, `exams`.`slug`, `exams`.`myimage`, `exams`.`keywords`, `exams`.`Mydescription`, `exams`.`Author`, `exams`.`the_type`, `exams`.`dir`, `exams`.`visibility_status`, `exams`.`updated_at`, `exams`.`created_at`, `exams`.`educational_level`, `exams`.`gender`, `exams`.`min_age`, `exams`.`max_age` FROM `exams` ORDER BY `exams`.`created_at` DESC; args=(); alias=default
+INFO 2025-11-05 22:16:17,427 basehttp "GET /%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1%D8%A7%D8%AA/ HTTP/1.1" 200 21891
+WARNING 2025-11-05 22:16:17,492 basehttp "GET /static/tifinar/images/exams/image_nmwdj-alamthan-almwhd-alaqlymy-fy-madt-allght-alfrnsyt.png HTTP/1.1" 404 2069
+WARNING 2025-11-05 22:16:17,493 basehttp "GET /static/tifinar/images/exams/image_nmwdj-alamthan-almwhd-alaqlymy-fy-madt-allght-alryadyat.jpg HTTP/1.1" 404 2072
+WARNING 2025-11-05 22:16:17,494 basehttp "GET /static/tifinar/images/exams/image_aalmthan-alwhdd-alwhly-aalsds-aalwl-alqsam-alsnt-alsadst-abtdayy.PNG HTTP/1.1" 404 2099
+INFO 2025-11-05 22:16:17,544 basehttp "GET /static/tifinar/images/exams/nmothg-1-alfrd-alaol-fy-alfzyaaa-oalkmyaaa-aldor-alaol_1733833343.webp HTTP/1.1" 200 16372
+INFO 2025-11-05 22:16:17,557 basehttp "GET /static/tifinar/images/exams/exam_chimie.webp HTTP/1.1" 200 16372
+INFO 2025-11-05 22:16:17,831 basehttp "GET /static/tifinar/assets/footer-background.webp HTTP/1.1" 200 383528
+INFO 2025-11-05 22:16:17,901 basehttp "GET /static/icons-1.13.1/font/fonts/bootstrap-icons.woff2?e34853135f9e39acf64315236852cd5a HTTP/1.1" 200 134044
+DEBUG 2025-11-05 22:16:25,130 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-05 22:16:25,131 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-05 22:16:25,133 utils (0.001) SELECT `exams`.`exam_id`, `exams`.`title`, `exams`.`slug`, `exams`.`myimage`, `exams`.`keywords`, `exams`.`Mydescription`, `exams`.`Author`, `exams`.`the_type`, `exams`.`dir`, `exams`.`visibility_status`, `exams`.`updated_at`, `exams`.`created_at`, `exams`.`educational_level`, `exams`.`gender`, `exams`.`min_age`, `exams`.`max_age` FROM `exams` ORDER BY `exams`.`created_at` DESC; args=(); alias=default
+INFO 2025-11-05 22:16:25,150 basehttp "GET /%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1%D8%A7%D8%AA/?page=2&search=&the_type= HTTP/1.1" 200 14978
+INFO 2025-11-05 22:16:25,226 basehttp "GET /static/tifinar/images/exams/auto-ecole.webp HTTP/1.1" 200 80638
+INFO 2025-11-05 22:16:27,115 basehttp "GET /exams/%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1_%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D9%82%D8%A9 HTTP/1.1" 301 0
+DEBUG 2025-11-05 22:16:27,125 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-05 22:16:27,126 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-05 22:16:27,225 utils (0.003) SELECT `examitems`.`premary_id`, `examitems`.`qsts_id`, `examitems`.`exam_number`, `examitems`.`qst_1st_line`, `examitems`.`qsts`, `examitems`.`choice1`, `examitems`.`choice2`, `examitems`.`choice3`, `examitems`.`correct_answer`, `examitems`.`if_choising_1`, `examitems`.`if_choising_2`, `examitems`.`if_choising_3`, `examitems`.`if_choising_correct`, `examitems`.`the_type`, `examitems`.`qst_img`, `examitems`.`img_if_wrong_answer`, `examitems`.`img_if_right_answer`, `examitems`.`if_its_wrong_answer`, `examitems`.`dir`, `examitems`.`mark`, `examitems`.`created_at`, `examitems`.`updated_at` FROM `examitems` WHERE `examitems`.`exam_number` = 3 ORDER BY `examitems`.`qsts_id` ASC; args=(3,); alias=default
+DEBUG 2025-11-05 22:16:27,714 utils (0.003) SELECT `examitems`.`premary_id`, `examitems`.`qsts_id`, `examitems`.`exam_number`, `examitems`.`qst_1st_line`, `examitems`.`qsts`, `examitems`.`choice1`, `examitems`.`choice2`, `examitems`.`choice3`, `examitems`.`correct_answer`, `examitems`.`if_choising_1`, `examitems`.`if_choising_2`, `examitems`.`if_choising_3`, `examitems`.`if_choising_correct`, `examitems`.`the_type`, `examitems`.`qst_img`, `examitems`.`img_if_wrong_answer`, `examitems`.`img_if_right_answer`, `examitems`.`if_its_wrong_answer`, `examitems`.`dir`, `examitems`.`mark`, `examitems`.`created_at`, `examitems`.`updated_at` FROM `examitems` WHERE `examitems`.`exam_number` = 3 ORDER BY `examitems`.`qsts_id` ASC; args=(3,); alias=default
+INFO 2025-11-05 22:16:27,826 basehttp "GET /exams/%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1_%D8%A7%D9%84%D8%B3%D9%8A%D8%A7%D9%82%D8%A9/ HTTP/1.1" 200 142811
+INFO 2025-11-05 22:16:27,895 basehttp "GET /static/tifinar/images/exams/code_de_la_route1.webp HTTP/1.1" 200 80832
+INFO 2025-11-05 22:16:27,930 basehttp "GET /static/tifinar/images/exams/code_de_la_route7.webp HTTP/1.1" 200 87374
+INFO 2025-11-05 22:16:27,940 basehttp "GET /static/tifinar/images/exams/code_de_la_route5.webp HTTP/1.1" 200 111656
+INFO 2025-11-05 22:16:27,941 basehttp "GET /static/tifinar/images/exams/code_de_la_route6.webp HTTP/1.1" 200 103746
+INFO 2025-11-05 22:16:27,976 basehttp "GET /static/tifinar/images/exams/code_de_la_route8.webp HTTP/1.1" 200 117284
+INFO 2025-11-05 22:16:27,980 basehttp "GET /static/tifinar/images/exams/code_de_la_route3.webp HTTP/1.1" 200 59624
+INFO 2025-11-05 22:16:28,005 basehttp "GET /static/tifinar/images/exams/code_de_la_route9.webp HTTP/1.1" 200 87374
+INFO 2025-11-05 22:16:28,009 basehttp "GET /static/tifinar/images/exams/code_de_la_route10.webp HTTP/1.1" 200 118230
+INFO 2025-11-05 22:16:28,019 basehttp "GET /static/tifinar/images/exams/code_de_la_route4.webp HTTP/1.1" 200 77050
+INFO 2025-11-05 22:16:28,029 basehttp "GET /static/tifinar/images/exams/code_de_la_route12.webp HTTP/1.1" 200 130218
+INFO 2025-11-05 22:16:28,032 basehttp "GET /static/tifinar/images/exams/code_de_la_route2.webp HTTP/1.1" 200 89632
+INFO 2025-11-05 22:16:28,048 basehttp "GET /static/tifinar/images/exams/code_de_la_route13.webp HTTP/1.1" 200 103214
+INFO 2025-11-05 22:16:28,079 basehttp "GET /static/tifinar/images/exams/code_de_la_route15.webp HTTP/1.1" 200 119172
+INFO 2025-11-05 22:16:28,080 basehttp "GET /static/tifinar/images/exams/code_de_la_route14.webp HTTP/1.1" 200 111108
+INFO 2025-11-05 22:16:28,085 basehttp "GET /static/tifinar/images/exams/code_de_la_route18.webp HTTP/1.1" 200 155506
+INFO 2025-11-05 22:16:28,100 basehttp "GET /static/tifinar/images/exams/code_de_la_route17.webp HTTP/1.1" 200 50516
+INFO 2025-11-05 22:16:28,110 basehttp "GET /static/tifinar/images/exams/code_de_la_route.webp HTTP/1.1" 200 131142
+INFO 2025-11-05 22:16:28,159 basehttp "GET /static/tifinar/images/exams/code_de_la_route20.webp HTTP/1.1" 200 58136
+INFO 2025-11-05 22:16:28,166 basehttp "GET /static/tifinar/images/exams/code_de_la_route19.webp HTTP/1.1" 200 58434
+INFO 2025-11-05 22:16:28,213 basehttp "GET /static/tifinar/images/exams/code_de_la_route22.webp HTTP/1.1" 200 61866
+INFO 2025-11-05 22:16:28,243 basehttp "GET /static/tifinar/images/exams/code_de_la_route21.webp HTTP/1.1" 200 114124
+INFO 2025-11-05 22:16:28,257 basehttp "GET /static/tifinar/images/exams/code_de_la_route25.webp HTTP/1.1" 200 99212
+INFO 2025-11-05 22:16:28,273 basehttp "GET /static/tifinar/images/exams/code_de_la_route23.webp HTTP/1.1" 200 89258
+INFO 2025-11-05 22:16:28,280 basehttp "GET /static/tifinar/images/exams/code_de_la_route26.webp HTTP/1.1" 200 99118
+INFO 2025-11-05 22:16:28,323 basehttp "GET /static/tifinar/images/exams/code_de_la_route24.webp HTTP/1.1" 200 108102
+INFO 2025-11-05 22:16:28,330 basehttp "GET /static/tifinar/images/exams/code_de_la_route27.webp HTTP/1.1" 200 103346
+INFO 2025-11-05 22:16:28,373 basehttp "GET /static/tifinar/images/exams/code_de_la_route29.webp HTTP/1.1" 200 99950
+INFO 2025-11-05 22:16:28,375 basehttp "GET /static/tifinar/images/exams/code_de_la_route28.webp HTTP/1.1" 200 122032
+INFO 2025-11-05 22:16:28,377 basehttp "GET /static/tifinar/images/exams/code_de_la_route30.webp HTTP/1.1" 200 91334
+INFO 2025-11-05 22:16:28,377 basehttp "GET /static/tifinar/images/exams/code_de_la_route31.webp HTTP/1.1" 200 67400
+INFO 2025-11-05 22:16:28,430 basehttp "GET /static/tifinar/images/exams/code_de_la_route33.webp HTTP/1.1" 200 88282
+INFO 2025-11-05 22:16:28,439 basehttp "GET /static/tifinar/images/exams/code_de_la_route38.webp HTTP/1.1" 200 112600
+INFO 2025-11-05 22:16:28,459 basehttp "GET /static/tifinar/images/exams/code_de_la_route36.webp HTTP/1.1" 200 88678
+INFO 2025-11-05 22:16:28,465 basehttp "GET /static/tifinar/images/exams/code_de_la_route39.webp HTTP/1.1" 200 111966
+INFO 2025-11-05 22:16:28,488 basehttp "GET /static/tifinar/images/exams/code_de_la_route40.webp HTTP/1.1" 200 92700
+INFO 2025-11-05 22:16:28,497 basehttp "GET /static/tifinar/images/exams/code_de_la_route35.webp HTTP/1.1" 200 56936
+INFO 2025-11-05 22:16:28,505 basehttp "GET /static/tifinar/images/exams/code_de_la_route32.webp HTTP/1.1" 200 104968
+INFO 2025-11-05 22:16:28,515 basehttp "GET /static/tifinar/images/exams/code_de_la_route34.webp HTTP/1.1" 200 67714
+INFO 2025-11-05 22:16:28,528 basehttp "GET /static/tifinar/images/exams/code_de_la_route37.webp HTTP/1.1" 200 114742
+DEBUG 2025-11-05 22:16:52,820 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-05 22:16:52,825 utils (0.002) SELECT `exams`.`exam_id`, `exams`.`title`, `exams`.`slug`, `exams`.`myimage`, `exams`.`keywords`, `exams`.`Mydescription`, `exams`.`Author`, `exams`.`the_type`, `exams`.`dir`, `exams`.`visibility_status`, `exams`.`updated_at`, `exams`.`created_at`, `exams`.`educational_level`, `exams`.`gender`, `exams`.`min_age`, `exams`.`max_age` FROM `exams` WHERE `exams`.`exam_id` = 3 LIMIT 21; args=(3,); alias=default
+DEBUG 2025-11-05 22:16:52,830 utils (0.002) SELECT COUNT(*) AS `__count` FROM `examitems` WHERE `examitems`.`exam_number` = 3; args=(3,); alias=default
+DEBUG 2025-11-05 22:16:52,835 utils (0.001) SELECT COUNT(*) AS `__count` FROM `examitems` WHERE `examitems`.`exam_number` = 3; args=(3,); alias=default
+DEBUG 2025-11-05 22:16:52,844 utils (0.005) SELECT `examitems`.`premary_id`, `examitems`.`qsts_id`, `examitems`.`exam_number`, `examitems`.`qst_1st_line`, `examitems`.`qsts`, `examitems`.`choice1`, `examitems`.`choice2`, `examitems`.`choice3`, `examitems`.`correct_answer`, `examitems`.`if_choising_1`, `examitems`.`if_choising_2`, `examitems`.`if_choising_3`, `examitems`.`if_choising_correct`, `examitems`.`the_type`, `examitems`.`qst_img`, `examitems`.`img_if_wrong_answer`, `examitems`.`img_if_right_answer`, `examitems`.`if_its_wrong_answer`, `examitems`.`dir`, `examitems`.`mark`, `examitems`.`created_at`, `examitems`.`updated_at` FROM `examitems` WHERE `examitems`.`exam_number` = 3 ORDER BY `examitems`.`qsts_id` ASC; args=(3,); alias=default
+DEBUG 2025-11-05 22:16:52,889 utils (0.001) SELECT SUM(`examitems`.`mark`) AS `total` FROM `examitems` WHERE `examitems`.`exam_number` = 3; args=(3,); alias=default
+INFO 2025-11-05 22:16:53,083 basehttp "POST /exam/store-answer/ HTTP/1.1" 200 55036
+INFO 2025-11-13 10:51:12,005 autoreload Watching for file changes with StatReloader
+DEBUG 2025-11-13 10:51:58,601 utils (0.170) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 10:51:58,616 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 10:51:59,151 utils (0.535) 
+            SELECT
+                table_name,
+                table_type,
+                table_comment
+            FROM information_schema.tables
+            WHERE table_schema = DATABASE()
+            ; args=None; alias=default
+DEBUG 2025-11-13 10:51:59,298 utils (0.103) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+DEBUG 2025-11-13 10:52:07,185 utils (0.002) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 10:52:07,192 utils (0.001) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 10:52:07,245 utils (0.052) SELECT `myadmin`.`adm_id`, `myadmin`.`logo`, `myadmin`.`mobile_logo`, `myadmin`.`link`, `myadmin`.`ads`, `myadmin`.`aside_ads`, `myadmin`.`meta_title`, `myadmin`.`meta_description`, `myadmin`.`meta_keyword`, `myadmin`.`created_at`, `myadmin`.`updated_at` FROM `myadmin` ORDER BY `myadmin`.`adm_id` ASC LIMIT 1; args=(); alias=default
+DEBUG 2025-11-13 10:52:11,773 utils (0.074) SELECT `articles`.`Art_id`, `articles`.`title`, `articles`.`slug`, `articles`.`Mysubject`, `articles`.`Mydescription`, `articles`.`keywords`, `articles`.`dir`, `articles`.`Author`, `articles`.`myimage`, `articles`.`autre`, `articles`.`the_type`, `articles`.`visibility_status`, `articles`.`updated_at`, `articles`.`created_at`, `articles`.`educational_level`, `articles`.`gender`, `articles`.`min_age`, `articles`.`max_age` FROM `articles` ORDER BY RAND() ASC LIMIT 5; args=(); alias=default
+DEBUG 2025-11-13 10:52:11,923 utils (0.134) SELECT `books`.`books_id`, `books`.`Myimage`, `books`.`title`, `books`.`slug`, `books`.`Mysubject`, `books`.`Mydescription`, `books`.`keywords`, `books`.`Author`, `books`.`autre`, `books`.`the_type`, `books`.`dir`, `books`.`language`, `books`.`visibility_status`, `books`.`updated_at`, `books`.`created_at`, `books`.`gender`, `books`.`min_age`, `books`.`max_age`, `books`.`educational_level` FROM `books` ORDER BY RAND() ASC LIMIT 4; args=(); alias=default
+INFO 2025-11-13 10:52:12,422 basehttp "GET / HTTP/1.1" 200 26215
+INFO 2025-11-13 10:52:12,565 basehttp "GET /static/fontawesome/css/all.min.css HTTP/1.1" 304 0
+INFO 2025-11-13 10:52:12,625 basehttp "GET /static/tifinar/css/style-mobile.css HTTP/1.1" 304 0
+INFO 2025-11-13 10:52:12,627 basehttp "GET /static/icons-1.13.1/font/bootstrap-icons.css HTTP/1.1" 304 0
+INFO 2025-11-13 10:52:12,633 basehttp "GET /static/bootstrap-5.3.7-dist/css/bootstrap.min.css HTTP/1.1" 304 0
+INFO 2025-11-13 10:52:12,662 basehttp "GET /static/tifinar/assets/tifinar.webp HTTP/1.1" 304 0
+INFO 2025-11-13 10:52:12,778 basehttp "GET /static/tifinar/assets/education2.webp HTTP/1.1" 304 0
+INFO 2025-11-13 10:52:12,829 basehttp "GET /static/tifinar/assets/hostinger.webp HTTP/1.1" 304 0
+INFO 2025-11-13 10:52:13,090 basehttp "GET /static/tifinar/css/main.css HTTP/1.1" 200 47003
+INFO 2025-11-13 10:52:13,165 basehttp "GET /static/tifinar/images/videos/learn-ST36.webp HTTP/1.1" 304 0
+INFO 2025-11-13 10:52:13,295 basehttp "GET /static/tifinar/images/videos/tlmydht_thsl_%CA%BFly_m%CA%BFdl_2020_fy_jhwy_althaltht_a%CA%BFdady.webp HTTP/1.1" 304 0
+INFO 2025-11-13 10:52:13,373 basehttp "GET /static/tifinar/images/videos/learn-ST35.webp HTTP/1.1" 200 45088
+INFO 2025-11-13 10:52:13,765 basehttp "GET /static/tifinar/images/videos/learn-ST25.webp HTTP/1.1" 200 36978
+INFO 2025-11-13 10:52:13,858 basehttp "GET /static/tifinar/images/videos/doctora.webp HTTP/1.1" 200 91654
+INFO 2025-11-13 10:52:13,865 basehttp "GET /static/tifinar/images/articles/3.png HTTP/1.1" 200 67545
+INFO 2025-11-13 10:52:13,977 basehttp "GET /static/tifinar/images/books/%D9%85%D8%AF%D9%88%D9%86%D8%A9_%D8%A7%D9%84%D8%A7%D9%84%D8%AA%D8%B2%D8%A7%D9%85%D8%A7%D8%AA_%D9%88%D8%A7%D9%84%D8%B9%D9%82%D9%88%D8%AF.webp HTTP/1.1" 200 43044
+INFO 2025-11-13 10:52:14,035 basehttp "GET /static/tifinar/images/books/math6.webp HTTP/1.1" 200 40494
+INFO 2025-11-13 10:52:14,058 basehttp "GET /static/tifinar/images/articles/%D8%AB%D8%A3%D8%AB%D9%8A%D8%B1%20%D8%A7%D9%84%D8%AA%D9%83%D9%86%D9%88%D9%84%D9%88%D8%AC%D9%8A%D8%A9%20%D8%B9%D9%84%D9%89%20%D8%A7%D9%84%D8%B5%D8%AD%D8%A9%20%D8%A7%D9%84%D9%86%D9%81%D8%B3%D9%8A%D8%A9.webp HTTP/1.1" 200 103380
+INFO 2025-11-13 10:52:14,098 basehttp "GET /static/tifinar/images/books/Arabic13.webp HTTP/1.1" 200 49714
+INFO 2025-11-13 10:52:14,232 basehttp "GET /static/tifinar/assets/return-up.webp HTTP/1.1" 304 0
+INFO 2025-11-13 10:52:14,289 basehttp "GET /static/tifinar/images/books/Physique_chimie4.webp HTTP/1.1" 200 22892
+WARNING 2025-11-13 10:52:14,374 basehttp "GET /static/tifinar/images/articles/tifinar/images/articles/___1.png HTTP/1.1" 404 1982
+WARNING 2025-11-13 10:52:14,375 basehttp "GET /static/tifinar/images/articles/bkhkh_sbgha_dwlfyn_zoPC.webp HTTP/1.1" 404 1970
+WARNING 2025-11-13 10:52:14,378 basehttp "GET /static/tifinar/images/articles/None HTTP/1.1" 404 1898
+INFO 2025-11-13 10:52:14,604 basehttp "GET /static/fontawesome/webfonts/fa-solid-900.woff2 HTTP/1.1" 304 0
+INFO 2025-11-13 10:52:15,289 basehttp "GET /static/tifinar/assets/siteicon.ico HTTP/1.1" 304 0
+DEBUG 2025-11-13 10:52:17,991 utils (0.002) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 10:52:17,994 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 10:52:18,113 utils (0.118) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` ORDER BY `cours`.`created_at` DESC; args=(); alias=default
+ERROR 2025-11-13 10:52:19,092 log Internal Server Error: /\u0642\u0648\u0627\u0645\u064a\u0633_\u0628\u0635\u0631\u064a\u0629/
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khalid\Documents\myproject\tifinar\views\content\content.py", line 159, in contents
+    return render(request, template_name, context)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\defaulttags.py", line 243, in render
+    nodelist.append(node.render_annotated(context))
+                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\defaulttags.py", line 231, in render
+    raise ValueError(
+    ...<3 lines>...
+    )
+ValueError: Need 2 values to unpack in for loop; got 1. 
+ERROR 2025-11-13 10:52:19,162 basehttp "GET /%D9%82%D9%88%D8%A7%D9%85%D9%8A%D8%B3_%D8%A8%D8%B5%D8%B1%D9%8A%D8%A9/ HTTP/1.1" 500 135916
+WARNING 2025-11-13 10:52:19,528 log Not Found: /favicon.ico
+WARNING 2025-11-13 10:52:19,529 basehttp "GET /favicon.ico HTTP/1.1" 404 12268
+INFO 2025-11-13 10:54:31,033 basehttp "GET /%D9%81%D9%8A%D8%AF%D9%8A%D9%88%D9%87%D8%A7%D8%AA HTTP/1.1" 301 0
+DEBUG 2025-11-13 10:54:31,077 utils (0.002) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 10:54:31,082 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 10:54:31,486 utils (0.404) SELECT `videos`.`VD_id`, `videos`.`title`, `videos`.`slug`, `videos`.`Mysubject`, `videos`.`myimage`, `videos`.`keywords`, `videos`.`Mydescription`, `videos`.`Author`, `videos`.`autre`, `videos`.`the_type`, `videos`.`dir`, `videos`.`visibility_status`, `videos`.`updated_at`, `videos`.`created_at`, `videos`.`educational_level`, `videos`.`gender`, `videos`.`min_age`, `videos`.`max_age` FROM `videos` ORDER BY `videos`.`created_at` DESC; args=(); alias=default
+INFO 2025-11-13 10:54:31,788 basehttp "GET /%D9%81%D9%8A%D8%AF%D9%8A%D9%88%D9%87%D8%A7%D8%AA/ HTTP/1.1" 200 26664
+INFO 2025-11-13 10:54:31,885 basehttp "GET /static/tifinar/css/main.css HTTP/1.1" 304 0
+WARNING 2025-11-13 10:54:31,972 basehttp "GET /static/tifinar/images/videos/mjzw%CA%BEt_alm%CA%BFrft__mfhwm_alnzryt_waltjrbt_4657.webp HTTP/1.1" 404 2038
+INFO 2025-11-13 10:54:32,031 basehttp "GET /static/tifinar/images/videos/mraj%CA%BFt_shamlt_lmdkhl_alastjabt__alzwaj_altlaq_r%CA%BFayt_alatfal_alasrt_nwat_almjtm%CA%BF__18f3.webp HTTP/1.1" 200 8978
+INFO 2025-11-13 10:54:32,212 basehttp "GET /static/tifinar/images/videos/mlkhs_mdkhl_alaqtda%CA%BE__slh_alhdybyt__alrswl_sly%20allh%20%CA%BFlyh%20wslm_mfawdaa%E2%81%BF_wmstshyraa%E2%81%BF__%CA%BFthman_bn_%CA%BFfan__alrswl_sly%20allh%20%CA%BFlyh%20wslm_fy_byth_7563.webp HTTP/1.1" 200 6672
+INFO 2025-11-13 10:54:32,214 basehttp "GET /static/tifinar/images/videos/ast%CA%BFdada%E2%81%BFa_llamthan_aljhwy__mraj%CA%BFt_shamlt_lmdkhl_altzkyt__alayman_w_alghyb__w_al%CA%BFlm__w_alflsft___7974.webp HTTP/1.1" 200 5242
+INFO 2025-11-13 10:54:32,241 basehttp "GET /static/tifinar/images/videos/hq_allh__ala%CA%BFtzaz_balaslam_ad5b.webp HTTP/1.1" 200 5574
+INFO 2025-11-13 10:54:32,253 basehttp "GET /static/tifinar/images/videos/alshkhs_walhwyt__mjzw%CA%BEt_alwd%CA%BF_albshry_494e.webp HTTP/1.1" 200 3198
+INFO 2025-11-13 10:54:32,262 basehttp "GET /static/tifinar/images/videos/hq_alnfs__altwst_wala%CA%BFtdal_5be7.webp HTTP/1.1" 200 5812
+INFO 2025-11-13 10:54:32,306 basehttp "GET /static/icons-1.13.1/font/fonts/bootstrap-icons.woff2?e34853135f9e39acf64315236852cd5a HTTP/1.1" 304 0
+INFO 2025-11-13 10:54:32,337 basehttp "GET /static/tifinar/images/videos/mhart_altfawd__mlkhs__alt%CA%BFbyr_walansha%CA%BE_ca89.webp HTTP/1.1" 200 26626
+INFO 2025-11-13 10:54:32,343 basehttp "GET /static/tifinar/images/videos/mjzw%CA%BEtalsyast__mfhwm_aldwlt_6c1b.webp HTTP/1.1" 200 14502
+INFO 2025-11-13 10:54:32,345 basehttp "GET /static/tifinar/images/videos/ktabt_mshhd_msrhy_anshtt__alttbyq_be8d.webp HTTP/1.1" 200 12276
+INFO 2025-11-13 10:54:32,383 basehttp "GET /static/tifinar/images/videos/tqnyat_altfawd_anshtt__alttbyq_2_854a.webp HTTP/1.1" 200 25432
+DEBUG 2025-11-13 10:54:34,459 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 10:54:34,469 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 10:54:34,472 utils (0.001) SELECT `myadmin`.`adm_id`, `myadmin`.`logo`, `myadmin`.`mobile_logo`, `myadmin`.`link`, `myadmin`.`ads`, `myadmin`.`aside_ads`, `myadmin`.`meta_title`, `myadmin`.`meta_description`, `myadmin`.`meta_keyword`, `myadmin`.`created_at`, `myadmin`.`updated_at` FROM `myadmin` ORDER BY `myadmin`.`adm_id` ASC LIMIT 1; args=(); alias=default
+DEBUG 2025-11-13 10:54:34,635 utils (0.027) SELECT `articles`.`Art_id`, `articles`.`title`, `articles`.`slug`, `articles`.`Mysubject`, `articles`.`Mydescription`, `articles`.`keywords`, `articles`.`dir`, `articles`.`Author`, `articles`.`myimage`, `articles`.`autre`, `articles`.`the_type`, `articles`.`visibility_status`, `articles`.`updated_at`, `articles`.`created_at`, `articles`.`educational_level`, `articles`.`gender`, `articles`.`min_age`, `articles`.`max_age` FROM `articles` ORDER BY RAND() ASC LIMIT 5; args=(); alias=default
+DEBUG 2025-11-13 10:54:34,683 utils (0.044) SELECT `books`.`books_id`, `books`.`Myimage`, `books`.`title`, `books`.`slug`, `books`.`Mysubject`, `books`.`Mydescription`, `books`.`keywords`, `books`.`Author`, `books`.`autre`, `books`.`the_type`, `books`.`dir`, `books`.`language`, `books`.`visibility_status`, `books`.`updated_at`, `books`.`created_at`, `books`.`gender`, `books`.`min_age`, `books`.`max_age`, `books`.`educational_level` FROM `books` ORDER BY RAND() ASC LIMIT 4; args=(); alias=default
+INFO 2025-11-13 10:54:34,689 basehttp "GET / HTTP/1.1" 200 25613
+WARNING 2025-11-13 10:54:34,847 basehttp "GET /static/tifinar/images/articles/atls_anty_fsywr_0_5_lytr_H4pn.webp HTTP/1.1" 404 1988
+WARNING 2025-11-13 10:54:34,848 basehttp "GET /static/tifinar/images/articles/tifinar/images/articles/___1.png HTTP/1.1" 404 1982
+WARNING 2025-11-13 10:54:34,848 basehttp "GET /static/tifinar/images/articles/bkhkh_sbgha_dwlfyn_zoPC.webp HTTP/1.1" 404 1970
+WARNING 2025-11-13 10:54:34,867 basehttp "GET /static/tifinar/images/articles/kwlwfynyl_900___10_kgh_SMOb.webp HTTP/1.1" 404 1982
+INFO 2025-11-13 10:54:34,871 basehttp "GET /static/tifinar/images/videos/souss.webp HTTP/1.1" 200 40254
+INFO 2025-11-13 10:54:34,932 basehttp "GET /static/tifinar/images/videos/learn-english24.webp HTTP/1.1" 304 0
+INFO 2025-11-13 10:54:34,966 basehttp "GET /static/tifinar/images/books/informatique5.webp HTTP/1.1" 200 27126
+INFO 2025-11-13 10:54:35,040 basehttp "GET /static/tifinar/images/books/francais8.webp HTTP/1.1" 200 80146
+INFO 2025-11-13 10:54:35,087 basehttp "GET /static/tifinar/images/books/english8.webp HTTP/1.1" 200 49528
+INFO 2025-11-13 10:54:35,094 basehttp "GET /static/tifinar/images/books/code_de_travail_2.webp HTTP/1.1" 200 84162
+INFO 2025-11-13 10:54:35,842 basehttp "GET /%D9%85%D9%82%D8%A7%D9%84%D8%A7%D8%AA HTTP/1.1" 301 0
+DEBUG 2025-11-13 10:54:35,899 utils (0.002) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 10:54:35,904 utils (0.001) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 10:54:35,936 utils (0.031) SELECT `articles`.`Art_id`, `articles`.`title`, `articles`.`slug`, `articles`.`Mysubject`, `articles`.`Mydescription`, `articles`.`keywords`, `articles`.`dir`, `articles`.`Author`, `articles`.`myimage`, `articles`.`autre`, `articles`.`the_type`, `articles`.`visibility_status`, `articles`.`updated_at`, `articles`.`created_at`, `articles`.`educational_level`, `articles`.`gender`, `articles`.`min_age`, `articles`.`max_age` FROM `articles` ORDER BY `articles`.`created_at` DESC; args=(); alias=default
+INFO 2025-11-13 10:54:36,004 basehttp "GET /%D9%85%D9%82%D8%A7%D9%84%D8%A7%D8%AA/ HTTP/1.1" 200 20818
+WARNING 2025-11-13 10:54:36,098 basehttp "GET /static/tifinar/images/articles/tifinar/images/articles/___1.png HTTP/1.1" 404 1982
+WARNING 2025-11-13 10:54:36,127 basehttp "GET /static/tifinar/images/articles/tifinar/images/articles/__1.jpg HTTP/1.1" 404 1979
+WARNING 2025-11-13 10:54:36,136 basehttp "GET /static/tifinar/images/articles/kwlwfynyl_900___10_kgh_SMOb.webp HTTP/1.1" 404 1982
+WARNING 2025-11-13 10:54:36,137 basehttp "GET /static/tifinar/images/articles/atls_anty_fsywr_0_5_lytr_H4pn.webp HTTP/1.1" 404 1988
+WARNING 2025-11-13 10:54:36,156 basehttp "GET /static/tifinar/images/articles/bkhkh_sbgha_dwlfyn_zoPC.webp HTTP/1.1" 404 1970
+INFO 2025-11-13 10:54:36,164 basehttp "GET /static/tifinar/assets/footer-background.webp HTTP/1.1" 304 0
+DEBUG 2025-11-13 10:54:40,509 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 10:54:40,512 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 10:54:40,680 utils (0.167) SELECT `videos`.`VD_id`, `videos`.`title`, `videos`.`slug`, `videos`.`Mysubject`, `videos`.`myimage`, `videos`.`keywords`, `videos`.`Mydescription`, `videos`.`Author`, `videos`.`autre`, `videos`.`the_type`, `videos`.`dir`, `videos`.`visibility_status`, `videos`.`updated_at`, `videos`.`created_at`, `videos`.`educational_level`, `videos`.`gender`, `videos`.`min_age`, `videos`.`max_age` FROM `videos` ORDER BY `videos`.`created_at` DESC; args=(); alias=default
+INFO 2025-11-13 10:54:40,763 basehttp "GET /%D9%81%D9%8A%D8%AF%D9%8A%D9%88%D9%87%D8%A7%D8%AA/ HTTP/1.1" 200 26664
+WARNING 2025-11-13 10:54:40,826 basehttp "GET /static/tifinar/images/videos/mjzw%CA%BEt_alm%CA%BFrft__mfhwm_alnzryt_waltjrbt_4657.webp HTTP/1.1" 404 2038
+INFO 2025-11-13 10:54:41,831 basehttp "GET /%D9%85%D9%83%D8%AA%D8%A8%D8%A9_%D8%AA%D9%8A%D9%81%D9%8A%D9%86%D8%A7%D8%BA HTTP/1.1" 301 0
+DEBUG 2025-11-13 10:54:41,886 utils (0.002) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 10:54:41,889 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 10:54:41,936 utils (0.047) SELECT `books`.`books_id`, `books`.`Myimage`, `books`.`title`, `books`.`slug`, `books`.`Mysubject`, `books`.`Mydescription`, `books`.`keywords`, `books`.`Author`, `books`.`autre`, `books`.`the_type`, `books`.`dir`, `books`.`language`, `books`.`visibility_status`, `books`.`updated_at`, `books`.`created_at`, `books`.`gender`, `books`.`min_age`, `books`.`max_age`, `books`.`educational_level` FROM `books` ORDER BY `books`.`created_at` DESC; args=(); alias=default
+INFO 2025-11-13 10:54:42,006 basehttp "GET /%D9%85%D9%83%D8%AA%D8%A8%D8%A9_%D8%AA%D9%8A%D9%81%D9%8A%D9%86%D8%A7%D8%BA/ HTTP/1.1" 200 22040
+WARNING 2025-11-13 10:54:42,074 basehttp "GET /static/tifinar/images/books/seance_3_continuite__partie_22_image.webp HTTP/1.1" 404 2000
+WARNING 2025-11-13 10:54:42,126 basehttp "GET /static/tifinar/images/books/seance_2__continuite_partie_17_image.webp HTTP/1.1" 404 2000
+WARNING 2025-11-13 10:54:42,127 basehttp "GET /static/tifinar/images/books/seance_1_limites_et_derivation__rappel_1_image.webp HTTP/1.1" 404 2030
+INFO 2025-11-13 10:54:42,257 basehttp "GET /static/tifinar/images/books/ktb_lydrwjyn_1933.png HTTP/1.1" 200 2274328
+INFO 2025-11-13 10:54:42,356 basehttp "GET /static/tifinar/images/books/tamusni_2.webp HTTP/1.1" 200 25636
+INFO 2025-11-13 10:54:42,359 basehttp "GET /static/tifinar/images/books/sidi_hamou_talb.webp HTTP/1.1" 200 70100
+INFO 2025-11-13 10:54:42,360 basehttp "GET /static/tifinar/images/books/tamusni_turari.webp HTTP/1.1" 200 39394
+INFO 2025-11-13 10:54:42,361 basehttp "GET /static/tifinar/images/books/tirah.webp HTTP/1.1" 200 43768
+INFO 2025-11-13 10:54:42,409 basehttp "GET /static/tifinar/images/books/tifinagh.webp HTTP/1.1" 200 45344
+INFO 2025-11-13 10:54:42,426 basehttp "GET /static/tifinar/images/books/informatique9.webp HTTP/1.1" 200 27192
+INFO 2025-11-13 10:54:46,459 basehttp "GET /%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1%D8%A7%D8%AA HTTP/1.1" 301 0
+DEBUG 2025-11-13 10:54:46,484 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 10:54:46,490 utils (0.001) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 10:54:46,495 utils (0.004) SELECT `exams`.`exam_id`, `exams`.`title`, `exams`.`slug`, `exams`.`myimage`, `exams`.`keywords`, `exams`.`Mydescription`, `exams`.`Author`, `exams`.`the_type`, `exams`.`dir`, `exams`.`visibility_status`, `exams`.`updated_at`, `exams`.`created_at`, `exams`.`educational_level`, `exams`.`gender`, `exams`.`min_age`, `exams`.`max_age` FROM `exams` ORDER BY `exams`.`created_at` DESC; args=(); alias=default
+INFO 2025-11-13 10:54:46,530 basehttp "GET /%D8%A7%D8%AE%D8%AA%D8%A8%D8%A7%D8%B1%D8%A7%D8%AA/ HTTP/1.1" 200 21891
+WARNING 2025-11-13 10:54:46,619 basehttp "GET /static/tifinar/images/exams/image_nmwdj-alamthan-almwhd-alaqlymy-fy-madt-allght-alryadyat.jpg HTTP/1.1" 404 2072
+WARNING 2025-11-13 10:54:46,635 basehttp "GET /static/tifinar/images/exams/image_aalmthan-alwhdd-alwhly-aalsds-aalwl-alqsam-alsnt-alsadst-abtdayy.PNG HTTP/1.1" 404 2099
+WARNING 2025-11-13 10:54:46,636 basehttp "GET /static/tifinar/images/exams/image_nmwdj-alamthan-almwhd-alaqlymy-fy-madt-allght-alfrnsyt.png HTTP/1.1" 404 2069
+INFO 2025-11-13 10:54:46,736 basehttp "GET /static/tifinar/images/exams/exam_chimie.webp HTTP/1.1" 200 16372
+INFO 2025-11-13 10:54:46,738 basehttp "GET /static/tifinar/images/exams/nmothg-1-alfrd-alaol-fy-alfzyaaa-oalkmyaaa-aldor-alaol_1733833343.webp HTTP/1.1" 200 16372
+DEBUG 2025-11-13 10:54:49,756 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 10:54:49,768 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 10:54:49,773 utils (0.004) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` ORDER BY `cours`.`created_at` DESC; args=(); alias=default
+ERROR 2025-11-13 10:54:49,889 log Internal Server Error: /\u0642\u0648\u0627\u0645\u064a\u0633_\u0628\u0635\u0631\u064a\u0629/
+Traceback (most recent call last):
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\khalid\Documents\myproject\tifinar\views\content\content.py", line 159, in contents
+    return render(request, template_name, context)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\shortcuts.py", line 25, in render
+    content = loader.render_to_string(template_name, context, request, using=using)
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\loader.py", line 62, in render_to_string
+    return template.render(context, request)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\backends\django.py", line 107, in render
+    return self.template.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 171, in render
+    return self._render(context)
+           ~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 163, in _render
+    return self.nodelist.render(context)
+           ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 1016, in render
+    return SafeString("".join([node.render_annotated(context) for node in self]))
+                               ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\defaulttags.py", line 243, in render
+    nodelist.append(node.render_annotated(context))
+                    ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\base.py", line 977, in render_annotated
+    return self.render(context)
+           ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\khalid\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\template\defaulttags.py", line 231, in render
+    raise ValueError(
+    ...<3 lines>...
+    )
+ValueError: Need 2 values to unpack in for loop; got 1. 
+ERROR 2025-11-13 10:54:49,914 basehttp "GET /%D9%82%D9%88%D8%A7%D9%85%D9%8A%D8%B3_%D8%A8%D8%B5%D8%B1%D9%8A%D8%A9/ HTTP/1.1" 500 135965
+INFO 2025-11-13 11:00:06,157 autoreload C:\Users\khalid\Documents\myproject\tifinar\views\content\content.py changed, reloading.
+INFO 2025-11-13 11:00:12,839 autoreload Watching for file changes with StatReloader
+DEBUG 2025-11-13 11:00:26,274 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:00:26,297 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:00:26,302 utils (0.004) 
+            SELECT
+                table_name,
+                table_type,
+                table_comment
+            FROM information_schema.tables
+            WHERE table_schema = DATABASE()
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:00:26,340 utils (0.005) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default
+DEBUG 2025-11-13 11:00:26,538 utils (0.003) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:00:26,542 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:00:26,549 utils (0.007) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` ORDER BY `cours`.`created_at` DESC; args=(); alias=default
+INFO 2025-11-13 11:00:26,734 basehttp "GET /%D9%82%D9%88%D8%A7%D9%85%D9%8A%D8%B3_%D8%A8%D8%B5%D8%B1%D9%8A%D8%A9/ HTTP/1.1" 200 19589
+INFO 2025-11-13 11:00:26,822 basehttp "GET /static/tifinar/css/main.css HTTP/1.1" 304 0
+INFO 2025-11-13 11:00:26,992 basehttp "GET /static/tifinar/images/cours/animals.jpg HTTP/1.1" 304 0
+INFO 2025-11-13 11:00:26,997 basehttp "GET /static/tifinar/images/cours/les_couleurs_en_tamazight.png HTTP/1.1" 304 0
+INFO 2025-11-13 11:00:27,192 basehttp "GET /static/tifinar/images/cours/ecole.png HTTP/1.1" 304 0
+INFO 2025-11-13 11:00:27,195 basehttp "GET /static/tifinar/images/cours/jobs.png HTTP/1.1" 304 0
+INFO 2025-11-13 11:00:27,482 basehttp "GET /static/tifinar/images/cours/maison.png HTTP/1.1" 200 49648
+INFO 2025-11-13 11:00:33,241 basehttp "GET /cours/%D8%AA%D8%B9%D9%84%D9%85_%D8%A3%D8%B3%D9%85%D8%A7%D8%A1_%D8%A7%D9%84%D8%AD%D9%8A%D9%88%D8%A7%D9%86%D8%A7%D8%AA_%D8%A8%D8%A7%D9%84%D8%A3%D9%85%D8%A7%D8%B2%D9%8A%D8%BA%D9%8A%D8%A9 HTTP/1.1" 301 0
+DEBUG 2025-11-13 11:00:33,252 utils (0.003) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:00:33,256 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:00:34,471 utils (0.018) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 2 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(2, 'public'); alias=default
+INFO 2025-11-13 11:00:35,665 basehttp "GET /cours/%D8%AA%D8%B9%D9%84%D9%85_%D8%A3%D8%B3%D9%85%D8%A7%D8%A1_%D8%A7%D9%84%D8%AD%D9%8A%D9%88%D8%A7%D9%86%D8%A7%D8%AA_%D8%A8%D8%A7%D9%84%D8%A3%D9%85%D8%A7%D8%B2%D9%8A%D8%BA%D9%8A%D8%A9/ HTTP/1.1" 200 49540
+INFO 2025-11-13 11:00:35,873 basehttp "GET /static/tifinar/assets/pub1.webp HTTP/1.1" 304 0
+INFO 2025-11-13 11:00:35,925 basehttp "GET /static/tifinar/images/cours/alphabet_FR.jpg HTTP/1.1" 304 0
+INFO 2025-11-13 11:00:36,004 basehttp "GET /static/tifinar/images/cours/alphabet_EN.jpg HTTP/1.1" 200 10943
+INFO 2025-11-13 11:00:36,100 basehttp "GET /static/tifinar/images/cours/jobs_EN.jpg HTTP/1.1" 304 0
+INFO 2025-11-13 11:00:36,177 basehttp "GET /static/tifinar/images/cours/School_Vocabulary_in_English.png HTTP/1.1" 200 230601
+INFO 2025-11-13 11:00:36,252 basehttp "GET /static/tifinar/images/cours/Days_EN.jpg HTTP/1.1" 200 95128
+INFO 2025-11-13 11:00:36,354 basehttp "GET /static/tifinar/images/cours/animals/8.png HTTP/1.1" 200 7474
+INFO 2025-11-13 11:00:36,364 basehttp "GET /static/tifinar/images/cours/animals/4.png HTTP/1.1" 200 22453
+INFO 2025-11-13 11:00:36,384 basehttp "GET /static/tifinar/images/cours/animals/15.png HTTP/1.1" 200 38276
+INFO 2025-11-13 11:00:36,404 basehttp "GET /static/tifinar/images/cours/animals/10.png HTTP/1.1" 200 51347
+INFO 2025-11-13 11:00:36,477 basehttp "GET /static/tifinar/images/cours/animals/12.png HTTP/1.1" 200 60048
+INFO 2025-11-13 11:00:36,489 basehttp "GET /static/tifinar/images/cours/animals/17.png HTTP/1.1" 200 46886
+INFO 2025-11-13 11:00:36,500 basehttp "GET /static/tifinar/images/cours/animals/13.png HTTP/1.1" 200 44727
+INFO 2025-11-13 11:00:36,511 basehttp "GET /static/tifinar/images/cours/animals/3.png HTTP/1.1" 200 57646
+INFO 2025-11-13 11:00:36,526 basehttp "GET /static/tifinar/images/cours/animals/11.png HTTP/1.1" 200 43585
+INFO 2025-11-13 11:00:36,541 basehttp "GET /static/tifinar/images/cours/animals/1.png HTTP/1.1" 200 60777
+INFO 2025-11-13 11:00:36,591 basehttp "GET /static/tifinar/images/cours/animals/6.png HTTP/1.1" 200 6620
+INFO 2025-11-13 11:00:36,601 basehttp "GET /static/tifinar/images/cours/animals/16.png HTTP/1.1" 200 47338
+INFO 2025-11-13 11:00:36,612 basehttp "GET /static/tifinar/images/cours/animals/2.png HTTP/1.1" 200 31908
+INFO 2025-11-13 11:00:36,626 basehttp "GET /static/tifinar/images/cours/animals/14.png HTTP/1.1" 200 47084
+INFO 2025-11-13 11:00:36,636 basehttp "GET /static/tifinar/images/cours/animals/9.png HTTP/1.1" 200 66234
+INFO 2025-11-13 11:00:36,678 basehttp "GET /static/tifinar/images/cours/animals/7.png HTTP/1.1" 200 58330
+INFO 2025-11-13 11:00:36,707 basehttp "GET /static/tifinar/images/cours/animals/20.png HTTP/1.1" 200 28151
+INFO 2025-11-13 11:00:36,714 basehttp "GET /static/tifinar/images/cours/animals/19.png HTTP/1.1" 200 29960
+INFO 2025-11-13 11:00:36,775 basehttp "GET /static/tifinar/images/cours/animals/18.png HTTP/1.1" 200 40645
+INFO 2025-11-13 11:00:36,786 basehttp "GET /static/tifinar/images/cours/animals/5.png HTTP/1.1" 200 49271
+WARNING 2025-11-13 11:00:38,684 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:00:38,743 basehttp "GET /static/tifinar/images/cours/animals/5.mp3 HTTP/1.1" 200 34452
+WARNING 2025-11-13 11:00:42,084 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:00:42,146 basehttp "GET /static/tifinar/images/cours/animals/8.mp3 HTTP/1.1" 200 29232
+DEBUG 2025-11-13 11:00:53,791 utils (0.002) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:00:53,812 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:00:54,078 utils (0.001) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 2 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(2, 'public'); alias=default
+INFO 2025-11-13 11:00:54,154 basehttp "GET /cours/%D8%AA%D8%B9%D9%84%D9%85_%D8%A3%D8%B3%D9%85%D8%A7%D8%A1_%D8%A7%D9%84%D8%AD%D9%8A%D9%88%D8%A7%D9%86%D8%A7%D8%AA_%D8%A8%D8%A7%D9%84%D8%A3%D9%85%D8%A7%D8%B2%D9%8A%D8%BA%D9%8A%D8%A9/ HTTP/1.1" 200 49515
+INFO 2025-11-13 11:00:54,203 basehttp "GET /static/bootstrap-5.3.7-dist/css/bootstrap.min.css HTTP/1.1" 200 232023
+INFO 2025-11-13 11:00:54,208 basehttp "GET /static/icons-1.13.1/font/bootstrap-icons.css HTTP/1.1" 200 99556
+INFO 2025-11-13 11:00:54,215 basehttp "GET /static/tifinar/css/style-mobile.css HTTP/1.1" 200 7998
+INFO 2025-11-13 11:00:54,222 basehttp "GET /static/fontawesome/css/all.min.css HTTP/1.1" 200 73898
+INFO 2025-11-13 11:00:54,231 basehttp "GET /static/tifinar/css/main.css HTTP/1.1" 200 47003
+INFO 2025-11-13 11:00:54,244 basehttp "GET /static/tifinar/images/cours/Days_EN.jpg HTTP/1.1" 200 95128
+INFO 2025-11-13 11:00:54,256 basehttp "GET /static/tifinar/images/cours/les_couleurs_en_tamazight.png HTTP/1.1" 200 142271
+INFO 2025-11-13 11:00:54,258 basehttp "GET /static/tifinar/assets/hostinger.webp HTTP/1.1" 200 17388
+INFO 2025-11-13 11:00:54,292 basehttp "GET /static/tifinar/images/cours/School_Vocabulary_in_English.png HTTP/1.1" 200 230601
+INFO 2025-11-13 11:00:54,302 basehttp "GET /static/tifinar/assets/tifinar.webp HTTP/1.1" 200 9104
+INFO 2025-11-13 11:00:54,308 basehttp "GET /static/tifinar/images/cours/jobs.png HTTP/1.1" 200 38687
+INFO 2025-11-13 11:00:54,350 basehttp "GET /static/tifinar/images/cours/alphabet_FR.jpg HTTP/1.1" 200 10943
+INFO 2025-11-13 11:00:54,350 basehttp "GET /static/tifinar/assets/return-up.webp HTTP/1.1" 200 5830
+INFO 2025-11-13 11:00:54,430 basehttp "GET /static/tifinar/images/cours/les_animaux_FR.png HTTP/1.1" 200 1498836
+INFO 2025-11-13 11:00:54,510 basehttp "GET /static/tifinar/images/cours/animals/6.png HTTP/1.1" 200 6620
+INFO 2025-11-13 11:00:54,511 basehttp "GET /static/tifinar/images/cours/animals/4.png HTTP/1.1" 200 22453
+INFO 2025-11-13 11:00:54,511 basehttp "GET /static/tifinar/images/cours/animals/11.png HTTP/1.1" 200 43585
+INFO 2025-11-13 11:00:54,532 basehttp "GET /static/tifinar/images/cours/Colors_in_English.png HTTP/1.1" 200 483536
+INFO 2025-11-13 11:00:54,538 basehttp "GET /static/tifinar/images/cours/animals/14.png HTTP/1.1" 200 47084
+INFO 2025-11-13 11:00:54,581 basehttp "GET /static/tifinar/images/cours/animals/10.png HTTP/1.1" 200 51347
+INFO 2025-11-13 11:00:54,584 basehttp "GET /static/tifinar/assets/footer-background.webp HTTP/1.1" 200 383528
+INFO 2025-11-13 11:00:54,659 basehttp "GET /static/tifinar/assets/pub1.webp HTTP/1.1" 200 73790
+INFO 2025-11-13 11:00:54,722 basehttp "GET /static/tifinar/images/cours/animals/15.png HTTP/1.1" 200 38276
+INFO 2025-11-13 11:00:54,735 basehttp "GET /static/tifinar/images/cours/animals/3.png HTTP/1.1" 200 57646
+INFO 2025-11-13 11:00:54,740 basehttp "GET /static/tifinar/images/cours/animals/8.png HTTP/1.1" 200 7474
+INFO 2025-11-13 11:00:54,752 basehttp "GET /static/tifinar/images/cours/animals/16.png HTTP/1.1" 200 47338
+INFO 2025-11-13 11:00:54,760 basehttp "GET /static/tifinar/images/cours/animals/2.png HTTP/1.1" 200 31908
+INFO 2025-11-13 11:00:54,761 basehttp "GET /static/tifinar/images/cours/animals/12.png HTTP/1.1" 200 60048
+INFO 2025-11-13 11:00:54,775 basehttp "GET /static/tifinar/images/cours/animals/17.png HTTP/1.1" 200 46886
+INFO 2025-11-13 11:00:54,779 basehttp "GET /static/tifinar/images/cours/animals/5.png HTTP/1.1" 200 49271
+INFO 2025-11-13 11:00:54,874 basehttp "GET /static/fontawesome/webfonts/fa-solid-900.woff2 HTTP/1.1" 200 158220
+INFO 2025-11-13 11:00:54,923 basehttp "GET /static/tifinar/images/cours/animals/9.png HTTP/1.1" 200 66234
+INFO 2025-11-13 11:00:54,992 basehttp "GET /static/tifinar/images/cours/animals/1.png HTTP/1.1" 200 60777
+INFO 2025-11-13 11:00:55,018 basehttp "GET /static/tifinar/images/cours/animals/13.png HTTP/1.1" 200 44727
+INFO 2025-11-13 11:00:55,078 basehttp "GET /static/tifinar/images/cours/animals/20.png HTTP/1.1" 200 28151
+INFO 2025-11-13 11:00:55,082 basehttp "GET /static/tifinar/images/cours/animals/19.png HTTP/1.1" 200 29960
+INFO 2025-11-13 11:00:55,083 basehttp "GET /static/tifinar/images/cours/animals/18.png HTTP/1.1" 200 40645
+INFO 2025-11-13 11:00:55,086 basehttp "GET /static/tifinar/images/cours/animals/7.png HTTP/1.1" 200 58330
+INFO 2025-11-13 11:00:55,380 basehttp "GET /static/tifinar/assets/siteicon.ico HTTP/1.1" 200 9662
+WARNING 2025-11-13 11:00:56,342 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:00:56,431 basehttp "GET /static/tifinar/images/cours/animals/11.mp3 HTTP/1.1" 200 35496
+DEBUG 2025-11-13 11:01:49,049 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:01:49,056 utils (0.001) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:01:49,359 utils (0.001) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 2 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(2, 'public'); alias=default
+INFO 2025-11-13 11:01:49,583 basehttp "GET /cours/%D8%AA%D8%B9%D9%84%D9%85_%D8%A3%D8%B3%D9%85%D8%A7%D8%A1_%D8%A7%D9%84%D8%AD%D9%8A%D9%88%D8%A7%D9%86%D8%A7%D8%AA_%D8%A8%D8%A7%D9%84%D8%A3%D9%85%D8%A7%D8%B2%D9%8A%D8%BA%D9%8A%D8%A9/ HTTP/1.1" 200 49701
+INFO 2025-11-13 11:01:49,658 basehttp "GET /static/tifinar/images/cours/alphabet_EN.jpg HTTP/1.1" 200 10943
+INFO 2025-11-13 11:01:49,708 basehttp "GET /static/tifinar/images/cours/sports.png HTTP/1.1" 200 15611
+INFO 2025-11-13 11:01:49,730 basehttp "GET /static/tifinar/images/cours/les_shiffre_en_tamazight.png HTTP/1.1" 200 74698
+INFO 2025-11-13 11:01:49,820 basehttp "GET /static/tifinar/images/cours/Les_couleurs_en_francais.webp HTTP/1.1" 200 21734
+INFO 2025-11-13 11:01:49,894 basehttp "GET /static/tifinar/images/cours/Months.jpg HTTP/1.1" 200 150501
+WARNING 2025-11-13 11:01:51,533 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:01:51,580 basehttp "GET /static/tifinar/images/cours/animals/19.mp3 HTTP/1.1" 200 28188
+WARNING 2025-11-13 11:01:53,447 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:01:53,487 basehttp "GET /static/tifinar/images/cours/animals/13.mp3 HTTP/1.1" 200 35496
+WARNING 2025-11-13 11:01:55,205 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:01:55,278 basehttp "GET /static/tifinar/images/cours/animals/15.mp3 HTTP/1.1" 200 30276
+WARNING 2025-11-13 11:01:56,772 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:01:56,820 basehttp "GET /static/tifinar/images/cours/animals/9.mp3 HTTP/1.1" 200 38628
+INFO 2025-11-13 11:02:02,948 basehttp "GET /cours/%D8%A3%D8%B3%D9%85%D8%A7%D8%A1_%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6%D8%A7%D8%AA_%D8%A8%D8%A7%D9%84%D8%A3%D9%85%D8%A7%D8%B2%D9%8A%D8%BA%D9%8A%D8%A9 HTTP/1.1" 301 0
+WARNING 2025-11-13 11:02:02,965 basehttp "GET /static/tifinar/images/cours/animals/sports.mp3 HTTP/1.1" 404 1931
+DEBUG 2025-11-13 11:02:02,974 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:02:02,981 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:02:03,606 utils (0.002) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 10 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(10, 'public'); alias=default
+INFO 2025-11-13 11:02:03,705 basehttp "GET /cours/%D8%A3%D8%B3%D9%85%D8%A7%D8%A1_%D8%A7%D9%84%D8%B1%D9%8A%D8%A7%D8%B6%D8%A7%D8%AA_%D8%A8%D8%A7%D9%84%D8%A3%D9%85%D8%A7%D8%B2%D9%8A%D8%BA%D9%8A%D8%A9/ HTTP/1.1" 200 49795
+INFO 2025-11-13 11:02:03,756 basehttp "GET /static/tifinar/css/main.css HTTP/1.1" 304 0
+WARNING 2025-11-13 11:02:03,770 basehttp "GET /static/tifinar/images/cours/learn_numbers_in_english_0_to_20.webp HTTP/1.1" 404 1988
+INFO 2025-11-13 11:02:03,801 basehttp "GET /static/tifinar/images/cours/learn_tifinar.png HTTP/1.1" 200 71147
+INFO 2025-11-13 11:02:03,866 basehttp "GET /static/tifinar/images/cours/sports/20.png HTTP/1.1" 200 44495
+INFO 2025-11-13 11:02:03,893 basehttp "GET /static/tifinar/images/cours/sports/9.png HTTP/1.1" 200 16610
+INFO 2025-11-13 11:02:03,912 basehttp "GET /static/tifinar/images/cours/sports/2.png HTTP/1.1" 200 51644
+INFO 2025-11-13 11:02:03,930 basehttp "GET /static/tifinar/images/cours/sports/8.png HTTP/1.1" 200 45128
+INFO 2025-11-13 11:02:03,931 basehttp "GET /static/tifinar/images/cours/sports/12.png HTTP/1.1" 200 44626
+INFO 2025-11-13 11:02:03,966 basehttp "GET /static/tifinar/images/cours/sports/14.png HTTP/1.1" 200 44712
+INFO 2025-11-13 11:02:03,979 basehttp "GET /static/tifinar/images/cours/sports/3.png HTTP/1.1" 200 46020
+INFO 2025-11-13 11:02:03,998 basehttp "GET /static/tifinar/images/cours/sports/18.png HTTP/1.1" 200 61304
+INFO 2025-11-13 11:02:04,013 basehttp "GET /static/tifinar/images/cours/sports/19.png HTTP/1.1" 200 55813
+INFO 2025-11-13 11:02:04,015 basehttp "GET /static/tifinar/images/cours/sports/16.png HTTP/1.1" 200 50295
+INFO 2025-11-13 11:02:04,054 basehttp "GET /static/tifinar/images/cours/sports/1.png HTTP/1.1" 200 60473
+INFO 2025-11-13 11:02:04,055 basehttp "GET /static/tifinar/images/cours/sports/6.png HTTP/1.1" 200 26049
+INFO 2025-11-13 11:02:04,068 basehttp "GET /static/tifinar/images/cours/sports/13.png HTTP/1.1" 200 18755
+INFO 2025-11-13 11:02:04,071 basehttp "GET /static/tifinar/images/cours/sports/17.png HTTP/1.1" 200 61324
+INFO 2025-11-13 11:02:04,081 basehttp "GET /static/tifinar/images/cours/sports/7.png HTTP/1.1" 200 53552
+INFO 2025-11-13 11:02:04,120 basehttp "GET /static/tifinar/images/cours/sports/4.png HTTP/1.1" 200 55949
+INFO 2025-11-13 11:02:04,149 basehttp "GET /static/tifinar/images/cours/sports/15.png HTTP/1.1" 200 57546
+INFO 2025-11-13 11:02:04,167 basehttp "GET /static/tifinar/images/cours/sports/11.png HTTP/1.1" 200 44596
+INFO 2025-11-13 11:02:04,195 basehttp "GET /static/tifinar/images/cours/sports/10.png HTTP/1.1" 200 48786
+INFO 2025-11-13 11:02:04,215 basehttp "GET /static/tifinar/images/cours/sports/5.png HTTP/1.1" 200 55428
+WARNING 2025-11-13 11:02:05,628 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:02:05,695 basehttp "GET /static/tifinar/images/cours/sports/2.mp3 HTTP/1.1" 200 12121
+WARNING 2025-11-13 11:02:09,079 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:02:09,123 basehttp "GET /static/tifinar/images/cours/sports/14.mp3 HTTP/1.1" 200 6687
+WARNING 2025-11-13 11:02:10,673 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:02:10,716 basehttp "GET /static/tifinar/images/cours/sports/16.mp3 HTTP/1.1" 200 12330
+WARNING 2025-11-13 11:02:13,275 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:02:13,306 basehttp "GET /static/tifinar/images/cours/sports/20.mp3 HTTP/1.1" 200 14002
+INFO 2025-11-13 11:02:19,993 basehttp "GET /cours/learn_numbers_in_english_0_to_20 HTTP/1.1" 301 0
+DEBUG 2025-11-13 11:02:20,003 utils (0.003) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:02:20,008 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:02:20,010 utils (0.002) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE `cours`.`slug` = 'learn_numbers_in_english_0_to_20' LIMIT 21; args=('learn_numbers_in_english_0_to_20',); alias=default
+DEBUG 2025-11-13 11:02:20,015 utils (0.001) None; args=('127.0.0.1', 'Learn Numbers in English (0 to 20)'); alias=default
+DEBUG 2025-11-13 11:02:20,021 utils (0.001) None; args=('Learn Numbers in English (0 to 20)',); alias=default
+DEBUG 2025-11-13 11:02:20,024 utils (0.001) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE (`comments`.`page_title` = 'Learn Numbers in English (0 to 20)' AND `comments`.`visibility_status` = 'public') ORDER BY `comments`.`created_at` DESC; args=('Learn Numbers in English (0 to 20)', 'public'); alias=default
+DEBUG 2025-11-13 11:02:20,028 utils (0.002) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 38 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(38, 'public'); alias=default
+INFO 2025-11-13 11:02:20,172 basehttp "GET /cours/learn_numbers_in_english_0_to_20/ HTTP/1.1" 200 44017
+INFO 2025-11-13 11:02:20,241 basehttp "GET /static/tifinar/images/cours/ecole.png HTTP/1.1" 200 154508
+WARNING 2025-11-13 11:02:20,280 basehttp "GET /static/tifinar/images/cours/learn_numbers_in_english_0_to_20.webp HTTP/1.1" 404 1988
+INFO 2025-11-13 11:02:20,292 basehttp "GET /static/tifinar/images/cours/job_FR.png HTTP/1.1" 200 533993
+INFO 2025-11-13 11:02:24,515 basehttp "GET /cours/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA_%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9_%D8%A8%D8%A7%D9%84%D8%A3%D9%85%D8%A7%D8%B2%D9%8A%D8%BA%D9%8A%D8%A9 HTTP/1.1" 301 0
+DEBUG 2025-11-13 11:02:24,528 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:02:24,540 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:02:24,841 utils (0.003) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 5 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(5, 'public'); alias=default
+INFO 2025-11-13 11:02:24,981 basehttp "GET /cours/%D8%A7%D9%84%D8%A3%D8%AF%D9%88%D8%A7%D8%AA_%D8%A7%D9%84%D9%85%D8%AF%D8%B1%D8%B3%D9%8A%D8%A9_%D8%A8%D8%A7%D9%84%D8%A3%D9%85%D8%A7%D8%B2%D9%8A%D8%BA%D9%8A%D8%A9/ HTTP/1.1" 200 49540
+INFO 2025-11-13 11:02:25,026 basehttp "GET /static/tifinar/images/cours/maison.png HTTP/1.1" 200 49648
+WARNING 2025-11-13 11:02:25,070 basehttp "GET /static/tifinar/images/cours/ecole/16.png HTTP/1.1" 404 1913
+INFO 2025-11-13 11:02:25,079 basehttp "GET /static/tifinar/images/cours/jours_tamazight.png HTTP/1.1" 200 230241
+WARNING 2025-11-13 11:02:25,104 basehttp "GET /static/tifinar/images/cours/ecole/4.png HTTP/1.1" 404 1910
+WARNING 2025-11-13 11:02:25,128 basehttp "GET /static/tifinar/images/cours/ecole/19.png HTTP/1.1" 404 1913
+WARNING 2025-11-13 11:02:25,148 basehttp "GET /static/tifinar/images/cours/ecole/18.png HTTP/1.1" 404 1913
+WARNING 2025-11-13 11:02:25,165 basehttp "GET /static/tifinar/images/cours/ecole/17.png HTTP/1.1" 404 1913
+WARNING 2025-11-13 11:02:25,191 basehttp "GET /static/tifinar/images/cours/ecole/5.png HTTP/1.1" 404 1910
+WARNING 2025-11-13 11:02:25,238 basehttp "GET /static/tifinar/images/cours/ecole/9.png HTTP/1.1" 404 1910
+WARNING 2025-11-13 11:02:25,240 basehttp "GET /static/tifinar/images/cours/ecole/12.png HTTP/1.1" 404 1913
+WARNING 2025-11-13 11:02:25,279 basehttp "GET /static/tifinar/images/cours/ecole/1.png HTTP/1.1" 404 1910
+WARNING 2025-11-13 11:02:25,311 basehttp "GET /static/tifinar/images/cours/ecole/13.png HTTP/1.1" 404 1913
+WARNING 2025-11-13 11:02:25,330 basehttp "GET /static/tifinar/images/cours/ecole/14.png HTTP/1.1" 404 1913
+WARNING 2025-11-13 11:02:25,375 basehttp "GET /static/tifinar/images/cours/ecole/2.png HTTP/1.1" 404 1910
+WARNING 2025-11-13 11:02:25,409 basehttp "GET /static/tifinar/images/cours/ecole/11.png HTTP/1.1" 404 1913
+WARNING 2025-11-13 11:02:25,411 basehttp "GET /static/tifinar/images/cours/ecole/7.png HTTP/1.1" 404 1910
+WARNING 2025-11-13 11:02:25,431 basehttp "GET /static/tifinar/images/cours/ecole/15.png HTTP/1.1" 404 1913
+WARNING 2025-11-13 11:02:25,456 basehttp "GET /static/tifinar/images/cours/ecole/3.png HTTP/1.1" 404 1910
+WARNING 2025-11-13 11:02:25,482 basehttp "GET /static/tifinar/images/cours/ecole/10.png HTTP/1.1" 404 1913
+WARNING 2025-11-13 11:02:25,484 basehttp "GET /static/tifinar/images/cours/ecole/20.png HTTP/1.1" 404 1913
+WARNING 2025-11-13 11:02:25,506 basehttp "GET /static/tifinar/images/cours/ecole/6.png HTTP/1.1" 404 1910
+WARNING 2025-11-13 11:02:25,527 basehttp "GET /static/tifinar/images/cours/ecole/8.png HTTP/1.1" 404 1910
+INFO 2025-11-13 11:02:27,468 basehttp "GET /cours/%D8%A7%D9%84%D8%AD%D8%B1%D9%81_%D9%88%D8%A7%D9%84%D9%85%D9%87%D9%86_%D8%A8%D8%A7%D9%84%D8%A3%D9%85%D8%A7%D8%B2%D9%8A%D8%BA%D9%8A%D8%A9 HTTP/1.1" 301 0
+WARNING 2025-11-13 11:02:27,489 basehttp "GET /static/tifinar/images/cours/ecole/jobs.mp3 HTTP/1.1" 404 1919
+DEBUG 2025-11-13 11:02:27,491 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:02:27,494 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:02:27,743 utils (0.001) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 6 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(6, 'public'); alias=default
+INFO 2025-11-13 11:02:27,854 basehttp "GET /cours/%D8%A7%D9%84%D8%AD%D8%B1%D9%81_%D9%88%D8%A7%D9%84%D9%85%D9%87%D9%86_%D8%A8%D8%A7%D9%84%D8%A3%D9%85%D8%A7%D8%B2%D9%8A%D8%BA%D9%8A%D8%A9/ HTTP/1.1" 200 49032
+INFO 2025-11-13 11:02:27,915 basehttp "GET /static/tifinar/images/cours/animals.jpg HTTP/1.1" 200 15378
+INFO 2025-11-13 11:02:27,945 basehttp "GET /static/tifinar/images/cours/jobs/13.png HTTP/1.1" 200 14845
+INFO 2025-11-13 11:02:27,992 basehttp "GET /static/tifinar/images/cours/Les%20mois%20de%20l_annee%20en%20francais.webp HTTP/1.1" 200 140438
+INFO 2025-11-13 11:02:27,997 basehttp "GET /static/tifinar/images/cours/animals_EN.jpg HTTP/1.1" 200 15378
+INFO 2025-11-13 11:02:28,013 basehttp "GET /static/tifinar/images/cours/jobs/18.png HTTP/1.1" 200 38957
+INFO 2025-11-13 11:02:28,026 basehttp "GET /static/tifinar/images/cours/jobs/17.png HTTP/1.1" 200 38687
+INFO 2025-11-13 11:02:28,030 basehttp "GET /static/tifinar/images/cours/jobs/6.png HTTP/1.1" 200 20677
+INFO 2025-11-13 11:02:28,046 basehttp "GET /static/tifinar/images/cours/jobs/4.png HTTP/1.1" 200 39025
+INFO 2025-11-13 11:02:28,060 basehttp "GET /static/tifinar/images/cours/jobs/10.png HTTP/1.1" 200 16494
+INFO 2025-11-13 11:02:28,061 basehttp "GET /static/tifinar/images/cours/jobs/5.png HTTP/1.1" 200 14362
+INFO 2025-11-13 11:02:28,076 basehttp "GET /static/tifinar/images/cours/jobs/12.png HTTP/1.1" 200 15705
+INFO 2025-11-13 11:02:28,085 basehttp "GET /static/tifinar/images/cours/jobs/16.png HTTP/1.1" 200 37080
+INFO 2025-11-13 11:02:28,104 basehttp "GET /static/tifinar/images/cours/jobs/2.png HTTP/1.1" 200 41998
+INFO 2025-11-13 11:02:28,110 basehttp "GET /static/tifinar/images/cours/jobs/14.png HTTP/1.1" 200 28450
+INFO 2025-11-13 11:02:28,112 basehttp "GET /static/tifinar/images/cours/jobs/1.png HTTP/1.1" 200 19768
+INFO 2025-11-13 11:02:28,126 basehttp "GET /static/tifinar/images/cours/jobs/11.png HTTP/1.1" 200 14406
+INFO 2025-11-13 11:02:28,145 basehttp "GET /static/tifinar/images/cours/jobs/7.png HTTP/1.1" 200 29736
+INFO 2025-11-13 11:02:28,152 basehttp "GET /static/tifinar/images/cours/jobs/8.png HTTP/1.1" 200 31166
+INFO 2025-11-13 11:02:28,161 basehttp "GET /static/tifinar/images/cours/jobs/15.png HTTP/1.1" 200 17054
+INFO 2025-11-13 11:02:28,168 basehttp "GET /static/tifinar/images/cours/jobs/3.png HTTP/1.1" 200 33270
+INFO 2025-11-13 11:02:28,184 basehttp "GET /static/tifinar/images/cours/jobs/9.png HTTP/1.1" 200 32393
+WARNING 2025-11-13 11:02:29,683 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:02:29,707 basehttp "GET /static/tifinar/images/cours/jobs/6.mp3 HTTP/1.1" 200 6478
+INFO 2025-11-13 11:02:35,149 basehttp "GET /cours/Les_mois_de_lann%C3%A9e_en_fran%C3%A7ais__simple_et_amusant_ HTTP/1.1" 301 0
+WARNING 2025-11-13 11:02:35,165 basehttp "GET /static/tifinar/images/cours/jobs/Les%20mois%20de%20l_annee%20en%20francais.mp3 HTTP/1.1" 404 2007
+DEBUG 2025-11-13 11:02:35,171 utils (0.003) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:02:35,174 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:02:35,204 utils (0.030) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE `cours`.`slug` = 'Les_mois_de_lannée_en_français__simple_et_amusant_' LIMIT 21; args=('Les_mois_de_lannée_en_français__simple_et_amusant_',); alias=default
+DEBUG 2025-11-13 11:02:35,209 utils (0.001) None; args=('127.0.0.1', "Les mois de l'année en français : simple et amusant !"); alias=default
+DEBUG 2025-11-13 11:02:35,211 utils (0.001) None; args=("Les mois de l'année en français : simple et amusant !",); alias=default
+DEBUG 2025-11-13 11:02:35,215 utils (0.001) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE (`comments`.`page_title` = 'Les mois de l\'année en français : simple et amusant !' AND `comments`.`visibility_status` = 'public') ORDER BY `comments`.`created_at` DESC; args=("Les mois de l'année en français : simple et amusant !", 'public'); alias=default
+DEBUG 2025-11-13 11:02:35,223 utils (0.002) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 25 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(25, 'public'); alias=default
+INFO 2025-11-13 11:02:35,611 basehttp "GET /cours/Les_mois_de_lann%C3%A9e_en_fran%C3%A7ais__simple_et_amusant_/ HTTP/1.1" 200 44039
+INFO 2025-11-13 11:02:35,710 basehttp "GET /static/tifinar/images/cours/season_Fr.png HTTP/1.1" 200 317149
+INFO 2025-11-13 11:02:35,724 basehttp "GET /static/tifinar/images/cours/saisons.png HTTP/1.1" 200 56263
+INFO 2025-11-13 11:02:35,747 basehttp "GET /static/tifinar/images/cours/sports_EN.png HTTP/1.1" 200 15611
+INFO 2025-11-13 11:02:37,540 basehttp "GET /cours/D%C3%A9couvrez_les_Saisons_en_Fran%C3%A7ais_avec_des_Images_Interactives HTTP/1.1" 301 0
+DEBUG 2025-11-13 11:02:37,552 utils (0.002) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:02:37,573 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:02:37,581 utils (0.005) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE `cours`.`slug` = 'Découvrez_les_Saisons_en_Français_avec_des_Images_Interactives' LIMIT 21; args=('Découvrez_les_Saisons_en_Français_avec_des_Images_Interactives',); alias=default
+DEBUG 2025-11-13 11:02:37,587 utils (0.001) None; args=('127.0.0.1', 'Découvrez les Saisons en Français avec des Images Interactives'); alias=default
+DEBUG 2025-11-13 11:02:37,590 utils (0.001) None; args=('Découvrez les Saisons en Français avec des Images Interactives',); alias=default
+DEBUG 2025-11-13 11:02:37,593 utils (0.001) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE (`comments`.`page_title` = 'Découvrez les Saisons en Français avec des Images Interactives' AND `comments`.`visibility_status` = 'public') ORDER BY `comments`.`created_at` DESC; args=('Découvrez les Saisons en Français avec des Images Interactives', 'public'); alias=default
+DEBUG 2025-11-13 11:02:37,600 utils (0.004) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 26 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(26, 'public'); alias=default
+INFO 2025-11-13 11:02:37,754 basehttp "GET /cours/D%C3%A9couvrez_les_Saisons_en_Fran%C3%A7ais_avec_des_Images_Interactives/ HTTP/1.1" 200 44956
+WARNING 2025-11-13 11:02:37,807 basehttp "GET /static/tifinar/images/cours/learn_numbers_in_english_0_to_20.webp HTTP/1.1" 404 1988
+INFO 2025-11-13 11:02:37,821 basehttp "GET /static/tifinar/images/cours/Apprenons_les_chiffres_en_francais.jpg HTTP/1.1" 200 86317
+INFO 2025-11-13 11:02:37,904 basehttp "GET /static/tifinar/images/cours/saison_Fr/hiver.webp HTTP/1.1" 200 46554
+INFO 2025-11-13 11:02:37,917 basehttp "GET /static/tifinar/images/cours/ecole_FR.webp HTTP/1.1" 200 29142
+INFO 2025-11-13 11:02:37,956 basehttp "GET /static/tifinar/images/cours/saison_Fr/%C3%A9t%C3%A9.webp HTTP/1.1" 200 40848
+INFO 2025-11-13 11:02:37,961 basehttp "GET /static/tifinar/images/cours/saison_Fr/printemps.webp HTTP/1.1" 200 62556
+INFO 2025-11-13 11:02:38,025 basehttp "GET /static/tifinar/images/cours/saison_Fr/automne.webp HTTP/1.1" 200 46168
+WARNING 2025-11-13 11:02:39,269 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:02:39,316 basehttp "GET /static/tifinar/images/cours/saison_Fr/hiver.mp3 HTTP/1.1" 200 11596
+WARNING 2025-11-13 11:02:42,469 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:02:42,484 basehttp "GET /static/tifinar/images/cours/saison_Fr/automne.mp3 HTTP/1.1" 200 12484
+WARNING 2025-11-13 11:02:44,233 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:02:44,278 basehttp "GET /static/tifinar/images/cours/saison_Fr/printemps.mp3 HTTP/1.1" 200 14428
+DEBUG 2025-11-13 11:02:52,951 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:02:52,956 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:02:52,958 utils (0.001) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE `cours`.`slug` = 'learn_numbers_in_english_0_to_20' LIMIT 21; args=('learn_numbers_in_english_0_to_20',); alias=default
+DEBUG 2025-11-13 11:02:52,967 utils (0.002) None; args=('127.0.0.1', 'Learn Numbers in English (0 to 20)'); alias=default
+DEBUG 2025-11-13 11:02:52,970 utils (0.001) None; args=('Learn Numbers in English (0 to 20)',); alias=default
+DEBUG 2025-11-13 11:02:52,973 utils (0.001) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE (`comments`.`page_title` = 'Learn Numbers in English (0 to 20)' AND `comments`.`visibility_status` = 'public') ORDER BY `comments`.`created_at` DESC; args=('Learn Numbers in English (0 to 20)', 'public'); alias=default
+DEBUG 2025-11-13 11:02:52,979 utils (0.003) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 38 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(38, 'public'); alias=default
+INFO 2025-11-13 11:02:53,098 basehttp "GET /cours/learn_numbers_in_english_0_to_20/ HTTP/1.1" 200 44243
+WARNING 2025-11-13 11:02:53,200 basehttp "GET /static/tifinar/images/cours/learn_numbers_in_english_0_to_20.webp HTTP/1.1" 404 1988
+WARNING 2025-11-13 11:02:56,906 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-11-13 11:02:56,925 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 12379
+INFO 2025-11-13 11:02:57,341 basehttp "GET /static/bootstrap-5.3.7-dist/css/bootstrap.min.css.map HTTP/1.1" 200 589698
+DEBUG 2025-11-13 11:06:08,163 utils (0.002) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:06:08,166 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:06:08,168 utils (0.002) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE `cours`.`slug` = 'learn_numbers_in_english_0_to_20' LIMIT 21; args=('learn_numbers_in_english_0_to_20',); alias=default
+DEBUG 2025-11-13 11:06:08,173 utils (0.001) None; args=('127.0.0.1', 'Learn Numbers in English (0 to 20)'); alias=default
+DEBUG 2025-11-13 11:06:08,178 utils (0.003) None; args=('Learn Numbers in English (0 to 20)',); alias=default
+DEBUG 2025-11-13 11:06:08,183 utils (0.002) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE (`comments`.`page_title` = 'Learn Numbers in English (0 to 20)' AND `comments`.`visibility_status` = 'public') ORDER BY `comments`.`created_at` DESC; args=('Learn Numbers in English (0 to 20)', 'public'); alias=default
+DEBUG 2025-11-13 11:06:08,190 utils (0.002) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 38 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(38, 'public'); alias=default
+INFO 2025-11-13 11:06:08,294 basehttp "GET /cours/learn_numbers_in_english_0_to_20/ HTTP/1.1" 200 44164
+INFO 2025-11-13 11:06:08,354 basehttp "GET /static/tifinar/css/main.css HTTP/1.1" 304 0
+WARNING 2025-11-13 11:06:08,381 log Not Found: /.well-known/appspecific/com.chrome.devtools.json
+WARNING 2025-11-13 11:06:08,382 basehttp "GET /.well-known/appspecific/com.chrome.devtools.json HTTP/1.1" 404 12379
+INFO 2025-11-13 11:06:08,714 basehttp "GET /static/tifinar/images/cours/learn_numbers_in_english_0_to_20_4726.webp HTTP/1.1" 200 83282
+INFO 2025-11-13 11:06:17,710 basehttp "GET /static/tifinar/images/cours/Numbers_in_English/three.gif HTTP/1.1" 200 1230683
+INFO 2025-11-13 11:06:17,728 basehttp "GET /static/tifinar/images/cours/Numbers_in_English/3.mp3 HTTP/1.1" 200 12696
+INFO 2025-11-13 11:06:20,574 basehttp "GET /static/tifinar/images/cours/Numbers_in_English/10.mp3 HTTP/1.1" 200 11400
+INFO 2025-11-13 11:06:20,657 basehttp "GET /static/tifinar/images/cours/Numbers_in_English/ten.gif HTTP/1.1" 200 1171839
+INFO 2025-11-13 11:06:23,052 basehttp "GET /cours/Learn_the_English_Alphabet HTTP/1.1" 301 0
+DEBUG 2025-11-13 11:06:23,060 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:06:23,062 utils (0.001) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:06:23,066 utils (0.003) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE `cours`.`slug` = 'Learn_the_English_Alphabet' LIMIT 21; args=('Learn_the_English_Alphabet',); alias=default
+DEBUG 2025-11-13 11:06:23,073 utils (0.001) None; args=('127.0.0.1', 'Learn the English Alphabet in a Fun and Interactive Way'); alias=default
+DEBUG 2025-11-13 11:06:23,077 utils (0.001) None; args=('Learn the English Alphabet in a Fun and Interactive Way',); alias=default
+DEBUG 2025-11-13 11:06:23,080 utils (0.002) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE (`comments`.`page_title` = 'Learn the English Alphabet in a Fun and Interactive Way' AND `comments`.`visibility_status` = 'public') ORDER BY `comments`.`created_at` DESC; args=('Learn the English Alphabet in a Fun and Interactive Way', 'public'); alias=default
+DEBUG 2025-11-13 11:06:23,090 utils (0.002) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 40 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(40, 'public'); alias=default
+INFO 2025-11-13 11:06:23,361 basehttp "GET /cours/Learn_the_English_Alphabet/ HTTP/1.1" 200 43889
+INFO 2025-11-13 11:06:26,795 basehttp "GET /static/tifinar/images/cours/Alphabets_EN/E.gif HTTP/1.1" 200 139677
+INFO 2025-11-13 11:06:26,840 basehttp "GET /static/tifinar/images/cours/Alphabets_EN/4.mp3 HTTP/1.1" 200 10200
+DEBUG 2025-11-13 11:06:31,679 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:06:31,687 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:06:31,912 utils (0.002) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 6 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(6, 'public'); alias=default
+INFO 2025-11-13 11:06:32,017 basehttp "GET /cours/%D8%A7%D9%84%D8%AD%D8%B1%D9%81_%D9%88%D8%A7%D9%84%D9%85%D9%87%D9%86_%D8%A8%D8%A7%D9%84%D8%A3%D9%85%D8%A7%D8%B2%D9%8A%D8%BA%D9%8A%D8%A9/ HTTP/1.1" 200 49072
+INFO 2025-11-13 11:06:32,111 basehttp "GET /static/tifinar/images/cours/sport_img.jpg HTTP/1.1" 200 112790
+WARNING 2025-11-13 11:06:33,648 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:06:33,700 basehttp "GET /static/tifinar/images/cours/jobs/5.mp3 HTTP/1.1" 200 8777
+INFO 2025-11-13 11:06:37,734 basehttp "GET /cours/%D8%A7%D9%84%D9%85%D9%86%D8%B2%D9%84_%D9%88%D8%A3%D8%AB%D8%A7%D8%AB%D9%87_%D8%A8%D8%A7%D9%84%D8%A3%D9%85%D8%A7%D8%B2%D9%8A%D8%BA%D9%8A%D8%A9 HTTP/1.1" 301 0
+WARNING 2025-11-13 11:06:37,744 basehttp "GET /static/tifinar/images/cours/jobs/maison.mp3 HTTP/1.1" 404 1922
+DEBUG 2025-11-13 11:06:37,753 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:06:37,756 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:06:37,997 utils (0.002) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 4 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(4, 'public'); alias=default
+INFO 2025-11-13 11:06:38,156 basehttp "GET /cours/%D8%A7%D9%84%D9%85%D9%86%D8%B2%D9%84_%D9%88%D8%A3%D8%AB%D8%A7%D8%AB%D9%87_%D8%A8%D8%A7%D9%84%D8%A3%D9%85%D8%A7%D8%B2%D9%8A%D8%BA%D9%8A%D8%A9/ HTTP/1.1" 200 49825
+INFO 2025-11-13 11:06:38,265 basehttp "GET /static/tifinar/images/cours/maison/14.png HTTP/1.1" 200 19752
+INFO 2025-11-13 11:06:38,287 basehttp "GET /static/tifinar/images/cours/maison/10.png HTTP/1.1" 200 45005
+INFO 2025-11-13 11:06:38,320 basehttp "GET /static/tifinar/images/cours/maison/1.png HTTP/1.1" 200 49681
+INFO 2025-11-13 11:06:38,323 basehttp "GET /static/tifinar/images/cours/maison/8.png HTTP/1.1" 200 47687
+INFO 2025-11-13 11:06:38,337 basehttp "GET /static/tifinar/images/cours/maison/9.png HTTP/1.1" 200 54095
+INFO 2025-11-13 11:06:38,343 basehttp "GET /static/tifinar/images/cours/maison/17.png HTTP/1.1" 200 35957
+INFO 2025-11-13 11:06:38,356 basehttp "GET /static/tifinar/images/cours/maison/7.png HTTP/1.1" 200 37399
+INFO 2025-11-13 11:06:38,371 basehttp "GET /static/tifinar/images/cours/maison/16.png HTTP/1.1" 200 17769
+INFO 2025-11-13 11:06:38,400 basehttp "GET /static/tifinar/images/cours/maison/18.png HTTP/1.1" 200 27633
+INFO 2025-11-13 11:06:38,406 basehttp "GET /static/tifinar/images/cours/maison/3.png HTTP/1.1" 200 50967
+INFO 2025-11-13 11:06:38,409 basehttp "GET /static/tifinar/images/cours/maison/6.png HTTP/1.1" 200 50948
+INFO 2025-11-13 11:06:38,423 basehttp "GET /static/tifinar/images/cours/maison/11.png HTTP/1.1" 200 38979
+INFO 2025-11-13 11:06:38,435 basehttp "GET /static/tifinar/images/cours/maison/4.png HTTP/1.1" 200 54708
+INFO 2025-11-13 11:06:38,448 basehttp "GET /static/tifinar/images/cours/maison/13.png HTTP/1.1" 200 18315
+INFO 2025-11-13 11:06:38,527 basehttp "GET /static/tifinar/images/cours/maison/5.png HTTP/1.1" 200 16677
+INFO 2025-11-13 11:06:38,537 basehttp "GET /static/tifinar/images/cours/maison/20.png HTTP/1.1" 200 46490
+INFO 2025-11-13 11:06:38,548 basehttp "GET /static/tifinar/images/cours/maison/2.png HTTP/1.1" 200 53367
+INFO 2025-11-13 11:06:38,568 basehttp "GET /static/tifinar/images/cours/maison/12.png HTTP/1.1" 200 35770
+INFO 2025-11-13 11:06:38,584 basehttp "GET /static/tifinar/images/cours/maison/15.png HTTP/1.1" 200 11419
+INFO 2025-11-13 11:06:38,602 basehttp "GET /static/tifinar/images/cours/maison/19.png HTTP/1.1" 200 26328
+WARNING 2025-11-13 11:06:39,872 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:06:39,922 basehttp "GET /static/tifinar/images/cours/maison/9.mp3 HTTP/1.1" 200 4598
+WARNING 2025-11-13 11:06:49,930 basehttp "GET /static/tifinar/images/cours/maison/17.mp3 HTTP/1.1" 404 1916
+WARNING 2025-11-13 11:06:49,930 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:07:02,232 basehttp "GET /cours/Apprenez_les_Noms_des_Animaux_en_Fran%C3%A7ais HTTP/1.1" 301 0
+WARNING 2025-11-13 11:07:02,241 basehttp "GET /static/tifinar/images/cours/maison/les_animaux_FR.mp3 HTTP/1.1" 404 1952
+DEBUG 2025-11-13 11:07:02,250 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:07:02,254 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:07:02,258 utils (0.004) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE `cours`.`slug` = 'Apprenez_les_Noms_des_Animaux_en_Français' LIMIT 21; args=('Apprenez_les_Noms_des_Animaux_en_Français',); alias=default
+DEBUG 2025-11-13 11:07:02,266 utils (0.001) None; args=('127.0.0.1', 'Apprenez les Noms des Animaux en Français'); alias=default
+DEBUG 2025-11-13 11:07:02,269 utils (0.001) None; args=('Apprenez les Noms des Animaux en Français',); alias=default
+DEBUG 2025-11-13 11:07:02,273 utils (0.002) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE (`comments`.`page_title` = 'Apprenez les Noms des Animaux en Français' AND `comments`.`visibility_status` = 'public') ORDER BY `comments`.`created_at` DESC; args=('Apprenez les Noms des Animaux en Français', 'public'); alias=default
+DEBUG 2025-11-13 11:07:02,286 utils (0.005) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`email` = 'sirinebellihi@gmail.com' ORDER BY `auth_user`.`id` ASC LIMIT 1; args=('sirinebellihi@gmail.com',); alias=default
+DEBUG 2025-11-13 11:07:02,298 utils (0.006) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`email` = 'sirinebellihi@gmail.com' ORDER BY `auth_user`.`id` ASC LIMIT 1; args=('sirinebellihi@gmail.com',); alias=default
+DEBUG 2025-11-13 11:07:02,311 utils (0.005) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`email` = 'sirinebellihi@gmail.com' ORDER BY `auth_user`.`id` ASC LIMIT 1; args=('sirinebellihi@gmail.com',); alias=default
+DEBUG 2025-11-13 11:07:02,320 utils (0.003) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 34 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(34, 'public'); alias=default
+INFO 2025-11-13 11:07:02,449 basehttp "GET /cours/Apprenez_les_Noms_des_Animaux_en_Fran%C3%A7ais/ HTTP/1.1" 200 48784
+INFO 2025-11-13 11:07:02,588 basehttp "GET /static/tifinar/images/cours/animals_FR/Croco.png HTTP/1.1" 200 66234
+INFO 2025-11-13 11:07:02,637 basehttp "GET /static/tifinar/images/cours/animals_FR/Paon.png HTTP/1.1" 200 40645
+INFO 2025-11-13 11:07:02,687 basehttp "GET /static/tifinar/images/cours/animals_FR/Ours.png HTTP/1.1" 200 58330
+INFO 2025-11-13 11:07:02,691 basehttp "GET /static/tifinar/images/cours/animals_FR/Lion.png HTTP/1.1" 200 29960
+INFO 2025-11-13 11:07:02,692 basehttp "GET /static/tifinar/images/cours/animals_FR/Grenouille.png HTTP/1.1" 200 47084
+INFO 2025-11-13 11:07:02,698 basehttp "GET /static/tifinar/images/cours/animals_FR/Chien.png HTTP/1.1" 200 7474
+INFO 2025-11-13 11:07:02,708 basehttp "GET /static/tifinar/images/cours/animals_FR/Requin.png HTTP/1.1" 200 28151
+INFO 2025-11-13 11:07:02,719 basehttp "GET /static/tifinar/images/cours/animals_FR/Cheval.png HTTP/1.1" 200 49271
+INFO 2025-11-13 11:07:02,739 basehttp "GET /static/tifinar/images/cours/animals_FR/Ane.png HTTP/1.1" 200 31908
+INFO 2025-11-13 11:07:02,744 basehttp "GET /static/tifinar/images/cours/animals_FR/La_vache.png HTTP/1.1" 200 22453
+INFO 2025-11-13 11:07:02,745 basehttp "GET /static/tifinar/images/cours/animals_FR/Scorpion.png HTTP/1.1" 200 60048
+INFO 2025-11-13 11:07:02,758 basehttp "GET /static/tifinar/images/cours/animals_FR/Girafe.png HTTP/1.1" 200 47338
+INFO 2025-11-13 11:07:02,776 basehttp "GET /static/tifinar/images/cours/animals_FR/Pieuvre.png HTTP/1.1" 200 46886
+INFO 2025-11-13 11:07:02,797 basehttp "GET /static/tifinar/images/cours/animals_FR/Lezard.png HTTP/1.1" 200 44727
+INFO 2025-11-13 11:07:02,834 basehttp "GET /static/tifinar/images/cours/animals_FR/Autruche.png HTTP/1.1" 200 6620
+WARNING 2025-11-13 11:07:04,291 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:07:04,338 basehttp "GET /static/tifinar/images/cours/animals_FR/Croco.mp3 HTTP/1.1" 200 15316
+WARNING 2025-11-13 11:07:08,856 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:07:08,896 basehttp "GET /static/tifinar/images/cours/animals_FR/Grenouille.mp3 HTTP/1.1" 200 15316
+WARNING 2025-11-13 11:07:16,285 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:07:16,329 basehttp "GET /static/tifinar/images/cours/animals_FR/Lion.mp3 HTTP/1.1" 200 9676
+DEBUG 2025-11-13 11:08:12,996 utils (0.003) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:08:13,000 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:08:13,002 utils (0.002) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE `cours`.`slug` = 'Apprenez_les_Noms_des_Animaux_en_Français' LIMIT 21; args=('Apprenez_les_Noms_des_Animaux_en_Français',); alias=default
+DEBUG 2025-11-13 11:08:13,007 utils (0.001) None; args=('127.0.0.1', 'Apprenez les Noms des Animaux en Français'); alias=default
+DEBUG 2025-11-13 11:08:13,010 utils (0.001) None; args=('Apprenez les Noms des Animaux en Français',); alias=default
+DEBUG 2025-11-13 11:08:13,014 utils (0.001) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE (`comments`.`page_title` = 'Apprenez les Noms des Animaux en Français' AND `comments`.`visibility_status` = 'public') ORDER BY `comments`.`created_at` DESC; args=('Apprenez les Noms des Animaux en Français', 'public'); alias=default
+DEBUG 2025-11-13 11:08:13,019 utils (0.002) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`email` = 'sirinebellihi@gmail.com' ORDER BY `auth_user`.`id` ASC LIMIT 1; args=('sirinebellihi@gmail.com',); alias=default
+DEBUG 2025-11-13 11:08:13,029 utils (0.005) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`email` = 'sirinebellihi@gmail.com' ORDER BY `auth_user`.`id` ASC LIMIT 1; args=('sirinebellihi@gmail.com',); alias=default
+DEBUG 2025-11-13 11:08:13,038 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`email` = 'sirinebellihi@gmail.com' ORDER BY `auth_user`.`id` ASC LIMIT 1; args=('sirinebellihi@gmail.com',); alias=default
+DEBUG 2025-11-13 11:08:13,047 utils (0.003) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 34 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(34, 'public'); alias=default
+INFO 2025-11-13 11:08:13,162 basehttp "GET /cours/Apprenez_les_Noms_des_Animaux_en_Fran%C3%A7ais/ HTTP/1.1" 200 48818
+INFO 2025-11-13 11:08:13,222 basehttp "GET /static/tifinar/css/main.css HTTP/1.1" 304 0
+WARNING 2025-11-13 11:08:15,475 basehttp "GET /static/tifinar/images/cours/animals_FR/Ane.mp3 HTTP/1.1" 404 1931
+WARNING 2025-11-13 11:08:15,476 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+WARNING 2025-11-13 11:08:23,319 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+WARNING 2025-11-13 11:08:26,726 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:08:26,783 basehttp "GET /static/tifinar/images/cours/animals_FR/Ours.mp3 HTTP/1.1" 200 10972
+DEBUG 2025-11-13 11:08:39,783 utils (0.003) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:08:39,787 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:08:39,792 utils (0.004) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE `cours`.`slug` = 'Apprenez_les_Noms_des_Animaux_en_Français' LIMIT 21; args=('Apprenez_les_Noms_des_Animaux_en_Français',); alias=default
+DEBUG 2025-11-13 11:08:39,796 utils (0.001) None; args=('127.0.0.1', 'Apprenez les Noms des Animaux en Français'); alias=default
+DEBUG 2025-11-13 11:08:39,799 utils (0.001) None; args=('Apprenez les Noms des Animaux en Français',); alias=default
+DEBUG 2025-11-13 11:08:39,803 utils (0.001) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE (`comments`.`page_title` = 'Apprenez les Noms des Animaux en Français' AND `comments`.`visibility_status` = 'public') ORDER BY `comments`.`created_at` DESC; args=('Apprenez les Noms des Animaux en Français', 'public'); alias=default
+DEBUG 2025-11-13 11:08:39,814 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`email` = 'sirinebellihi@gmail.com' ORDER BY `auth_user`.`id` ASC LIMIT 1; args=('sirinebellihi@gmail.com',); alias=default
+DEBUG 2025-11-13 11:08:39,825 utils (0.005) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`email` = 'sirinebellihi@gmail.com' ORDER BY `auth_user`.`id` ASC LIMIT 1; args=('sirinebellihi@gmail.com',); alias=default
+DEBUG 2025-11-13 11:08:39,837 utils (0.005) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`email` = 'sirinebellihi@gmail.com' ORDER BY `auth_user`.`id` ASC LIMIT 1; args=('sirinebellihi@gmail.com',); alias=default
+DEBUG 2025-11-13 11:08:39,847 utils (0.003) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 34 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(34, 'public'); alias=default
+INFO 2025-11-13 11:08:39,969 basehttp "GET /cours/Apprenez_les_Noms_des_Animaux_en_Fran%C3%A7ais/ HTTP/1.1" 200 48937
+WARNING 2025-11-13 11:08:44,766 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+WARNING 2025-11-13 11:08:44,791 basehttp "GET /static/tifinar/images/cours/animals_FR/Ane.mp3 HTTP/1.1" 404 1931
+INFO 2025-11-13 11:08:49,379 basehttp "GET /cours/%D8%AA%D8%B9%D9%84%D9%85_%D8%A3%D8%B3%D9%85%D8%A7%D8%A1_%D8%A7%D9%84%D8%AD%D9%8A%D9%88%D8%A7%D9%86%D8%A7%D8%AA_%D8%A8%D8%A7%D9%84%D8%A3%D9%85%D8%A7%D8%B2%D9%8A%D8%BA%D9%8A%D8%A9 HTTP/1.1" 301 0
+WARNING 2025-11-13 11:08:49,397 basehttp "GET /static/tifinar/images/cours/animals_FR/animals.mp3 HTTP/1.1" 404 1943
+DEBUG 2025-11-13 11:08:49,403 utils (0.002) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:08:49,406 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:08:49,634 utils (0.003) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 2 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(2, 'public'); alias=default
+INFO 2025-11-13 11:08:49,756 basehttp "GET /cours/%D8%AA%D8%B9%D9%84%D9%85_%D8%A3%D8%B3%D9%85%D8%A7%D8%A1_%D8%A7%D9%84%D8%AD%D9%8A%D9%88%D8%A7%D9%86%D8%A7%D8%AA_%D8%A8%D8%A7%D9%84%D8%A3%D9%85%D8%A7%D8%B2%D9%8A%D8%BA%D9%8A%D8%A9/ HTTP/1.1" 200 49704
+WARNING 2025-11-13 11:08:51,820 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:08:51,860 basehttp "GET /static/tifinar/images/cours/animals/17.mp3 HTTP/1.1" 200 37584
+WARNING 2025-11-13 11:09:34,645 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:09:34,717 basehttp "GET /static/tifinar/images/cours/animals/3.mp3 HTTP/1.1" 200 38628
+WARNING 2025-11-13 11:09:39,345 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:09:39,377 basehttp "GET /static/tifinar/images/cours/animals_FR/Chien.mp3 HTTP/1.1" 200 11596
+WARNING 2025-11-13 11:09:41,120 basehttp "GET /static/tifinar/images/cours/animals_FR/Ane.mp3 HTTP/1.1" 404 1931
+WARNING 2025-11-13 11:09:53,561 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:09:53,571 basehttp "GET /static/tifinar/images/cours/animals_FR/Ane.mp3 HTTP/1.1" 200 7804
+DEBUG 2025-11-13 11:09:55,512 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:09:55,517 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:09:55,522 utils (0.004) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE `cours`.`slug` = 'Apprenez_les_Noms_des_Animaux_en_Français' LIMIT 21; args=('Apprenez_les_Noms_des_Animaux_en_Français',); alias=default
+DEBUG 2025-11-13 11:09:55,530 utils (0.001) None; args=('127.0.0.1', 'Apprenez les Noms des Animaux en Français'); alias=default
+DEBUG 2025-11-13 11:09:55,533 utils (0.001) None; args=('Apprenez les Noms des Animaux en Français',); alias=default
+DEBUG 2025-11-13 11:09:55,540 utils (0.001) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE (`comments`.`page_title` = 'Apprenez les Noms des Animaux en Français' AND `comments`.`visibility_status` = 'public') ORDER BY `comments`.`created_at` DESC; args=('Apprenez les Noms des Animaux en Français', 'public'); alias=default
+DEBUG 2025-11-13 11:09:55,547 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`email` = 'sirinebellihi@gmail.com' ORDER BY `auth_user`.`id` ASC LIMIT 1; args=('sirinebellihi@gmail.com',); alias=default
+DEBUG 2025-11-13 11:09:55,560 utils (0.002) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`email` = 'sirinebellihi@gmail.com' ORDER BY `auth_user`.`id` ASC LIMIT 1; args=('sirinebellihi@gmail.com',); alias=default
+DEBUG 2025-11-13 11:09:55,569 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`email` = 'sirinebellihi@gmail.com' ORDER BY `auth_user`.`id` ASC LIMIT 1; args=('sirinebellihi@gmail.com',); alias=default
+DEBUG 2025-11-13 11:09:55,578 utils (0.002) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 34 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(34, 'public'); alias=default
+INFO 2025-11-13 11:09:55,693 basehttp "GET /cours/Apprenez_les_Noms_des_Animaux_en_Fran%C3%A7ais/ HTTP/1.1" 200 48701
+WARNING 2025-11-13 11:09:57,459 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:09:57,530 basehttp "GET /static/tifinar/images/cours/animals_FR/Girafe.mp3 HTTP/1.1" 200 16204
+WARNING 2025-11-13 11:09:58,839 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+WARNING 2025-11-13 11:10:07,690 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:10:07,780 basehttp "GET /static/tifinar/images/cours/animals_FR/Cheval.mp3 HTTP/1.1" 200 17572
+WARNING 2025-11-13 11:10:09,855 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:10:09,912 basehttp "GET /static/tifinar/images/cours/animals_FR/Pieuvre.mp3 HTTP/1.1" 200 12144
+WARNING 2025-11-13 11:10:11,741 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:10:11,805 basehttp "GET /static/tifinar/images/cours/animals_FR/Scorpion.mp3 HTTP/1.1" 200 12480
+WARNING 2025-11-13 11:10:13,163 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:10:13,193 basehttp "GET /static/tifinar/images/cours/animals_FR/Lezard.mp3 HTTP/1.1" 200 11308
+WARNING 2025-11-13 11:10:19,607 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:10:19,644 basehttp "GET /static/tifinar/images/cours/animals_FR/La_vache.mp3 HTTP/1.1" 200 15864
+DEBUG 2025-11-13 11:12:44,899 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:12:44,901 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:12:44,904 utils (0.002) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE `cours`.`slug` = 'Apprenez_les_Noms_des_Animaux_en_Français' LIMIT 21; args=('Apprenez_les_Noms_des_Animaux_en_Français',); alias=default
+DEBUG 2025-11-13 11:12:44,910 utils (0.001) None; args=('127.0.0.1', 'Apprenez les Noms des Animaux en Français'); alias=default
+DEBUG 2025-11-13 11:12:44,914 utils (0.001) None; args=('Apprenez les Noms des Animaux en Français',); alias=default
+DEBUG 2025-11-13 11:12:44,920 utils (0.001) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE (`comments`.`page_title` = 'Apprenez les Noms des Animaux en Français' AND `comments`.`visibility_status` = 'public') ORDER BY `comments`.`created_at` DESC; args=('Apprenez les Noms des Animaux en Français', 'public'); alias=default
+DEBUG 2025-11-13 11:12:44,926 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`email` = 'sirinebellihi@gmail.com' ORDER BY `auth_user`.`id` ASC LIMIT 1; args=('sirinebellihi@gmail.com',); alias=default
+DEBUG 2025-11-13 11:12:44,937 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`email` = 'sirinebellihi@gmail.com' ORDER BY `auth_user`.`id` ASC LIMIT 1; args=('sirinebellihi@gmail.com',); alias=default
+DEBUG 2025-11-13 11:12:44,945 utils (0.002) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`email` = 'sirinebellihi@gmail.com' ORDER BY `auth_user`.`id` ASC LIMIT 1; args=('sirinebellihi@gmail.com',); alias=default
+DEBUG 2025-11-13 11:12:44,956 utils (0.002) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 34 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(34, 'public'); alias=default
+INFO 2025-11-13 11:12:45,174 basehttp "GET /cours/Apprenez_les_Noms_des_Animaux_en_Fran%C3%A7ais/ HTTP/1.1" 200 48682
+INFO 2025-11-13 11:12:45,225 basehttp "GET /static/tifinar/css/main.css HTTP/1.1" 304 0
+WARNING 2025-11-13 11:12:47,884 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+WARNING 2025-11-13 11:12:51,979 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+DEBUG 2025-11-13 11:12:56,319 utils (0.003) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:12:56,323 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:12:56,326 utils (0.002) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE `cours`.`slug` = 'Apprenez_les_Noms_des_Animaux_en_Français' LIMIT 21; args=('Apprenez_les_Noms_des_Animaux_en_Français',); alias=default
+DEBUG 2025-11-13 11:12:56,332 utils (0.001) None; args=('127.0.0.1', 'Apprenez les Noms des Animaux en Français'); alias=default
+DEBUG 2025-11-13 11:12:56,339 utils (0.001) None; args=('Apprenez les Noms des Animaux en Français',); alias=default
+DEBUG 2025-11-13 11:12:56,343 utils (0.001) SELECT `comments`.`cmt_id`, `comments`.`page_title`, `comments`.`author_name`, `comments`.`cmt_subject`, `comments`.`author_email`, `comments`.`visibility_status`, `comments`.`created_at`, `comments`.`updated_at` FROM `comments` WHERE (`comments`.`page_title` = 'Apprenez les Noms des Animaux en Français' AND `comments`.`visibility_status` = 'public') ORDER BY `comments`.`created_at` DESC; args=('Apprenez les Noms des Animaux en Français', 'public'); alias=default
+DEBUG 2025-11-13 11:12:56,348 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`email` = 'sirinebellihi@gmail.com' ORDER BY `auth_user`.`id` ASC LIMIT 1; args=('sirinebellihi@gmail.com',); alias=default
+DEBUG 2025-11-13 11:12:56,360 utils (0.003) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`email` = 'sirinebellihi@gmail.com' ORDER BY `auth_user`.`id` ASC LIMIT 1; args=('sirinebellihi@gmail.com',); alias=default
+DEBUG 2025-11-13 11:12:56,373 utils (0.007) SELECT `auth_user`.`password`, `auth_user`.`is_superuser`, `auth_user`.`id`, `auth_user`.`username`, `auth_user`.`email`, `auth_user`.`first_name`, `auth_user`.`last_name`, `auth_user`.`is_staff`, `auth_user`.`is_active`, `auth_user`.`date_joined`, `auth_user`.`last_login`, `auth_user`.`email_verified_at`, `auth_user`.`remember_token`, `auth_user`.`role`, `auth_user`.`educational_level`, `auth_user`.`images`, `auth_user`.`ville_d_origine`, `auth_user`.`adresse`, `auth_user`.`Etat_Social`, `auth_user`.`date_de_naissance`, `auth_user`.`Ideologie`, `auth_user`.`social_media`, `auth_user`.`gender`, `auth_user`.`tel`, `auth_user`.`the_type`, `auth_user`.`societe`, `auth_user`.`Commentaire`, `auth_user`.`path`, `auth_user`.`keywords`, `auth_user`.`spouse`, `auth_user`.`children`, `auth_user`.`siblings`, `auth_user`.`parents`, `auth_user`.`maternal_relatives`, `auth_user`.`paternal_relatives`, `auth_user`.`grandparents`, `auth_user`.`friends`, `auth_user`.`friend_requests`, `auth_user`.`name_in_arabic`, `auth_user`.`cousins`, `auth_user`.`nieces_nephews`, `auth_user`.`language` FROM `auth_user` WHERE `auth_user`.`email` = 'sirinebellihi@gmail.com' ORDER BY `auth_user`.`id` ASC LIMIT 1; args=('sirinebellihi@gmail.com',); alias=default
+DEBUG 2025-11-13 11:12:56,379 utils (0.001) SELECT `cours`.`cours_id`, `cours`.`title`, `cours`.`slug`, `cours`.`myimage`, `cours`.`Mydescription`, `cours`.`keywords`, `cours`.`Author`, `cours`.`Myfile`, `cours`.`images`, `cours`.`intro`, `cours`.`exams_link`, `cours`.`visibility_status`, `cours`.`updated_at`, `cours`.`created_at`, `cours`.`cours_contents`, `cours`.`the_type`, `cours`.`gender`, `cours`.`min_age`, `cours`.`max_age`, `cours`.`category`, `cours`.`educational_level`, `cours`.`dir` FROM `cours` WHERE (`cours`.`cours_id` > 34 AND `cours`.`visibility_status` = 'public') ORDER BY `cours`.`cours_id` ASC LIMIT 1; args=(34, 'public'); alias=default
+INFO 2025-11-13 11:12:56,509 basehttp "GET /cours/Apprenez_les_Noms_des_Animaux_en_Fran%C3%A7ais/ HTTP/1.1" 200 48724
+WARNING 2025-11-13 11:12:58,423 basehttp "GET /static/tifinar/sounds/type.mp3 HTTP/1.1" 404 1883
+INFO 2025-11-13 11:13:35,264 autoreload Watching for file changes with StatReloader
+DEBUG 2025-11-13 11:13:37,379 utils (0.001) 
+                SELECT VERSION(),
+                       @@sql_mode,
+                       @@default_storage_engine,
+                       @@sql_auto_is_null,
+                       @@lower_case_table_names,
+                       CONVERT_TZ('2001-01-01 01:00:00', 'UTC', 'UTC') IS NOT NULL
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:13:37,381 utils (0.000) SET SESSION TRANSACTION ISOLATION LEVEL READ COMMITTED; args=None; alias=default
+DEBUG 2025-11-13 11:13:37,385 utils (0.003) 
+            SELECT
+                table_name,
+                table_type,
+                table_comment
+            FROM information_schema.tables
+            WHERE table_schema = DATABASE()
+            ; args=None; alias=default
+DEBUG 2025-11-13 11:13:37,396 utils (0.002) SELECT `django_migrations`.`id`, `django_migrations`.`app`, `django_migrations`.`name`, `django_migrations`.`applied` FROM `django_migrations`; args=(); alias=default

@@ -1,6 +1,19 @@
 {% include "tifinar/header.html" %} 
 {% load static %}
 
+<style>
+    @keyframes flash {
+    0% { opacity: 0; transform: scale(0.8); color: #888; }
+    50% { opacity: 1; transform: scale(1.1); color: #fff; }
+    100% { opacity: 1; transform: scale(1); color: #f8e3a1; }
+    }
+
+    .figname_cour span {
+    display: inline-block;
+    animation: flash 0.25s ease forwards;
+    }
+</style>
+
 <section>
   <article dir="{{ dir }}">
     <h1>{{ title|safe }}</h1>
@@ -28,44 +41,74 @@
 
     <audio id="soundEffect" preload="auto"></audio>
 
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        document.querySelectorAll("figure").forEach((figure) => {
-          figure.addEventListener("click", function () {
-            let caption = this.querySelector("figcaption");
-            let soundEffect = document.getElementById("soundEffect");
-            let folderChild = "{{ folder_child }}";
+    
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("figure").forEach((figure) => {
+    figure.addEventListener("click", function () {
+      let caption = this.querySelector("figcaption");
+      let soundEffect = document.getElementById("soundEffect");
+      let folderChild = "{{ folder_child }}";
 
-            let imgSrc = this.querySelector("img").src;
-            let audeoName = imgSrc.substring(
-              imgSrc.lastIndexOf("/") + 1,
-              imgSrc.lastIndexOf(".")
-            );
+      let imgSrc = this.querySelector("img").src;
+      let audioName = imgSrc.substring(
+        imgSrc.lastIndexOf("/") + 1,
+        imgSrc.lastIndexOf(".")
+      );
 
-            if (caption) {
-              if (caption.classList.contains("invisible")) {
-                caption.classList.remove("invisible");
-                caption.classList.add("visible");
-              } else if (caption.classList.contains("visible")) {
-                caption.classList.remove("visible");
-                caption.classList.add("invisible");
-              }
+      if (caption) {
+        if (caption.classList.contains("invisible")) {
+          caption.classList.remove("invisible");
+          caption.classList.add("visible", "typing-cursor");
+
+          // إزالة الفراغات الزائدة من البداية والنهاية، ولكن الاحتفاظ بالفراغات بين الكلمات
+          let originalText = caption.textContent.trim();
+          caption.innerHTML = "";
+          let i = 0;
+          let typeSound = new Audio("{% static 'tifinar/sounds/type.mp3' %}");
+
+          let interval = setInterval(() => {
+            let char = originalText.charAt(i);
+            let span = document.createElement("span");
+            
+            // استخدام &nbsp; للفراغات بين الكلمات فقط
+            span.innerHTML = char === ' ' ? '&nbsp;' : char;
+            
+            caption.appendChild(span);
+
+            // تشغيل الصوت فقط للحروف (ليس للفراغات)
+            if (char !== ' ') {
+              typeSound.currentTime = 0;
+              typeSound.play();
             }
 
-            let soundPath =
-              "{% static 'tifinar/images/cours/' %}" +
-              folderChild +
-              "/" +
-              audeoName +
-              ".mp3";
-            soundEffect.src = soundPath;
+            i++;
+            if (i >= originalText.length) {
+              clearInterval(interval);
+              caption.classList.remove("typing-cursor");
+            }
+          }, 50);
+        } else if (caption.classList.contains("visible")) {
+          caption.classList.remove("visible", "typing-cursor");
+          caption.classList.add("invisible");
+        }
+      }
 
-            soundEffect.currentTime = 0;
-            soundEffect.play();
-          });
-        });
-      });
-    </script>
+      // تشغيل الصوت المرتبط بالصورة
+      let soundPath =
+        "{% static 'tifinar/images/cours/' %}" +
+        folderChild +
+        "/" +
+        audioName +
+        ".mp3";
+      soundEffect.src = soundPath;
+      soundEffect.currentTime = 0;
+      soundEffect.play();
+    });
+  });
+});
+</script>
+
     {% else %}
     <div class="main-image">
       <img

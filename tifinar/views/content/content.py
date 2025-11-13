@@ -26,9 +26,11 @@ def contents(request):
         description = "قواميس مصورة لتعلم المفردات بلغة تيفيناغ"
         template_name = "tifinar/contents.html"
         types_list = [
-            ['English','English'],
-            ['French','Français'],
-            ['Amazigh','الأمازيغية']
+            ('اللغات', [
+                ('english', 'English'),
+                ('french', 'Français'),
+                ('amazigh', 'الأمازيغية')
+            ])
         ]
         filter_field = "category"
         filter_value = the_type
